@@ -1,0 +1,735 @@
+<title>수업 지도안: 사물 인터넷 기술로 인한 삶과 사회의 변화</title>
+    <style>
+        body {
+            font-family: 'Malgun Gothic', '맑은 고딕', sans-serif;
+            line-height: 1.8;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            color: #212529;
+        }
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 40px;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border: 1px solid #dee2e6;
+        }
+        h1, h2, h3, h4 {
+            color: #0056b3;
+            border-bottom: 2px solid #e9ecef;
+            padding-bottom: 10px;
+        }
+        h1 {
+            text-align: center;
+            border-bottom: 3px solid #0056b3;
+            font-size: 2em;
+            margin-bottom: 30px;
+        }
+        h2 {
+            font-size: 1.6em;
+            margin-top: 50px;
+        }
+        h3 {
+            font-size: 1.3em;
+            color: #007bff;
+            border-bottom: 1px dashed #ced4da;
+            margin-top: 30px;
+        }
+        h4 {
+            font-size: 1.1em;
+            color: #17a2b8;
+            border-bottom: none;
+            margin-top: 25px;
+        }
+        ul, ol {
+            padding-left: 25px;
+            background-color: #fdfdfd;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        .section {
+            margin-bottom: 40px;
+        }
+        .concept-box, .code-example, .quiz-section, .flow-section {
+            background-color: #f8f9fa;
+            padding: 25px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border: 1px solid #e9ecef;
+        }
+        .concept-box strong {
+            color: #0056b3;
+        }
+        pre {
+            background-color: #2b2b2b;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 5px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-family: 'D2Coding', 'Consolas', 'Monaco', monospace;
+        }
+        code {
+            font-family: 'D2Coding', 'Consolas', 'Monaco', monospace;
+            background-color: #e9ecef;
+            padding: 2px 5px;
+            border-radius: 4px;
+        }
+        blockquote {
+            border-left: 5px solid #007bff;
+            background: #f1f3f5;
+            padding: 15px;
+            margin: 20px 0;
+            font-style: italic;
+        }
+        .quiz-question {
+            margin-bottom: 25px;
+        }
+        .quiz-question .question-text {
+            font-weight: bold;
+            margin-bottom: 10px;
+            white-space: pre-line;
+        }
+        .quiz-question .options {
+            padding-left: 20px;
+        }
+        .quiz-question .answer {
+            font-weight: bold;
+            color: #28a745;
+        }
+        .explanation {
+            margin-top: 10px;
+            padding: 12px;
+            background-color: #e7f3fe;
+            border-left: 5px solid #007bff;
+            font-size: 0.95em;
+        }
+        .sub-section {
+            margin-top:20px;
+            padding-left: 15px;
+            border-left: 3px solid #007bff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>과학고 정보 수업 지도안</h1>
+        <h2>I. 컴퓨팅 시스템 - 123. 사물 인터넷 기술로 인한 삶과 사회의 변화</h2>
+
+        <div class="section">
+            <h2>1. 학습 목표</h2>
+            <h3>개념적 목표</h3>
+            <ul>
+                <li>사물 인터넷이 개인의 삶(스마트 홈), 산업(스마트 팩토리), 사회 기반 시설(스마트 시티) 등 다양한 영역에 가져오는 긍정적 변화(편리성, 효율성, 안전성 증대)를 구체적인 사례를 들어 설명할 수 있다.</li>
+                <li>사물 인터넷의 확산으로 인해 발생하는 부정적 측면과 도전 과제(보안 취약성, 사생활 침해, 일자리 변화, 데이터 독점, 전자 폐기물)를 이해하고 설명할 수 있다.</li>
+                <li>'초연결 사회'의 의미를 이해하고, 모든 것이 연결됨으로써 발생하는 새로운 사회 현상과 윤리적 딜레마를 설명할 수 있다.</li>
+                <li>디지털 트윈(Digital Twin)의 개념을 이해하고, 현실 세계의 문제를 가상 세계에서 시뮬레이션하고 해결하는 것의 가치를 설명할 수 있다.</li>
+            </ul>
+            <h3>절차적 목표</h3>
+            <ul>
+                <li>Python 코드를 사용하여 개인화된 서비스(예: 사용자 맞춤형 스마트 조명)의 기본 로직을 구현할 수 있다.</li>
+                <li>수집된 데이터를 기반으로 이상 징후를 탐지하고 경고하는 시스템(예: 스마트 팩토리 고장 예측)을 간단히 시뮬레이션할 수 있다.</li>
+                <li>데이터 프라이버시 문제의 중요성을 이해하고, 데이터에서 개인 식별 정보를 제거하는 간단한 익명화(Anonymization) 처리를 코드로 구현할 수 있다.</li>
+                <li>클래스와 딕셔너리를 활용하여 도시의 여러 공공 사물(예: 가로등, 주차 공간)의 상태를 관리하고 제어하는 스마트 시티 관제 시스템의 일부를 모델링할 수 있다.</li>
+            </ul>
+            <h3>태도적 목표</h3>
+            <ul>
+                <li>기술의 발전을 맹목적으로 수용하는 것이 아니라, 사회에 미치는 긍정적, 부정적 영향을 균형 있게 바라보는 비판적 사고 능력을 기른다.</li>
+                <li>기술 개발자로서 가져야 할 사회적, 윤리적 책임감(보안, 프라이버시 보호 등)의 중요성을 인식한다.</li>
+                <li>사물 인터넷 기술을 활용하여 우리 주변의 사회 문제를 해결할 수 있는 창의적인 아이디어를 탐색하려는 융합적 사고 자세를 가진다.</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>2. 핵심 개념 상세 설명</h2>
+            <h3>긍정적 변화 (기회)</h3>
+            <ul>
+                <li><strong>개인 생활 (스마트 홈):</strong> 개인의 편의성과 삶의 질이 극대화됩니다. 사용자의 생활 패턴을 학습하여 냉난방, 조명, 보안 등을 자동으로 제어하고, 원격으로 가전제품을 관리하며, 소모품 재고를 파악하여 자동으로 주문하는 등 개인 맞춤형 서비스가 가능해집니다.</li>
+                <li><strong>산업 현장 (스마트 팩토리):</strong> 생산성이 혁신적으로 향상됩니다. 공장 내 모든 설비와 공정에 센서를 부착하여 실시간으로 데이터를 수집하고, 이를 분석하여 생산 효율을 최적화합니다. 특히, 기계의 미세한 진동이나 온도 변화를 감지하여 고장을 사전에 예측하고 정비하는 <strong>예지보전(Predictive Maintenance)</strong>이 가능해져 가동 중단 시간을 최소화합니다.</li>
+                <li><strong>사회 기반 시설 (스마트 시티):</strong> 도시 전체가 유기적인 생명체처럼 효율적으로 운영됩니다. 차량 흐름에 따라 신호등을 제어하여 교통 체증을 완화하고, 쓰레기통이 차면 수거 차량에 자동으로 알리고, 주차 공간 정보를 실시간으로 제공하여 운전자의 편의를 돕는 등 도시 문제를 데이터 기반으로 해결합니다.</li>
+                <li><strong>그 외 분야:</strong> 농업(스마트 팜), 의료(스마트 헬스케어), 물류, 환경 등 거의 모든 분야에서 데이터 기반의 최적화와 자동화를 통해 효율성을 높이고 새로운 가치를 창출합니다.</li>
+            </ul>
+            <h3>부정적 변화 (도전 과제)</h3>
+            <ul>
+                <li><strong>보안 및 사생활 침해:</strong> 가장 심각한 문제입니다. 수많은 기기가 인터넷에 연결되면서 해킹의 공격 지점이 기하급수적으로 늘어납니다. 가정의 스마트 도어락이나 카메라가 해킹당하면 물리적 안전과 사생활이 직접적으로 위협받을 수 있습니다. 또한, 기업이 수집한 개인의 생활 습관, 건강 정보 등이 유출되거나 악용될 소지가 있습니다.</li>
+                <li><strong>일자리 변화와 노동 문제:</strong> 공장, 물류 등의 자동화는 기존의 반복적인 업무를 수행하던 일자리를 감소시킬 수 있습니다. 새로운 기술에 적응하지 못하는 사람들은 노동 시장에서 소외될 수 있으며, 이는 사회적 불평등을 심화시킬 수 있습니다.</li>
+                <li><strong>데이터 독점과 편향성:</strong> 소수의 거대 플랫폼 기업이 전 세계의 IoT 데이터를 독점하게 될 경우, 시장 지배력을 남용할 수 있습니다. 또한, 이들이 수집하고 학습시킨 데이터에 편향성(bias)이 존재할 경우, AI의 판단이 특정 집단에게 불공정하게 작용할 수 있습니다.</li>
+                <li><strong>기술 종속 및 전자 폐기물:</strong> 복잡한 IoT 시스템에 대한 의존도가 높아져, 시스템 장애 발생 시 사회 전체가 마비될 위험이 있습니다. 또한, 빠르게 발전하는 기술로 인해 IoT 기기의 교체 주기가 짧아지면서 막대한 양의 전자 폐기물(E-waste)이 발생하는 환경 문제도 야기합니다.</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>3. 수업의 흐름</h2>
+            <div class="flow-section">
+                <h3>(도입) 수업을 시작하며 (5분)</h3>
+                <p>인사 및 전시 학습 확인 (IoT 동작 원리)</p>
+                <blockquote>"미래는 이미 와 있다. 단지 널리 퍼져 있지 않을 뿐이다." - 윌리엄 깁슨 (SF 작가)</blockquote>
+                <p>"여러분, SF 작가 윌리엄 깁슨은 미래가 어느 날 갑자기 오는 것이 아니라, 우리 주변에 이미 조각조각 와 있다고 말했습니다. 집에 있는 인공지능 스피커, 손목의 스마트 워치, 거리를 달리는 자율주행 테스트 차량. 이것들이 바로 미래의 조각들입니다. 오늘 우리는 이 조각들이 모여 완성될 미래 사회의 모습을 그려보고자 합니다. 사물 인터넷이 만들어갈 세상은 과연 유토피아일까요, 아니면 디스토피아일까요? 그 빛과 그림자를 함께 탐색해 봅시다."</p>
+            </div>
+            <div class="flow-section">
+                <h3>(전개) 핵심 개념 탐구 (30분)</h3>
+                <h4>Stage 1: 빛을 탐험하다 - IoT가 만드는 유토피아 (15분)</h4>
+                <ul>
+                    <li><strong>개인의 삶:</strong> 스마트 홈이 어떻게 개인의 삶을 편리하게 만드는지 구체적인 시나리오(아침 기상, 외출, 귀가)를 통해 설명합니다.</li>
+                    <li><strong>실생활 예시 코드:</strong> 사용자의 프로필(예: 좋아하는 조명 색, 온도)에 따라 집 안 환경을 개인화하는 '스마트 홈 매니저'를 시뮬레이션합니다.</li>
+                </ul>
+                <pre><code>user_profiles = {
+    "Marie_Curie": {"fav_light_color": "Cool White", "fav_temp": 22},
+    "Albert_Einstein": {"fav_light_color": "Warm Yellow", "fav_temp": 24}
+}
+
+def setup_home_environment(user_name):
+    if user_name in user_profiles:
+        profile = user_profiles[user_name]
+        color = profile['fav_light_color']
+        temp = profile['fav_temp']
+        print(f"\n{user_name}님, 환영합니다!")
+        print(f"ACTION: 조명을 '{color}' 색으로 설정합니다.")
+        print(f"ACTION: 실내 온도를 {temp}°C로 맞춥니다.")
+    else:
+        print("등록되지 않은 사용자입니다.")
+
+print("1. [스마트 홈] 사용자에 따른 개인화 서비스")
+setup_home_environment("Marie_Curie")
+setup_home_environment("Albert_Einstein")</code></pre>
+                <p><strong>상세 설명:</strong> 이 코드는 IoT의 핵심 가치 중 하나인 '개인화'를 보여줍니다. user_profiles 딕셔너리는 각 사용자의 선호도를 저장하는 데이터베이스 역할을 합니다. setup_home_environment 함수는 사용자가 누구인지 '인식'하고, 그에 맞는 저장된 데이터를 기반으로 조명과 온도(액추에이터)를 '자동으로' 제어합니다. 이는 IoT가 어떻게 사용자의 개입을 최소화하면서 맞춤형 편의를 제공하는지 보여주는 간단하지만 강력한 예시입니다.</p>
+                <ul>
+                    <li><strong>산업과 사회:</strong> 스마트 팩토리의 '예지보전' 개념을 설명합니다. 기계가 고장 나기 전에 미리 알려주어 생산성을 극대화하는 원리를 설명합니다.</li>
+                    <li><strong>과학 예시 코드:</strong> 공장 모터의 진동 데이터를 받아, 임계치를 넘으면 관리자에게 고장 경고를 보내는 예지보전 시스템을 시뮬레이션합니다.</li>
+                </ul>
+                 <pre><code>import random
+
+class MotorVibrationSensor:
+    def get_vibration_level(self, is_faulty=False):
+        if is_faulty: # 고장 징후가 보이면 진동 수치가 급격히 증가
+            return random.uniform(8.0, 12.0)
+        return random.uniform(0.5, 2.0)
+
+def predictive_maintenance_system(sensor, motor_id):
+    # 20% 확률로 고장 징후 시뮬레이션
+    vibration = sensor.get_vibration_level(is_faulty=(random.random() < 0.2)) 
+    print(f"\n[스마트 팩토리] 모터({motor_id}) 진동 측정: {vibration:.2f}")
+
+    DANGER_THRESHOLD = 7.0
+    if vibration > DANGER_THRESHOLD:
+        print(f" -> !!! 경고: 모터({motor_id})의 진동 수치가 임계치를 초과했습니다!")
+        print(" -> ACTION: 유지보수팀에 정비 요청을 자동 발송합니다.")
+
+print("\n2. [스마트 팩토리] 예지보전 시스템")
+sensor = MotorVibrationSensor()
+for i in range(3):
+    predictive_maintenance_system(sensor, f"MOTOR-{i+1}")</code></pre>
+                <p><strong>상세 설명:</strong> 이 코드는 IoT가 어떻게 '문제 발생 후 대응'에서 '문제 발생 전 예측'으로 패러다임을 바꾸는지 보여줍니다. MotorVibrationSensor는 정상 상태와 고장 징후 상태에서 다른 범위의 데이터를 생성합니다. predictive_maintenance_system은 이 데이터를 받아 임계값(DANGER_THRESHOLD)과 비교하는 '규칙 엔진' 역할을 합니다. 임계치를 넘으면, 수리가 필요하다는 '실행 가능한 정보(Actionable Insight)'를 생성하여 관리자에게 알립니다. 이는 데이터 분석을 통해 막대한 경제적 손실을 예방하는 IoT의 산업적 가치를 보여줍니다.</p>
+
+                <h4>Stage 2: 그림자를 직시하다 - IoT가 던지는 도전 과제 (15분)</h4>
+                <ul>
+                    <li><strong>보안과 프라이버시:</strong> 스마트 홈 카메라 해킹 사례 등을 들어 문제의 심각성을 강조합니다. 내 모든 생활 데이터가 누군가에게 감시당할 수 있다는 위험성을 설명합니다.</li>
+                    <li><strong>실생활 예시 코드:</strong> 개인 식별 정보가 포함된 원본 데이터와, 이를 익명화 처리하여 프라이버시를 보호하는 과정을 비교하여 보여줍니다.</li>
+                </ul>
+                <pre><code>import json
+
+def anonymize_data(user_data_json):
+    data = json.loads(user_data_json)
+    # 개인을 식별할 수 있는 정보를 가림
+    if "name" in data:
+        data["name"] = "user_" + str(hash(data["name"]))[:6] # 이름을 해시값으로 대체
+    if "address" in data:
+        data["address"] = "REDACTED" # 주소는 삭제
+    return json.dumps(data, indent=2)
+
+print("\n3. [데이터 프라이버시] 개인정보 익명화 처리")
+original_data = '{"name": "Lise Meitner", "address": "Berlin, Germany", "heart_rate": 72}'
+print("--- 원본 데이터 ---")
+print(original_data)
+
+anonymized = anonymize_data(original_data)
+print("\n--- 익명화 처리된 데이터 ---")
+print(anonymized)</code></pre>
+                <p><strong>상세 설명:</strong> 이 코드는 IoT 시대의 데이터 활용과 프라이버시 보호 사이의 균형을 어떻게 맞출 수 있는지에 대한 아이디어를 제공합니다. anonymize_data 함수는 입력된 JSON 데이터에서 '이름'이나 '주소'와 같은 민감한 개인 식별 정보를 찾아냅니다. 그리고 이를 임의의 식별자(해시값)로 대체하거나 완전히 삭제('REDACTED')하여, 개인을 특정할 수 없도록 만듭니다. 이렇게 처리된 데이터는 통계 분석이나 AI 학습 등에는 사용될 수 있으면서도 개인의 프라이버리를 보호하는 효과가 있습니다. 이는 기술 개발자가 가져야 할 윤리적 고민을 보여줍니다.</p>
+                <ul>
+                    <li><strong>일자리 문제와 사회적 불평등:</strong> 스마트 팩토리, 무인 상점 등의 확산으로 인한 일자리 감소 가능성을 토론합니다. 기술을 다루는 능력에 따른 새로운 형태의 정보 격차(Digital Divide) 문제도 제기합니다.</li>
+                    <li>학생들과 함께 '사라질 직업'과 '새롭게 생겨날 직업'에 대해 자유롭게 토론하며 비판적 사고를 유도합니다. (데이터 과학자, IoT 보안 전문가, AI 윤리학자 등)</li>
+                </ul>
+            </div>
+            
+            <div class="flow-section">
+                <h3>(마무리) 수업을 마치며 (5분)</h3>
+                <p>IoT 기술이 가져올 미래는 정해져 있지 않으며, 긍정적 측면을 극대화하고 부정적 측면을 최소화하는 것이 우리에게 주어진 과제임을 강조합니다.</p>
+                <blockquote>"최고의 지성은 상반된 두 아이디어를 동시에 마음에 품고도, 여전히 정상적으로 기능하는 능력이다." - F. 스콧 피츠제럴드 (소설가)</blockquote>
+                <p>"여러분, 오늘 우리는 IoT가 가져올 편리한 유토피아와 감시 사회라는 디스토피아, 이 상반된 두 아이디어를 함께 마음에 품어보았습니다. 피츠제럴드의 말처럼, 진정한 지성은 어느 한쪽을 맹신하는 것이 아니라 이 양면성을 모두 이해하고 더 나은 방향을 찾아가는 능력일 것입니다. 기술을 만드는 개발자이자, 그 기술 사회를 살아갈 시민으로서, 여러분이 이 균형점을 찾아가는 미래의 현명한 설계자가 되기를 바랍니다. 수고 많으셨습니다."</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>4. 진단평가 (OX 퀴즈)</h2>
+            <div class="quiz-section">
+                <div class="quiz-question">
+                    <p class="question-text">1. 스마트 팩토리의 예지보전 기술은 기계가 고장 난 후에 빠르게 수리하는 것을 목표로 한다. (X)</p>
+                    <div class="explanation">상세 풀이: 예지보전(Predictive Maintenance)은 센서 데이터를 분석하여 기계가 고장 나기 '전'에 이상 징후를 미리 예측하고 정비하여, 고장으로 인한 가동 중단을 사전에 방지하는 것을 목표로 합니다.</div>
+                </div>
+                <div class="quiz-question">
+                    <p class="question-text">2. IoT 환경에서는 수많은 기기가 네트워크에 연결되기 때문에 해킹의 위험이 증가한다. (O)</p>
+                    <div class="explanation">상세 풀이: 연결된 기기의 수가 많아질수록 해커가 침투할 수 있는 잠재적인 공격 지점(Attack Vector)도 늘어나므로, 보안의 중요성이 더욱 커집니다.</div>
+                </div>
+                <div class="quiz-question">
+                    <p class="question-text">3. 디지털 트윈(Digital Twin)은 현실의 물리적 자산을 가상 공간에 동일하게 복제한 모델을 의미한다. (O)</p>
+                    <div class="explanation">상세 풀이: 디지털 트윈은 현실의 기계, 공장, 도시 등을 가상 모델로 만들고, 현실에서 수집된 데이터를 실시간으로 반영하여 시뮬레이션, 분석, 예측 등에 활용하는 기술입니다.</div>
+                </div>
+                <div class="quiz-question">
+                    <p class="question-text">4. 사물 인터넷의 발전은 모든 사람에게 동등한 혜택을 주며 사회적 불평등을 자연스럽게 해소한다. (X)</p>
+                    <div class="explanation">상세 풀이: 기술에 대한 접근성이나 활용 능력에 따라 새로운 정보 격차(Digital Divide)가 발생할 수 있으며, 자동화로 인한 일자리 변화 등이 특정 계층에 어려움을 주어 오히려 사회적 불평등을 심화시킬 수도 있습니다.</div>
+                </div>
+                <div class="quiz-question">
+                    <p class="question-text">5. 스마트 시티는 교통, 환경, 에너지 등 도시의 자원을 효율적으로 관리하기 위해 IoT 기술을 활용한다. (O)</p>
+                    <div class="explanation">상세 풀이: 스마트 시티는 도시 곳곳에 설치된 센서와 기기들을 연결하여 데이터를 수집하고, 이를 분석하여 교통 흐름 최적화, 에너지 사용량 절감 등 도시 문제를 해결하고 시민의 삶의 질을 높이는 것을 목표로 합니다.</div>
+                </div>
+                 <div class="quiz-question">
+                    <p class="question-text">6. IoT 기기가 수집하는 개인의 생활 습관 데이터는 사생활(프라이버시) 문제와 관련이 깊다. (O)</p>
+                    <div class="explanation">상세 풀이: 언제 자고 일어나는지, 어떤 음식을 먹는지, 집을 비우는 시간은 언제인지 등 개인의 모든 생활 데이터는 매우 민감한 사생활 정보이므로, 수집과 활용에 있어 신중한 접근과 강력한 보호 조치가 필요합니다.</div>
+                </div>
+                 <div class="quiz-question">
+                    <p class="question-text">7. 스마트 팜은 농업에 IoT 기술을 접목하여, 노동력에만 의존하던 전통 방식보다 생산성을 높일 수 있다. (O)</p>
+                    <div class="explanation">상세 풀이: 스마트 팜은 온도, 습도, 일조량 등을 센서로 측정하고, 데이터에 기반하여 물과 영양분을 자동으로 공급함으로써 최적의 생육 환경을 유지하여 노동력을 절감하고 생산량과 품질을 향상시킵니다.</div>
+                </div>
+                 <div class="quiz-question">
+                    <p class="question-text">8. IoT 기술의 확산으로 인해 발생하는 막대한 양의 낡은 기기들은 전자 폐기물(E-waste) 문제를 야기할 수 있다. (O)</p>
+                    <div class="explanation">상세 풀이: 기술 발전 속도가 빠르고 제품 수명이 짧아지면서, 더 이상 사용되지 않는 IoT 기기들이 대량으로 버려져 환경 오염을 유발하는 전자 폐기물 문제가 새로운 사회적 과제로 떠오르고 있습니다.</div>
+                </div>
+                 <div class="quiz-question">
+                    <p class="question-text">9. IoT 데이터 분석은 항상 완벽하고 공정하므로, 그 결과를 무조건 신뢰해야 한다. (X)</p>
+                    <div class="explanation">상세 풀이: 데이터를 수집하는 과정이나 분석하는 AI 알고리즘에 편향성(bias)이 개입될 수 있습니다. 예를 들어, 특정 인종이나 성별의 데이터만으로 학습된 AI는 다른 집단에 대해 불공정한 판단을 내릴 수 있습니다.</div>
+                </div>
+                 <div class="quiz-question">
+                    <p class="question-text">10. 스마트 홈 기술은 사용자가 직접 명령을 내릴 때만 작동하며, 스스로 환경을 조절하지는 않는다. (X)</p>
+                    <div class="explanation">상세 풀이: 스마트 홈의 핵심 가치 중 하나는 '자동화'입니다. 사용자의 생활 패턴을 학습하거나, 센서 데이터(온도, 밝기 등)를 기반으로 사용자의 명령 없이도 시스템이 스스로 판단하여 최적의 환경을 조성합니다.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>5. 형성평가 (5지선다형)</h2>
+            <div class="quiz-section">
+                <div class="quiz-question">
+                    <p class="question-text">1. 스마트 팩토리에서 기계의 진동, 소음, 온도 등을 센서로 분석하여 고장 시점을 예측하는 기술을 무엇이라고 하는가?</p>
+                    <ol><li>디지털 트윈 (Digital Twin)</li><li>예지보전 (Predictive Maintenance)</li><li>증강 현실 (Augmented Reality)</li><li>분산 원장 기술 (Distributed Ledger Technology)</li><li>자동화 규칙 엔진 (Automation Rule Engine)</li></ol>
+                    <p class="answer">정답: ②</p>
+                    <div class="explanation">상세 풀이: 예지보전은 기계의 상태 데이터를 실시간으로 분석하여 고장 가능성을 사전에 예측하고, 적절한 시점에 유지보수 활동을 수행하도록 하여 설비의 안정성과 생산성을 높이는 기술입니다.</div>
+                </div>
+                <div class="quiz-question">
+                    <p class="question-text">2. 사물 인터넷 시대에 발생하는 보안 및 프라이버시 문제에 대한 해결 노력으로 가장 적절하지 않은 것은?</p>
+                    <ol><li>IoT 기기의 관리자 비밀번호를 초기값 그대로 사용하기</li><li>기기 간 통신 데이터를 암호화하기</li><li>사용자의 데이터를 수집할 때 목적을 명확히 알리고 동의받기</li><li>개인을 식별할 수 있는 정보를 비식별화(익명화) 처리하여 분석에 활용하기</li><li>기기의 소프트웨어를 최신 상태로 꾸준히 업데이트하기</li></ol>
+                    <p class="answer">정답: ①</p>
+                    <div class="explanation">상세 풀이: 기기의 초기 비밀번호(예: admin/admin)는 인터넷에 널리 알려져 있어 해커의 가장 첫 번째 공격 목표가 됩니다. 따라서 비밀번호를 자신만이 아는 복잡한 것으로 변경하는 것이 보안의 가장 기본입니다. 나머지는 모두 보안과 프라이버시를 강화하기 위한 중요한 활동입니다.</div>
+                </div>
+                <div class="quiz-question">
+                    <p class="question-text">3. 다음 중 IoT 기술이 사회에 미치는 긍정적인 영향으로 가장 거리가 먼 것은?</p>
+                    <ol><li>실시간 교통 정보 분석을 통한 교통 체증 완화</li><li>원격 환자 모니터링을 통한 의료 서비스 접근성 향상</li><li>데이터 기반 정밀 농업을 통한 식량 생산성 증대</li><li>자동화 시스템 도입으로 인한 특정 분야의 고용 감소</li><li>위험 지역 가스 누출 감지를 통한 시민 안전 확보</li></ol>
+                    <p class="answer">정답: ④</p>
+                    <div class="explanation">상세 풀이: 고용 감소는 IoT 기술이 가져올 수 있는 잠재적인 '부정적' 영향 또는 사회적 도전 과제에 해당합니다. 나머지 보기들은 모두 IoT 기술이 사회 문제 해결에 기여하는 긍정적인 영향의 사례입니다.</div>
+                </div>
+                <div class="quiz-question">
+                    <p class="question-text">4. 현실의 공장을 가상 공간에 똑같이 만들고, 공장의 센서 데이터를 실시간으로 가상 모델에 반영하여 시뮬레이션을 통해 문제점을 찾거나 생산 효율을 최적화하는 기술은?</p>
+                    <ol><li>스마트 그리드 (Smart Grid)</li><li>API (Application Programming Interface)</li><li>디지털 트윈 (Digital Twin)</li><li>MQTT (Message Queuing Telemetry Transport)</li><li>블록체인 (Blockchain)</li></ol>
+                    <p class="answer">정답: ③</p>
+                    <div class="explanation">상세 풀이: 디지털 트윈은 현실 세계의 물리적 객체나 시스템을 가상 세계에 동일하게 구현한 것을 의미합니다. 이를 통해 현실에서 직접 실험하기 어려운 다양한 시나리오를 시뮬레이션하고, 그 결과를 바탕으로 현실 세계를 최적화할 수 있습니다.</div>
+                </div>
+                <div class="quiz-question">
+                    <p class="question-text">5. IoT 기술의 확산으로 인해 발생할 수 있는 '데이터 독점' 문제에 대한 설명으로 가장 올바른 것은?</p>
+                    <ol><li>모든 사람이 데이터에 자유롭게 접근할 수 있게 되는 현상이다.</li><li>데이터의 양이 너무 많아져 저장할 공간이 부족해지는 문제이다.</li><li>소수의 거대 기업이 전 세계의 IoT 데이터를 소유하고 통제하게 되는 현상이다.</li><li>잘못된 데이터로 인해 AI가 편향된 판단을 내리는 문제이다.</li><li>데이터가 너무 자주 변경되어 일관성이 없어지는 현상이다.</li></ol>
+                    <p class="answer">정답: ③</p>
+                    <div class="explanation">상세 풀이: 데이터 독점은 구글, 아마존 등 소수의 글로벌 플랫폼 기업들이 방대한 양의 데이터를 수집하여 시장에서의 지배력을 강화하고, 다른 신생 기업들의 진입을 막아 공정한 경쟁을 저해할 수 있는 가능성을 의미합니다.</div>
+                </div>
+                <div class="quiz-question">
+                    <p class="question-text">6. IoT 시대의 개발자가 가져야 할 윤리적 책임감으로 가장 중요도가 낮은 것은?</p>
+                    <ol><li>사용자의 데이터가 안전하게 보호되도록 강력한 보안을 적용해야 한다.</li><li>어떤 데이터를 수집하고 어떻게 활용하는지 투명하게 공개해야 한다.</li><li>알고리즘이 특정 집단에 불리하게 작용하지 않도록 편향성을 점검해야 한다.</li><li>제품의 디자인을 최대한 화려하고 보기 좋게 만들어야 한다.</li><li>제품의 폐기 시 환경에 미치는 영향을 고려해야 한다.</li></ol>
+                    <p class="answer">정답: ④</p>
+                    <div class="explanation">상세 풀이: 제품 디자인도 중요하지만, 보안, 투명성, 공정성, 환경 영향 등은 기술이 사회에 미치는 영향을 직접적으로 결정하는 핵심적인 윤리적 고려사항입니다. 따라서 상대적으로 중요도가 낮다고 볼 수 있습니다.</div>
+                </div>
+                <div class="quiz-question">
+                    <p class="question-text">7. 스마트 홈에서 사용자가 "나 집에 왔어"라고 말했을 때, 조명이 켜지고, 에어컨이 작동하며, 좋아하는 음악이 재생되는 서비스는 IoT의 어떤 특징을 가장 잘 보여주는가?</p>
+                    <ol><li>보안성</li><li>이동성</li><li>개인화 및 자동화</li><li>익명성</li><li>표준화</li></ol>
+                    <p class="answer">정답: ③</p>
+                    <div class="explanation">상세 풀이: 이 서비스는 특정 사용자('나')를 인식하고, 그 사용자의 생활 패턴이나 선호도에 맞춰(개인화) 여러 기기들을 한 번에 연동하여 알아서 동작(자동화)시키는 전형적인 스마트 홈의 가치를 보여줍니다.</div>
+                </div>
+                <div class="quiz-question">
+                    <p class="question-text">8. 다음 중 IoT 기술을 적용하여 해결하려는 문제의 성격과 가장 거리가 먼 것은?</p>
+                    <ol><li>교통사고 발생률 감소</li><li>공장 생산 라인의 효율 증대</li><li>고대 유적의 역사적 의미 해석</li><li>독거노인의 건강 상태 실시간 모니터링</li><li>농작물의 생육 환경 최적화</li></ol>
+                    <p class="answer">정답: ③</p>
+                    <div class="explanation">상세 풀이: IoT는 주로 센서를 통해 '현재'의 물리적 상태를 데이터화하고, 이를 기반으로 현재 또는 미래의 문제를 해결하는 데 강점이 있습니다. 고대 유적의 역사적 의미를 해석하는 것은 데이터 기반의 과학적 분석보다는, 인문학적, 고고학적 지식과 해석이 중심이 되는 영역입니다.</div>
+                </div>
+                <div class="quiz-question">
+                    <p class="question-text">9. IoT의 확산으로 인해 새롭게 수요가 증가할 것으로 예측되는 직업으로 보기 어려운 것은?</p>
+                    <ol><li>데이터 과학자</li><li>IoT 보안 전문가</li><li>단순 반복 공정 조립원</li><li>AI 윤리 컨설턴트</li><li>클라우드 시스템 아키텍트</li></ol>
+                    <p class="answer">정답: ③</p>
+                    <div class="explanation">상세 풀이: IoT와 자동화 기술은 스마트 팩토리 등에서 단순 반복적인 조립 공정을 로봇으로 대체하는 경향이 있습니다. 따라서 해당 직무의 수요는 감소할 가능성이 높습니다. 나머지 직업들은 모두 IoT 시대에 더욱 중요해지는 전문 분야입니다.</div>
+                </div>
+                <div class="quiz-question">
+                    <p class="question-text">10. IoT 기술의 사회적 수용성을 높이기 위한 노력으로 가장 바람직하지 않은 것은?</p>
+                    <ol><li>기술의 편리함만을 강조하고 잠재적 위험성에 대해서는 언급을 피한다.</li><li>사용자가 자신의 데이터에 대한 통제권(삭제, 접근 등)을 가질 수 있도록 보장한다.</li><li>다양한 계층이 기술의 혜택을 누릴 수 있도록 디지털 교육을 강화한다.</li><li>해킹 등 보안 사고 발생 시 신속하게 대응하고 투명하게 공개하는 체계를 마련한다.</li><li>기술 도입으로 인해 일자리에 변화를 겪는 사람들을 위한 재교육 프로그램을 지원한다.</li></ol>
+                    <p class="answer">정답: ①</p>
+                    <div class="explanation">상세 풀이: 기술의 긍정적인 면만 부각하고 부정적인 면을 숨기는 것은 사용자의 신뢰를 얻을 수 없으며, 장기적으로 기술에 대한 사회적 저항을 불러일으킬 수 있습니다. 잠재적 위험을 투명하게 공개하고 함께 해결책을 모색하는 것이 바람직한 태도입니다.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>6. 코딩 실습 예제</h2>
+            <div class="code-example">
+                <h4>1. 스마트 온도 조절기 시뮬레이션</h4>
+                <p>Thermostat 클래스를 만드세요. set_preferred_temp(temp)로 선호 온도를 설정하고, check_and_adjust(current_temp) 메서드는 현재 온도를 받아 선호 온도보다 2도 이상 높으면 "에어컨을 켭니다", 2도 이상 낮으면 "히터를 켭니다"를 출력하도록 작성하세요.</p>
+                <pre><code>class Thermostat:
+    """선호 온도에 맞춰 난방/냉방을 제어하는 가상 온도 조절기"""
+    def __init__(self):
+        self.preferred_temp = 22.0 # 기본 선호 온도
+        print(f"온도 조절기 설치 완료. 선호 온도: {self.preferred_temp}°C")
+
+    def set_preferred_temp(self, temp):
+        self.preferred_temp = float(temp)
+        print(f"선호 온도를 {self.preferred_temp}°C 로 변경했습니다.")
+
+    def check_and_adjust(self, current_temp):
+        print(f"\n현재 온도: {current_temp}°C, 선호 온도: {self.preferred_temp}°C")
+        temp_diff = current_temp - self.preferred_temp
+        if temp_diff > 2.0:
+            print("ACTION: 온도가 2도 이상 높습니다. 에어컨을 켭니다.")
+        elif temp_diff < -2.0:
+            print("ACTION: 온도가 2도 이상 낮습니다. 히터를 켭니다.")
+        else:
+            print("INFO: 쾌적한 온도입니다. 현재 상태를 유지합니다.")
+
+# 테스트
+my_thermostat = Thermostat()
+my_thermostat.check_and_adjust(25)
+my_thermostat.check_and_adjust(19)
+my_thermostat.set_preferred_temp(20)
+my_thermostat.check_and_adjust(19)</code></pre>
+                <p><strong>상세 풀이 및 설명:</strong> Thermostat 클래스는 IoT 기술이 어떻게 개인의 '편안함'이라는 가치를 제공하는지 보여줍니다. self.preferred_temp는 사용자가 설정한 값으로, 시스템의 판단 기준이 됩니다. check_and_adjust 메서드는 센서로부터 current_temp 값을 받아옵니다. temp_diff를 계산하여 현재 상태와 목표 상태의 '차이'를 구합니다. if-elif-else 조건문을 통해 이 차이값을 기반으로 '에어컨 켜기', '히터 켜기', '상태 유지'라는 세 가지 다른 행동 중 하나를 결정합니다. 이는 IoT의 핵심인 '데이터 기반 의사결정'을 명확하게 보여주는 로직입니다.</p>
+            </div>
+            
+            <div class="code-example">
+                <h4>2. 교통량 센서 데이터 생성기</h4>
+                <p>1시간 동안 10분 간격으로 특정 도로의 교통량을 시뮬레이션하는 프로그램을 작성하세요. 교통량은 10분당 50~200대 사이의 임의의 값으로 생성되며, "HH:MM - 교통량: XXX대" 형식으로 출력되도록 하세요.</p>
+                <pre><code>import random
+import datetime
+
+def simulate_traffic_flow(duration_minutes, interval_minutes):
+    """지정된 시간 동안 일정 간격으로 교통량을 시뮬레이션합니다."""
+    print(f"--- {duration_minutes}분 동안 {interval_minutes}분 간격으로 교통량 측정 시작 ---")
+    start_time = datetime.datetime.now()
+    
+    num_intervals = duration_minutes // interval_minutes
+    for i in range(num_intervals):
+        current_time = start_time + datetime.timedelta(minutes=i * interval_minutes)
+        # 출퇴근 시간에는 교통량이 많아지는 것을 시뮬레이션
+        if 7 <= current_time.hour <= 9 or 17 <= current_time.hour <= 19:
+            traffic_volume = random.randint(150, 300)
+        else:
+            traffic_volume = random.randint(50, 200)
+        print(f"{current_time.strftime('%H:%M')} - 교통량: {traffic_volume}대")
+
+# 테스트
+simulate_traffic_flow(60, 10)</code></pre>
+                <p><strong>상세 풀이 및 설명:</strong> 이 예제는 스마트 시티의 교통 센서가 어떻게 데이터를 수집하는지를 시뮬레이션합니다. datetime 모듈을 사용하여 실제 시간의 흐름을 흉내 냅니다. datetime.timedelta는 시간의 간격을 표현하는 데 사용됩니다. random.randint로 교통량을 생성하되, if 7 <= current_time.hour <= 9... 조건문을 추가하여 단순한 랜덤이 아닌, 현실의 '패턴'(출퇴근 시간)을 반영하도록 했습니다. 이렇게 수집된 시계열 데이터(시간에 따른 데이터)는 교통 예측 모델을 학습시키거나, 실시간 신호등 제어 로직의 입력값으로 사용될 수 있습니다. 이는 IoT 데이터가 어떻게 더 큰 시스템의 기초가 되는지를 보여줍니다.</p>
+            </div>
+
+            <div class="code-example">
+                <h4>3. 스마트 플러그 전력 제어</h4>
+                <p>전력 사용량을 관리하는 SmartPlug 클래스를 만드세요. turn_on(), turn_off() 메서드와, 전력 사용 상태를 "ON" 또는 "OFF"로 반환하는 get_status() 메서드를 구현하세요. 사용자가 'on', 'off', 'status'를 입력하면 해당 기능이 동작하는 간단한 제어 프로그램을 작성하세요.</p>
+                <pre><code>class SmartPlug:
+    """원격으로 전원을 켜고 끌 수 있는 스마트 플러그"""
+    def __init__(self, device_name):
+        self.device_name = device_name
+        self._is_on = False # _는 내부적으로 사용하는 변수임을 나타내는 관례
+
+    def turn_on(self):
+        self._is_on = True
+        print(f"'{self.device_name}'에 연결된 장치의 전원을 켰습니다.")
+
+    def turn_off(self):
+        self._is_on = False
+        print(f"'{self.device_name}'에 연결된 장치의 전원을 껐습니다.")
+
+    def get_status(self):
+        return "ON" if self._is_on else "OFF"
+
+# 테스트
+tv_plug = SmartPlug("TV")
+while True:
+    command = input("\n명령을 입력하세요 (on, off, status, exit): ").lower()
+    if command == 'on':
+        tv_plug.turn_on()
+    elif command == 'off':
+        tv_plug.turn_off()
+    elif command == 'status':
+        print(f"현재 TV 플러그 상태: {tv_plug.get_status()}")
+    elif command == 'exit':
+        break
+    else:
+        print("알 수 없는 명령입니다.")</code></pre>
+                 <p><strong>상세 풀이 및 설명:</strong> SmartPlug 클래스는 가장 기본적인 액추에이터의 형태를 보여줍니다. _is_on 변수는 플러그의 물리적인 '상태'를 디지털로 표현한 것입니다. turn_on, turn_off, get_status는 이 플러그를 제어하기 위해 외부(앱, AI 스피커 등)에 노출된 '인터페이스(API)' 역할을 합니다. while 루프와 input을 사용한 제어 프로그램은, 사용자가 스마트폰 앱을 통해 원격으로 장치를 제어하는 상황을 가장 간단하게 시뮬레이션한 것입니다. 사용자의 입력이 네트워크를 통해 전달된 '제어 신호'라고 볼 수 있습니다.</p>
+           </div>
+           
+           <div class="code-example">
+                <h4>4. 일일 에너지 소비량 분석</h4>
+                <p>어떤 가정의 스마트 미터기가 시간대별로 측정한 전력 사용량 데이터가 리스트 hourly_usage (총 24개)로 주어졌다고 가정합니다. 이 리스트를 바탕으로 하루의 총 전력 사용량, 평균 사용량, 그리고 전력 사용량이 가장 높았던 시간을 찾아 출력하는 프로그램을 작성하세요.</p>
+                <pre><code># 0시부터 23시까지의 시간별 전력 사용량(kWh) 데이터 (총 24개)
+hourly_usage = [
+    0.3, 0.2, 0.2, 0.3, 0.4, 0.6, # 새벽
+    0.8, 1.1, 1.0, 0.9, 0.8, 0.7, # 오전
+    1.2, 1.1, 1.0, 0.9, 1.3, 1.8, # 오후
+    2.5, 2.2, 1.5, 1.0, 0.8, 0.5  # 저녁/밤
+]
+
+def analyze_energy_consumption(usage_data):
+    print("\n--- 일일 에너지 소비량 분석 ---")
+    if len(usage_data) != 24:
+        print("오류: 24시간 데이터가 필요합니다.")
+        return
+
+    total_usage = sum(usage_data)
+    avg_usage = total_usage / len(usage_data)
+    max_usage = max(usage_data)
+    # .index() 메서드로 최대값이 처음 나타나는 시간(인덱스)을 찾음
+    peak_time = usage_data.index(max_usage)
+
+    print(f"총 사용량: {total_usage:.2f} kWh")
+    print(f"평균 시간당 사용량: {avg_usage:.2f} kWh")
+    print(f"최대 사용량: {max_usage:.2f} kWh (at {peak_time}:00)")
+
+# 테스트
+analyze_energy_consumption(hourly_usage)</code></pre>
+                <p><strong>상세 풀이 및 설명:</strong> 이 예제는 IoT 기기(스마트 미터기)로부터 수집된 원시 데이터(raw data)를 어떻게 '의미 있는 정보'로 가공하는지를 보여줍니다. hourly_usage 리스트가 바로 센서가 수집한 시계열 데이터입니다. 파이썬의 내장 함수 sum(), len(), max()와 리스트의 .index() 메서드를 활용하여 데이터 분석을 수행합니다. 단순한 숫자들의 나열에서 '총 사용량', '평균 사용량', '피크 타임'과 같은 구체적이고 유용한 정보를 추출해냈습니다. 이러한 정보는 사용자에게 전기 요금을 절약할 수 있는 방안(예: 피크 타임에 전기 사용 자제)을 제시하는 등 새로운 서비스의 기반이 됩니다. 이것이 데이터 처리/플랫폼 계층의 핵심 역할입니다.</p>
+            </div>
+            
+            <div class="code-example">
+                <h4>5. 낙상 감지 알림 시스템</h4>
+                <p>노인의 신체에 부착된 가속도 센서를 시뮬레이션하는 Accelerometer 클래스를 만드세요. get_g_force() 메서드는 평소에는 0.8~1.2 사이의 값을 반환하지만, 10% 확률로 3.0 이상의 높은 값(낙상 상황)을 반환하도록 하세요. 1초마다 이 값을 확인하여, 3.0 이상이면 "위험: 낙상 감지! 보호자에게 연락합니다."라고 출력하고 프로그램을 종료하세요.</p>
+                <pre><code>import random
+import time
+
+class Accelerometer:
+    """가속도(G-force)를 측정하는 가상 센서"""
+    def get_g_force(self):
+        # 10% 확률로 낙상 상황(높은 G-force) 시뮬레이션
+        if random.random() < 0.1:
+            return random.uniform(3.0, 6.0)
+        else:
+            return random.uniform(0.8, 1.2) # 일상적인 움직임
+
+def fall_detection_system():
+    print("--- 낙상 감지 시스템 모니터링 시작 ---")
+    sensor = Accelerometer()
+    FALL_THRESHOLD = 3.0
+    
+    while True:
+        g_force = sensor.get_g_force()
+        print(f"현재 G-force: {g_force:.2f} G")
+        
+        if g_force >= FALL_THRESHOLD:
+            print("\n!!! 위험: 낙상 감지! 높은 G-force가 측정되었습니다. !!!")
+            print("ACTION: 119 및 등록된 보호자에게 긴급 연락을 전송합니다.")
+            break # 시스템 종료
+        time.sleep(1)
+
+# 테스트
+fall_detection_system()</code></pre>
+                 <p><strong>상세 풀이 및 설명:</strong> 이 코드는 IoT가 어떻게 사람의 '안전'에 기여하는지를 보여주는 스마트 헬스케어의 대표적인 사례입니다. Accelerometer는 웨어러블 기기에 내장된 가속도 센서를 모델링합니다. random.random() < 0.1은 드물게 발생하는 '이벤트'(낙상)를 시뮬레이션합니다. fall_detection_system 함수가 모니터링 플랫폼 역할을 합니다. while True 루프를 통해 지속적으로 센서 데이터를 확인합니다. if g_force >= FALL_THRESHOLD: 라는 규칙 엔진이 핵심입니다. 평소에는 아무 일도 하지 않다가, 특정 임계값을 넘는 '이상 데이터(anomaly)'가 감지되었을 때만 즉각적으로 반응합니다. print("ACTION: ...") 부분은 긴급 호출이라는 '액추에이터 동작'에 해당합니다. 이처럼 IoT는 사람의 개입 없이도 생명과 직결된 중요한 조치를 자동으로 수행할 수 있습니다.</p>
+           </div>
+           
+            <div class="code-example">
+                <h4>6. 공장 기계 고장 예측 시뮬레이터</h4>
+                <p>공장 기계의 온도를 측정하는 MachineTempSensor 클래스를 만드세요. 이 센서는 시간이 지남에 따라 온도가 서서히 오르는 것을 시뮬레이션합니다. 현재 온도가 80도 미만이면 "정상", 80-90도 사이면 "주의: 온도 상승", 90도를 초과하면 "위험: 과열! 즉시 점검 필요!"를 출력하는 모니터링 시스템을 작성하세요.</p>
+                <pre><code>import random
+import time
+
+class MachineTempSensor:
+    def __init__(self, initial_temp=25.0, heat_rate=0.2):
+        self.temp = initial_temp
+        self.heat_rate = heat_rate # 시간이 지남에 따라 온도가 오르는 비율
+        
+    def read_temp(self):
+        # 정상적인 온도 상승 + 약간의 노이즈
+        self.temp += self.heat_rate + random.uniform(-0.1, 0.1)
+        return self.temp
+
+def machine_monitoring_system(sensor):
+    print("--- 공장 기계 온도 모니터링 시작 ---")
+    WARNING_THRESHOLD = 80.0
+    DANGER_THRESHOLD = 90.0
+
+    while True:
+        temp = sensor.read_temp()
+        print(f"현재 기계 온도: {temp:.2f}°C", end="")
+        
+        if temp > DANGER_THRESHOLD:
+            print(" -> [위험] 온도가 과열되었습니다! 즉시 가동을 중단하고 점검하세요!")
+            break
+        elif temp > WARNING_THRESHOLD:
+            print(" -> [주의] 온도가 정상 범위를 벗어났습니다. 예방 점검이 필요합니다.")
+        else:
+            print(" -> [정상] 기계가 안정적으로 동작 중입니다.")
+        time.sleep(2)
+
+# 테스트 (정상보다 열이 빨리 오르는 기계라고 가정)
+faulty_machine_sensor = MachineTempSensor(heat_rate=2.5)
+machine_monitoring_system(faulty_machine_sensor)</code></pre>
+                <p><strong>상세 풀이 및 설명:</strong> 이 코드는 스마트 팩토리의 '예지보전' 개념을 시뮬레이션합니다. MachineTempSensor는 시간이 흐름에 따라 내부 온도(self.temp)가 서서히 증가하는 기계의 물리적 특성을 모델링합니다. machine_monitoring_system은 2개의 임계값(WARNING_THRESHOLD, DANGER_THRESHOLD)을 사용합니다. 이는 시스템이 단순히 '정상/고장'의 이분법적 판단이 아닌, '정상-주의-위험'과 같은 다단계 상태 진단을 할 수 있음을 보여줍니다. '주의' 단계에서 미리 알려줌으로써, 기계가 완전히 고장나기('위험' 단계) 전에 조치를 취할 수 있게 합니다. 이것이 바로 단순한 모니터링을 넘어선 '예지(Predictive)'의 핵심 개념입니다.</p>
+            </div>
+            
+            <div class="code-example">
+                <h4>7. 개인정보 비식별화 처리</h4>
+                <p>{"name": "John Doe", "user_id": "jd123", ...} 과 같은 사용자 정보가 담긴 딕셔너리가 있습니다. 이 데이터에서 'name'은 첫 글자만 남기고 나머지는 '*'로, 'city'는 "REDACTED"로 수정하여 개인정보를 보호하는 anonymize_user_data 함수를 작성하세요.</p>
+                <pre><code>def anonymize_user_data(user_data):
+    """사용자 데이터에서 민감한 개인정보를 비식별화 처리합니다."""
+    # 원본 데이터는 수정하지 않도록 복사본을 만듦
+    anonymized_data = user_data.copy()
+    
+    # 이름: 첫 글자와 길이만 남기고 마스킹
+    if "name" in anonymized_data:
+        name = anonymized_data["name"]
+        anonymized_data["name"] = f"{name[0]}{'*' * (len(name) - 1)}"
+
+    # user_id: 뒤의 3자리를 마스킹
+    if "user_id" in anonymized_data:
+        user_id = anonymized_data["user_id"]
+        anonymized_data["user_id"] = f"{user_id[:-3]}***"
+
+    # city: 삭제 (REDACTED)
+    if "city" in anonymized_data:
+        del anonymized_data["city"]
+        
+    return anonymized_data
+
+# 테스트
+original_user = {"name": "Marie Curie", "user_id": "mcurie1867", "age": 45, "city": "Paris"}
+anonymized_user = anonymize_user_data(original_user)
+
+print("--- 원본 데이터 ---")
+print(original_user)
+print("\n--- 비식별화 처리된 데이터 ---")
+print(anonymized_user)</code></pre>
+                 <p><strong>상세 풀이 및 설명:</strong> 이 코드는 IoT 시대의 개발자가 반드시 고민해야 할 '프라이버시 보호' 기술의 기본을 보여줍니다. 데이터를 분석에 활용은 하되, 특정 개인을 식별할 수 없도록 만드는 것이 목표입니다. anonymize_user_data 함수는 여러 비식별화 기법을 적용합니다. <strong>마스킹(Masking)</strong>: 이름이나 ID의 일부를 '*'로 가립니다. <strong>삭제(Redaction)</strong>: 'city'와 같이 민감도가 높은 정보는 아예 속성 자체를 제거합니다. (그 외에도 총계 처리, 범주화 등 다양한 기법이 있습니다.) 이렇게 처리된 anonymized_user 데이터는 '40대 여성 사용자가 있다'는 통계 정보는 제공할 수 있지만, 그 사용자가 '파리에 사는 마리 퀴리'라는 사실은 알 수 없게 됩니다.</p>
+           </div>
+           
+            <div class="code-example">
+                <h4>8. 스마트 관개 시스템 로직</h4>
+                <p>토양 습도(0~100)와 내일의 강수 확률(0~100)을 입력받아 물 공급 여부를 결정하는 함수 should_i_water(humidity, rain_prob)를 작성하세요. (로직: 습도가 30 미만이면 물을 공급한다. 단, 강수 확률이 80% 이상이면 물을 공급하지 않는다.)</p>
+                <pre><code>def should_i_water(humidity, rain_prob):
+    """토양 습도와 강수 확률에 기반해 물 공급 여부를 결정합니다."""
+    print(f"\n입력: 습도={humidity}%, 강수 확률={rain_prob}%")
+
+    # 규칙 1: 강수 확률이 80% 이상이면 물을 주지 않는다. (자원 절약)
+    if rain_prob >= 80:
+        print(" -> 판단: 내일 비 예보가 있으므로 물을주지 않습니다.")
+        return False
+    
+    # 규칙 2: 습도가 30% 미만이면 물을 준다.
+    if humidity < 30:
+        print(" -> 판단: 토양이 건조하므로 물을 줍니다.")
+        return True
+    
+    print(" -> 판단: 토양 습도가 충분합니다.")
+    return False
+
+# 테스트 시나리오
+should_i_water(25, 10)  # 건조하고 비 안 옴 -> True
+should_i_water(50, 20)  # 충분하고 비 안 옴 -> False
+should_i_water(25, 90)  # 건조하지만 비 옴 -> False</code></pre>
+                 <p><strong>상세 풀이 및 설명:</strong> 이 코드는 스마트 팜의 핵심 의사결정 로직을 보여줍니다. 단순히 하나의 센서 값(습도)만 보는 것이 아니라, 외부 데이터(날씨 예보 API를 통해 얻은 '강수 확률')까지 조합하여 더 지능적인 판단을 내리는 것이 특징입니다. 규칙의 순서가 중요합니다. 강수 확률을 먼저 확인함으로써, 불필요한 물 공급을 막아 자원을 절약하는 더 높은 우선순위의 규칙을 먼저 적용했습니다. 이는 IoT 시스템이 고립적으로 동작하는 것이 아니라, 다른 데이터 소스(API 등)와 연동하여 더욱 정교하고 효율적인 서비스를 제공할 수 있음을 보여줍니다.</p>
+           </div>
+
+            <div class="code-example">
+                <h4>9. 스마트 선반 재고 관리</h4>
+                <p>편의점의 스마트 선반을 시뮬레이션하는 SmartShelf 클래스를 만드세요. 내부에 inventory = {"cola": 10, "snack": 5} 와 같이 재고를 가집니다. take_out_item(item, count) 메서드를 구현하여 재고를 감소시키고, 재고가 3개 미만으로 떨어지면 "재고 부족 경고: [아이템 이름] 발주 필요!" 메시지를 출력하게 하세요.</p>
+                <pre><code>class SmartShelf:
+    """상품 재고를 실시간으로 파악하는 스마트 선반"""
+    def __init__(self, initial_inventory):
+        self.inventory = initial_inventory.copy()
+        self.alert_threshold = 3
+        print("스마트 선반 시스템 시작.")
+        self.check_all_stock()
+
+    def take_out_item(self, item, count=1):
+        if item not in self.inventory:
+            print(f"오류: '{item}'은(는) 취급 품목이 아닙니다.")
+            return
+
+        if self.inventory[item] >= count:
+            self.inventory[item] -= count
+            print(f"판매: '{item}' {count}개 판매 완료. (현재 재고: {self.inventory[item]})")
+            self.check_stock(item) # 재고 변경 후 상태 확인
+        else:
+            print(f"재고 부족: '{item}'을(를) {count}개 판매할 수 없습니다. (현재 재고: {self.inventory[item]})")
+            
+    def check_stock(self, item):
+        """특정 아이템의 재고를 확인하고 필요 시 경고"""
+        if item in self.inventory and self.inventory[item] < self.alert_threshold:
+            print(f" !!! 재고 부족 경고: '{item}'의 재고가 {self.inventory[item]}개 남았습니다. 발주 필요!")
+
+    def check_all_stock(self):
+        print("--- 전체 재고 상태 점검 ---")
+        for item in self.inventory:
+            self.check_stock(item)
+            
+# 테스트
+shelf = SmartShelf({"cola": 10, "snack": 5, "water": 3})
+print("-" * 20)
+shelf.take_out_item("cola", 3)
+shelf.take_out_item("snack", 3) # 이 시점에 경고 발생
+shelf.take_out_item("water", 1) # 이 시점에도 경고 발생</code></pre>
+                <p><strong>상세 풀이 및 설명:</strong> 이 코드는 유통/물류 분야에서 IoT가 어떻게 재고 관리를 혁신하는지 보여줍니다. 무게 센서나 RFID 태그가 부착된 선반을 시뮬레이션합니다. take_out_item 메서드는 고객이 물건을 가져가는 행위를 나타냅니다. 핵심 로직은 재고가 변경될 때마다 check_stock 메서드를 호출하는 것입니다. check_stock은 현재 재고가 미리 설정된 임계값(alert_threshold)보다 낮은지를 '판단'하고, 조건에 맞으면 '경고'라는 액션을 취합니다. 실제 시스템에서는 이 경고가 점원의 단말기나 중앙 발주 시스템으로 자동 전송될 것입니다. 이를 통해 사람은 일일이 재고를 셀 필요 없이, 시스템이 알아서 재고 부족 상황을 알려주므로 관리 효율이 크게 향상됩니다.</p>
+            </div>
+            
+            <div class="code-example">
+                <h4>10. 사용자 위치 기반 서비스 시뮬레이션</h4>
+                <p>사용자의 현재 위치(x, y 좌표)와, 주요 시설들의 위치({"도서관": (10, 20), ...})가 주어졌을 때, 사용자로부터 가장 가까운 시설을 찾아 추천해주는 프로그램을 작성하세요. (힌트: 두 점 (x1, y1), (x2, y2) 사이의 거리는 sqrt((x2-x1)² + (y2-y1)²))</p>
+                <pre><code>import math
+
+def calculate_distance(p1, p2):
+    """두 점 (x1, y1), (x2, y2) 사이의 유클리드 거리를 계산합니다."""
+    return math.sqrt((p2[0] - p1[0])**2 + (p2[1] - p1[1])**2)
+
+def find_closest_facility(user_location, facilities):
+    """사용자 위치로부터 가장 가까운 시설을 찾습니다."""
+    min_distance = float('inf') # 거리를 무한대로 초기화
+    closest_facility_name = None
+    
+    # 모든 시설을 순회하며 거리를 계산
+    for name, location in facilities.items():
+        distance = calculate_distance(user_location, location)
+        print(f" '{name}'까지의 거리: {distance:.2f}")
+        # 현재까지의 최소 거리보다 더 가까운 시설을 찾으면 업데이트
+        if distance < min_distance:
+            min_distance = distance
+            closest_facility_name = name
+            
+    return closest_facility_name, min_distance
+
+# 테스트
+# 주요 시설의 좌표 정보
+facilities_map = {
+    "중앙 도서관": (10, 20),
+    "과학고 체육관": (50, 60),
+    "학생 식당": (30, 15),
+    "기숙사": (5, 5)
+}
+
+# 스마트폰 GPS로 수집된 사용자의 현재 위치
+current_user_location = (25, 20)
+
+print(f"사용자 현재 위치: {current_user_location}")
+print("--- 가장 가까운 시설 탐색 ---")
+closest, dist = find_closest_facility(current_user_location, facilities_map)
+
+print("\n--- 탐색 결과 ---")
+print(f"가장 가까운 시설은 '{closest}'이며, 거리는 약 {dist:.2f} 입니다.")</code></pre>
+                 <p><strong>상세 풀이 및 설명:</strong> 이 코드는 스마트폰의 GPS 센서(IoT 기기)가 수집한 위치 정보를 활용하여 사용자에게 유용한 '상황 인식(Context-aware)' 서비스를 제공하는 원리를 보여줍니다. calculate_distance 함수는 두 좌표 사이의 거리를 계산하는 수학적 로직을 구현합니다. find_closest_facility 함수가 핵심입니다. `min_distance = float('inf')`: 가장 작은 값을 찾기 위해, 초기 최소값을 '무한대'라는 아주 큰 수로 설정하는 것은 일반적인 프로그래밍 기법입니다. for 루프를 통해 모든 시설의 위치를 하나씩 가져와 현재 사용자 위치와의 거리를 계산합니다. `if distance < min_distance:`: 계산된 거리가 현재까지 기록된 최소 거리보다 작으면, '가장 가까운 시설'의 기록을 현재 시설로 교체합니다. 이러한 로직을 통해 "가장 가까운 주차장 안내", "주변 할인 매장 정보 푸시" 등 다양한 위치 기반 서비스(LBS)가 가능해집니다.</p>
+           </div>
+        </div>
+    </div>
+</body>
+</html>

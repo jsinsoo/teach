@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>수업 지도안: 사물 인터넷의 동작 원리</title>
+    <style>
+        body {
+            font-family: 'Malgun Gothic', '맑은 고딕', sans-serif;
+            line-height: 1.8;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            color: #212529;
+        }
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 40px;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border: 1px solid #dee2e6;
+        }
+        h1, h2, h3, h4 {
+            color: #0056b3;
+            border-bottom: 2px solid #e9ecef;
+            padding-bottom: 10px;
+        }
+        h1 {
+            text-align: center;
+            border-bottom: 3px solid #0056b3;
+            font-size: 2em;
+            margin-bottom: 30px;
+        }
+        h2 {
+            font-size: 1.6em;
+            margin-top: 50px;
+        }
+        h3 {
+            font-size: 1.3em;
+            color: #007bff;
+            border-bottom: 1px dashed #ced4da;
+            margin-top: 30px;
+        }
+        h4 {
+            font-size: 1.1em;
+            color: #17a2b8;
+            border-bottom: none;
+            margin-top: 25px;
+        }
+        ul, ol {
+            padding-left: 25px;
+            background-color: #fdfdfd;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        .section {
+            margin-bottom: 40px;
+        }
+        .concept-box, .code-example, .quiz-section, .flow-section {
+            background-color: #f8f9fa;
+            padding: 25px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border: 1px solid #e9ecef;
+        }
+        .concept-box strong {
+            color: #0056b3;
+        }
+        pre {
+            background-color: #2b2b2b;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 5px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-family: 'D2Coding', 'Consolas', 'Monaco', monospace;
+        }
+        code {
+            font-family: 'D2Coding', 'Consolas', 'Monaco', monospace;
+            background-color: #e9ecef;
+            padding: 2px 5px;
+            border-radius: 4px;
+        }
+        blockquote {
+            border-left: 5px solid #007bff;
+            background: #f1f3f5;
+            padding: 15px;
+            margin: 20px 0;
+            font-style: italic;
+        }
+        .quiz-question {
+            margin-bottom: 25px;
+        }
+        .quiz-question .question-text {
+            font-weight: bold;
+            margin-bottom: 10px;
+            white-space: pre-line;
+        }
+        .quiz-question .options {
+            padding-left: 20px;
+        }
+        .quiz-question .answer {
+            font-weight: bold;
+            color: #28a745;
+        }
+        .explanation {
+            margin-top: 10px;
+            padding: 12px;
+            background-color: #e7f3fe;
+            border-left: 5px solid #007bff;
+            font-size: 0.95em;
+        }
+        .sub-section {
+            margin-top:20px;
+            padding-left: 15px;
+            border-left: 3px solid #007bff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>과학고 정보 수업 지도안</h1>
+        <h2>I. 컴퓨팅 시스템 - 122. 사물 인터넷의 동작 원리</h2>
+
+        <div class="section">
+            <h2>1. 학습 목표</h2>
+            <h3>개념적 목표</h3>
+            <ul>
+                <li>사물 인터넷 시스템의 동작 원리를 '감지-연결-처리-응용'의 4계층 아키텍처로 나누어 설명할 수 있다.</li>
+                <li>IoT 통신에서 MQTT 프로토콜의 역할과 발행/구독(Publish/Subscribe) 모델의 장점을 이해한다.</li>
+                <li>사물(Device), 게이트웨이(Gateway), 클라우드(Cloud), 사용자 애플리케이션(Application) 간의 데이터 흐름을 설명할 수 있다.</li>
+                <li>규칙 엔진(Rule Engine)이 데이터를 기반으로 자동화된 동작을 트리거하는 원리를 이해한다.</li>
+                <li>API(Application Programming Interface)가 플랫폼의 데이터와 서비스를 외부 애플리케이션에 제공하는 '창구' 역할을 함을 설명할 수 있다.</li>
+            </ul>
+            <h3>절차적 목표</h3>
+            <ul>
+                <li>Python 코드를 사용하여 MQTT의 발행/구독 모델(브로커, 발행자, 구독자)을 간단히 시뮬레이션할 수 있다.</li>
+                <li>센서 데이터를 JSON 형식으로 변환(직렬화)하고, 이를 파싱하여 사용하는 과정을 코드로 구현할 수 있다.</li>
+                <li>수신된 센서 데이터에 기반하여 특정 조건을 만족하면 액추에이터를 동작시키는 규칙 엔진을 구현할 수 있다.</li>
+                <li>클래스를 사용하여 4계층(장치, 네트워크, 플랫폼, 앱)의 역할을 각각 모델링하고 상호작용하는 통합 시스템을 설계할 수 있다.</li>
+            </ul>
+            <h3>태도적 목표</h3>
+            <ul>
+                <li>복잡한 시스템을 여러 계층으로 나누어 분석하고 이해하는 시스템적 사고(Systems Thinking) 능력을 기른다.</li>
+                <li>표준화된 프로토콜(MQTT)과 데이터 형식(JSON)이 이기종 장치 간의 원활한 통신에 기여하는 가치를 인식한다.</li>
+                <li>단순한 데이터의 나열이 아닌, 데이터의 '흐름'과 '처리 과정'을 통해 새로운 서비스가 창출됨을 이해하고 데이터 기반 문제 해결에 흥미를 가진다.</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>2. 핵심 개념 상세 설명</h2>
+            <div class="concept-box">
+                <h3>IoT 4계층 아키텍처 (4-Layer Architecture)</h3>
+                <p>IoT 시스템의 복잡한 동작 원리를 이해하기 쉽게 나눈 4개의 논리적 계층. 데이터가 생성되어 최종적으로 사용자에게 서비스되기까지의 흐름을 보여줍니다.</p>
+                <ul>
+                    <li><strong>사물/감지 계층 (Things/Sensing Layer):</strong> 물리적 세상과 가장 가까운 계층. 센서가 환경 데이터를 수집하거나 액추에이터가 동작을 수행합니다. 데이터가 최초로 생성되는 곳입니다. (예: 스마트 워치의 심박수 센서)</li>
+                    <li><strong>네트워크/연결 계층 (Network/Connectivity Layer):</strong> 감지 계층에서 생성된 데이터를 상위 계층으로 전송하고, 상위 계층의 제어 신호를 하위 계층으로 전달하는 통신 인프라. Wi-Fi, 5G, LoRaWAN 등 다양한 통신 기술과 함께, 데이터 교환을 위한 MQTT와 같은 프로토콜이 동작합니다. 이 계층에는 여러 센서 데이터를 모아 클라우드로 한 번에 전송하는 게이트웨이가 포함될 수 있습니다.</li>
+                    <li><strong>플랫폼/처리 계층 (Platform/Processing Layer):</strong> IoT 시스템의 '두뇌'. 클라우드 서버에서 동작하며, 수많은 장치로부터 수집된 데이터를 저장(DB), 처리, 분석합니다. 데이터의 유효성을 검사하고, 특정 조건에 따라 장치를 제어하는 **규칙 엔진(Rule Engine)**이 동작하며, 인공지능(AI) 모델을 이용해 데이터를 분석하고 미래를 예측하기도 합니다.</li>
+                    <li><strong>응용/서비스 계층 (Application/Service Layer):</strong> 처리된 데이터를 사용자에게 의미 있는 정보로 시각화하여 보여주거나, 사용자가 시스템을 제어할 수 있는 인터페이스를 제공하는 최종 단계. 스마트폰 앱, 웹 대시보드 등이 여기에 해당하며, 플랫폼의 기능을 외부에서 사용할 수 있도록 API를 제공합니다.</li>
+                </ul>
+            </div>
+            <div class="concept-box">
+                <h3>MQTT (Message Queuing Telemetry Transport)</h3>
+                <p>IoT 환경을 위해 개발된 매우 가볍고 효율적인 메시징 프로토콜. '발행/구독(Publish/Subscribe)' 모델을 사용합니다.</p>
+                <ul>
+                    <li><strong>발행/구독 모델:</strong> 메시지를 보내는 측(발행자)과 받는 측(구독자)이 서로를 직접 알지 못하고, '브로커(Broker)'라는 중개인을 통해 통신하는 방식입니다.</li>
+                    <li><strong>브로커 (Broker):</strong> 모든 메시지가 거쳐가는 중앙 우체국.</li>
+                    <li><strong>주제 (Topic):</strong> 메시지의 종류를 구분하는 일종의 '채널' 또는 '게시판 이름'. (예: <code>/home/living_room/temperature</code>)</li>
+                    <li><strong>발행 (Publish):</strong> 발행자가 특정 주제에 대해 브로커에게 메시지를 보냄.</li>
+                    <li><strong>구독 (Subscribe):</strong> 구독자가 특정 주제를 브로커에게 구독 신청해 놓으면, 해당 주제로 새 메시지가 올 때마다 브로커가 전달해 줌.</li>
+                    <li><strong>장점:</strong> 발행자와 구독자 간의 의존성이 없어(느슨한 결합), 수많은 장치를 유연하게 추가하고 관리하기에 용이합니다.</li>
+                </ul>
+            </div>
+            <div class="concept-box">
+                <h3>JSON (JavaScript Object Notation)</h3>
+                <p>속성-값 쌍으로 이루어진 개방형 표준 데이터 형식. 사람이 읽고 쓰기 쉬우며 기계가 파싱하고 생성하기도 쉽습니다. IoT 환경에서 구조화된 데이터를 주고받을 때 널리 사용됩니다.</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>3. 수업의 흐름</h2>
+            <div class="flow-section">
+                <h3>(도입) 수업을 시작하며 (5분)</h3>
+                <p>인사 및 전시 학습 확인 (IoT의 개념과 구성 요소)</p>
+                <blockquote>"부분들의 합만으로는 전체를 설명할 수 없다. 진정한 핵심은 부분들 사이의 '연결'에 있다." - 찰스 임스 (디자이너, 건축가)</blockquote>
+                <p>"여러분, 지난 시간에 우리는 센서, 액추에이터 등 IoT를 구성하는 '부분'들을 배웠습니다. 하지만 위대한 디자이너 찰스 임스의 말처럼, 이 부분들이 어떻게 '연결'되고 '상호작용'하는지를 이해해야 비로소 전체 시스템을 파악할 수 있습니다. 오늘은 센서에서 측정된 숫자 하나가 어떻게 지구 반대편에 있는 내 스마트폰 앱에 그래프로 그려지는지, 그 데이터의 위대한 여정을 함께 따라가 보겠습니다. 이것이 바로 IoT의 동작 원리입니다."</p>
+            </div>
+            <div class="flow-section">
+                <h3>(전개) 핵심 개념 탐구 (30분)</h3>
+                <h4>1단계: 데이터의 탄생 (감지 계층)</h4>
+                <p>모든 것은 센서가 물리적 현상을 디지털 데이터로 바꾸는 것에서 시작됨을 강조. 이때 데이터는 단순한 숫자가 아니라, '언제', '어디서', '무엇을' 측정했는지 알 수 있는 구조화된 형태가 되어야 함을 설명. (JSON 형식의 유용성)</p>
+                <p>과학 예시 코드: 화성 탐사 로버 '퍼서비어런스'가 온도와 방사선량을 측정하여 JSON 형태의 데이터 패킷을 생성하는 과정을 시뮬레이션합니다.</p>
+                <pre><code># 상세 설명: 이 코드는 1단계 감지 계층의 역할을 보여줍니다. 
+# generate_data_packet 메서드는 가상의 센서 값을 포함한 Python 딕셔너리를 생성합니다. 
+# json.dumps() 함수는 이 딕셔너리를 JSON 형식의 '문자열'로 변환(직렬화)합니다.
+# 이 문자열이 바로 네트워크를 통해 전송될 데이터의 실제 형태입니다. 
+# 이를 통해 학생들은 데이터가 단순한 숫자가 아닌, 체계적인 구조를 가진 정보로 생성됨을 이해합니다. 
+# time.time()은 타임스탬프를 찍어 데이터 생성 시점을 기록합니다.
+import json
+import random
+import time
+
+class PerseveranceSensor:
+    def __init__(self):
+        self._temperature = -63.0 # 화성의 평균 온도
+
+    def generate_data_packet(self):
+        # 화성의 환경 데이터를 측정한다고 가정
+        self._temperature += random.uniform(-1, 1) # 온도는 계속 변함
+        data = {
+            "rover_id": "PERSEVERANCE-01",
+            "timestamp": time.time(),
+            "location": {"sol": 354, "site": "Jezero Crater"},
+            "readings": {
+                "temperature_celsius": round(self._temperature, 2),
+                "radiation_mSv": 0.75 + random.uniform(-0.1, 0.1)
+            }
+        }
+        # 딕셔너리를 JSON 문자열로 변환 (직렬화)
+        return json.dumps(data, indent=2)
+
+# 실행
+rover_sensor = PerseveranceSensor()
+packet_data = rover_sensor.generate_data_packet()
+print("1. [감지 계층] 화성 로버가 생성한 데이터 패킷 (JSON):")
+print(packet_data)
+</code></pre>
+                
+                <h4>2단계: 데이터의 여정 (네트워크 계층)</h4>
+                <p>생성된 데이터 패킷(JSON 문자열)을 클라우드로 전송하는 단계. 수만 개의 장치가 동시에 데이터를 보낼 때, 서버와 일일이 연결하는 것은 비효율적임을 지적하며 MQTT의 발행/구독 모델을 소개합니다. '우체국(브로커)', '잡지 이름(주제)', '기사 투고(발행)', '잡지 구독(구독)' 비유로 MQTT의 동작 원리를 설명합니다.</p>
+                <p>실생활 예시 코드: 화성 로버(발행자)가 브로커에게 데이터를 발행하고, 지구의 관제 센터(구독자)가 데이터를 수신하는 MQTT 통신을 시뮬레이션합니다.</p>
+                <pre><code># 상세 설명: 이 코드는 2단계 네트워크 계층의 핵심인 MQTT 통신을 보여줍니다. 
+# MqttBroker 클래스는 중앙에서 메시지를 중개하는 서버 역할을 합니다.
+# subscribe 메서드는 구독자의 정보를 주제별로 등록하고, publish 메서드는 특정 주제로 메시지가 들어오면 해당 주제를 구독하는 모든 구독자에게 메시지를 전달(on_message 호출)합니다. 
+# 발행자(로버)와 구독자(관제 센터)는 서로를 모르고 오직 브로커와 주제를 통해 통신합니다. 이는 IoT 시스템의 유연성과 확장성을 보장하는 핵심 원리입니다.
+
+class MqttBroker: # 가상 MQTT 브로커
+    def __init__(self):
+        self.subscribers = {} # { "주제": [구독자1, 구독자2...] }
+
+    def subscribe(self, topic, subscriber):
+        if topic not in self.subscribers:
+            self.subscribers[topic] = []
+        self.subscribers[topic].append(subscriber)
+        print(f"2a. [네트워크 계층] '{subscriber.name}'이(가) '{topic}' 주제를 구독 시작.")
+
+    def publish (self, topic, message):
+        print(f"\n2b. [네트워크 계층] 발행자가 '{topic}' 주제로 메시지 발행!")
+        if topic in self.subscribers:
+            for subscriber in self.subscribers[topic]:
+                subscriber.on_message(topic, message) # 구독자에게 메시지 전달
+
+class Subscriber: # 관제 센터 역할
+    def __init__(self, name): self.name = name
+    def on_message(self, topic, message):
+        print(f" -> '{self.name}' 수신: {message[:50]}...")
+
+# 시스템 설정
+broker = MqttBroker()
+mission_control = Subscriber(name="NASA 관제 센터")
+broker.subscribe("/mars/perseverance/env_data", mission_control)
+
+# 발행
+broker.publish("/mars/perseverance/env_data", packet_data)
+</code></pre>
+                
+                <h4>3단계: 데이터의 해석 (플랫폼 계층)</h4>
+                <p>브로커를 통해 클라우드에 도착한 데이터가 '의미 있는 행동'으로 이어지는 단계. 이 계층의 핵심 역할은 '규칙 기반의 자동화'임을 설명. (만약 ~하면, ~하라)</p>
+                <p>과학 예시 코드: 플랫폼에 '규칙 엔진' 구독자를 추가합니다. 이 구독자는 화성 로버의 온도가 너무 낮아지면 히터를 켜라는 명령을 생성합니다.</p>
+                <pre><code># 상세 설명: 이 코드는 3단계 플랫폼 계층의 '지능'을 보여줍니다.
+# RuleEngine은 MQTT 브로커로부터 환경 데이터를 구독합니다. 
+# on_message 메서드 안에서 json.loads() 함수를 이용해 수신된 JSON 문자열을 다시 Python 딕셔너리로 변환(역직렬화)하여 데이터에 접근합니다. 
+# if temp < -63: 라는 조건문이 바로 '규칙'에 해당합니다. 
+# 조건이 만족되면, 규칙 엔진은 이제 '발행자'가 되어 히터를 제어하는 새로운 주제(/commands)로 제어 명령을 발행합니다.
+
+class RuleEngine(Subscriber): # 규칙 엔진도 하나의 구독자
+    def __init__(self, name, broker):
+        super().__init__(name)
+        self.broker = broker
+
+    def on_message(self, topic, message):
+        print("\n3. [플랫폼 계층] 규칙 엔진이 데이터 수신 및 분석...")
+        data = json.loads(message) # JSON 문자열을 딕셔너리로 변환 (역직렬화)
+        temp = data["readings"]["temperature_celsius"]
+        
+        if temp < -63.0:
+            print(f" -> 분석 결과: 온도({temp}°C)가 위험 수준! 히터 가동 필요.")
+            # 분석 결과에 따라 새로운 명령을 다른 주제로 발행!
+            command = {"command": "TURN_ON_HEATER", "power": "HIGH"}
+            self.broker.publish("/mars/perseverance/commands", json.dumps(command))
+
+# 시스템에 규칙 엔진 추가
+rule_engine = RuleEngine(name="자동화 규칙 엔진", broker=broker)
+broker.subscribe("/mars/perseverance/env_data", rule_engine) # 환경 데이터를 구독
+
+# 위험한 온도 데이터 생성 및 발행
+dangerous_packet = rover_sensor.generate_data_packet().replace(str(round(rover_sensor._temperature, 2)), "-65.0")
+broker.publish("/mars/perseverance/env_data", dangerous_packet)
+</code></pre>
+                
+                <h4>4단계: 결과의 활용 (응용 계층)</h4>
+                <p>처리된 데이터나 시스템의 상태를 사용자가 보거나 제어하는 최종 단계. 스마트폰 앱이나 웹 대시보드가 이 계층에 해당함을 설명.</p>
+                <p>실생활 예시 코드: 사용자 앱(대시보드) 역할을 하는 구독자를 추가하여, 로버의 상태와 히터 가동 명령을 모두 화면에 출력합니다.</p>
+                <pre><code># 상세 설명: 이 코드는 4단계 응용 계층의 역할을 보여줍니다.
+# UserApplication 클래스는 사용자에게 보여질 정보와 관련된 모든 주제(환경 데이터, 제어 명령)를 구독합니다.
+# 그리고 각 주제에 맞는 메시지가 도착하면, 그에 따라 화면을 업데이트(여기서는 print문)합니다.
+# 이를 통해 사용자는 IoT 시스템의 현재 상태를 실시간으로 모니터링하고, 시스템이 내린 결정(히터 켜기 등)을 확인할 수 있습니다. 이것이 바로 IoT가 사용자에게 '서비스'와 '가치'를 제공하는 최종적인 모습입니다.
+
+class UserApplication(Subscriber): # 사용자 앱/대시보드
+    def on_message(self, topic, message):
+        print(f"\n4. [응용 계층] 사용자 앱 화면 업데이트!")
+        if topic == "/mars/perseverance/env_data":
+            data = json.loads(message)
+            temp = data["readings"]["temperature_celsius"]
+            print(f" -> 대시보드: 현재 로버 온도 = {temp:.2f}°C")
+        elif topic == "/mars/perseverance/commands":
+            command = json.loads(message)["command"]
+            print(f" -> 알림: '{command}' 명령이 로버에 전송되었습니다!")
+
+# 시스템에 사용자 앱 추가
+app = UserApplication(name="지구 관제사 앱")
+broker.subscribe("/mars/perseverance/env_data", app) # 환경 데이터 구독
+broker.subscribe("/mars/perseverance/commands", app) # 제어 명령도 구독
+
+# 이전 단계의 위험 데이터 발행을 다시 실행하면 앱에도 표시됨
+broker.publish("/mars/perseverance/env_data", dangerous_packet)
+</code></pre>
+            </div>
+            <div class="flow-section">
+                <h3>(마무리) 수업을 마치며 (5분)</h3>
+                <p>데이터가 감지 계층에서 생성되어 네트워크, 플랫폼을 거쳐 응용 계층에서 가치 있는 정보로 재탄생하는 4단계 여정을 요약합니다.</p>
+                <blockquote>"충분히 발달한 기술은 마법과 구별할 수 없다." - 아서 C. 클라크 (SF 작가)</blockquote>
+                <p>"여러분, 오늘 우리는 '마법'처럼 보였던 사물 인터넷의 동작 원리를 4개의 계층으로 나누어 그 비밀을 파헤쳤습니다. 데이터의 여정을 따라가 보니, 결국 이 놀라운 기술은 잘 정의된 '구조'와 '규칙'의 집합이라는 것을 알 수 있었습니다. 아서 클라크의 말처럼, 이제 여러분은 이 기술을 단순한 마법이 아닌, 이해하고 분석하고, 나아가 직접 설계할 수 있는 과학의 영역으로 받아들이게 된 것입니다. 이 시스템적 사고를 바탕으로 미래의 새로운 '마법'을 직접 만들어가길 바랍니다. 수고 많으셨습니다."</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>4. 진단평가 (OX 퀴즈)</h2>
+            <div class="quiz-section">
+                <div class="quiz-question"><p>1. 사물 인터넷의 감지 계층은 수집된 데이터를 분석하고 처리하는 역할을 한다. (X)</p><div class="explanation">상세 풀이: 감지 계층은 센서를 통해 물리적 환경의 데이터를 '수집'하고 생성하는 역할을 합니다. 데이터의 분석과 처리는 '플랫폼/처리 계층'에서 이루어집니다.</div></div>
+                <div class="quiz-question"><p>2. MQTT 프로토콜에서 발행자(Publisher)는 구독자(Subscriber)의 IP 주소를 직접 알아야 통신할 수 있다. (X)</p><div class="explanation">상세 풀이: MQTT는 '브로커'를 중간에 두는 발행/구독 모델을 사용합니다. 발행자와 구독자는 서로의 존재를 모르며, 오직 브로커와 '주제(Topic)'를 통해서만 통신합니다. 이것이 MQTT의 핵심적인 장점입니다.</div></div>
+                <div class="quiz-question"><p>3. JSON은 IoT 환경에서 구조화된 데이터를 교환하기 위해 널리 사용되는 데이터 형식이다. (O)</p><div class="explanation">상세 풀이: JSON은 사람이 읽기 쉽고 기계가 처리하기 쉬운 형식으로, 여러 속성을 가진 센서 데이터(예: 온도, 습도, 시간)를 하나의 구조로 묶어 표현하는 데 매우 유용합니다.</div></div>
+                <div class="quiz-question"><p>4. IoT의 응용/서비스 계층은 사용자가 시스템의 상태를 확인하거나 제어하는 스마트폰 앱, 웹 대시보드 등을 포함한다. (O)</p><div class="explanation">상세 풀이: 응용/서비스 계층은 처리된 데이터를 사용자에게 가치 있는 정보로 보여주는 최종 단계로, 사용자와 시스템 간의 상호작용이 일어나는 인터페이스 역할을 합니다.</div></div>
+                <div class="quiz-question"><p>5. 기본 게이트웨이(Gateway)는 일반적으로 플랫폼 계층에 속하는 요소이다. (X)</p><div class="explanation">상세 풀이: 게이트웨이는 여러 센서 장치(감지 계층)의 데이터를 모아 상위 네트워크(클라우드 플랫폼)로 전송하는 역할을 하므로, '네트워크/연결 계층'에 속하는 장비입니다.</div></div>
+                <div class="quiz-question"><p>6. 규칙 엔진(Rule Engine)은 센서 데이터가 특정 조건을 만족할 때 자동으로 정해진 동작을 실행시키는 역할을 한다. (O)</p><div class="explanation">상세 풀이: 규칙 엔진은 'IF-THEN' 형식의 규칙들을 기반으로 동작합니다. 예를 들어, '만약(IF) 온도가 30도 이상이면, 에어컨을 켜라(THEN)'와 같은 자동화 로직을 수행합니다.</div></div>
+                <div class="quiz-question"><p>7. API(Application Programming Interface)는 센서가 데이터를 수집하는 방식을 정의하는 규칙이다. (X)</p><div class="explanation">상세 풀이: API는 플랫폼 계층이 자신의 데이터나 기능을 외부 응용 프로그램(앱, 다른 서비스 등)이 사용할 수 있도록 제공하는 '인터페이스' 또는 '메뉴판'입니다. 센서의 데이터 수집 방식과는 거리가 멉니다.</div></div>
+                <div class="quiz-question"><p>8. MQTT의 '주제(Topic)'는 메시지의 내용을 의미한다. (X)</p><div class="explanation">상세 풀이: '주제(Topic)'는 메시지의 내용(payload)이 아니라, 메시지를 분류하는 '채널' 또는 '주소'의 역할을 합니다. 구독자는 이 주제를 기준으로 원하는 메시지를 선택하여 받습니다.</div></div>
+                <div class="quiz-question"><p>9. IoT 시스템의 모든 데이터 처리는 반드시 클라우드에서만 이루어져야 한다. (X)</p><div class="explanation">상세 풀이: 최근에는 빠른 응답이 필요하거나 인터넷 연결이 불안정한 경우를 대비하여, 데이터를 클라우드까지 보내지 않고 게이트웨이나 장치 자체에서 일부를 처리하는 '에지 컴퓨팅(Edge Computing)' 또는 '포그 컴퓨팅(Fog Computing)' 기술도 중요해지고 있습니다.</div></div>
+                <div class="quiz-question"><p>10. IoT 아키텍처에서 데이터는 보통 '응용 계층 → 플랫폼 계층 → 네트워크 계층 → 감지 계층' 순서로 흐른다. (X)</p><div class="explanation">상세 풀이: 데이터의 흐름은 그 반대입니다. 데이터는 '감지 계층'에서 생성되어 '네트워크 계층'을 통해 '플랫폼 계층'으로 전송되어 처리된 후, 최종적으로 '응용 계층'에서 사용자에게 보여집니다.</div></div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>5. 형성평가 (5지선다형)</h2>
+            <div class="quiz-section">
+                <div class="quiz-question">
+                    <p class="question-text">1. 다음 중 IoT 4계층 아키텍처의 데이터 흐름을 올바르게 표현한 것은?</p>
+                    <ol><li>감지 → 처리 → 응용 → 연결</li><li>감지 → 연결 → 처리 → 응용</li><li>처리 → 연결 → 감지 → 응용</li><li>연결 → 감지 → 처리 → 응용</li><li>응용 → 처리 → 연결 → 감지</li></ol>
+                    <p class="answer">정답: ②</p>
+                    <div class="explanation">상세 풀이: IoT 시스템에서 데이터는 물리적 세계와 맞닿은 '감지' 계층에서 생성되어, '연결' 계층(네트워크)을 통해 전송되고, '처리' 계층(플랫폼)에서 분석된 후, 최종적으로 '응용' 계층에서 사용자에게 서비스됩니다.</div>
+                </div>
+                <div class="quiz-question">
+                    <p class="question-text">2. MQTT 프로토콜에 대한 설명으로 가장 적절한 것은?</p>
+                    <ol><li>데이터를 요청하면 응답을 받는 Request/Response 방식이다.</li><li>발행자와 구독자 간의 1:1 직접 통신을 기반으로 한다.</li><li>동영상 스트리밍과 같은 대용량 데이터 전송에 최적화되어 있다.</li><li>중앙의 브로커를 통해 특정 주제(Topic)로 메시지를 중개하는 방식이다.</li><li>반드시 유선 인터넷 환경에서만 동작한다.</li></ol>
+                    <p class="answer">정답: ④</p>
+                    <div class="explanation">상세 풀이: MQTT의 핵심은 중앙의 '브로커'와 메시지 주소 역할을 하는 '주제'를 기반으로 한 발행/구독 모델입니다. 이는 1:N 통신을 효율적으로 지원하며, 발행자와 구독자를 분리시켜 시스템을 유연하게 만듭니다. HTTP가 ①번 방식이며, MQTT는 저전력, 저대역폭 환경에 최적화되어 있어 ③번과는 거리가 멉니다.</div>
+                </div>
+                <div class="quiz-question">
+                    <p class="question-text">3. 플랫폼/처리 계층의 주요 역할로 보기 어려운 것은?</p>
+                    <ol><li>수많은 장치로부터 데이터 수집 및 저장</li><li>저장된 데이터를 기반으로 패턴 분석 및 예측</li><li>특정 조건 만족 시 액추에이터를 제어하는 규칙 실행</li><li>물리적 환경의 아날로그 신호를 디지털 데이터로 변환</li><li>사용자 앱이 데이터를 요청할 수 있도록 API 제공</li></ol>
+                    <p class="answer">정답: ④</p>
+                    <div class="explanation">상세 풀이: 물리적 신호를 디지털 데이터로 변환하는 것은 센서의 역할이며, 이는 '감지 계층'에 해당합니다. 플랫폼 계층은 이미 디지털화된 데이터를 받아 저장, 처리, 분석하고 규칙을 실행하는 등 더 상위 수준의 역할을 담당합니다.</div>
+                </div>
+                <div class="quiz-question">
+                    <p class="question-text">4. 스마트폰 앱(응용 계층)이 날씨 정보를 화면에 표시하기 위해 IoT 플랫폼(처리 계층)의 기능을 호출하려고 한다. 이때 사용되는 기술은 무엇인가?</p>
+                    <ol><li>센서 (Sensor)</li><li>액추에이터 (Actuator)</li><li>API (Application Programming Interface)</li><li>MQTT 브로커</li><li>서브넷 마스크</li></ol>
+                    <p class="answer">정답: ③</p>
+                    <div class="explanation">상세 풀이: API는 한 소프트웨어(플랫폼)가 다른 소프트웨어(스마트폰 앱)에게 자신의 기능이나 데이터를 사용할 수 있도록 미리 정해놓은 '약속'이자 '창구'입니다. 앱은 이 API를 통해 플랫폼에 "현재 날씨 데이터 줘" 라고 요청하고 결과를 받아 화면에 표시합니다.</div>
+                </div>
+                <div class="quiz-question">
+                    <p class="question-text">5. 다음 중 MQTT의 '주제(Topic)'에 대한 설명으로 가장 올바른 것은?</p>
+                    <ol><li>/home/living_room/temperature와 같이 계층적 구조를 가질 수 있다.</li><li>메시지의 실제 내용, 즉 데이터를 의미한다.</li><li>메시지를 중개하는 중앙 서버의 이름이다.</li><li>모든 발행자가 반드시 구독해야 하는 채널이다.</li><li>한 번 정해지면 절대 변경할 수 없다.</li></ol>
+                    <p class="answer">정답: ①</p>
+                    <div class="explanation">상세 풀이: MQTT의 주제는 슬래시(/)를 사용하여 국가/도시/건물/방/센서 와 같이 계층적 구조로 설계하는 것이 일반적입니다. 이를 통해 구독자는 /home/living_room/# 처럼 특정 하위 계층의 모든 주제를 한 번에 구독하는 등 유연한 관리가 가능합니다.</div>
+                </div>
+                <div class="quiz-question">
+                    <p class="question-text">6. IoT 시스템의 '두뇌' 역할을 하며, 수집된 데이터를 분석하여 지능적인 판단을 내리는 계층은?</p>
+                    <ol><li>감지 계층</li><li>네트워크 계층</li><li>플랫폼/처리 계층</li><li>응용/서비스 계층</li><li>물리 계층</li></ol>
+                    <p class="answer">정답: ③</p>
+                    <div class="explanation">상세 풀이: 플랫폼/처리 계층은 클라우드 서버의 강력한 연산 능력을 바탕으로 데이터를 분석하고, 규칙 엔진이나 AI 모델을 실행하여 시스템 전체의 지능적인 동작을 담당하므로 '두뇌'에 비유됩니다.</div>
+                </div>
+                <div class="quiz-question">
+                    <p class="question-text">7. 한 건물의 여러 사무실에 설치된 온도 센서들의 데이터를 하나의 장비가 모아서 인터넷을 통해 클라우드로 전송한다. 이 장비의 역할은 무엇인가?</p>
+                    <ol><li>액추에이터</li><li>종단 장치(End Device)</li><li>게이트웨이</li><li>API</li><li>브로커</li></ol>
+                    <p class="answer">정답: ③</p>
+                    <div class="explanation">상세 풀이: 게이트웨이는 근거리 통신(블루투스, Zigbee 등)을 사용하는 여러 종단 장치(센서)들을 대신하여, 이들의 데이터를 취합하고 인터넷과 같은 외부 네트워크(WAN)로 연결해주는 '관문' 역할을 합니다.</div>
+                </div>
+                <div class="quiz-question">
+                    <p class="question-text">8. 다음 중 발행/구독 모델의 가장 큰 장점으로 옳은 것은?</p>
+                    <ol><li>통신 속도가 항상 가장 빠르다.</li><li>발행자와 구독자가 서로를 몰라도 통신이 가능하여 시스템이 유연하고 확장성이 좋다.</li><li>데이터 보안이 완벽하게 보장된다.</li><li>오직 1:1 통신만 지원한다.</li><li>중앙 서버가 필요 없어 구축 비용이 저렴하다.</li></ol>
+                    <p class="answer">정답: ②</p>
+                    <div class="explanation">상세 풀이: 발행자와 구독자가 브로커를 통해 분리(decoupled)되어 있다는 점이 발행/구독 모델의 핵심 장점입니다. 이 덕분에 새로운 종류의 센서(발행자)나 새로운 앱(구독자)을 기존 시스템에 영향을 주지 않고 쉽게 추가하거나 제거할 수 있습니다.</div>
+                </div>
+                <div class="quiz-question">
+                    <p class="question-text">9. IoT 데이터 교환 시 JSON 형식이 많이 사용되는 이유로 가장 적절한 것은?</p>
+                    <ol><li>암호화 기능이 내장되어 있어 보안이 뛰어나다.</li><li>압축률이 가장 높아 데이터 크기가 매우 작다.</li><li>사람과 기계 모두 이해하기 쉬운 텍스트 기반의 구조를 가지고 있다.</li><li>오직 자바스크립트(JavaScript) 환경에서만 사용할 수 있다.</li><li>동영상 데이터 전송에 최적화되어 있다.</li></ol>
+                    <p class="answer">정답: ③</p>
+                    <div class="explanation">상세 풀이: JSON은 키:값 쌍의 단순한 구조를 가진 텍스트 형식이라 개발자가 디버깅하기 쉽고, 대부분의 프로그래밍 언어에서 쉽게 파싱(해석)할 수 있는 라이브러리를 지원하기 때문에 이기종 장치 간 데이터 교환에 널리 사용됩니다.</div>
+                </div>
+                <div class="quiz-question">
+                    <p class="question-text">10. 스마트 공장에서 컨베이어 벨트의 모터 속도를 조절하는 부품은 IoT 4계층 중 어디에 속하는가?</p>
+                    <ol><li>감지 계층</li><li>네트워크 계층</li><li>플랫폼/처리 계층</li><li>응용/서비스 계층</li><li>데이터 계층</li></ol>
+                    <p class="answer">정답: ①</p>
+                    <div class="explanation">상세 풀이: 모터 속도를 조절하는 부품은 제어 신호를 받아 실제 '동작'을 수행하는 액추에이터입니다. 센서와 액추에이터는 모두 물리 세계와 상호작용하는 '사물/감지 계층'에 속합니다.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>6. 코딩 실습 예제</h2>
+            <div class="code-example">
+                <h4>1. JSON 데이터 생성 및 파싱</h4>
+                <p>이름, 나이, 전공을 속성으로 갖는 학생의 정보를 Python 딕셔너리로 만든 후, 이를 JSON 형식의 문자열로 변환(직렬화)하세요. 그리고 다시 그 JSON 문자열을 딕셔너리 객체로 변환(역직렬화)하여 학생의 이름을 출력하는 코드를 작성하세요.</p>
+                <pre><code>import json
+
+# 1. Python 딕셔너리 생성
+student_info = {
+    "name": "제임스 클러크 맥스웰",
+    "age": 17,
+    "major": "Electromagnetism",
+    "achievements": ["Maxwell's equations", "Kinetic theory of gases"]
+}
+
+# 2. 딕셔너리를 JSON 형식의 문자열로 변환 (직렬화)
+json_string = json.dumps(student_info, indent=2, ensure_ascii=False)
+print("--- JSON 문자열 (직렬화된 데이터) ---")
+print(json_string)
+
+# 3. JSON 문자열을 다시 Python 딕셔너리로 변환 (역직렬화)
+parsed_dict = json.loads(json_string)
+print("\n--- 파싱된 딕셔너리에서 이름 추출 ---")
+print(f"학생 이름: {parsed_dict['name']}")</code></pre>
+                <p><strong>상세 풀이 및 설명:</strong> <code>import json</code>: 파이썬에서 JSON 데이터를 다루기 위한 기본 라이브러리를 가져옵니다. <code>json.dumps()</code>: "dump string"의 약자로, Python 객체(딕셔너리, 리스트 등)를 JSON 형식의 문자열로 변환(직렬화)합니다. <code>json.loads()</code>: "load string"의 약자로, JSON 형식의 문자열을 입력받아 해당하는 Python 객체로 변환(역직렬화)합니다. 이 직렬화/역직렬화 과정은 서로 다른 시스템(예: Python 서버와 JavaScript 웹 브라우저)이 데이터를 교환하는 데 있어 핵심적인 역할을 합니다.</p>
+            </div>
+            
+            <div class="code-example">
+                <h4>2-5. 통합 MQTT 발행/구독/브로커 시뮬레이션</h4>
+                <p>Publisher, Subscriber, Broker 클래스를 모두 사용하여, 온도 센서(발행자)가 1초마다 온도를 "/iot/home/temp" 주제로 발행하고, 모니터(구독자)는 이 온도를 받아 화면에 출력하는 전체 시스템을 코드로 구현하세요.</p>
+                <pre><code>import time
+import random
+
+# 4. Broker 클래스 정의
+class Broker:
+    def __init__(self):
+        print("브로커가 생성되었습니다.")
+        self.subscribers = {}
+
+    def add_subscriber(self, topic, subscriber):
+        if topic not in self.subscribers: self.subscribers[topic] = []
+        self.subscribers[topic].append(subscriber)
+        print(f"'{subscriber.name}'이(가) '{topic}' 주제를 구독합니다.")
+
+    def receive_publish(self, topic, message):
+        print(f"\n브로커: '{topic}' 주제로 메시지 수신!")
+        if topic in self.subscribers:
+            for sub in self.subscribers[topic]:
+                sub.on_message(topic, message)
+
+# 2. Publisher 클래스 정의
+class Publisher:
+    def __init__(self, name): self.name = name
+    def publish(self, broker, topic, message):
+        print(f"발행자({self.name}): '{topic}' 주제로 '{message}' 발행 시도.")
+        broker.receive_publish(topic, message)
+
+# 3. Subscriber 클래스 정의
+class Subscriber:
+    def __init__(self, name): self.name = name
+    def subscribe(self, broker, topic): broker.add_subscriber(topic, self)
+    def on_message(self, topic, message):
+        print(f" -> 구독자({self.name}): 메시지 도착! (주제: {topic}, 내용: {message})")
+
+# 5. 통합 시스템 실행
+print("\n--- MQTT 시스템 시뮬레이션 시작 ---")
+broker = Broker()
+temp_sensor = Publisher(name="온도 센서")
+monitor_app = Subscriber(name="모니터링 앱")
+
+monitor_app.subscribe(broker, "/home/living_room/temp")
+
+# 1초마다 데이터 발행 시뮬레이션
+for _ in range(3):
+    temp_reading = f"{random.uniform(20, 25):.1f}°C"
+    temp_sensor.publish(broker, "/home/living_room/temp", temp_reading)
+    # 다른 주제로 발행된 메시지는 수신 안 됨
+    temp_sensor.publish(broker, "/home/kitchen/humidity", "60%")
+    time.sleep(1)
+</code></pre>
+                <p><strong>상세 풀이 및 설명:</strong> 이 코드는 MQTT 통신의 세 주체(Broker, Publisher, Subscriber)가 어떻게 상호작용하는지 보여주는 통합 예제입니다. 실행 흐름: 1. 각 객체를 생성합니다. 2. `monitor_app`이 `broker`에 `/home/living_room/temp` 주제를 `subscribe`합니다. 3. `temp_sensor`가 같은 주제로 메시지를 `publish`하면, `broker`는 이 주제를 구독하는 `monitor_app`을 찾아 `on_message` 메서드를 호출해줍니다. 다른 주제(`.../humidity`)로 발행된 메시지는 `monitor_app`이 구독하지 않았으므로 전달되지 않습니다. 이를 통해 발행자와 구독자가 서로를 알 필요 없이 오직 브로커와 주제를 통해 통신하는 MQTT의 핵심 원리를 이해할 수 있습니다.</p>
+            </div>
+            
+            <div class="code-example">
+                <h4>6. 간단한 규칙 엔진 만들기</h4>
+                <p>온도 메시지({"temp": 28})를 받는 RuleEngine 구독자를 만드세요. 만약 수신한 온도가 27도보다 높으면, "경고: 온도가 너무 높습니다! 에어컨을 켜세요." 라는 메시지를 "/iot/home/alert" 주제로 다시 발행(publish)하도록 작성하세요.</p>
+                <pre><code>import json
+# (이전 예제의 Broker, Publisher, Subscriber 클래스가 필요합니다)
+
+class RuleEngine(Subscriber):
+    def __init__(self, name, broker):
+        super().__init__(name)
+        self.broker = broker # 다른 주제로 발행하기 위해 브로커를 알아야 함
+
+    def on_message(self, topic, message):
+        print(f"\n규칙 엔진: '{topic}' 데이터 수신: {message}")
+        data = json.loads(message)
+        temp = data.get("temp")
+
+        if temp is not None and temp > 27:
+            print(" -> 규칙 발동: 온도가 27도 초과! 경고 발생!")
+            alert_message = f"경고: 온도가 위험 수준({temp}°C)입니다."
+            # 새로운 주제로 경고 메시지를 다시 발행
+            self.broker.receive_publish("/home/living_room/alert", alert_message)
+
+# 테스트
+broker = Broker()
+temp_sensor = Publisher(name="온도 센서")
+rule_engine = RuleEngine(name="자동화 규칙 엔진", broker=broker)
+alert_monitor = Subscriber(name="경고 모니터") # 경고 메시지를 받을 구독자
+
+# 구독 설정
+rule_engine.subscribe(broker, "/home/living_room/temp_json")
+alert_monitor.subscribe(broker, "/home/living_room/alert")
+
+# 데이터 발행
+# 정상 온도
+temp_data_normal = json.dumps({"temp": 25})
+temp_sensor.publish(broker, "/home/living_room/temp_json", temp_data_normal)
+# 위험 온도
+temp_data_high = json.dumps({"temp": 28})
+temp_sensor.publish(broker, "/home/living_room/temp_json", temp_data_high)
+</code></pre>
+                 <p><strong>상세 풀이 및 설명:</strong> RuleEngine은 Subscriber이기도 합니다. 즉, 다른 장치와 마찬가지로 특정 주제의 메시지를 구독하여 받습니다. on_message 메서드에서 수신한 JSON 메시지를 json.loads로 파싱하여 내부 데이터(temp)에 접근합니다. `if temp > 27:` 부분이 바로 '규칙'입니다. 규칙이 만족되면, RuleEngine은 이제 '발행자'의 역할을 수행합니다. `self.broker.receive_publish`를 호출하여 새로운 주제(/home/living_room/alert)로 새로운 메시지(경고)를 발행합니다. 이 시스템에서는 `alert_monitor`라는 또 다른 구독자가 이 경고 메시지를 수신하게 됩니다. 이는 IoT에서 데이터가 한 방향으로만 흐르는 것이 아니라, 처리 결과에 따라 다시 새로운 데이터가 되어 다른 시스템으로 전파되는 연쇄 반응을 보여줍니다.</p>
+           </div>
+           
+            <div class="code-example">
+                <h4>7. API 호출 시뮬레이션</h4>
+                <p>WeatherPlatform 클래스를 만드세요. 이 클래스는 내부에 current_weather = {"temp": 15, "humidity": 60} 데이터를 가지고 있습니다. get_weather_api() 메서드를 만들어, 이 메서드가 호출되면 current_weather 데이터를 JSON 형식으로 반환하도록 작성하세요. 사용자 앱이 이 API를 호출하여 날씨를 얻는 과정을 흉내 내 보세요.</p>
+                <pre><code>import json
+import datetime
+
+class WeatherPlatform:
+    """날씨 정보를 API로 제공하는 가상 플랫폼"""
+    def __init__(self):
+        self._current_weather = {"temp_c": 15.7, "humidity_percent": 62, "condition": "Cloudy"}
+    
+    def get_weather_api(self):
+        """외부 앱이 호출할 수 있는 API. 현재 날씨 정보를 JSON으로 반환"""
+        print("플랫폼: API 호출 요청 수신. 데이터를 JSON으로 변환하여 응답합니다.")
+        response = {
+            "timestamp": str(datetime.datetime.now()),
+            "data": self._current_weather
+        }
+        return json.dumps(response)
+
+class UserApp:
+    """사용자 스마트폰 앱"""
+    def check_weather(self, platform):
+        print("\n앱: 날씨 정보를 확인하기 위해 플랫폼의 API를 호출합니다...")
+        # API 호출 및 응답 수신
+        weather_json = platform.get_weather_api()
+        # 응답(JSON 문자열)을 파싱하여 사용
+        weather_data = json.loads(weather_json)
+        
+        print("앱: 응답 수신 완료. 화면을 업데이트합니다.")
+        print("--- 오늘의 날씨 ---")
+        print(f" 온도: {weather_data['data']['temp_c']}°C")
+        print(f" 습도: {weather_data['data']['humidity_percent']}%")
+        print(f" 상태: {weather_data['data']['condition']}")
+        print(f"(조회 시각: {weather_data['timestamp']})")
+
+# 테스트
+platform = WeatherPlatform()
+my_app = UserApp()
+my_app.check_weather(platform)
+</code></pre>
+                <p><strong>상세 풀이 및 설명:</strong> WeatherPlatform은 날씨 데이터를 가진 서버, UserApp은 사용자 기기입니다. 둘은 MQTT와 같은 실시간 푸시 방식이 아니라, 앱이 필요할 때 플랫폼에 '요청'하는 방식으로 통신합니다. `get_weather_api` 메서드가 바로 API의 역할을 합니다. UserApp의 `check_weather`는 `platform.get_weather_api()`를 호출하여 이 API를 '사용'합니다. 앱은 API가 어떤 원리로 동작하는지 알 필요 없이, 그저 API를 호출하면 약속된 형식의 데이터가 온다는 것만 알면 됩니다. 이처럼 API는 복잡한 내부 구현을 숨기고, 기능 사용법만 외부에 노출하는 중요한 역할을 합니다.</p>
+            </div>
+            
+            <div class="code-example">
+                <h4>8. 와일드카드 구독자 (개념 설명 코드)</h4>
+                <p>MQTT 주제는 와일드카드(+, #)를 지원합니다. Broker 클래스를 수정하여, "/home/+/temp"(모든 방의 온도)나 "/home/#"(home 아래의 모든 주제)와 같은 와일드카드 구독을 처리할 수 있도록 만들어 보세요.</p>
+                <pre><code># (이전 예제의 Broker, Publisher, Subscriber 클래스가 필요합니다)
+
+class BrokerWithWildcard(Broker):
+    def receive_publish(self, topic, message):
+        print(f"\n브로커: '{topic}' 주제로 메시지 수신!")
+        # 정확히 일치하는 구독자에게 전달
+        if topic in self.subscribers:
+            for sub in self.subscribers[topic]:
+                sub.on_message(topic, message)
+
+        # 와일드카드 구독자에게도 전달
+        for sub_topic, subscribers in self.subscribers.items():
+            # 간단한 와일드카드 매칭 로직 ('#'만 구현)
+            if sub_topic.endswith('/#'):
+                root_topic = sub_topic[:-2]
+                if topic.startswith(root_topic):
+                    for sub in subscribers:
+                        sub.on_message(topic, message)
+
+# 테스트
+broker = BrokerWithWildcard()
+all_home_monitor = Subscriber(name="집 전체 모니터")
+living_room_monitor = Subscriber(name="거실 모니터")
+
+# 와일드카드 구독
+all_home_monitor.subscribe(broker, "/home/#")
+# 일반 구독
+living_room_monitor.subscribe(broker, "/home/living_room/temp")
+
+p = Publisher("센서")
+p.publish(broker, "/home/living_room/temp", "25°C") # 둘 다 수신
+p.publish(broker, "/home/kitchen/gas", "OK") # '집 전체 모니터'만 수신
+</code></pre>
+                <p><strong>상세 풀이 및 설명:</strong> 이 예제는 Broker의 `receive_publish`가 어떻게 와일드카드를 처리할 수 있는지 그 개념을 보여줍니다. `#`(multi-level wildcard): `/home/#`는 `/home/living_room/temp`, `/home/kitchen/gas` 등 `/home/`으로 시작하는 모든 주제에 매칭됩니다. `+`(single-level wildcard): `/home/+/temp`는 `/home/living_room/temp`, `/home/bedroom/temp`에는 매칭되지만, `/home/living_room/light/temp`에는 매칭되지 않습니다. 이러한 와일드카드 구독 기능은 하나의 구독자가 여러 센서의 데이터를 종류별로 한 번에 받아보는 등 유연한 시스템을 구성하는 데 매우 유용합니다.</p>
+            </div>
+            
+            <div class="code-example">
+                <h4>9. 게이트웨이 시뮬레이션</h4>
+                <p>여러 개의 SimpleSensor(ID만 가짐) 객체를 만드세요. Gateway 클래스를 만들어 이 센서들을 등록하게 하세요. Gateway의 collect_and_publish(broker) 메서드는 등록된 모든 센서의 데이터를 한 번에 모아 [{"id": "s1", "value": 10}, {"id": "s2", "value": 20}] 과 같은 JSON 배열 형태로 만들어 "/gateway/all_data" 주제로 발행하도록 작성하세요.</p>
+                <pre><code>import json
+import random
+# (간단한 Broker와 Subscriber 클래스가 있다고 가정)
+class Broker:
+    def receive_publish(self, t, m): print(f"Broker: {t} - {m}")
+class Subscriber:
+    def __init__(self,n): self.name=n
+    def subscribe(self,b,t): print(f"{self.name} subscribes to {t}")
+
+class SimpleSensor:
+    def __init__(self, device_id): self.id = device_id
+    def read_value(self): return random.randint(1, 100)
+
+class Gateway:
+    def __init__(self, gateway_id):
+        self.id = gateway_id
+        self.sensors = []
+    def register_sensor(self, sensor):
+        self.sensors.append(sensor)
+        print(f"게이트웨이({self.id}): 센서({sensor.id}) 등록 완료.")
+    def collect_and_publish(self, broker, topic):
+        print(f"\n게이트웨이({self.id}): 연결된 센서들의 데이터 수집 시작...")
+        all_data = [{"id": sensor.id, "value": sensor.read_value()} for sensor in self.sensors]
+        print("게이트웨이: 데이터 취합 완료. 클라우드로 발행합니다.")
+        broker.receive_publish(topic, json.dumps(all_data))
+
+# 테스트
+broker = Broker()
+cloud_server = Subscriber("클라우드 서버")
+cloud_server.subscribe(broker, "/gateway/01/all_data")
+
+gateway = Gateway("GW-01")
+gateway.register_sensor(SimpleSensor("Sensor-A"))
+gateway.register_sensor(SimpleSensor("Sensor-B"))
+
+gateway.collect_and_publish(broker, "/gateway/01/all_data")
+</code></pre>
+                 <p><strong>상세 풀이 및 설명:</strong> 이 시나리오는 모든 센서가 직접 인터넷에 연결되는 것이 아니라, 근거리 통신으로 '게이트웨이'에 연결되는 상황을 모델링합니다. `collect_and_publish` 메서드가 핵심입니다. 이 메서드는 자신에게 연결된 모든 센서(`self.sensors`)를 순회하며 `read_value()`를 호출하여 데이터를 수집합니다. 수집된 개별 데이터를 하나의 큰 리스트(`all_data`)에 담습니다. 이 리스트를 `json.dumps`를 이용해 JSON 배열 문자열로 만들어, 클라우드(브로커)로 한 번에 전송합니다. 이는 개별 센서들이 직접 인터넷 통신을 하지 않아도 되므로, 센서의 배터리 소모를 줄이고 시스템을 효율적으로 만드는 데 기여합니다.</p>
+           </div>
+           
+            <div class="code-example">
+                <h4>10. 디지털 트윈 개념 시뮬레이션</h4>
+                <p>Motor 클래스를 만드세요. 실제 모터의 상태(rpm, temperature)와, 클라우드에 복제된 가상 모터의 상태를 각각 속성으로 가지게 하세요. update_physical_state() 메서드는 실제 모터의 상태를 랜덤하게 변경하고, sync_to_cloud() 메서드는 실제 상태를 가상 상태로 복사하며 "클라우드와 동기화 완료" 메시지를 출력하도록 작성하세요.</p>
+                <pre><code>import random
+import time
+
+class Motor:
+    """물리적 모터와 그 상태를 복제한 디지털 트윈을 시뮬레이션하는 클래스"""
+    def __init__(self, motor_id):
+        self.id = motor_id
+        # 1. 물리적 세상의 실제 모터 상태
+        self.physical_rpm = 0
+        self.physical_temp = 20.0
+        # 2. 클라우드 상의 가상 모터 (디지털 트윈) 상태
+        self.digital_twin_rpm = 0
+        self.digital_twin_temp = 20.0
+        print(f"모터({self.id}) 생성. 물리/가상 상태 초기화 완료.")
+
+    def update_physical_state(self):
+        self.physical_rpm += random.randint(-10, 50)
+        self.physical_temp += random.uniform(-1.0, 3.0)
+        if self.physical_rpm < 0: self.physical_rpm = 0
+        print(f"\n물리적 상태 변경: RPM={self.physical_rpm}, 온도={self.physical_temp:.1f}°C")
+
+    def sync_to_cloud(self):
+        print("동기화 시작: 물리적 상태 -> 클라우드 디지털 트윈")
+        self.digital_twin_rpm = self.physical_rpm
+        self.digital_twin_temp = self.physical_temp
+        print("동기화 완료!")
+    
+    def display_states(self):
+        print(f" - 물리적 상태: RPM={self.physical_rpm}, 온도={self.physical_temp:.1f}°C")
+        print(f" - 디지털 트윈: RPM={self.digital_twin_rpm}, 온도={self.digital_twin_temp:.1f}°C")
+
+# 테스트
+factory_motor = Motor("Motor-007")
+for _ in range(2):
+    factory_motor.update_physical_state()
+    factory_motor.display_states()
+    time.sleep(1)
+    factory_motor.sync_to_cloud()
+    print("동기화 후 상태:")
+    factory_motor.display_states()
+</code></pre>
+                 <p><strong>상세 풀이 및 설명:</strong> 디지털 트윈이란 현실 세계의 물리적 자산을 가상 공간에 똑같이 복제하는 기술을 의미합니다. Motor 클래스는 이를 단순화하여, `physical_` 접두사가 붙은 속성(실제 모터의 상태)과 `digital_twin_` 접두사가 붙은 속성(클라우드에 저장된 가상 모터의 상태)을 모두 가집니다. `update_physical_state`는 공장에서 모터가 실제로 돌아가면서 RPM과 온도가 변하는 물리적 현상을 시뮬레이션합니다. `sync_to_cloud`는 모터에 부착된 센서가 현재 상태를 읽어 클라우드로 전송하는 '동기화' 과정을 추상화한 것입니다. 이 메서드가 호출되면, 물리적 상태 값이 디지털 트윈 상태 값으로 복사됩니다. IoT 플랫폼은 이 디지털 트윈의 데이터를 보고 모터의 상태를 원격으로 모니터링하거나, 고장 예측 AI 모델을 돌리는 등 다양한 분석 및 제어 작업을 수행할 수 있습니다.</p>
+           </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>수업 지도안: 사물 인터넷 시스템의 이해</title>
+    <style>
+        body {
+            font-family: 'Malgun Gothic', '맑은 고딕', sans-serif;
+            line-height: 1.8;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            color: #212529;
+        }
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 40px;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border: 1px solid #dee2e6;
+        }
+        h1, h2, h3, h4 {
+            color: #0056b3;
+            border-bottom: 2px solid #e9ecef;
+            padding-bottom: 10px;
+        }
+        h1 {
+            text-align: center;
+            border-bottom: 3px solid #0056b3;
+            font-size: 2em;
+            margin-bottom: 30px;
+        }
+        h2 {
+            font-size: 1.6em;
+            margin-top: 50px;
+        }
+        h3 {
+            font-size: 1.3em;
+            color: #007bff;
+            border-bottom: 1px dashed #ced4da;
+            margin-top: 30px;
+        }
+        h4 {
+            font-size: 1.1em;
+            color: #17a2b8;
+            border-bottom: none;
+            margin-top: 25px;
+        }
+        ul, ol {
+            padding-left: 25px;
+            background-color: #fdfdfd;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        .section {
+            margin-bottom: 40px;
+        }
+        .concept-box, .code-example, .quiz-section, .flow-section {
+            background-color: #f8f9fa;
+            padding: 25px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border: 1px solid #e9ecef;
+        }
+        .concept-box strong {
+            color: #0056b3;
+        }
+        pre {
+            background-color: #2b2b2b;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 5px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-family: 'D2Coding', 'Consolas', 'Monaco', monospace;
+        }
+        code {
+            font-family: 'D2Coding', 'Consolas', 'Monaco', monospace;
+            background-color: #e9ecef;
+            padding: 2px 5px;
+            border-radius: 4px;
+        }
+        blockquote {
+            border-left: 5px solid #007bff;
+            background: #f1f3f5;
+            padding: 15px;
+            margin: 20px 0;
+            font-style: italic;
+        }
+        .quiz-question {
+            margin-bottom: 25px;
+        }
+        .quiz-question .question-text {
+            font-weight: bold;
+            margin-bottom: 10px;
+            white-space: pre-line;
+        }
+        .quiz-question .options {
+            padding-left: 20px;
+        }
+        .quiz-question .answer {
+            font-weight: bold;
+            color: #28a745;
+        }
+        .explanation {
+            margin-top: 10px;
+            padding: 12px;
+            background-color: #e7f3fe;
+            border-left: 5px solid #007bff;
+            font-size: 0.95em;
+        }
+        .sub-section {
+            margin-top:20px;
+            padding-left: 15px;
+            border-left: 3px solid #007bff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>과학고 정보 수업 지도안</h1>
+        <h2>I. 컴퓨팅 시스템 - 131. 사물 인터넷 시스템의 이해</h2>
+
+        <div class="section">
+            <h2>1. 학습 목표</h2>
+            <h3>개념적 목표</h3>
+            <ul>
+                <li>사물 인터넷 '시스템'을 구성하는 핵심 요소(임베디드 시스템, 네트워크, 플랫폼, 응용)를 구분하고 각자의 역할을 설명할 수 있다.</li>
+                <li>임베디드 시스템의 핵심인 마이크로컨트롤러 유닛(MCU)의 개념과 펌웨어(Firmware)의 역할을 이해한다.</li>
+                <li>IoT 플랫폼이 디바이스 관리, 데이터 수집/처리, 규칙 엔진 실행, API 제공 등 시스템의 '중앙 관제소' 역할을 수행함을 설명할 수 있다.</li>
+                <li>IoT 시스템 내에서 데이터가 '생성-수집-처리-분석-응용'되는 전체적인 흐름과 상호작용을 설명할 수 있다.</li>
+                <li>IoT 시스템 설계 시 고려해야 할 주요 사항(저전력, 실시간성, 보안, 확장성)을 이해한다.</li>
+            </ul>
+            <h3>절차적 목표</h3>
+            <ul>
+                <li>Python 클래스를 사용하여 센서와 액추에이터를 갖춘 간단한 임베디드 기기의 동작(펌웨어)을 시뮬레이션할 수 있다.</li>
+                <li>데이터를 JSON 형식으로 패키징하여 가상의 플랫폼으로 전송하는 코드를 작성할 수 있다.</li>
+                <li>수신된 데이터를 저장하고, 특정 규칙에 따라 다른 장치에 명령을 내리는 IoT 플랫폼의 핵심 로직을 구현할 수 있다.</li>
+                <li>플랫폼이 제공하는 API를 호출하여 데이터를 조회하는 사용자 애플리케이션의 동작을 코드로 구현할 수 있다.</li>
+            </ul>
+            <h3>태도적 목표</h3>
+            <ul>
+                <li>하나의 문제를 해결하기 위해 하드웨어, 소프트웨어, 네트워크 등 여러 요소가 유기적으로 협력해야 함을 인지하고 시스템적 사고(Systems Thinking)를 기른다.</li>
+                <li>단순한 코딩을 넘어, 실제 세계와 상호작용하는 시스템을 설계하고 구현하는 과정에 흥미와 자신감을 가진다.</li>
+                <li>시스템의 안정성과 효율성을 높이기 위해 저전력 설계, 보안 등 다양한 제약 조건을 고려하는 공학적 문제 해결 태도를 함양한다.</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>2. 핵심 개념 상세 설명</h2>
+            <div class="concept-box">
+                <h3>임베디드 시스템 (Embedded System) / 펌웨어 (Firmware)</h3>
+                <p><strong>임베디드 시스템:</strong> IoT '사물'의 두뇌 역할을 하는 작은 컴퓨터 시스템. 특정 기능만을 수행하도록 설계되며, 보통 **마이크로컨트롤러 유닛(MCU)**을 중심으로 구성됩니다. MCU는 CPU, 메모리(RAM, Flash), 입출력 포트가 하나의 칩에 통합된 형태입니다. (예: 아두이노, 라즈베리 파이 피코)</p>
+                <p><strong>펌웨어:</strong> 이 임베디드 시스템 하드웨어를 제어하기 위해 작성된 소프트웨어. MCU의 플래시 메모리에 기록되어 전원이 꺼져도 지워지지 않습니다. 펌웨어의 주된 역할은 ① 센서 값을 주기적으로 읽고, ② 특정 조건에 따라 액추에이터를 제어하며, ③ 네트워크를 통해 외부와 통신하는 것입니다.</p>
+            </div>
+            <div class="concept-box">
+                <h3>IoT 플랫폼 (IoT Platform)</h3>
+                <p>수많은 IoT 기기를 중앙에서 연결하고 관리하며, 데이터를 수집, 저장, 분석하고, 이를 기반으로 서비스를 제공하는 클라우드 기반의 통합 소프트웨어 환경입니다. IoT 시스템의 핵심적인 '두뇌'이자 '관제탑'입니다.</p>
+                <h4>주요 기능:</h4>
+                <ul>
+                    <li><strong>디바이스 관리 (Device Management):</strong> 수많은 장치를 등록, 인증하고 상태를 모니터링하며 원격으로 펌웨어를 업데이트합니다.</li>
+                    <li><strong>데이터 수집 및 저장 (Data Ingestion & Storage):</strong> 장치로부터 오는 대용량의 데이터를 안정적으로 수신(주로 MQTT 브로커를 통해)하고, 이를 데이터베이스에 저장합니다.</li>
+                    <li><strong>규칙 엔진 (Rule Engine):</strong> 'IF-THEN' 기반의 규칙을 설정하여, 특정 데이터가 수신되면 자동으로 정해진 동작(알림, 다른 장치 제어 등)을 수행합니다.</li>
+                    <li><strong>데이터 분석 및 시각화 (Analytics & Visualization):</strong> 저장된 데이터를 분석하여 의미 있는 통찰을 얻고, 이를 대시보드의 그래프나 차트로 시각화하여 보여줍니다.</li>
+                    <li><strong>API 제공 (API Provisioning):</strong> 플랫폼의 데이터나 기능을 외부 응용 프로그램(스마트폰 앱 등)이 안전하게 사용할 수 있도록 인터페이스를 제공합니다.</li>
+                </ul>
+            </div>
+            <div class="concept-box">
+                <h3>시스템 통합 (System Integration)</h3>
+                <p>위의 요소들이 어떻게 유기적으로 연결되어 하나의 목표를 위해 동작하는지에 대한 이해입니다. 데이터는 **디바이스(펌웨어)**에서 생성되어 **네트워크**를 통해 **플랫폼**으로 전송됩니다. 플랫폼은 이 데이터를 **규칙 엔진**으로 분석하여 제어 명령을 생성하고, 다시 **네트워크**를 통해 **디바이스(펌웨어)**의 액추에이터로 전달합니다. 동시에 플랫폼은 **API**를 통해 **사용자 애플리케이션**과 통신하여 현재 상태를 보여주거나 사용자로부터 직접 제어 명령을 받습니다. 이 모든 흐름을 이해하는 것이 사물 인터넷 '시스템'을 이해하는 것입니다.</p>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>3. 수업의 흐름</h2>
+            <div class="flow-section">
+                <h3>(도입) 수업을 시작하며 (5분)</h3>
+                <p>인사 및 전시 학습 확인 (IoT의 사회적 영향)</p>
+                <blockquote>"단순함은 궁극의 정교함이다." - 레오나르도 다빈치</blockquote>
+                <p>"여러분, 르네상스의 거장 다빈치는 가장 정교한 작품은 오히려 단순해 보인다고 말했습니다. 우리가 스마트폰 터치 한 번으로 집 안의 모든 불을 끄는 '단순한' 경험 뒤에는, 사실 수많은 부품과 소프트웨어, 네트워크가 정교하게 얽혀있는 복잡한 '시스템'이 숨어있습니다. 오늘은 바로 그 정교한 시스템의 설계도를 함께 그려보는 시간입니다. 하나의 아이디어가 어떻게 하드웨어, 펌웨어, 클라우드, 앱으로 구현되는지, 그 전체 과정을 이해하며 우리도 미래의 설계자가 되어 봅니다."</p>
+            </div>
+
+            <div class="flow-section">
+                <h3>(전개) 핵심 개념 탐구 (30분)</h3>
+                <h4>Stage 1: 사물의 영혼을 만들다 - 임베디드 시스템과 펌웨어 (10분)</h4>
+                <p>IoT 기기의 핵심인 MCU를 '작은 두뇌', 펌웨어를 그 두뇌 속 '생각의 흐름'에 비유합니다.</p>
+                <p>펌웨어의 기본 구조인 '무한 루프(Infinite Loop)'를 설명합니다: 설정 -> 루프 시작 -> 센서 읽기 -> 상태 판단 -> 액추에이터 동작 -> 통신 -> 잠시 대기 -> 루프 처음으로.</p>
+                <p>과학 예시 코드: 다윈이 비글호 항해에서 사용했던 크로노미터처럼, 주기적으로 데이터를 측정하고 상태를 유지하는 임베디드 기기의 펌웨어 동작을 시뮬레이션합니다.</p>
+                <pre><code>import time
+import random
+
+class ChronometerDevice: # 크로노미터를 모델링한 임베디드 기기
+    def __init__(self, location_id):
+        # 1. 설정 (Setup)
+        self.id = location_id
+        self.temperature_sensor = {"value": 15.0} # 가상 센서
+        self.heater_actuator = {"is_on": False} # 가상 액추에이터 (온도 유지용)
+        print(f"[{self.id}] 펌웨어 시작. 장치 초기화 완료.")
+
+    def run_firmware_loop(self):
+        # 2. 무한 루프 (Loop)
+        while True:
+            # 2a. 센서 읽기
+            current_temp = self.temperature_sensor["value"] + random.uniform(-0.5, 0.5)
+            print(f" -> 센서 읽기: 현재 온도 {current_temp:.2f}°C")
+            
+            # 2b. 상태 판단
+            if current_temp < 10.0 and not self.heater_actuator["is_on"]:
+                # 2c. 액추에이터 동작
+                self.heater_actuator["is_on"] = True
+                print(" -> 액추에이터 동작: 온도가 너무 낮아 히터를 켭니다.")
+            elif current_temp > 12.0 and self.heater_actuator["is_on"]:
+                self.heater_actuator["is_on"] = False
+                print(" -> 액추에이터 동작: 온도가 안정되어 히터를 끕니다.")
+            
+            # 2d. 통신 (다음 단계에서 구현)
+            # self.send_to_platform(...)
+
+            # 2e. 잠시 대기 (전력 소모 감소)
+            time.sleep(2)
+
+# 시뮬레이션 실행 (실제로는 무한루프이므로 여기서는 예시로 1회만 호출)
+# chronometer = ChronometerDevice("HMS-Beagle-Chronometer")
+# chronometer.run_firmware_loop() # 이 코드를 실행하면 2초마다 계속 출력됨
+print("1. [펌웨어] 임베디드 기기는 위와 같은 무한 루프를 통해 독립적으로 동작합니다.")</code></pre>
+                <p><strong>상세 설명:</strong> 이 코드는 펌웨어의 핵심인 '무한 루프'와 '상태 기반 제어'를 보여줍니다. run_firmware_loop 메서드 안의 while True는 전원이 켜져 있는 동안 계속 반복되는 펌웨어의 동작을 나타냅니다. 루프 안에서는 센서 값을 읽고, if-elif 조건문을 통해 현재 온도와 히터 상태를 모두 고려하여 판단을 내리고, 그에 따라 액추에이터의 상태를 변경합니다. time.sleep()은 실제 임베디드 시스템에서 배터리를 아끼기 위해 잠시 '수면 모드'로 들어가는 것을 흉내 냅니다.</p>
+
+                <h4>Stage 2: 데이터를 중앙으로 모으다 - 플랫폼과의 연동 (10분)</h4>
+                <p>개별 기기들이 수집한 데이터를 어떻게 중앙에서 통합 관리하는지 설명하며, IoT 플랫폼의 필요성을 강조합니다. 기기(Device)가 플랫폼에 데이터를 보내는 과정(상향링크, Uplink)과 플랫폼이 기기에 명령을 내리는 과정(하향링크, Downlink)을 설명합니다.</p>
+                <pre><code>import json
+
+class IoTPlatform: # 가상 IoT 플랫폼
+    def receive_data(self, device_id, data_json):
+        data = json.loads(data_json)
+        print(f"2. [플랫폼] '{device_id}'로부터 데이터 수신: {data}")
+        # (이후 데이터베이스 저장, 규칙 엔진 실행 등의 로직이 이어짐)
+
+class ChronometerDevice:
+    def __init__(self, location_id, platform):
+        self.id = location_id
+        self.platform = platform # 플랫폼과 연결
+        self.temperature_sensor = {"value": 15.0}
+
+    def send_to_platform(self, temp):
+        packet = {"device_id": self.id, "temperature": temp}
+        packet_json = json.dumps(packet)
+        print(" -> 통신: 플랫폼으로 데이터 전송...")
+        self.platform.receive_data(self.id, packet_json)
+        
+    def run_single_loop(self): # 1회만 실행되도록 수정
+        current_temp = self.temperature_sensor["value"] + random.uniform(-0.5, 0.5)
+        self.send_to_platform(current_temp)
+
+# 시스템 설정 및 실행
+platform = IoTPlatform()
+chronometer = ChronometerDevice("HMS-Beagle-Chronometer", platform)
+chronometer.run_single_loop()</code></pre>
+                <p><strong>상세 설명:</strong> 이 코드는 디바이스와 플랫폼 간의 '상호작용'을 보여줍니다. ChronometerDevice는 이제 platform 객체를 알고 있습니다. send_to_platform 메서드는 측정된 온도 데이터를 딕셔너리로 만들고 json.dumps로 직렬화하여, platform.receive_data 메서드를 호출함으로써 데이터를 '전송'하는 과정을 시뮬레이션합니다. IoTPlatform의 receive_data는 이 데이터를 수신하는 '엔드포인트(Endpoint)' 역할을 합니다. 이는 IoT 시스템의 가장 기본적인 데이터 상향링크(Uplink) 흐름을 나타냅니다.</p>
+                
+                <h4>Stage 3: 지능적인 자동화를 구현하다 - 규칙 엔진과 API (10분)</h4>
+                <p>플랫폼이 수신한 데이터를 어떻게 활용하는지 설명. 'IF-THEN' 형태의 규칙 엔진이 자동화의 핵심임을 강조합니다. 플랫폼의 데이터와 기능을 외부 앱에 제공하기 위한 '창구'로서 API의 역할을 설명합니다.</p>
+                <pre><code>class IoTPlatform:
+    def __init__(self):
+        self.device_data = {} # 기기별 최신 데이터 저장
+        print("3. [플랫폼] 규칙 엔진 및 API 기능 활성화.")
+
+    def receive_data(self, device_id, data_json):
+        data = json.loads(data_json)
+        self.device_data[device_id] = data # 최신 데이터 업데이트
+        print(f" - 플랫폼 DB에 '{device_id}' 데이터 저장: {data}")
+        self.run_rule_engine(device_id, data) # 데이터 수신 시 규칙 엔진 실행
+
+    def run_rule_engine(self, device_id, data):
+        temp = data.get("temperature")
+        if temp is not None and temp > 18.0:
+            print(f" - 규칙 엔진 발동! ({device_id} 온도: {temp}°C > 18°C)")
+            print(" - ACTION: 관리자에게 '고온 경보' 알림 전송!")
+
+    def get_device_status_api(self, device_id):
+        print(f"4. [API] '{device_id}'의 상태 조회 API 호출됨.")
+        return self.device_data.get(device_id, {"error": "Device not found"})
+
+class UserApplication:
+    def view_status(self, platform, device_id):
+        print(f"\n - 앱: '{device_id}'의 현재 상태를 플랫폼에 요청합니다.")
+        status = platform.get_device_status_api(device_id)
+        print(f" - 앱: 응답 수신 -> {status}")
+
+# 시스템 재설정 및 실행
+platform = IoTPlatform()
+chronometer = ChronometerDevice("HMS-Beagle-Chronometer", platform)
+app = UserApplication()
+
+# 데이터 수신 및 규칙 엔진 발동
+chronometer.send_to_platform(19.5)
+# API를 통한 데이터 조회
+app.view_status(platform, "HMS-Beagle-Chronometer")</code></pre>
+                 <p><strong>상세 설명:</strong> 이 코드는 플랫폼의 두 가지 핵심 기능, '규칙 엔진'과 'API'를 보여줍니다.
+                <strong>규칙 엔진:</strong> receive_data 메서드는 데이터를 저장한 후, self.run_rule_engine을 호출합니다. 이 메서드 안의 if temp > 18.0 부분이 바로 규칙이며, 조건이 맞으면 알림 전송이라는 액션을 취합니다. 이는 플랫폼이 어떻게 수동적인 데이터 저장을 넘어 능동적인 자동화를 수행하는지 보여줍니다.
+                <strong>API:</strong> get_device_status_api 메서드는 외부(여기서는 UserApplication)에서 호출할 수 있는 '창구'입니다. 앱은 이 API를 통해 플랫폼 내부에 저장된(self.device_data) 정보를 안전하게 조회할 수 있습니다. 이는 플랫폼과 응용 프로그램이 어떻게 분리되고 상호작용하는지를 보여주는 핵심 예시입니다.</p>
+            </div>
+
+            <div class="flow-section">
+                <h3>(마무리) 수업을 마치며 (5분)</h3>
+                <p>펌웨어, 네트워크 통신, 플랫폼, API, 앱으로 이어지는 데이터의 전체 여정을 다시 한번 요약하며, 각 요소가 어떻게 긴밀하게 협력하는지 강조합니다.</p>
+                <blockquote>"시스템을 설계하는 행위는, 곧 당신이 만들고 싶은 세상의 모습을 그리는 행위이다." - 도넬라 메도우즈 (시스템 과학자)</blockquote>
+                <p>"여러분, 오늘 우리는 하나의 IoT 시스템을 함께 설계하고 그 동작을 따라가 보았습니다. 시스템 과학자 도넬라 메도우즈는 시스템 설계가 세상을 그리는 행위라고 했습니다. 저전력 펌웨어를 고민하고, 효율적인 통신을 설계하며, 지능적인 규칙을 만드는 여러분의 모든 선택 하나하나가 결국 우리가 살아갈 미래 세상의 모습을 결정하게 될 것입니다. 오늘 배운 시스템적 사고를 바탕으로, 더 안전하고, 더 효율적이며, 더 인간적인 세상을 그려나가는 미래의 위대한 설계자들이 되기를 응원합니다. 수고 많으셨습니다."</p>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>4. 진단평가 (OX 퀴즈)</h2>
+            <div class="quiz-section">
+                <div class="quiz-question">
+                    <p class="question-text">1. MCU(마이크로컨트롤러 유닛)는 IoT 기기의 두뇌 역할을 하며 CPU, 메모리, 입출력 포트 등을 포함한다. (O)</p>
+                    <div class="explanation">상세 풀이: MCU는 특정 기능을 수행하는 임베디드 시스템의 핵심 부품으로, 연산을 위한 CPU, 프로그램 저장을 위한 플래시 메모리, 데이터 처리를 위한 RAM, 센서/액추에이터 연결을 위한 GPIO 포트 등이 하나의 칩에 집적되어 있습니다.</div>
+                </div>
+                <div class="quiz-question">
+                    <p class="question-text">2. 펌웨어는 한 번 설치되면 절대 업데이트할 수 없는 하드웨어의 일부이다. (X)</p>
+                    <div class="explanation">상세 풀이: 펌웨어는 하드웨어를 제어하는 '소프트웨어'입니다. 전원이 꺼져도 유지되지만, 버그를 수정하거나 기능을 추가하기 위해 원격으로 또는 직접 연결하여 업데이트(FOTA, Firmware-Over-The-Air)할 수 있습니다.</div>
+                </div>
+                <div class="quiz-question">
+                    <p class="question-text">3. IoT 플랫폼의 규칙 엔진은 주로 사용자 앱의 화면 디자인을 담당한다. (X)</p>
+                    <div class="explanation">상세 풀이: 규칙 엔진은 'IF-THEN' 기반의 자동화 로직을 담당합니다. (예: IF 온도가 30도 이상이면, THEN 에어컨을 켜라). 화면 디자인은 응용/서비스 계층의 역할입니다.</div>
+                </div>
+                <div class="quiz-question">
+                    <p class="question-text">4. IoT 기기는 수집한 데이터를 항상 JSON 형식으로만 플랫폼에 전송해야 한다. (X)</p>
+                    <div class="explanation">상세 풀이: JSON은 매우 널리 쓰이고 편리한 형식이지만, 유일한 표준은 아닙니다. 데이터 크기를 극단적으로 줄여야 하는 경우, 이진(binary) 형식의 프로토콜(예: Protocol Buffers, CBOR)을 사용하기도 합니다.</div>
+                </div>
+                <div class="quiz-question">
+                    <p class="question-text">5. API는 IoT 플랫폼의 데이터나 기능을 외부 응용 프로그램이 사용할 수 있도록 제공하는 인터페이스이다. (O)</p>
+                    <div class="explanation">상세 풀이: API는 플랫폼과 외부 세계(앱, 다른 서비스 등)를 연결하는 공식적인 '소통 창구' 역할을 합니다. 앱은 이 API를 통해 데이터를 요청하고, 플랫폼을 제어하는 명령을 보낼 수 있습니다.</div>
+                </div>
+                <div class="quiz-question">
+                    <p class="question-text">6. IoT 시스템에서 '상향링크(Uplink)'는 플랫폼이 기기로 명령을 보내는 것을 의미한다. (X)</p>
+                    <div class="explanation">상세 풀이: '상향링크'는 하위 계층에서 상위 계층으로, 즉 디바이스에서 플랫폼으로 데이터가 올라가는 것을 의미합니다. 플랫폼이 기기로 명령을 보내는 것은 '하향링크(Downlink)'라고 합니다.</div>
+                </div>
+                <div class="quiz-question">
+                    <p class="question-text">7. 펌웨어의 주된 역할 중 하나는 전력 소모를 최소화하기 위해 적절한 시점에 수면 모드(Sleep Mode)로 진입하는 것이다. (O)</p>
+                    <div class="explanation">상세 풀이: 특히 배터리로 동작하는 IoT 기기에서 저전력 설계는 매우 중요합니다. 펌웨어는 데이터를 보내거나 특정 동작을 할 때만 깨어나고, 나머지 시간에는 MCU를 수면 모드로 전환하여 전력 소모를 극적으로 줄이는 로직을 포함해야 합니다.</div>
+                </div>
+                <div class="quiz-question">
+                    <p class="question-text">8. 디바이스 관리는 IoT 플랫폼의 주요 기능 중 하나로, 수많은 기기의 상태를 모니터링하고 원격으로 업데이트하는 것을 포함한다. (O)</p>
+                    <div class="explanation">상세 풀이: 수백, 수만 개의 기기를 일일이 관리하는 것은 불가능합니다. IoT 플랫폼은 이러한 대규모 기기들을 중앙에서 효율적으로 관리하고 유지보수하는 필수적인 기능을 제공합니다.</div>
+                </div>
+                <div class="quiz-question">
+                    <p class="question-text">9. IoT 시스템 설계 시, 실시간성은 중요하지 않으며 데이터는 최대한 천천히 처리해도 괜찮다. (X)</p>
+                    <div class="explanation">상세 풀이: 자율주행차의 장애물 감지, 공장의 비상 정지 시스템 등 일부 IoT 응용에서는 수 밀리초(ms) 단위의 매우 빠른 응답, 즉 '실시간성'이 시스템의 안전과 성능을 위해 절대적으로 중요합니다.</div>
+                </div>
+                <div class="quiz-question">
+                    <p class="question-text">10. 모든 IoT 기기는 반드시 게이트웨이를 통해서만 인터넷에 연결될 수 있다. (X)</p>
+                    <div class="explanation">상세 풀이: Wi-Fi나 LTE/5G 통신 모듈을 내장한 기기는 게이트웨이 없이 직접 인터넷 공유기나 이동통신망에 연결하여 클라우드 플랫폼과 통신할 수 있습니다. 게이트웨이는 주로 저전력 근거리 통신(Zigbee, Z-Wave 등)을 사용하는 센서 노드들을 위해 사용됩니다.</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>5. 형성평가 (5지선다형)</h2>
+            <div class="quiz-section">
+                <div class="quiz-question">
+                    <p class="question-text">1. 다음 중 IoT 기기의 하드웨어를 직접 제어하며, '설정-무한루프' 구조를 가지는 소프트웨어는 무엇인가?</p>
+                    <ol><li>운영체제 (OS)</li><li>API</li><li>펌웨어 (Firmware)</li><li>컴파일러 (Compiler)</li><li>데이터베이스 (Database)</li></ol>
+                    <p class="answer">정답: ③</p>
+                    <div class="explanation">상세 풀이: 펌웨어는 특정 하드웨어(임베디드 시스템)에 종속되어 하드웨어를 제어하고, 정해진 작업을 무한히 반복하는 소프트웨어를 지칭합니다.</div>
+                </div>
+                <div class="quiz-question">
+                    <p class="question-text">2. IoT 시스템의 여러 구성 요소에 대한 비유로 가장 적절하지 않은 것은?</p>
+                    <ol><li>MCU - 기기의 작은 두뇌</li><li>펌웨어 - 두뇌 속의 생각과 반사 신경</li><li>IoT 플랫폼 - 도시의 중앙 관제탑</li><li>API - 관제탑과 시민을 연결하는 민원 창구</li><li>JSON - 관제탑의 건물 구조 설계도</li></ol>
+                    <p class="answer">정답: ⑤</p>
+                    <div class="explanation">상세 풀이: JSON은 시스템의 구성 요소 간에 데이터를 주고받을 때 사용하는 '언어' 또는 '편지 양식'에 비유하는 것이 더 적절합니다. 건물 구조 설계도는 시스템의 전체 아키텍처에 해당합니다. 나머지 비유는 각 요소의 역할을 잘 설명하고 있습니다.</div>
+                </div>
+                <div class="quiz-question">
+                    <p class="question-text">3. IoT 플랫폼의 '규칙 엔진'이 수행하는 역할로 가장 알맞은 것은?</p>
+                    <ol><li>수신된 데이터를 데이터베이스에 저장한다.</li><li>사용자가 기기 상태를 볼 수 있도록 그래프를 그려준다.</li><li>"온도가 30도 이상이면" 과 같은 특정 조건을 감지한다.</li><li>외부 앱이 플랫폼의 기능을 사용할 수 있도록 허용한다.</li><li>기기의 펌웨어를 최신 버전으로 업데이트한다.</li></ol>
+                    <p class="answer">정답: ③</p>
+                    <div class="explanation">상세 풀이: 규칙 엔진의 핵심 역할은 사전에 정의된 '규칙(Rule)'에 따라 들어온 데이터를 평가하고, 조건이 만족되면 정해진 '행동(Action)'을 자동으로 실행(trigger)하는 것입니다.</div>
+                </div>
+                <div class="quiz-question">
+                    <p class="question-text">4. 스마트폰 앱으로 집 안의 로봇 청소기를 동작시키는 과정의 데이터 흐름으로 가장 올바른 것은? (하향링크)</p>
+                    <ol><li>앱 → 플랫폼 → 네트워크 → 로봇 청소기</li><li>앱 → 로봇 청소기 → 네트워크 → 플랫폼</li><li>로봇 청소기 → 플랫폼 → 네트워크 → 앱</li><li>플랫폼 → 앱 → 로봇 청소기 → 네트워크</li><li>네트워크 → 플랫폼 → 앱 → 로봇 청소기</li></ol>
+                    <p class="answer">정답: ①</p>
+                    <div class="explanation">상세 풀이: 사용자가 앱에서 '청소 시작' 버튼을 누르면, 이 명령은 인터넷('네트워크')을 통해 '플랫폼'으로 전송됩니다. 플랫폼은 이 명령을 해석하여 해당 '로봇 청소기'가 알아들을 수 있는 제어 신호로 변환한 뒤, 다시 '네트워크'를 통해 로봇 청소기에 전달합니다.</div>
+                </div>
+                <div class="quiz-question">
+                    <p class="question-text">5. 다음 중 IoT 시스템을 설계할 때 우선적으로 고려해야 할 사항으로 가장 거리가 먼 것은?</p>
+                    <ol><li>기기의 전력 소모량</li><li>통신 데이터의 보안</li><li>시스템의 확장 가능성</li><li>기기의 화면 크기와 해상도</li><li>데이터 처리의 실시간성</li></ol>
+                    <p class="answer">정답: ④</p>
+                    <div class="explanation">상세 풀이: 대부분의 IoT 기기(센서, 액추에이터 등)는 화면이 없거나 아주 작은 상태 표시창만 가지고 있습니다. 따라서 화면 크기와 해상도는 일반적인 스마트폰이나 PC 설계와 달리, IoT 시스템 설계의 핵심 고려사항이라고 보기 어렵습니다.</div>
+                </div>
+                <div class="quiz-question">
+                    <p class="question-text">6. 아두이노(Arduino)나 라즈베리 파이 피코(Raspberry Pi Pico)는 IoT 시스템의 어떤 구성 요소에 가장 가까운가?</p>
+                    <ol><li>클라우드 플랫폼</li><li>사용자 애플리케이션</li><li>마이크로컨트롤러 유닛(MCU) 보드</li><li>네트워크 게이트웨이</li><li>API 서버</li></ol>
+                    <p class="answer">정답: ③</p>
+                    <div class="explanation">상세 풀이: 아두이노와 라즈베리 파이 피코는 MCU를 중심으로 하여 개발자가 쉽게 센서와 액추에이터를 연결하고 펌웨어를 업로드하여 테스트할 수 있도록 만든 대표적인 임베디드 시스템 개발 보드입니다.</div>
+                </div>
+                <div class="quiz-question">
+                    <p class="question-text">7. IoT 플랫폼이 해야 할 역할이 아닌 것은?</p>
+                    <ol><li>수많은 기기들의 연결을 관리하고 인증한다.</li><li>기기에서 오는 데이터를 수집하여 저장한다.</li><li>주변의 온도, 습도 등 물리량을 직접 측정한다.</li><li>저장된 데이터를 분석하여 유의미한 패턴을 찾는다.</li><li>분석된 결과를 스마트폰 앱에 전달한다.</li></ol>
+                    <p class="answer">정답: ③</p>
+                    <div class="explanation">상세 풀이: 물리량을 직접 측정하는 것은 '센서'의 역할이며, 이는 감지 계층에 속합니다. IoT 플랫폼은 이렇게 측정된 '디지털 데이터'를 받아서 처리하고 관리하는 역할을 합니다.</div>
+                </div>
+                <div class="quiz-question">
+                    <p class="question-text">8. 펌웨어의 무한 루프 안에서 time.sleep()과 같은 대기 함수를 사용하는 주된 이유는?</p>
+                    <ol><li>코드 실행 속도를 일부러 늦추기 위해</li><li>다음 센서 측정까지 CPU를 쉬게 하여 전력 소모를 줄이기 위해</li><li>인터넷 연결이 안정될 때까지 기다리기 위해</li><li>사용자에게 생각할 시간을 주기 위해</li><li>운영체제의 스케줄러에게 제어권을 넘기기 위해</li></ol>
+                    <p class="answer">정답: ②</p>
+                    <div class="explanation">상세 풀이: 배터리로 동작하는 많은 IoT 기기들에게 전력 소모는 매우 중요한 문제입니다. 1초에 한 번만 측정하면 되는 센서가 1초 내내 CPU를 100% 사용하고 있을 필요가 없습니다. 측정이 끝나면 sleep()을 통해 MCU를 저전력 '수면 모드'로 전환하여 배터리 사용 시간을 크게 늘릴 수 있습니다.</div>
+                </div>
+                <div class="quiz-question">
+                    <p class="question-text">9. 다음은 스마트 팩토리의 데이터 흐름을 나타낸 것이다. 괄호 안에 들어갈 가장 적절한 요소는?
+컨베이어 벨트 센서 → ( ) → 클라우드 플랫폼 → 공장 관리자 대시보드</p>
+                    <ol><li>액추에이터</li><li>게이트웨이</li><li>API</li><li>펌웨어</li><li>사용자</li></ol>
+                    <p class="answer">정답: ②</p>
+                    <div class="explanation">상세 풀이: 공장 환경에서는 수백 개의 센서가 근거리 통신을 사용할 수 있습니다. 이 센서들의 데이터를 하나로 모아 대표로 인터넷(클라우드 플랫폼)에 연결해주는 역할을 하는 것이 바로 '게이트웨이'입니다.</div>
+                </div>
+                <div class="quiz-question">
+                    <p class="question-text">10. 내가 직접 만든 날씨 앱이 기상청의 서버에 접속하여 현재 온도 데이터를 받아온다. 이 과정에 대한 설명으로 가장 올바른 것은?</p>
+                    <ol><li>내 앱이 기상청 서버의 '펌웨어'를 실행했다.</li><li>내 앱이 기상청 서버의 'API'를 호출했다.</li><li>내 앱이 기상청 서버의 'MCU'를 제어했다.</li><li>내 앱이 기상청 서버의 '규칙 엔진'을 수정했다.</li><li>내 앱이 기상청 서버의 '게이트웨이'가 되었다.</li></ol>
+                    <p class="answer">정답: ②</p>
+                    <div class="explanation">상세 풀이: 기상청 서버(플랫폼)는 외부 사용자들이 날씨 데이터를 이용할 수 있도록 API를 제공합니다. 내 앱은 이 API의 정해진 규칙에 따라 요청을 보내고, 약속된 형식(주로 JSON)으로 데이터를 받아와 화면에 표시하는 것입니다.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>6. 코딩 실습 예제</h2>
+            <!-- 코딩 예제들 여기에 추가 -->
+        </div>
+    </div>
+</body>
+</html>

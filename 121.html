@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>수업 지도안: 사물 인터넷의 개념</title>
+    <style>
+        body {
+            font-family: 'Malgun Gothic', '맑은 고딕', sans-serif;
+            line-height: 1.8;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            color: #212529;
+        }
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 40px;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border: 1px solid #dee2e6;
+        }
+        h1, h2, h3, h4 {
+            color: #0056b3;
+            border-bottom: 2px solid #e9ecef;
+            padding-bottom: 10px;
+        }
+        h1 {
+            text-align: center;
+            border-bottom: 3px solid #0056b3;
+            font-size: 2em;
+            margin-bottom: 30px;
+        }
+        h2 {
+            font-size: 1.6em;
+            margin-top: 50px;
+        }
+        h3 {
+            font-size: 1.3em;
+            color: #007bff;
+            border-bottom: 1px dashed #ced4da;
+            margin-top: 30px;
+        }
+        h4 {
+            font-size: 1.1em;
+            color: #17a2b8;
+            border-bottom: none;
+            margin-top: 25px;
+        }
+        ul, ol {
+            padding-left: 25px;
+            background-color: #fdfdfd;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        .section {
+            margin-bottom: 40px;
+        }
+        .concept-box, .code-example, .quiz-section, .flow-section {
+            background-color: #f8f9fa;
+            padding: 25px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border: 1px solid #e9ecef;
+        }
+        .concept-box strong {
+            color: #0056b3;
+        }
+        pre {
+            background-color: #2b2b2b;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 5px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-family: 'D2Coding', 'Consolas', 'Monaco', monospace;
+        }
+        code {
+            font-family: 'D2Coding', 'Consolas', 'Monaco', monospace;
+            background-color: #e9ecef;
+            padding: 2px 5px;
+            border-radius: 4px;
+        }
+        blockquote {
+            border-left: 5px solid #007bff;
+            background: #f1f3f5;
+            padding: 15px;
+            margin: 20px 0;
+            font-style: italic;
+        }
+        .quiz-question {
+            margin-bottom: 25px;
+        }
+        .quiz-question .question-text {
+            font-weight: bold;
+            margin-bottom: 10px;
+            white-space: pre-line;
+        }
+        .quiz-question .options {
+            padding-left: 20px;
+        }
+        .quiz-question .answer {
+            font-weight: bold;
+            color: #28a745;
+        }
+        .explanation {
+            margin-top: 10px;
+            padding: 12px;
+            background-color: #e7f3fe;
+            border-left: 5px solid #007bff;
+            font-size: 0.95em;
+        }
+        .sub-section {
+            margin-top:20px;
+            padding-left: 15px;
+            border-left: 3px solid #007bff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>과학고 정보 수업 지도안: I. 컴퓨팅 시스템 - 121. 사물 인터넷의 개념</h1>
+
+        <div class="section">
+            <h2>1. 학습 목표</h2>
+            <h3>개념적 목표:</h3>
+            <ul>
+                <li>사물 인터넷(IoT)을 '사물', '센서/액추에이터', '연결', '플랫폼'의 4가지 핵심 요소로 분해하여 그 개념을 설명할 수 있다.</li>
+                <li>인간의 개입 없이 사물들이 스스로 데이터를 수집하고, 통신하며, 상황을 판단하여 서비스를 제공하는 IoT의 특징을 이해한다.</li>
+                <li>기존의 인터넷이 '사람' 중심의 연결이었다면, 사물 인터넷은 '사물'까지 연결을 확장한 개념임을 설명할 수 있다.</li>
+                <li>스마트 홈, 스마트 팩토리, 스마트 팜 등 다양한 IoT 응용 분야와 그로 인해 창출되는 가치를 이해한다.</li>
+                <li>사물 인터넷 시대의 중요한 과제인 '보안'과 '프라이버시' 문제의 중요성을 설명할 수 있다.</li>
+            </ul>
+            <h3>절차적 목표:</h3>
+            <ul>
+                <li>Python 클래스를 사용하여 센서(데이터 수집)와 액추에이터(동작 수행)의 동작을 각각 시뮬레이션할 수 있다.</li>
+                <li>센서로부터 수집된 데이터를 특정 조건에 따라 판단하여 액추에이터를 동작시키는 간단한 IoT 시스템을 코드로 구현할 수 있다.</li>
+                <li>딕셔너리 자료구조를 이용해 여러 IoT 장치의 상태를 관리하고, 특정 장치의 상태를 조회하는 프로그램을 작성할 수 있다.</li>
+                <li>시간에 따라 변화하는 환경 데이터를 시뮬레이션하고, 그에 따라 IoT 장치가 자동으로 반응하는 로직을 구현할 수 있다.</li>
+            </ul>
+            <h3>태도적 목표:</h3>
+            <ul>
+                <li>일상의 불편함을 개선하기 위해 주변 사물에 IT 기술을 접목하려는 창의적이고 융합적인 사고를 기른다.</li>
+                <li>데이터에 기반한 자동화된 의사결정의 효율성과 가치를 인식한다.</li>
+                <li>기술의 발전이 가져올 사회적, 윤리적(보안, 프라이버시) 문제에 대해 비판적으로 사고하고 책임감 있는 자세를 가진다.</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>2. 핵심 개념 상세 설명</h2>
+            <div class="concept-box">
+                <p><strong>사물 인터넷(IoT, Internet of Things):</strong> 각종 사물(Things)에 센서(Sensor)와 통신 기능(Connectivity)을 내장하여 인터넷에 연결하는 기술. 이를 통해 사물이 데이터를 수집, 생성하고 서로 주고받으며, 인간의 최소한의 개입으로 또는 개입 없이 특정 작업을 수행하는 지능형 기술 및 서비스를 의미합니다. 이는 단순히 사물을 인터넷에 연결하는 것을 넘어, 연결된 사물들이 만들어내는 '데이터'를 활용하여 새로운 '가치'와 '서비스'를 창출하는 데 핵심이 있습니다.</p>
+                <h3>핵심 구성 요소:</h3>
+                <p><strong>사물 (Things) / 장치 (Device):</strong> IoT의 가장 기본 단위. 기존의 컴퓨터, 스마트폰뿐만 아니라 시계, 전구, 자동차, 화분, 문 잠금장치 등 인터넷 연결 기능이 없던 모든 물리적 객체가 해당됩니다. 이 사물에는 센서나 액추에이터, 그리고 통신 모듈이 내장됩니다.</p>
+                <p><strong>센서 (Sensor)와 액추에이터 (Actuator):</strong></p>
+                <ul>
+                    <li><strong>센서:</strong> 물리적 환경으로부터 데이터를 측정하고 수집하는 장치. 인간의 '오감'과 같은 역할을 합니다. (예: 온도 센서, 습도 센서, 조도(빛) 센서, 동작 감지 센서, GPS)</li>
+                    <li><strong>액추에이터:</strong> 제어 신호를 받아 물리적인 동작을 수행하는 장치. 인간의 '근육'이나 '손/발'과 같은 역할을 합니다. (예: 전구 켜고 끄기, 모터 돌리기, 밸브 열고 닫기, 스피커로 소리 내기)</li>
+                </ul>
+                <p><strong>연결성 (Connectivity):</strong> 센서가 수집한 데이터를 외부로 전송하고, 액추에이터가 제어 신호를 받기 위한 네트워크 연결. Wi-Fi, 블루투스, LTE, 5G, 그리고 저전력 장거리 통신 기술인 LoRaWAN 등 다양한 유무선 통신 기술이 사용됩니다.</p>
+                <p><strong>데이터 처리 플랫폼 (Platform / Cloud):</strong> 수많은 IoT 장치로부터 수집된 방대한 데이터(빅데이터)를 저장, 처리, 분석하고, 분석된 결과에 따라 지능적인 판단을 내리는 두뇌 역할을 하는 부분. 보통 클라우드 컴퓨팅 환경에 구축됩니다. 사용자는 이 플랫폼을 통해 제공되는 앱이나 웹으로 전체 시스템을 모니터링하고 제어할 수 있습니다.</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>3. 수업의 흐름</h2>
+            <div class="flow-section">
+                <h3>(도입) 수업을 시작하며 (5분)</h3>
+                <blockquote>"가장 심오한 기술은 사라지는 기술이다. 그 기술들은 일상의 직물 속으로 짜여 들어가, 더 이상 그것과 구별할 수 없게 될 때까지 존재한다." - 마크 와이저 (유비쿼터스 컴퓨팅의 창시자)</blockquote>
+                <p>"여러분, '유비쿼터스 컴퓨팅의 아버지'라 불리는 마크 와이저는 기술의 최종 목표가 우리 삶 속에 공기처럼 스며들어 보이지 않게 되는 것이라고 했습니다. 아침에 눈을 뜨면 커튼이 저절로 열리고, 내가 좋아하는 온도로 커피가 준비되는 세상. 이 모든 것이 가능한 이유는 바로 오늘 배울 '사물 인터넷', 즉 IoT 덕분입니다. 오늘은 우리 주변의 모든 사물에 어떻게 생명을 불어넣고, 서로 대화하게 만드는지 그 비밀을 파헤쳐 보겠습니다."</p>
+            </div>
+            <div class="flow-section">
+                <h3>(전개) 핵심 개념 탐구 (30분)</h3>
+                <div class="sub-section">
+                    <h4>사물에 감각을 부여하다: 센서 (8분)</h4>
+                    <p>IoT의 첫 단계는 '감지'임을 강조. 인간의 오감(시각, 청각, 후각, 미각, 촉각)과 다양한 센서(카메라, 마이크, 가스 센서, 온도 센서, 압력 센서 등)를 비교하여 설명합니다. 센서는 아날로그 세상의 정보를 디지털 데이터로 변환하는 '번역가'임을 설명합니다.</p>
+                    <p><strong>과학 예시 코드:</strong> 갈릴레오가 만들었던 온도계의 원리를 현대적으로 해석하여, 온도 변화를 감지하는 가상 온도 센서 클래스를 작성합니다.</p>
+                    <pre><code>import random
+
+class GalileoThermometer:
+    def __init__(self, location):
+        self.location = location
+        self._temperature = 20.0 # 내부의 실제 온도 값 (초기값)
+    
+    def read_temperature(self):
+        # 외부 환경에 따라 온도가 미세하게 변하는 것을 시뮬레이션
+        self._temperature += random.uniform(-0.5, 0.5)
+        print(f"[{self.location}] 현재 온도: {self._temperature:.2f} °C")
+        return round(self._temperature, 2)
+
+# 실험실에 온도 센서 설치
+lab_sensor = GalileoThermometer(location="실험실 A")
+# 주기적으로 온도 데이터 수집
+for _ in range(3):
+    lab_sensor.read_temperature()</code></pre>
+                    <p><strong>상세 설명:</strong> 이 코드는 IoT의 '센서' 부분을 추상화합니다. GalileoThermometer 클래스는 하나의 사물(온도계)을 의미합니다. read_temperature 메서드는 물리적 온도 변화를 random.uniform을 이용한 수치 변화로 시뮬레이션하고, 그 결과를 디지털 데이터(숫자 값)로 반환합니다. 이는 센서가 주변 환경의 아날로그 정보를 측정하여 컴퓨터가 처리할 수 있는 디지털 데이터로 변환하는 핵심 과정을 보여줍니다.</p>
+                </div>
+                <div class="sub-section">
+                    <h4>사물에 행동을 부여하다: 액추에이터 (8분)</h4>
+                    <p>데이터를 기반으로 한 '행동'의 중요성을 설명합니다. 센서가 '입'이라면 액추에이터는 '손과 발'에 비유합니다. 스마트 전구(켜고 끄기), 스마트 밸브(열고 닫기) 등을 예로 들어 액추에이터의 역할을 설명합니다.</p>
+                    <p><strong>실생활 예시 코드:</strong> 특정 조건에 따라 동작하는 스마트 창문(액추에이터) 클래스를 작성합니다.</p>
+                    <pre><code>class SmartWindowActuator:
+    def __init__(self):
+        self.is_open = False # 창문 상태 (초기값: 닫힘)
+
+    def open(self):
+        if not self.is_open:
+            self.is_open = True
+            print("ACTION: 창문을 엽니다. (환기 시작)")
+
+    def close(self):
+        if self.is_open:
+            self.is_open = False
+            print("ACTION: 창문을 닫습니다.")
+
+window_actuator = SmartWindowActuator()
+# 외부 신호에 따라 동작
+print("이산화탄소 농도가 높아짐...")
+window_actuator.open()
+print("비가 내리기 시작함...")
+window_actuator.close()</code></pre>
+                    <p><strong>상세 설명:</strong> SmartWindowActuator 클래스는 제어 신호에 따라 물리적 동작을 수행하는 '액추에이터'를 모델링합니다. open()과 close() 메서드는 각각 '열어라', '닫아라'는 외부 명령에 해당하며, 내부 상태 변수 self.is_open을 변경하고 동작 메시지를 출력함으로써 실제 사물의 상태 변화를 시뮬레이션합니다. 이는 IoT 시스템의 최종 단계인 '제어'와 '행동'을 코드로 표현한 것입니다.</p>
+                </div>
+                <div class="sub-section">
+                    <h4>전체를 연결하고 지능을 부여하다: IoT 시스템 (14분)</h4>
+                    <p>센서와 액추에이터, 그리고 이들을 연결하는 네트워크와 판단 로직(플랫폼)이 합쳐져 하나의 IoT 시스템이 됨을 설명합니다. '스마트 팜'을 예로 들어, 토양 습도 센서가 데이터를 수집하고 -> 클라우드 플랫폼이 "물이 부족하다"고 판단하면 -> 스프링클러(액추에이터)를 동작시키는 전체 흐름을 설명합니다.</p>
+                    <p><strong>종합 예시 코드:</strong> 센서와 액추에이터를 모두 포함하는 '스마트 팜 관리 시스템' 클래스를 작성합니다.</p>
+                    <pre><code>class SmartFarmSystem:
+    def __init__(self, location):
+        print(f"\n--- {location} 스마트 팜 시스템 가동 ---")
+        # 이 시스템은 두 종류의 '사물'을 가짐
+        self.humidity_sensor = self.SoilHumiditySensor()
+        self.sprinkler_actuator = self.Sprinkler()
+
+    # 센서는 시스템 내부에 정의될 수 있음 (내부 부품)
+    class SoilHumiditySensor:
+        def get_humidity(self):
+            # 실제로는 토양에 꽂힌 센서가 측정하겠지만, 여기서는 랜덤 값으로 시뮬레이션
+            return random.randint(20, 80)
+    
+    # 액추에이터도 마찬가지
+    class Sprinkler:
+        def turn_on(self):
+            print("ACTION: 스프링클러를 켭니다. (물 공급)")
+
+    def manage_farm(self):
+        # 1. 센서로부터 데이터 수집
+        humidity = self.humidity_sensor.get_humidity()
+        print(f"DATA: 현재 토양 습도 측정: {humidity}%")
+        
+        # 2. 플랫폼에서 데이터 기반 의사결정 (지능)
+        if humidity < 40:
+            print("ALERT: 토양이 너무 건조합니다. 물 공급이 필요합니다.")
+            # 3. 액추에이터에 동작 명령 전달
+            self.sprinkler_actuator.turn_on()
+        else:
+            print("STATUS: 토양 습도가 적절합니다.")
+
+# 스마트 팜 객체 생성 및 관리 실행
+my_farm = SmartFarmSystem(location="옥상 텃밭")
+for day in range(1, 4):
+    print(f"\n[ {day}일차]")
+    my_farm.manage_farm()</code></pre>
+                    <p><strong>상세 설명:</strong> 이 코드는 IoT 시스템의 전체 흐름(Sense-Process-Act)을 하나의 클래스 안에 통합하여 보여줍니다. SmartFarmSystem은 '센서'(SoilHumiditySensor)와 '액추에이터'(Sprinkler) 객체를 내부 속성으로 가집니다. manage_farm 메서드가 '플랫폼'의 역할을 합니다. ① 센서에서 데이터를 읽고(get_humidity), ② if humidity < 40: 조건문으로 상황을 '판단'하며, ③ 조건이 맞으면 액추에이터의 메서드(turn_on)를 호출하여 '행동'합니다. 이는 IoT의 완전한 사이클을 보여주는 핵심적인 예시입니다.</p>
+                </div>
+            </div>
+            <div class="flow-section">
+                <h3>(마무리) 수업을 마치며 (5분)</h3>
+                <blockquote>"사물 인터넷의 진정한 힘은, 컴퓨터가 스스로 보고, 듣고, 냄새 맡는 능력을 갖게 되어 우리가 보고, 듣고, 냄새 맡을 수 없는 것들을 이해하게 해주는 데 있다." - 케빈 애슈턴 ('사물 인터넷' 용어 창시자)</blockquote>
+                <p>"여러분, 오늘 우리는 사물에 감각과 행동 능력을 부여하는 방법을 배웠습니다. '사물 인터넷'이라는 용어를 처음 만든 케빈 애슈턴의 말처럼, IoT의 진정한 가치는 단순히 사물을 연결하는 것을 넘어, 인간의 한계를 뛰어넘는 새로운 눈과 귀를 갖게 되는 것입니다. 이 기술을 통해 여러분이 앞으로 어떤 문제를 발견하고 해결해 나갈지, 어떤 새로운 세상을 만들어갈지 기대하겠습니다. 수고 많으셨습니다."</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>4. 진단평가 (OX 퀴즈)</h2>
+            <div class="quiz-section">
+                <div class="quiz-question"><p class="question-text">1. 사물 인터넷(IoT)이란 컴퓨터와 스마트폰만을 인터넷에 연결하는 기술을 의미한다. (X)</p><div class="explanation">상세 풀이: 사물 인터넷은 컴퓨터나 스마트폰뿐만 아니라, 기존에 인터넷 기능이 없던 전구, 시계, 자동차, 화분 등 모든 종류의 '사물'을 인터넷에 연결하는 기술입니다.</div></div>
+                <div class="quiz-question"><p class="question-text">2. 온도 센서는 주변 환경의 물리적 정보를 디지털 데이터로 변환하는 역할을 한다. (O)</p><div class="explanation">상세 풀이: 센서는 온도, 빛, 압력 등 아날로그 형태의 물리적 환경 정보를 컴퓨터가 이해할 수 있는 디지털 신호(데이터)로 바꾸는 장치입니다.</div></div>
+                <div class="quiz-question"><p class="question-text">3. 액추에이터(Actuator)는 데이터를 수집하는 장치이다. (X)</p><div class="explanation">상세 풀이: 데이터를 수집하는 장치는 '센서'입니다. 액추에이터는 제어 신호를 받아 모터를 돌리거나 불을 켜는 등 실제 '동작'을 수행하는 장치입니다.</div></div>
+                <div class="quiz-question"><p class="question-text">4. 사물 인터넷 기기는 항상 인간의 직접적인 조작이 있어야만 동작한다. (X)</p><div class="explanation">상세 풀이: 사물 인터넷의 핵심 특징 중 하나는 인간의 개입 없이, 사물들이 센서 데이터에 기반하여 스스로 상황을 판단하고 자동으로 동작하는 것입니다. (예: 어두워지면 저절로 켜지는 가로등)</div></div>
+                <div class="quiz-question"><p class="question-text">5. IoT 시스템에서 수집된 방대한 데이터는 주로 클라우드 플랫폼에서 저장되고 분석된다. (O)</p><div class="explanation">상세 풀이: 수많은 기기로부터 오는 데이터를 개별 기기가 처리하기는 어렵습니다. 따라서 강력한 연산 능력과 저장 공간을 가진 클라우드 서버로 데이터를 보내 처리하고 분석하는 것이 일반적입니다.</div></div>
+                <div class="quiz-question"><p class="question-text">6. 스마트 홈은 사물 인터넷 기술의 대표적인 응용 분야 중 하나이다. (O)</p><div class="explanation">상세 풀이: 스마트 홈은 조명, 냉난방, 가전제품, 보안 장치 등 집 안의 각종 사물들을 인터넷으로 연결하여 자동화하고 원격으로 제어하는 시스템으로, IoT의 대표적인 사례입니다.</div></div>
+                <div class="quiz-question"><p class="question-text">7. IoT 환경에서는 모든 기기가 인터넷에 연결되므로 보안 문제가 중요하게 다루어진다. (O)</p><div class="explanation">상세 풀이: 집 안의 카메라, 도어락 등 민감한 기기들이 인터넷에 연결되기 때문에, 해킹을 당할 경우 심각한 사생활 침해나 안전 문제가 발생할 수 있습니다. 따라서 보안은 IoT에서 매우 중요한 요소입니다.</div></div>
+                <div class="quiz-question"><p class="question-text">8. 블루투스나 Wi-Fi는 사물 인터넷 기기를 네트워크에 연결하는 데 사용될 수 있다. (O)</p><div class="explanation">상세 풀이: IoT 기기는 데이터를 전송하기 위해 다양한 유무선 통신 기술을 사용하며, Wi-Fi, 블루투스, LTE, 5G 등은 모두 여기에 포함됩니다.</div></div>
+                <div class="quiz-question"><p class="question-text">9. 사물 인터넷의 '사물(Things)'은 반드시 전기를 사용하는 전자제품이어야 한다. (X)</p><div class="explanation">상세 풀이: '사물'은 어떤 것이든 될 수 있습니다. 예를 들어, 흙에 꽂는 토양 습도 센서나, 가축의 귀에 부착하는 건강 상태 태그처럼 전통적인 전자제품이 아닌 것들도 센서와 통신 기능만 부여하면 IoT의 '사물'이 될 수 있습니다.</div></div>
+                <div class="quiz-question"><p class="question-text">10. 액추에이터는 인간의 '오감'에, 센서는 인간의 '근육'에 비유할 수 있다. (X)</p><div class="explanation">상세 풀이: 반대로 비유되었습니다. 주변 정보를 받아들이는 센서가 인간의 '오감'에, 신호를 받아 움직이는 액추에이터가 인간의 '근육'이나 '손/발'에 해당합니다.</div></div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>5. 형성평가 (5지선다형)</h2>
+            <div class="quiz-section">
+                <div class="quiz-question">
+                    <p class="question-text">1. 다음 중 사물 인터넷(IoT)의 핵심 구성 요소로 가장 거리가 먼 것은?</p>
+                    <ol><li>센서 (Sensor)</li><li>액추에이터 (Actuator)</li><li>운영체제 (Operating System)</li><li>연결성 (Connectivity)</li><li>데이터 처리 플랫폼 (Platform)</li></ol>
+                    <p class="answer">정답: ③</p>
+                    <div class="explanation">상세 풀이: IoT 장치에 간단한 운영체제(임베디드 OS 등)가 탑재될 수는 있지만, IoT 시스템 전체를 구성하는 핵심 개념 요소는 아닙니다. IoT의 핵심은 '사물'에 '센서/액추에이터'를 달아 '연결'하여 '플랫폼'에서 데이터를 처리하고 서비스를 만드는 것입니다.</div>
+                </div>
+                <div class="quiz-question">
+                    <p class="question-text">2. 스마트 팜에서 토양의 습도를 측정하여 부족하면 자동으로 물을 뿌려주는 시스템이 있다. 여기서 물을 뿌리는 '스프링클러'는 어떤 역할을 하는가?</p>
+                    <ol><li>센서</li><li>액추에이터</li><li>플랫폼</li><li>네트워크</li><li>데이터</li></ol>
+                    <p class="answer">정답: ②</p>
+                    <div class="explanation">상세 풀이: 스프링클러는 "물이 부족하다"는 판단(제어 신호)에 따라 '물을 뿌리는' 실제 동작을 수행하므로 액추에이터에 해당합니다. 토양 습도를 측정하는 장치가 센서입니다.</div>
+                </div>
+                <div class="quiz-question">
+                    <p class="question-text">3. 사물 인터넷이 기존의 인터넷과 비교하여 갖는 가장 큰 차이점은?</p>
+                    <ol><li>유선으로만 연결된다.</li><li>연결의 대상이 사람에서 사물로 확장되었다.</li><li>오직 정보 검색만을 목적으로 한다.</li><li>속도가 훨씬 느리다.</li><li>기업에서만 사용할 수 있다.</li></ol>
+                    <p class="answer">정답: ②</p>
+                    <div class="explanation">상세 풀이: 기존 인터넷은 주로 사람이 컴퓨터나 스마트폰을 사용하여 정보를 생성하고 소비하는 '사람 중심'의 네트워크였습니다. 사물 인터넷은 여기에 더해 각종 사물까지 연결의 주체로 포함시켜 그 범위를 확장한 개념입니다.</div>
+                </div>
+                <div class="quiz-question">
+                    <p class="question-text">4. 다음 중 사물 인터넷 기술이 적용된 사례로 보기 어려운 것은?</p>
+                    <ol><li>외출 시 스마트폰 앱으로 집 안의 전등을 끄는 기능</li><li>아기의 체온을 실시간으로 부모의 스마트폰에 전송하는 스마트 기저귀</li><li>인터넷 연결 없이 CD 플레이어로 음악을 듣는 것</li><li>운전자의 졸음을 감지하여 경고음을 울리고 의자를 흔들어주는 자동차 시트</li><li>농장의 온도와 습도에 따라 자동으로 비닐하우스를 여닫는 시스템</li></ol>
+                    <p class="answer">정답: ③</p>
+                    <div class="explanation">상세 풀이: 사물 인터넷은 '인터넷 연결'을 통한 데이터 교환이 핵심입니다. 인터넷 연결 없이 독립적으로 동작하는 CD 플레이어는 사물 인터넷 기기라고 할 수 없습니다. 나머지 보기들은 모두 센서, 액추에이터, 네트워크 연결을 포함하는 IoT 사례입니다.</div>
+                </div>
+                <div class="quiz-question">
+                    <p class="question-text">5. IoT 기술이 널리 보급되면서 가장 중요하게 대두되는 사회적, 윤리적 문제점은?</p>
+                    <ol><li>기기들의 전력 소모 증가</li><li>해킹으로 인한 사생활 침해 및 보안 위협</li><li>너무 많은 종류의 기기 출시로 인한 혼란</li><li>오래된 가전제품의 폐기 문제</li><li>통신 요금의 증가</li></ol>
+                    <p class="answer">정답: ②</p>
+                    <div class="explanation">상세 풀이: 집 안의 상황을 보여주는 CCTV, 현관문 잠금장치, 개인의 건강 정보 등 매우 민감한 데이터들이 인터넷을 통해 오고 가기 때문에, 만약 이 시스템이 해킹당할 경우 심각한 사생활 침해나 물리적 위협으로 이어질 수 있습니다. 따라서 보안과 프라이버시가 가장 중요한 문제로 꼽힙니다.</div>
+                </div>
+                <div class="quiz-question">
+                    <p class="question-text">6. 다음 중 물리적인 환경 데이터를 수집하는 '센서'의 예시로 가장 적절하지 않은 것은?</p>
+                    <ol><li>조도 센서</li><li>GPS 수신기</li><li>LED 전구</li><li>가속도 센서</li><li>마이크</li></ol>
+                    <p class="answer">정답: ③</p>
+                    <div class="explanation">상세 풀이: 조도 센서는 빛의 밝기를, GPS는 위치를, 가속도 센서는 움직임을, 마이크는 소리를 데이터로 수집하는 센서입니다. LED 전구는 전기 신호를 받아 빛을 내는 '액추에이터'입니다.</div>
+                </div>
+                <div class="quiz-question">
+                    <p class="question-text">7. IoT 기기들이 수집한 대량의 데이터를 저장하고 분석하여 지능적인 판단을 내리는, 시스템의 '두뇌' 역할을 하는 곳은 어디인가?</p>
+                    <ol><li>센서</li><li>액추에이터</li><li>클라우드 플랫폼</li><li>통신 모듈</li><li>사용자 인터페이스</li></ol>
+                    <p class="answer">정답: ③</p>
+                    <div class="explanation">상세 풀이: 클라우드 플랫폼은 강력한 컴퓨팅 자원을 바탕으로 수많은 IoT 기기로부터 오는 빅데이터를 수집, 저장, 분석하고, 그 결과에 따라 다시 기기들을 제어하는 등 IoT 시스템 전체의 지능적인 처리를 담당합니다.</div>
+                </div>
+                <div class="quiz-question">
+                    <p class="question-text">8. '스마트 시티'에서 차량 흐름을 감지하여 신호등 주기를 자동으로 조절하는 시스템이 있다. 이 시스템에 대한 설명으로 틀린 것은?</p>
+                    <ol><li>도로에 설치된 차량 감지기는 센서 역할을 한다.</li><li>신호등은 액추에이터 역할을 한다.</li><li>차량 흐름 데이터는 네트워크를 통해 중앙 관제 시스템으로 전송된다.</li><li>신호등 주기를 결정하는 것은 인간의 직관에만 의존한다.</li><li>교통 체증을 완화하는 새로운 가치를 창출할 수 있다.</li></ol>
+                    <p class="answer">정답: ④</p>
+                    <div class="explanation">상세 풀이: 이 시스템의 핵심은 수집된 '데이터'에 기반하여 가장 효율적인 신호 주기를 '자동으로' 계산하고 결정하는 것입니다. 인간의 직관이 아닌 데이터 기반의 알고리즘에 의해 판단이 이루어지므로, ④번 설명은 틀렸습니다.</div>
+                </div>
+                <div class="quiz-question">
+                    <p class="question-text">9. 사물 인터넷의 '사물'이 되기 위한 필수 조건은?</p>
+                    <ol><li>반드시 화면을 가지고 있어야 한다.</li><li>고유하게 식별 가능하고 인터넷에 연결될 수 있어야 한다.</li><li>리모컨으로 조작할 수 있어야 한다.</li><li>크기가 작고 가벼워야 한다.</li><li>항상 전원에 연결되어 있어야 한다.</li></ol>
+                    <p class="answer">정답: ②</p>
+                    <div class="explanation">상세 풀이: 사물 인터넷의 '사물'은 네트워크 상에서 다른 기기들과 구별될 수 있는 고유한 식별자(IP 주소 등)를 가져야 하며, 데이터를 주고받기 위해 인터넷에 연결될 수 있는 통신 기능을 갖추는 것이 필수적입니다.</div>
+                </div>
+                <div class="quiz-question">
+                    <p class="question-text">10. 다음 중 IoT의 4단계 동작 흐름(Sense-Process-Act Cycle)을 가장 잘 표현한 것은?</p>
+                    <ol><li>제어 -> 분석 -> 연결 -> 수집</li><li>수집 -> 연결 -> 분석 -> 제어</li><li>분석 -> 수집 -> 제어 -> 연결</li><li>연결 -> 제어 -> 수집 -> 분석</li><li>수집 -> 분석 -> 연결 -> 제어</li></ol>
+                    <p class="answer">정답: ②</p>
+                    <div class="explanation">상세 풀이: IoT의 가장 기본적인 동작 흐름은 다음과 같습니다. 1. 센서가 데이터를 **수집(Sense)**한다. 2. **연결(Connectivity)**을 통해 플랫폼으로 데이터를 보낸다. 3. 플랫폼이 데이터를 **분석(Process)**하고 판단을 내린다. 4. 분석 결과에 따라 액추에이터를 **제어(Act)**하여 동작시킨다.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>6. 코딩 실습 예제</h2>
+            <div class="code-example">
+                <h4>1. 스마트 조도 센서 클래스 만들기</h4>
+                <p>주변 밝기를 측정하는 LightSensor 클래스를 작성하세요. read_light_level() 메서드를 호출하면 1~100 사이의 임의의 밝기 값(lux)을 반환하도록 시뮬레이션하세요.</p>
+                <pre><code>import random
+class LightSensor:
+    """주변 밝기(lux)를 측정하는 가상 조도 센서"""
+    def __init__(self, location):
+        self.location = location
+        print(f"'{self.location}'에 조도 센서가 설치되었습니다.")
+    def read_light_level(self):
+        """빛의 세기를 측정하여 lux 값으로 반환합니다."""
+        light_level = random.randint(1, 100)
+        print(f"[{self.location}] 현재 밝기: {light_level} lux")
+        return light_level
+# 테스트
+living_room_sensor = LightSensor("거실")
+current_light = living_room_sensor.read_light_level()</code></pre>
+                <p><strong>상세 풀이 및 설명:</strong> LightSensor 클래스는 IoT의 '사물'이자 '센서'를 나타냅니다. read_light_level 메서드는 실제 센서가 빛의 양을 전기 신호로 바꾸고 이를 수치화하는 과정을 random.randint(1, 100)로 흉내 냅니다. return 키워드로 값을 반환하는 것은, 센서가 측정한 데이터를 다른 곳으로 전달하는 과정을 추상화한 것입니다.</p>
+            </div>
+            
+            <div class="code-example">
+                <h4>2. 스마트 전구 액추에이터 클래스 만들기</h4>
+                <p>SmartBulb 클래스를 작성하세요. 이 클래스는 turn_on(), turn_off() 메서드를 가집니다. 각 메서드는 전구의 현재 상태(is_on)를 변경하고, "전구를 켭니다." 또는 "전구를 끕니다."와 같은 메시지를 출력하도록 작성하세요.</p>
+                <pre><code>class SmartBulb:
+    """외부 신호에 따라 켜지거나 꺼지는 가상 스마트 전구"""
+    def __init__(self, location):
+        self.location = location
+        self.is_on = False
+        print(f"'{self.location}'에 스마트 전구가 설치되었습니다. (현재 상태: OFF)")
+    def turn_on(self):
+        if not self.is_on:
+            self.is_on = True
+            print(f"ACTION [{self.location} 전구]: 전구를 켭니다.")
+    def turn_off(self):
+        if self.is_on:
+            self.is_on = False
+            print(f"ACTION [{self.location} 전구]: 전구를 끕니다.")
+# 테스트
+bedroom_bulb = SmartBulb("침실")
+bedroom_bulb.turn_on()
+bedroom_bulb.turn_off()</code></pre>
+                <p><strong>상세 풀이 및 설명:</strong> SmartBulb 클래스는 IoT의 '액추에이터' 역할을 하는 사물을 나타냅니다. self.is_on이라는 상태 변수를 두어 전구의 현재 켜짐/꺼짐 상태를 기록합니다. turn_on과 turn_off 메서드는 외부로부터 받는 '제어 신호'에 해당하며, 각 메서드 안의 if 조건문은 불필요한 중복 동작을 방지합니다.</p>
+            </div>
+            
+            <div class="code-example">
+                <h4>3. 자동 점등 시스템 만들기</h4>
+                <p>위에서 만든 LightSensor와 SmartBulb를 사용하여, 주변 밝기가 특정 임계값(예: 30 lux)보다 어두워지면 자동으로 전구를 켜고, 밝아지면 끄는 AutoLightingSystem 클래스를 작성하세요.</p>
+                <pre><code># 위 1, 2번에서 만든 클래스가 필요합니다.
+class AutoLightingSystem:
+    """밝기에 따라 자동으로 전구를 제어하는 시스템"""
+    def __init__(self, location):
+        print(f"\n--- {location} 자동 점등 시스템 활성화 ---")
+        self.sensor = LightSensor(location)
+        self.bulb = SmartBulb(location)
+        self.threshold = 30
+    def check_and_operate(self):
+        """밝기를 확인하고, 조건에 따라 전구를 동작시킵니다."""
+        light_level = self.sensor.read_light_level()
+        if light_level < self.threshold:
+            print(f"INFO: 밝기({light_level} lux)가 임계값({self.threshold} lux)보다 낮습니다.")
+            self.bulb.turn_on()
+        else:
+            print(f"INFO: 밝기({light_level} lux)가 충분합니다.")
+            self.bulb.turn_off()
+# 테스트
+hallway_system = AutoLightingSystem("현관")
+for _ in range(3):
+    hallway_system.check_and_operate()
+    print("-" * 10)</code></pre>
+                <p><strong>상세 풀이 및 설명:</strong> AutoLightingSystem 클래스는 센서와 액추에이터 객체를 자신의 속성으로 가짐으로써 하나의 통합된 'IoT 시스템'을 구성합니다. check_and_operate 메서드는 IoT의 전체 사이클(수집-판단-제어)을 보여줍니다. 수집(Sense): `self.sensor.read_light_level()`. 판단(Process): `if light_level < self.threshold:`. 제어(Act): `self.bulb.turn_on()` 또는 `self.bulb.turn_off()`.</p>
+            </div>
+            
+            <div class="code-example">
+                <h4>4. IoT 장치 데이터 로깅</h4>
+                <p>HeartRateMonitor 클래스를 작성하세요. measure() 메서드는 60~100 사이의 임의의 심박수를 생성합니다. 10초 동안 1초마다 심박수를 측정하여, 측정 시간과 심박수 값을 튜플 (시간, 값) 형태로 리스트에 기록하고 마지막에 전체 기록을 출력하는 프로그램을 작성하세요.</p>
+                <pre><code>import time
+import datetime
+class HeartRateMonitor:
+    """심박수를 측정하는 가상 웨어러블 센서"""
+    def measure(self):
+        return random.randint(60, 100)
+
+monitor = HeartRateMonitor()
+log_data = []
+print("10초 동안 1초 간격으로 심박수 측정을 시작합니다...")
+for i in range(10):
+    current_time = datetime.datetime.now()
+    bpm = monitor.measure()
+    log_entry = (current_time.strftime("%Y-%m-%d %H:%M:%S"), bpm)
+    log_data.append(log_entry)
+    print(f" {log_entry[0]} -> {log_entry[1]} BPM")
+    time.sleep(1)
+
+print("\n--- 측정 기록 (로그 데이터) ---")
+print(log_data)</code></pre>
+                <p><strong>상세 풀이 및 설명:</strong> 이 예제는 IoT의 핵심인 '데이터 수집'과 '기록(Logging)'에 초점을 맞춥니다. for 루프를 통해 주기적인 데이터 수집을 흉내 냅니다. datetime.datetime.now()는 데이터가 측정된 정확한 '시점'을 기록하며, 이는 시계열 데이터 분석에서 매우 중요합니다. log_data.append(...)는 측정된 시간과 값을 하나의 튜플로 묶어 리스트에 추가하는데, 이는 데이터베이스에 한 행(row)의 기록을 추가하는 것과 유사합니다.</p>
+            </div>
+            
+            <div class="code-example">
+                <h4>5. 스마트 홈 장치 관리자</h4>
+                <p>딕셔너리를 사용하여 여러 스마트 홈 장치(예: "거실 전등", "안방 에어컨")의 상태("ON" 또는 "OFF")를 관리하는 프로그램을 작성하세요. 장치 이름으로 현재 상태를 조회하는 함수와, 장치 이름과 원하는 상태를 입력받아 상태를 변경하는 함수를 각각 작성하세요.</p>
+                <pre><code>smart_home_devices = {"거실 전등": "OFF", "안방 에어컨": "ON", "현관 도어락": "LOCKED"}
+
+def get_device_status(device_name):
+    return smart_home_devices.get(device_name, "오류: 등록되지 않은 장치입니다.")
+
+def set_device_status(device_name, new_status):
+    if device_name in smart_home_devices:
+        smart_home_devices[device_name] = new_status
+        print(f"성공: '{device_name}'의 상태를 '{new_status}'(으)로 변경했습니다.")
+        return True
+    else:
+        print(f"실패: '{device_name}'는 등록되지 않은 장치입니다.")
+        return False
+        
+print("--- 현재 장치 상태 조회 ---")
+print(f"거실 전등 상태: {get_device_status('거실 전등')}")
+print(f"부엌 가스밸브 상태: {get_device_status('부엌 가스밸브')}")
+
+print("\n--- 장치 상태 변경 ---")
+set_device_status("거실 전등", "ON")
+print("\n--- 변경 후 장치 상태 ---")
+print(smart_home_devices)</code></pre>
+                 <p><strong>상세 풀이 및 설명:</strong> 이 예제는 IoT 플랫폼이 여러 장치의 상태를 어떻게 관리하는지를 딕셔너리를 통해 단순화하여 보여줍니다. smart_home_devices 딕셔너리에서 키(key)는 각 장치의 고유한 이름, 값(value)은 해당 장치의 현재 상태를 나타냅니다. get_device_status 함수는 .get() 메서드를 사용하여 키가 존재하지 않을 때 에러 대신 기본값을 반환하여 프로그램을 안정적으로 만듭니다.</p>
+           </div>
+           
+            <div class="code-example">
+                <h4>6. 원격 문 잠금 시스템</h4>
+                <p>DoorLock 액추에이터 클래스를 만드세요. lock(), unlock() 메서드와 현재 상태를 반환하는 get_status() 메서드를 가집니다. 사용자가 'lock', 'unlock', 'status' 중 하나를 입력하면 해당 동작을 수행하는 간단한 원격 제어 프로그램을 작성하세요.</p>
+                <pre><code>class DoorLock:
+    """원격 제어가 가능한 가상 도어락 액추에이터"""
+    def __init__(self):
+        self.is_locked = True
+    def lock(self): self.is_locked = True; print("ACTION: 문을 잠갔습니다.")
+    def unlock(self): self.is_locked = False; print("ACTION: 문의 잠금을 해제했습니다.")
+    def get_status(self): return "LOCKED" if self.is_locked else "UNLOCKED"
+
+my_door = DoorLock()
+while True:
+    command = input("\n명령을 입력하세요 (lock, unlock, status, exit): ").lower()
+    if command == "lock": my_door.lock()
+    elif command == "unlock": my_door.unlock()
+    elif command == "status": print(f"현재 도어락 상태: {my_door.get_status()}")
+    elif command == "exit": print("프로그램을 종료합니다."); break
+    else: print("알 수 없는 명령입니다.")</code></pre>
+                <p><strong>상세 풀이 및 설명:</strong> 이 예제는 사용자가 원격으로 IoT 기기를 제어하는 상황을 시뮬레이션합니다. while True: 무한 루프는 원격 제어 프로그램이 계속해서 명령을 기다리는 상태를 나타냅니다. if-elif-else 구조는 입력된 명령어에 따라 DoorLock 객체의 적절한 메서드를 호출하는 '명령 분배기(dispatcher)' 역할을 합니다.</p>
+            </div>
+            
+             <div class="code-example">
+                <h4>7. 온도 기반 자동 팬 제어</h4>
+                <p>실내 온도가 28도 이상이면 팬(액추에이터)을 켜고, 25도 이하로 내려가면 팬을 끄는 시스템을 시뮬레이션하세요. 현재 온도를 입력받아 팬의 동작 여부를 결정하고 메시지를 출력하는 함수를 작성하세요.</p>
+                <pre><code>class SmartFan:
+    def __init__(self): self.is_on = False
+    def turn_on(self):
+        if not self.is_on: self.is_on = True; print("ACTION: 팬을 켭니다. (온도 상승 감지)")
+    def turn_off(self):
+        if self.is_on: self.is_on = False; print("ACTION: 팬을 끕니다. (온도 하강 감지)")
+
+def control_fan_by_temp(fan_actuator, current_temp):
+    print(f"\n현재 온도: {current_temp}°C")
+    ON_THRESHOLD = 28
+    OFF_THRESHOLD = 25
+    if current_temp >= ON_THRESHOLD: fan_actuator.turn_on()
+    elif current_temp <= OFF_THRESHOLD: fan_actuator.turn_off()
+    else: print(f"INFO: 팬 상태를 유지합니다. (현재: {'ON' if fan_actuator.is_on else 'OFF'})")
+
+fan = SmartFan()
+control_fan_by_temp(fan, 24)
+control_fan_by_temp(fan, 29)
+control_fan_by_temp(fan, 27)</code></pre>
+                <p><strong>상세 풀이 및 설명:</strong> 켜지는 온도(ON_THRESHOLD)와 꺼지는 온도(OFF_THRESHOLD)를 다르게 설정한 것이 중요합니다. 만약 두 온도가 같다면(예: 28도), 온도가 28도 근처에서 미세하게 오르내릴 때마다 팬이 계속 켜졌다 꺼졌다를 반복하는 '채터링(chattering)' 현상이 발생할 수 있습니다. 이렇게 구간을 두는 것을 '히스테리시스(Hysteresis) 제어'라고 하며, 안정적인 시스템을 위해 실제 IoT에서 널리 사용되는 기법입니다.</p>
+            </div>
+            
+             <div class="code-example">
+                <h4>8. 이벤트 기반 알림 시스템</h4>
+                <p>MotionDetector 센서 클래스를 만드세요. detect() 메서드는 50%의 확률로 "움직임 감지!" 문자열을, 그렇지 않으면 None을 반환하도록 시뮬레이션하세요. 10번의 시도 중 움직임이 감지되면 "경고: 침입 발생!"이라는 알림을 출력하고 즉시 프로그램을 종료하는 코드를 작성하세요.</p>
+                <pre><code>import random
+import time
+class MotionDetector:
+    def detect(self): return "움직임 감지!" if random.random() < 0.5 else None
+
+detector = MotionDetector()
+print("보안 시스템 감시 시작...")
+for i in range(1, 11):
+    print(f"[{i}초 경과] 감시 중...")
+    event = detector.detect()
+    if event:
+        print(f"!!! {event} !!!")
+        print("경고: 침입 발생! 즉시 알림을 전송하고 시스템을 종료합니다.")
+        break
+    time.sleep(1)
+else:
+    print("\n10초 동안 아무런 움직임이 감지되지 않았습니다. 시스템 정상.")</code></pre>
+                <p><strong>상세 풀이 및 설명:</strong> 이 예제는 '이벤트 기반(Event-driven)' 프로그래밍 모델을 보여줍니다. detect 메서드는 항상 값을 반환하는 것이 아니라, 특정 조건(움직임 감지)이 만족될 때만 의미 있는 값(문자열)을 반환합니다. 메인 루프에서는 if event: 라는 간결한 코드로 이벤트 발생 여부를 확인합니다. (파이썬에서는 None이 False로 취급됨) break는 루프를 즉시 중단시키는 역할을 합니다. for-else 구문이 독특한데, 루프가 break에 의해 중단되지 않고 끝까지 모두 실행되었을 때만 else 블록이 호출됩니다.</p>
+            </div>
+            
+            <div class="code-example">
+                <h4>9. IoT 장치 등록 및 조회</h4>
+                <p>고유 ID를 가진 IoT 장치들을 딕셔너리에 등록하고 관리하는 프로그램을 작성하세요. register_device(device_id, device_type, location) 함수는 장치를 딕셔너리에 추가하고, find_device(device_id) 함수는 해당 ID의 장치 정보를 조회하여 반환하도록 하세요.</p>
+                <pre><code>device_registry = {}
+def register_device(device_id, device_type, location):
+    if device_id in device_registry:
+        print(f"오류: 장치 ID '{device_id}'는 이미 등록되어 있습니다.")
+        return False
+    device_info = {"type": device_type, "location": location, "status": "active"}
+    device_registry[device_id] = device_info
+    print(f"성공: 장치 '{device_id}' ({device_type}, {location}) 등록 완료.")
+    return True
+
+def find_device(device_id):
+    return device_registry.get(device_id, "정보 없음")
+
+register_device("TEMP-SN-001", "온도 센서", "서버실")
+register_device("TEMP-SN-001", "습도 센서", "화장실")
+print(f"\nTEMP-SN-001 정보: {find_device('TEMP-SN-001')}")
+print(f"\n전체 레지스트리: {device_registry}")</code></pre>
+                 <p><strong>상세 풀이 및 설명:</strong> device_registry 딕셔너리가 IoT 플랫폼의 '장치 관리자' 역할을 합니다. register_device 함수는 장치의 고유 식별자(device_id)를 키로 사용합니다. `if device_id in device_registry:`: 등록 전에 ID가 이미 존재하는지 확인하여, 모든 장치가 고유한 ID를 갖도록 보장합니다. 장치 정보는 'type', 'location' 등 다양한 속성을 가질 수 있으므로, 이들을 다시 딕셔너리로 묶어 값(value)으로 저장합니다.</p>
+           </div>
+           
+            <div class="code-example">
+                <h4>10. 간단한 스마트 냉장고 시뮬레이션</h4>
+                <p>SmartFridge 클래스를 만드세요. 내부에 items = {"우유": 2, "계란": 12} 와 같이 음식 재고를 딕셔너리로 가집니다. use_item(item_name) 메서드는 해당 음식의 재고를 1 감소시키고, 만약 재고가 1 이하로 떨어지면 "경고: [음식 이름] 재고가 부족합니다. 주문이 필요합니다!" 라는 메시지를 출력하도록 작성하세요.</p>
+                <pre><code>class SmartFridge:
+    def __init__(self):
+        self.items = {"우유": 2, "계란": 12, "사과": 5}
+        print(f"스마트 냉장고 재고 파악 시작. 현재 재고: {self.items}")
+
+    def use_item(self, item_name, quantity=1):
+        if item_name not in self.items or self.items[item_name] < quantity:
+            print(f"요청 실패: '{item_name}' 재고가 부족합니다.")
+            return
+
+        self.items[item_name] -= quantity
+        print(f"사용: '{item_name}' {quantity}개 사용. (남은 수량: {self.items[item_name]})")
+
+        if self.items[item_name] <= 1:
+            self.send_alert(item_name)
+
+    def send_alert(self, item_name):
+        print(f"!!! 경고 !!! '{item_name}' 재고가 거의 다 소진되었습니다. 주문이 필요합니다.")
+# 테스트
+my_fridge = SmartFridge()
+print("-" * 20)
+my_fridge.use_item("우유")
+my_fridge.use_item("우유")
+my_fridge.use_item("계란", 6)</code></pre>
+                <p><strong>상세 풀이 및 설명:</strong> 이 예제는 사물이 스스로 자신의 '상태'를 파악하고, 특정 조건이 되면 외부와 '통신'(알림)하는 IoT의 지능적인 면모를 보여줍니다. use_item 메서드는 단순히 재고를 줄이는 것에서 그치지 않고, if self.items[item_name] <= 1: 와 같이 재고 상태를 '판단'하는 로직을 포함합니다. self.send_alert(item_name): 판단 결과에 따라 특정 동작(알림 전송)을 수행합니다. 실제로는 스마트폰 푸시 알림을 보내거나, 온라인 쇼핑몰에 자동으로 주문을 넣는 등의 액션으로 이어질 수 있습니다.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
