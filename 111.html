@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>수업 지도안: 네트워크의 개념과 특성</title>
+    <style>
+        body {
+            font-family: 'Malgun Gothic', '맑은 고딕', sans-serif;
+            line-height: 1.8;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            color: #212529;
+        }
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 40px;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border: 1px solid #dee2e6;
+        }
+        h1, h2, h3, h4 {
+            color: #0056b3;
+            border-bottom: 2px solid #e9ecef;
+            padding-bottom: 10px;
+        }
+        h1 {
+            text-align: center;
+            border-bottom: 3px solid #0056b3;
+            font-size: 2em;
+            margin-bottom: 30px;
+        }
+        h2 {
+            font-size: 1.6em;
+            margin-top: 50px;
+        }
+        h3 {
+            font-size: 1.3em;
+            color: #007bff;
+            border-bottom: 1px dashed #ced4da;
+            margin-top: 30px;
+        }
+        h4 {
+            font-size: 1.1em;
+            color: #17a2b8;
+            border-bottom: none;
+            margin-top: 25px;
+        }
+        ul, ol {
+            padding-left: 25px;
+            background-color: #fdfdfd;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        .section {
+            margin-bottom: 40px;
+        }
+        .concept-box, .code-example, .quiz-section, .flow-section {
+            background-color: #f8f9fa;
+            padding: 25px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border: 1px solid #e9ecef;
+        }
+        .concept-box strong {
+            color: #0056b3;
+        }
+        pre {
+            background-color: #2b2b2b;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 5px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-family: 'D2Coding', 'Consolas', 'Monaco', monospace;
+        }
+        code {
+            font-family: 'D2Coding', 'Consolas', 'Monaco', monospace;
+            background-color: #e9ecef;
+            padding: 2px 5px;
+            border-radius: 4px;
+        }
+        blockquote {
+            border-left: 5px solid #007bff;
+            background: #f1f3f5;
+            padding: 15px;
+            margin: 20px 0;
+            font-style: italic;
+        }
+        .quiz-question {
+            margin-bottom: 25px;
+        }
+        .quiz-question .question-text {
+            font-weight: bold;
+            margin-bottom: 10px;
+            white-space: pre-line;
+        }
+        .quiz-question .options {
+            padding-left: 20px;
+        }
+        .quiz-question .answer {
+            font-weight: bold;
+            color: #28a745;
+        }
+        .explanation {
+            margin-top: 10px;
+            padding: 12px;
+            background-color: #e7f3fe;
+            border-left: 5px solid #007bff;
+            font-size: 0.95em;
+        }
+        .sub-section {
+            margin-top:20px;
+            padding-left: 15px;
+            border-left: 3px solid #007bff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>과학고 정보 수업 지도안: I. 컴퓨팅 시스템 - 111. 네트워크의 개념과 특성</h1>
+        
+        <div class="section">
+            <h2>1. 학습 목표</h2>
+            <h3>개념적 목표:</h3>
+            <ul>
+                <li>네트워크의 정의를 '노드'와 '링크'를 사용하여 설명하고, 그 존재 이유를 '자원 공유'와 '통신'의 관점에서 이해한다.</li>
+                <li>프로토콜(Protocol)의 필요성을 설명하고, TCP/IP가 인터넷 통신의 핵심 규약임을 이해한다.</li>
+                <li>IP 주소와 MAC 주소의 역할을 구분하고, 각각이 논리적 주소와 물리적 주소에 해당함을 설명할 수 있다.</li>
+                <li>네트워크의 규모에 따른 분류(LAN, WAN)의 차이점을 설명할 수 있다.</li>
+                <li>데이터가 패킷(Packet) 단위로 나뉘어 전송되는 원리를 이해한다.</li>
+            </ul>
+            <h3>절차적 목표:</h3>
+            <ul>
+                <li>주어진 IP 주소의 형식이 유효한지 Python 코드로 검증할 수 있다.</li>
+                <li>긴 데이터를 일정한 크기의 패킷으로 분할하고, 각 패킷에 순서 번호를 부여하는 과정을 코드로 구현할 수 있다.</li>
+                <li>두 개의 IP 주소가 동일한 로컬 네트워크(LAN)에 속하는지 판별하는 간단한 로직을 코드로 구현할 수 있다.</li>
+                <li>Python의 기본 자료구조(딕셔너리, 리스트)를 사용하여 간단한 네트워크 연결 상태를 표현하고 정보를 추출할 수 있다.</li>
+            </ul>
+            <h3>태도적 목표:</h3>
+            <ul>
+                <li>복잡한 시스템이 실제로는 단순한 규칙(프로토콜)들의 집합으로 이루어져 있음을 인지하고, 문제 해결에 있어 규칙과 표준의 중요성을 체감한다.</li>
+                <li>눈에 보이지 않는 정보의 흐름을 논리적으로 추상화하고 모델링하려는 태도를 가진다.</li>
+                <li>네트워크를 통해 전 세계가 연결되는 것의 기술적, 사회적 의미를 생각하고, 정보 공유와 협업의 가치를 존중하는 자세를 기른다.</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>2. 핵심 개념 상세 설명</h2>
+            <div class="concept-box">
+                <p><strong>네트워크(Network):</strong> 컴퓨터 과학에서 네트워크란, 여러 개의 독립적인 컴퓨터(또는 장치)들이 서로 통신할 수 있도록 연결된 시스템을 의미합니다. 각 장치를 <strong>노드(Node)</strong>라 하고, 이들을 연결하는 유선 또는 무선 통신 매체를 <strong>링크(Link)</strong>라고 합니다. 네트워크의 근본적인 목적은 자원의 공유(프린터, 파일, 고성능 연산 장치 등)와 정보의 교환(메시지, 이메일, 데이터 전송 등)입니다.</p>
+                <p><strong>프로토콜(Protocol):</strong> 네트워크에 연결된 장치들끼리 원활하게 통신하기 위해 지켜야 할 '통신 규약' 또는 '약속'입니다. 사람들이 서로 다른 언어를 쓰면 대화가 불가능하듯, 장치들도 같은 프로토콜을 사용해야 데이터를 정확히 주고받을 수 있습니다. 인터넷에서 가장 기본이 되는 프로토콜의 묶음을 TCP/IP라고 부릅니다.</p>
+                <p><strong>패킷(Packet):</strong> 네트워크를 통해 전송되는 데이터의 작은 조각(단위)입니다. 용량이 큰 데이터를 한 번에 보내면 중간에 오류가 발생했을 때 전체를 다시 보내야 하고, 하나의 통신이 회선을 독점하는 문제가 생깁니다. 이를 막기 위해 데이터를 잘게 쪼개어 각각에 보내는 주소, 받는 주소, 순서 번호 등의 정보를 붙여 보내는데, 이 조각 하나하나를 패킷이라고 합니다. 목적지에서는 이 패킷들을 다시 순서대로 조립하여 원본 데이터를 복원합니다.</p>
+                <p><strong>IP 주소(IP Address):</strong> 네트워크에 연결된 각 노드를 식별하기 위한 논리적인 주소입니다. 현실 세계의 '집 주소'와 비슷하여, 이 주소를 통해 특정 장치에 데이터를 보낼 수 있습니다. IP 주소는 네트워크 환경에 따라 변경될 수 있습니다. (예: 192.168.0.5, 203.247.66.140)</p>
+                <p><strong>MAC 주소(MAC Address):</strong> 네트워크 인터페이스 카드(랜카드)에 부여된 고유한 물리적 주소입니다. 제조사에서 만들 때부터 부여되며, 전 세계에서 유일한 값을 가집니다. 현실 세계의 '주민등록번호'처럼 거의 바뀌지 않는 고유 식별자입니다. (예: 00-1A-2B-3C-4D-5E)</p>
+                <p><strong>LAN(Local Area Network):</strong> '근거리 통신망'으로, 집, 학교, 사무실 등 비교적 좁은 지역에 있는 장치들을 연결하는 네트워크입니다. 일반적으로 속도가 빠르고 우리가 직접 관리하는 영역입니다.</p>
+                <p><strong>WAN(Wide Area Network):</strong> '광대역 통신망'으로, LAN과 LAN을 서로 연결하여 만들어지는 훨씬 더 넓은 범위의 네트워크입니다. 여러 도시, 국가를 연결하며, 인터넷(Internet)이 바로 전 세계적인 WAN의 가장 대표적인 예입니다.</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>3. 수업의 흐름</h2>
+            <div class="flow-section">
+                <h3>(도입) 수업을 시작하며 (5분)</h3>
+                <p>인사 및 분위기 환기</p>
+                <blockquote>"어떤 인간도 그 자체로 온전한 섬은 아니다. 모든 인간은 대륙의 한 조각이며, 전체의 일부이다." - 존 던(시인)</blockquote>
+                <p>"여러분, 영국의 시인 존 던은 모든 인간이 서로 연결된 존재임을 이렇게 표현했습니다. 오늘날 우리의 컴퓨터와 스마트폰도 마찬가지입니다. 단 한 대도 그 자체로 '온전한 섬'이 아닙니다. 모두 보이지 않는 거대한 '대륙', 즉 네트워크에 연결되어 서로 정보를 주고받으며 그 가치가 극대화됩니다. 오늘은 여러분의 손에 들린 스마트폰이 어떻게 지구 반대편의 서버와 대화하는지, 그 경이로운 연결의 기본 원리를 함께 탐험해 보겠습니다."</p>
+            </div>
+            <div class="flow-section">
+                <h3>(전개) 핵심 개념 탐구 (30분)</h3>
+                <div class="sub-section">
+                    <h4>세상은 연결되어 있다: 네트워크의 기본 (8분)</h4>
+                    <p>'노드'와 '링크'의 개념을 소개. 교실 안의 학생들을 노드, 서로 아는 관계를 링크로 비유하며 간단한 소셜 네트워크를 칠판에 그려봅니다.</p>
+                    <p>네트워크의 목적이 '자원 공유'와 '정보 교환'임을 설명합니다. (프린터 공유, 친구에게 메시지 보내기 등)</p>
+                    <p>실생활 예시 코드: Python 딕셔너리를 사용하여 친구 관계(네트워크 그래프)를 표현하고, 두 사람이 직접적인 친구인지 확인하는 함수를 작성해 봅니다.</p>
+                    <pre><code># 과학자들의 협력 관계를 네트워크로 표현 (아인슈타인은 보어, 슈뢰딩거와 토론함)
+scientist_network = {
+    "Einstein": ["Bohr", "Schrodinger"],
+    "Bohr": ["Einstein", "Heisenberg"],
+    "Schrodinger": ["Einstein"],
+    "Heisenberg": ["Bohr"]
+}
+
+def are_they_collaborators(network, person1, person2):
+    # person1의 협력자 목록에 person2가 있는지 확인
+    if person1 in network and person2 in network[person1]:
+        return True
+    return False
+
+p1, p2 = "Einstein", "Bohr"
+if are_they_collaborators(scientist_network, p1, p2):
+    print(f"{p1}와 {p2}는 직접적인 협력 관계입니다.")
+else:
+    print(f"{p1}와 {p2}는 직접적인 협력 관계가 아닙니다.")
+</code></pre>
+                    <p>상세 설명: 이 코드는 딕셔너리를 이용해 네트워크의 '연결 상태'를 표현하는 방법을 보여줍니다. 각 과학자(노드)가 키(key)가 되고, 그들이 협력한 다른 과학자 목록(링크)이 값(value)이 됩니다. are_they_collaborators 함수는 이 딕셔너리에서 한 과학자의 협력자 목록에 다른 과학자가 포함되어 있는지를 확인하여 '연결 여부'를 판단합니다. 이는 네트워크에서 노드 간의 직접적인 연결을 확인하는 가장 기본적인 로직을 추상화한 것입니다.</p>
+                </div>
+                <div class="sub-section">
+                    <h4>네트워크의 언어: 프로토콜과 패킷 (10분)</h4>
+                    <p>서로 다른 제조사의 컴퓨터가 통신하기 위해 '약속(프로토콜)'이 필요함을 강조. TCP/IP를 소개합니다.</p>
+                    <p>긴 편지를 한 번에 보내지 않고, 여러 장의 엽서에 나눠 적어 보내는 것에 비유하여 '패킷'의 개념을 설명합니다. 각 엽서에는 주소와 순서 번호가 필요함을 강조.</p>
+                    <p>수학/과학 예시 코드: 원주율(\pi)의 긴 소수점 값을 일정한 크기의 패킷으로 나누고, 각 패킷에 헤더(순서, 데이터 길이)를 붙이는 함수를 작성합니다.</p>
+                    <pre><code>import math
+
+def create_packets(long_data_string, packet_size):
+    packets = []
+    # 긴 데이터를 packet_size에 맞춰 자르기
+    for i in range(0, len(long_data_string), packet_size):
+        payload = long_data_string[i:i+packet_size]
+        # 패킷 헤더: (순서 번호, 데이터 길이) + 실제 데이터(payload)
+        packet = {
+            "sequence": (i // packet_size) + 1,
+            "length": len(payload),
+            "payload": payload
+        }
+        packets.append(packet)
+    return packets
+
+# 원주율 소수점 이하 50자리를 데이터로 사용
+pi_data = str(math.pi)[2:52]
+packet_list = create_packets(pi_data, 10) # 10글자씩 패킷으로 나눔
+
+print("원본 데이터:", pi_data)
+print("\n생성된 패킷:")
+for p in packet_list:
+    print(p)
+</code></pre>
+                    <p>상세 설명: 이 코드는 네트워크에서 큰 데이터를 작은 '패킷' 단위로 분할하는 원리를 보여줍니다. 긴 원주율 문자열을 10글자씩(packet_size) 잘라 'payload'로 만듭니다. 그리고 각 payload에 순서 번호(sequence)와 데이터 길이(length) 같은 부가 정보(헤더)를 딕셔너리 형태로 붙여 하나의 패킷을 완성합니다. 이는 실제 네트워크에서 데이터가 어떻게 구조화되고 분할되어 전송되는지에 대한 핵심 아이디어를 시각적으로 보여줍니다.</p>
+                </div>
+                <div class="sub-section">
+                    <h4>네트워크의 주소 체계: IP와 MAC (7분)</h4>
+                    <p>IP 주소는 이사 가면 바뀌는 '집 주소'(논리적 주소), MAC 주소는 태어날 때부터 정해진 '주민등록번호'(물리적 주소)에 비유하여 둘의 차이를 명확히 합니다.</p>
+                    <p>IP 주소의 기본 형식(IPv4)을 소개합니다. (0~255 사이의 숫자 4개)</p>
+                    <p>실생활 예시 코드: 문자열을 입력받아, 그것이 유효한 IPv4 주소 형식인지 검사하는 함수를 작성합니다.</p>
+                    <pre><code>def is_valid_ipv4(ip_string):
+    parts = ip_string.split('.')
+    if len(parts) != 4:
+        return False
+    for part in parts:
+        if not part.isdigit(): # 숫자가 아닌 문자가 있으면 False
+            return False
+        num = int(part)
+        if not 0 <= num <= 255: # 숫자의 범위가 0~255가 아니면 False
+            return False
+    return True
+
+ip1 = "192.168.0.1"
+ip2 = "256.0.0.1" # 255보다 큰 숫자가 있어 유효하지 않음
+print(f"'{ip1}'는 유효한 IPv4 주소인가? {is_valid_ipv4(ip1)}")
+print(f"'{ip2}'는 유효한 IPv4 주소인가? {is_valid_ipv4(ip2)}")
+</code></pre>
+                     <p>상세 설명: 이 코드는 프로토콜의 '규칙'을 검증하는 과정을 보여줍니다. IPv4 주소는 '점으로 구분된 4개의 숫자', '각 숫자는 0~255 사이'라는 명확한 규칙이 있습니다. is_valid_ipv4 함수는 문자열을 점으로 분리하고, 각 부분이 이 규칙에 맞는지 논리적으로 검사합니다. 이는 네트워크에서 데이터의 형식을 검사하고 약속된 규약을 따르는 것이 얼마나 중요한지를 보여주는 실용적인 예시입니다.</p>
+                </div>
+                <div class="sub-section">
+                    <h4>네트워크의 규모: LAN과 WAN (5분)</h4>
+                    <p>우리 학교 컴퓨터실을 LAN, 전국의 학교들을 연결한 교육망을 WAN으로 비유하여 규모의 차이를 설명합니다. 인터넷은 전 세계적인 WAN임을 다시 한번 강조합니다.</p>
+                    <p>실생활 예시 코드: 두 개의 IP 주소가 같은 LAN에 속하는지 (앞의 세 자리가 같은지) 간단하게 확인하는 함수를 작성합니다.</p>
+                    <pre><code>def are_in_same_lan_simple(ip1, ip2):
+    # IP 주소의 앞 세 부분(네트워크 ID)이 같은지 비교
+    ip1_net_id = ".".join(ip1.split('.')[:3])
+    ip2_net_id = ".".join(ip2.split('.')[:3])
+    
+    if ip1_net_id == ip2_net_id:
+        return True
+    return False
+
+my_pc = "192.168.1.10"
+my_friend_pc = "192.168.1.25"
+school_server = "210.117.123.5"
+
+print(f"{my_pc}와 {my_friend_pc}는 같은 LAN에 있는가? {are_in_same_lan_simple(my_pc, my_friend_pc)}")
+print(f"{my_pc}와 {school_server}는 같은 LAN에 있는가? {are_in_same_lan_simple(my_pc, school_server)}")
+</code></pre>
+                    <p>상세 설명: 이 코드는 LAN과 WAN을 구분하는 IP 주소의 '구조'를 보여줍니다. 일반적으로 같은 LAN에 있는 컴퓨터들은 IP 주소의 앞부분(네트워크 ID)을 공유합니다. 이 함수는 두 IP 주소의 앞 세 자리(C 클래스 기준)가 동일한지를 비교하여 같은 로컬 네트워크에 속해 있는지 간단하게 판단합니다. 이를 통해 학생들은 IP 주소가 단순히 숫자의 나열이 아니라, 네트워크 영역을 구분하는 구조적인 정보를 담고 있음을 이해할 수 있습니다.</p>
+                </div>
+            </div>
+            <div class="flow-section">
+                <h3>(마무리) 수업을 마치며 (5분)</h3>
+                <p>오늘 배운 핵심 개념(네트워크, 프로토콜, 패킷, IP/MAC, LAN/WAN)을 빠르게 요약합니다.</p>
+                <blockquote>"웹은 인류의 잠재력을 최대한 발휘하도록 설계된, 인류를 위한 것입니다. 우리가 함께 만들 수 있는 것에는 한계가 없습니다." - 팀 버너스리(월드 와이드 웹의 창시자)</blockquote>
+                <p>"여러분, 오늘 우리는 전 세계를 연결하는 웹의 가장 기본적인 뼈대를 들여다봤습니다. 팀 버너스리가 말했듯, 이 거대한 연결망의 진정한 힘은 기술 그 자체가 아니라, 그것을 통해 우리가 함께 무엇을 만들어낼 수 있느냐에 있습니다. 오늘 배운 지식을 바탕으로 여러분이 미래에 어떤 놀라운 연결을 만들어낼지 기대가 됩니다. 수고 많으셨습니다."</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>4. 진단평가 (OX 퀴즈)</h2>
+            <div class="quiz-section">
+                <div class="quiz-question"><p>1. 네트워크의 주된 목적은 컴퓨터를 독립적으로 사용하는 것이다. (X)</p><div class="explanation">상세 풀이: 네트워크의 주된 목적은 자원을 '공유'하고 정보를 '교환'하며 서로 '통신'하는 것, 즉 컴퓨터들을 독립적인 상태에서 벗어나 연결된 상태로 만드는 것입니다.</div></div>
+                <div class="quiz-question"><p>2. 컴퓨터끼리 통신하기 위해 지키는 약속을 '프로토콜'이라고 한다. (O)</p><div class="explanation">상세 풀이: 프로토콜은 송신자와 수신자 간에 데이터를 원활하게 주고받기 위해 미리 정해놓은 규칙과 절차의 집합입니다.</div></div>
+                <div class="quiz-question"><p>3. IP 주소는 컴퓨터의 랜카드에 고정되어 절대 바뀌지 않는 주소이다. (X)</p><div class="explanation">상세 풀이: IP 주소는 네트워크 환경에 따라 변경될 수 있는 '논리적 주소'입니다. 랜카드에 고정된 고유한 주소는 MAC 주소입니다.</div></div>
+                <div class="quiz-question"><p>4. 인터넷은 전 세계를 연결하는 WAN(광대역 통신망)의 한 종류이다. (O)</p><div class="explanation">상세 풀이: 인터넷은 전 세계의 수많은 LAN과 WAN들이 서로 연결되어 만들어진 거대한 네트워크 시스템으로, WAN의 가장 대표적인 예입니다.</div></div>
+                <div class="quiz-question"><p>5. 데이터는 네트워크를 통해 원본 그대로의 큰 덩어리 형태로 전송된다. (X)</p><div class="explanation">상세 풀이: 큰 데이터는 전송 효율성과 안정성을 위해 '패킷'이라는 작은 단위로 분할되어 전송되고, 목적지에서 다시 조립됩니다.</div></div>
+                <div class="quiz-question"><p>6. LAN은 학교나 사무실과 같이 비교적 좁은 지역을 연결하는 네트워크이다. (O)</p><div class="explanation">상세 풀이: LAN(Local Area Network)은 이름 그대로 근거리 통신망을 의미하며, 제한된 지리적 영역 내의 장치들을 연결합니다.</div></div>
+                <div class="quiz-question"><p>7. MAC 주소는 전 세계의 모든 네트워크 장비마다 고유한 값을 가진다. (O)</p><div class="explanation">상세 풀이: MAC 주소는 제조 과정에서 하드웨어에 부여되는 물리적 주소로, 전 세계적으로 중복되지 않는 고유성을 갖도록 관리됩니다.</div></div>
+                <div class="quiz-question"><p>8. TCP/IP는 이메일을 보낼 때만 사용되는 특별한 프로토콜이다. (X)</p><div class="explanation">상세 풀이: TCP/IP는 이메일뿐만 아니라 웹 브라우징, 파일 전송, 온라인 게임 등 인터넷에서 이루어지는 거의 모든 통신의 기반이 되는 핵심 프로토콜 스위트(모음)입니다.</div></div>
+                <div class="quiz-question"><p>9. 네트워크에서 각 컴퓨터나 스마트폰과 같은 장치를 '링크'라고 부른다. (X)</p><div class="explanation">상세 풀이: 네트워크를 구성하는 컴퓨터, 스마트폰, 서버 등의 장치는 '노드(Node)'라고 부릅니다. 이 노드들을 연결하는 통신 회선을 '링크(Link)'라고 합니다.</div></div>
+                <div class="quiz-question"><p>10. 패킷에는 보내는 곳의 주소와 받는 곳의 주소 정보가 포함된다. (O)</p><div class="explanation">상세 풀이: 패킷은 데이터 조각(payload)뿐만 아니라, 이 패킷이 어디로 가야 하는지를 알려주는 목적지 IP 주소, 어디서 왔는지를 알려주는 출발지 IP 주소 등 제어 정보가 담긴 헤더를 포함합니다.</div></div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>5. 형성평가 (5지선다형)</h2>
+            <div class="quiz-section">
+                <div class="quiz-question">
+                    <p class="question-text">1. 다음 중 네트워크의 근본적인 목적으로 가장 거리가 먼 것은?</p>
+                    <ol><li>프린터 공유</li><li>파일 전송</li><li>컴퓨터 성능 향상</li><li>온라인 게임</li><li>이메일 통신</li></ol>
+                    <p class="answer">정답: ③</p>
+                    <div class="explanation">상세 풀이: 네트워크는 여러 컴퓨터가 자원을 공유(①)하거나 정보를 교환(②, ④, ⑤)하게 해주는 것이 주 목적입니다. 네트워크에 연결한다고 해서 컴퓨터 자체의 CPU나 메모리 성능이 직접적으로 향상되지는 않습니다. (단, 네트워크를 통해 고성능 컴퓨터의 자원을 빌려 쓰는 '분산 컴퓨팅'은 가능합니다.)</div>
+                </div>
+                <div class="quiz-question">
+                    <p class="question-text">2. 데이터를 주고받는 장치들이 서로 이해할 수 있도록 만든 통신 규칙과 약속을 무엇이라고 하는가?</p>
+                    <ol><li>패킷</li><li>노드</li><li>프로토콜</li><li>IP 주소</li><li>LAN</li></ol>
+                    <p class="answer">정답: ③</p>
+                    <div class="explanation">상세 풀이: 프로토콜은 통신 시스템이 데이터를 교환하기 위해 사용하는 규칙의 집합입니다. 사람 사이의 '언어'나 '문법'과 같은 역할을 합니다.</div>
+                </div>
+                <div class="quiz-question">
+                    <p class="question-text">3. IP 주소와 MAC 주소에 대한 설명으로 옳은 것은?</p>
+                    <ol><li>IP 주소는 물리적 주소, MAC 주소는 논리적 주소이다.</li><li>IP 주소는 변하지 않지만 MAC 주소는 변할 수 있다.</li><li>IP 주소는 우편번호, MAC 주소는 상세 주소와 같다.</li><li>IP 주소는 네트워크 상의 논리적 위치, MAC 주소는 장비의 고유 식별자이다.</li><li>두 주소 모두 전 세계적으로 유일하며 절대 변하지 않는다.</li></ol>
+                    <p class="answer">정답: ④</p>
+                    <div class="explanation">상세 풀이: IP 주소는 네트워크 내에서 장치가 어디에 있는지를 나타내는 논리적 주소이며 변경 가능합니다. MAC 주소는 장비 자체에 부여된 고유한 물리적 주소로, 일반적으로 변경되지 않습니다.</div>
+                </div>
+                <div class="quiz-question">
+                    <p class="question-text">4. 큰 파일을 이메일로 전송할 때, 파일이 작은 조각으로 나뉘어 전송된다. 이 작은 조각을 무엇이라고 하는가?</p>
+                    <ol><li>프로토콜</li><li>패킷</li><li>포트</li><li>쿠키</li><li>서버</li></ol>
+                    <p class="answer">정답: ②</p>
+                    <div class="explanation">상세 풀이: 네트워크에서 데이터를 효율적이고 안정적으로 전송하기 위해 사용하는 작은 데이터 단위를 패킷이라고 합니다. 각 패킷에는 헤더 정보와 실제 데이터 조각이 포함됩니다.</div>
+                </div>
+                <div class="quiz-question">
+                    <p class="question-text">5. 다음 중 네트워크의 규모가 가장 큰 것부터 작은 순서대로 올바르게 나열된 것은?</p>
+                    <ol><li>LAN > WAN > 인터넷</li><li>WAN > 인터넷 > LAN</li><li>인터넷 > WAN > LAN</li><li>LAN > 인터넷 > WAN</li><li>WAN > LAN > 인터넷</li></ol>
+                    <p class="answer">정답: ③</p>
+                    <div class="explanation">상세 풀이: LAN은 근거리 통신망, WAN은 이 LAN들을 연결한 광대역 통신망, 인터넷은 전 세계의 WAN들이 다시 연결된 가장 큰 규모의 네트워크입니다. 따라서 크기 순서는 인터넷 > WAN > LAN 입니다.</div>
+                </div>
+                <div class="quiz-question">
+                    <p class="question-text">6. 다음 중 유효한 IPv4 주소 형식으로 올바른 것은?</p>
+                    <ol><li>192.168.0</li><li>192.168.0.256</li><li>192.168.0.1.10</li><li>192.168.0.1</li><li>192-168-0-1</li></ol>
+                    <p class="answer">정답: ④</p>
+                    <div class="explanation">상세 풀이: IPv4 주소는 0~255 사이의 숫자로 이루어진 4개의 부분을 점(.)으로 구분하여 표현합니다. ①은 3부분, ②는 255를 초과하는 숫자, ③은 5부분, ⑤는 구분자가 하이픈(-)이므로 모두 유효하지 않은 형식입니다.</div>
+                </div>
+                <div class="quiz-question">
+                    <p class="question-text">7. 서울에 있는 A학생이 부산에 있는 친구 B에게 메시지를 보낼 때, 이 통신은 어떤 네트워크 환경에 해당하는가?</p>
+                    <ol><li>LAN</li><li>WAN</li><li>MAN</li><li>PAN</li><li>SAN</li></ol>
+                    <p class="answer">정답: ②</p>
+                    <div class="explanation">상세 풀이: 서울과 부산은 지리적으로 멀리 떨어진 두 도시입니다. 이처럼 도시와 도시, 국가와 국가를 연결하는 넓은 범위의 네트워크는 WAN(Wide Area Network)에 해당합니다.</div>
+                </div>
+                <div class="quiz-question">
+                    <p class="question-text">8. 네트워크를 구성하는 노드(Node)에 대한 예시로 가장 적절하지 않은 것은?</p>
+                    <ol><li>내 스마트폰</li><li>학교 서버 컴퓨터</li><li>와이파이 공유기</li><li>인터넷 케이블</li><li>인공지능 스피커</li></ol>
+                    <p class="answer">정답: ④</p>
+                    <div class="explanation">상세 풀이: 노드는 네트워크에 연결되어 고유한 주소를 가지고 데이터를 처리하거나 교환하는 장치를 의미합니다. 스마트폰, 서버, 공유기, 스피커는 모두 노드에 해당합니다. 인터넷 케이블은 노드와 노드를 연결하는 '링크(Link)'에 해당합니다.</div>
+                </div>
+                <div class="quiz-question">
+                    <p class="question-text">9. 다음 중 MAC 주소에 대한 설명으로 가장 올바른 것은?</p>
+                    <ol><li>모든 컴퓨터의 MAC 주소는 "192.168.0.1"로 동일하다.</li><li>소프트웨어적으로 부여되는 주소이며 쉽게 변경할 수 있다.</li><li>랜카드 제조사에서 부여하며, 하드웨어에 고정된 주소이다.</li><li>데이터를 어디로 보낼지 최종 경로를 결정하는 데 사용된다.</li><li>점(.)으로 구분되는 4개의 숫자로 이루어져 있다.</li></ol>
+                    <p class="answer">정답: ③</p>
+                    <div class="explanation">상세 풀이: MAC 주소는 하드웨어(랜카드)에 부여된 고유한 물리적 주소입니다. 일반적으로 사용자가 변경하지 않으며, 제조사에서 부여하여 전 세계적으로 유일합니다. 최종 경로(원격지) 결정은 IP 주소가, 같은 LAN 내에서 바로 옆 장비를 찾아갈 때 MAC 주소가 사용됩니다.</div>
+                </div>
+                <div class="quiz-question">
+                    <p class="question-text">10. 친구와 온라인 게임을 할 때, 내 캐릭터의 움직임 데이터는 패킷으로 변환되어 친구에게 전달된다. 이 패킷에 반드시 포함되어야 할 정보가 아닌 것은?</p>
+                    <ol><li>내 컴퓨터의 IP 주소</li><li>친구 컴퓨터의 IP 주소</li><li>내 컴퓨터의 CPU 온도</li><li>데이터의 순서 번호</li><li>실제 움직임 데이터</li></ol>
+                    <p class="answer">정답: ③</p>
+                    <div class="explanation">상세 풀이: 패킷에는 통신에 필수적인 정보, 즉 어디서 왔는지(출발지 IP), 어디로 가는지(목적지 IP), 여러 패킷 중 몇 번째인지(순서 번호), 그리고 실제 내용(움직임 데이터)이 포함되어야 합니다. 컴퓨터의 CPU 온도는 통신 규약과 무관한 내부 정보이므로 패킷에 포함될 필요가 없습니다.</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>6. 코딩 실습 예제</h2>
+            <div class="code-example">
+                <h4>1. IP 주소 유효성 검사기</h4>
+                <p>사용자로부터 문자열을 입력받아, 해당 문자열이 유효한 IPv4 주소 형식인지 판별하는 프로그램을 작성하세요. (조건: 4개의 부분으로 나눠, 각 부분은 0-255 사이의 숫자)</p>
+                <pre><code>def validate_ipv4(ip_string):
+    """입력된 문자열이 유효한 IPv4 주소 형식인지 판별합니다."""
+    parts = ip_string.split('.')
+    if len(parts) != 4:
+        return False
+    for part in parts:
+        if not part.isdigit():
+            return False
+        num = int(part)
+        if not 0 <= num <= 255:
+            return False
+    return True
+
+# 테스트
+user_input = input("IPv4 주소를 입력하세요: ")
+if validate_ipv4(user_input):
+    print(f"'{user_input}'는 유효한 IPv4 주소 형식입니다.")
+else:
+    print(f"'{user_input}'는 유효하지 않은 IPv4 주소 형식입니다.")</code></pre>
+                <p><strong>상세 풀이 및 설명:</strong> 함수 validate_ipv4는 검사할 IP 주소 문자열을 인자로 받습니다. ip_string.split('.')을 통해 문자열을 점(.)을 기준으로 나눕니다. 결과는 리스트가 됩니다. if len(parts) != 4: : IPv4는 4개의 부분으로 이루어져 있으므로, 리스트의 길이가 4가 아니면 즉시 False를 반환합니다. for part in parts: : 리스트의 각 부분에 대해 반복 검사를 수행합니다. if not part.isdigit(): : 각 부분이 숫자로만 이루어져 있는지 확인합니다. 문자가 섞여 있으면 False를 반환합니다. if not 0 <= num <= 255: : 각 부분을 정수로 변환한 뒤, 그 값이 0과 255 사이의 범위에 있는지 확인합니다. 범위를 벗어나면 False를 반환합니다. 모든 검사를 통과하면, 반복문이 끝난 후 True를 반환합니다.</p>
+            </div>
+            <div class="code-example">
+                <h4>2. 간단한 패킷 생성기</h4>
+                <p>문자열 데이터와 패킷당 최대 크기를 입력받아, 데이터를 여러 개의 패킷(딕셔너리)으로 나누어 리스트에 담아 반환하는 함수를 작성하세요. 각 패킷에는 순서 번호와 데이터 조각(payload)이 포함되어야 합니다.</p>
+                <pre><code>def create_packets(data, max_size):
+    """긴 데이터를 주어진 크기의 패킷으로 분할합니다."""
+    packets = []
+    packet_number = 1
+    for i in range(0, len(data), max_size):
+        payload = data[i : i + max_size]
+        packet = {
+            'sequence': packet_number,
+            'payload': payload
+        }
+        packets.append(packet)
+        packet_number += 1
+    return packets
+
+# 테스트
+long_message = "The best way to predict the future is to invent it. - Alan Kay"
+packet_list = create_packets(long_message, 20) # 최대 20글자씩 자름
+for packet in packet_list:
+    print(packet)</code></pre>
+                <p><strong>상세 풀이 및 설명:</strong> 함수 create_packets는 원본 데이터(data)와 패킷당 최대 크기(max_size)를 인자로 받습니다. 결과를 담을 빈 리스트 packets와 패킷 순서 번호 packet_number를 초기화합니다. for i in range(0, len(data), max_size): : range의 세 번째 인자(step)를 활용하여 max_size 만큼씩 건너뛰며 반복합니다. i는 각 패킷의 시작 인덱스가 됩니다. payload = data[i : i + max_size] : 문자열 슬라이싱을 이용해 i위치부터 i + max_size 위치 전까지의 데이터 조각을 잘라냅니다. 순서 번호와 데이터 조각을 담은 딕셔너리 packet을 생성합니다. 생성된 packet을 packets 리스트에 추가하고, 다음 패킷을 위해 packet_number를 1 증가시킵니다. 반복이 끝나면 패킷들이 담긴 전체 리스트를 반환합니다.</p>
+            </div>
+            <div class="code-example">
+                <h4>3. 패킷 조립기</h4>
+                <p>위 2번 문제에서 생성된 패킷 리스트를 받아, 순서 번호에 맞게 조립하여 원본 데이터를 복원하는 함수를 작성하세요.</p>
+                <pre><code>import random
+
+def assemble_packets(packet_list):
+    """분할된 패킷 리스트를 순서에 맞게 조립하여 원본 데이터로 복원합니다."""
+    # 순서 번호(sequence)를 기준으로 패킷 리스트를 정렬합니다.
+    # 혹시 패킷이 뒤죽박죽 도착하는 상황을 시뮬레이션합니다.
+    sorted_packets = sorted(packet_list, key=lambda p: p['sequence'])
+    
+    original_data = ""
+    for packet in sorted_packets:
+        original_data += packet['payload']
+        
+    return original_data
+
+# 테스트 (위 2번 예제의 packet_list를 사용)
+random.shuffle(packet_list) # 패킷 순서를 일부러 섞어봄
+print("\n뒤죽박죽 도착한 패킷 순서:")
+for p in packet_list:
+    print(p['sequence'], end=' ')
+
+restored_message = assemble_packets(packet_list)
+print("\n\n복원된 메시지:")
+print(restored_message)</code></pre>
+                <p><strong>상세 풀이 및 설명:</strong> 함수 assemble_packets는 패킷들의 리스트를 인자로 받습니다. sorted(packet_list, key=lambda p: p['sequence']) : sorted 함수를 사용하여 패킷 리스트를 새로 정렬합니다. key 인자에 람다 함수를 지정하여, 각 딕셔너리(p)의 'sequence' 키 값을 기준으로 정렬하도록 합니다. 빈 문자열 original_data를 생성합니다. 정렬된 패킷 리스트 sorted_packets를 순회하면서, 각 패킷의 'payload' 값을 original_data 문자열에 += 연산자로 계속 이어 붙입니다. 반복이 끝나면 모든 데이터 조각이 합쳐진 original_data를 반환합니다.</p>
+            </div>
+            <div class="code-example">
+                <h4>4. 로컬 네트워크(LAN) 확인기</h4>
+                <p>두 개의 IPv4 주소 문자열을 입력받아, 두 주소가 같은 C 클래스 LAN에 속하는지(즉, IP 주소의 앞 세 부분이 동일한지) 판별하는 함수를 작성하세요.</p>
+                <pre><code>def is_in_same_lan(ip1, ip2, class_type='C'):
+    """두 IP 주소가 같은 LAN에 속하는지 판별합니다."""
+    parts1 = ip1.split('.')
+    parts2 = ip2.split('.')
+    
+    if len(parts1) != 4 or len(parts2) != 4:
+        return False # 유효하지 않은 IP 형식
+    
+    # C클래스는 앞 3부분, B 클래스는 앞 2부분, A 클래스는 앞 1부분 비교
+    num_parts_to_compare = 3
+    if class_type.upper() == 'B':
+        num_parts_to_compare = 2
+    elif class_type.upper() == 'A':
+        num_parts_to_compare = 1
+        
+    network_id1 = parts1[:num_parts_to_compare]
+    network_id2 = parts2[:num_parts_to_compare]
+    
+    return network_id1 == network_id2
+
+# 테스트
+my_pc = "192.168.1.100"
+my_notebook = "192.168.1.150"
+other_pc = "192.168.10.5"
+
+print(f"{my_pc}와 {my_notebook}는 같은 C 클래스 LAN에 있나요? {is_in_same_lan(my_pc, my_notebook, 'C')}")
+print(f"{my_pc}와 {other_pc}는 같은 C 클래스 LAN에 있나요? {is_in_same_lan(my_pc, other_pc, 'C')}")</code></pre>
+                <p><strong>상세 풀이 및 설명:</strong> 함수 is_in_same_lan은 두 IP 주소와 함께, 비교 기준이 될 클래스 타입('C', 'B', 'A')을 선택적 인자로 받습니다. 각 IP 주소를 점(.)으로 분리하여 리스트로 만듭니다. class_type 인자에 따라 비교할 부분의 개수(num_parts_to_compare)를 결정합니다. 기본값은 C 클래스이므로 3입니다. 리스트 슬라이싱([:num_parts_to_compare])을 사용하여 각 IP의 네트워크 ID 부분만 잘라냅니다. 두 네트워크 ID 리스트가 완전히 일치하면 True를, 그렇지 않으면 False를 반환합니다. 파이썬에서는 리스트 간의 == 비교가 각 요소의 값을 순서대로 비교하므로 이 방법이 가능합니다.</p>
+            </div>
+            <div class="code-example">
+                <h4>5. 네트워크 노드 카운터</h4>
+                <p>{"A": ["B", "C"], "B": ["A"], "C": ["A"]} 와 같이 딕셔너리로 표현된 네트워크에서, 전체 노드(컴퓨터)의 수와 링크(연결선)의 수를 계산하는 프로그램을 작성하세요. (링크는 양방향이므로 중복 계산하지 않습니다.)</p>
+                <pre><code>def analyze_network(network_graph):
+    """네트워크 그래프에서 노드와 링크의 수를 계산합니다."""
+    # 노드의 수는 딕셔너리의 키 개수와 동일
+    num_nodes = len(network_graph)
+    
+    num_links = 0
+    visited_links = set() # 중복 계산을 피하기 위한 집합
+    
+    for node, connections in network_graph.items():
+        for neighbor in connections:
+            # (A, B)와 (B, A)를 동일하게 취급하기 위해 정렬하여 튜플로 만듦
+            link = tuple(sorted((node, neighbor)))
+            if link not in visited_links:
+                num_links += 1
+                visited_links.add(link)
+                
+    return num_nodes, num_links
+
+# 테스트
+social_network = {
+    "Alice": ["Bob", "Cathy"],
+    "Bob": ["Alice"],
+    "Cathy": ["Alice", "David"],
+    "David": ["Cathy"]
+}
+
+nodes, links = analyze_network(social_network)
+print(f"이 네트워크의 노드 수: {nodes}개")
+print(f"이 네트워크의 링크 수: {links}개")</code></pre>
+                <p><strong>상세 풀이 및 설명:</strong> num_nodes = len(network_graph) : 노드의 수는 딕셔너리의 키(key)의 개수이므로, len() 함수로 간단하게 구할 수 있습니다. 링크의 수는 중복을 피해야 합니다. (A-B 연결과 B-A 연결은 하나의 링크) visited_links = set() : 이미 계산한 링크를 기록할 집합을 만듭니다. 집합은 중복된 값을 허용하지 않습니다. 이중 for 루프를 통해 모든 연결 관계를 확인합니다. link = tuple(sorted((node, neighbor))) : ('Alice', 'Bob')과 ('Bob', 'Alice')를 같은 링크로 취급하기 위해, 두 노드 이름을 알파벳순으로 정렬한 후 튜플로 만듭니다. 이렇게 하면 항상 ('Alice', 'Bob') 형태가 되어 중복을 쉽게 확인할 수 있습니다. if link not in visited_links: : 이 링크를 아직 계산한 적이 없다면, 링크 수를 1 증가시키고 visited_links 집합에 기록합니다.</p>
+            </div>
+            <div class="code-example">
+                <h4>6. IP 주소 -> 이진수 변환기</h4>
+                <p>"192.168.0.1"과 같은 IPv4 주소를 입력받아, 각 부분을 8자리 이진수로 변환하여 "11000000.10101000.00000000.00000001" 형태로 출력하는 프로그램을 작성하세요.</p>
+                <pre><code>def ip_to_binary(ip_string):
+    """IPv4 주소를 이진수 문자열로 변환합니다."""
+    parts = ip_string.split('.')
+    binary_parts = []
+    for part in parts:
+        num = int(part)
+        # bin(num)은 '0b11000000' 형태이므로 앞의 '0b'를 제거
+        binary_str = bin(num)[2:]
+        # zfill(8)은 문자열이 8자리가 되도록 왼쪽에 '0'을 채움
+        padded_binary_str = binary_str.zfill(8)
+        binary_parts.append(padded_binary_str)
+    return ".".join(binary_parts)
+
+# 테스트
+ip = "192.168.0.1"
+binary_ip = ip_to_binary(ip)
+print(f"IP 주소: {ip}")
+print(f"이진수 표현: {binary_ip}")</code></pre>
+                <p><strong>상세 풀이 및 설명:</strong> 입력받은 IP 주소를 점(.)으로 분리하여 parts 리스트에 저장합니다. 결과를 담을 빈 리스트 binary_parts를 생성합니다. for 문으로 parts의 각 숫자 문자열을 순회합니다. num = int(part) : 문자열을 정수로 변환합니다. binary_str = bin(num)[2:] : bin() 내장 함수로 숫자를 이진수 문자열로 바꿉니다. bin(192)는 '0b11000000'을 반환하므로, 슬라이싱 [2:]을 이용해 앞의 '0b'를 제거합니다. padded_binary_str = binary_str.zfill(8) : zfill(8) 문자열 메서드는 문자열의 길이가 8이 되도록 왼쪽을 0으로 채워줍니다. (예: bin(1)[2:]는 '1'이지만, zfill(8)을 거치면 '00000001'이 됩니다.) 완성된 8자리 이진수 문자열을 binary_parts 리스트에 추가합니다. 반복이 끝나면 .을 구분자로 하여 binary_parts의 모든 요소를 하나의 문자열로 합쳐 반환합니다.</p>
+            </div>
+            <div class="code-example">
+                <h4>7. MAC 주소 형식 검사기</h4>
+                <p>MAC 주소는 보통 XX-XX-XX-XX-XX-XX 또는 XX:XX:XX:XX:XX:XX 형태를 가집니다. (X는 16진수 문자) 사용자로부터 문자열을 입력받아 이 두 가지 형식 중 하나에 맞는 유효한 MAC 주소인지 검사하는 프로그램을 작성하세요.</p>
+                <pre><code>def validate_mac_address(mac_string):
+    """입력된 문자열이 유효한 MAC 주소 형식인지 판별합니다."""
+    # 구분자 확인 및 분리
+    if '-' in mac_string:
+        parts = mac_string.split('-')
+    elif ':' in mac_string:
+        parts = mac_string.split(':')
+    else:
+        return False
+    
+    # 6부분으로 나뉘는지 확인
+    if len(parts) != 6:
+        return False
+        
+    for part in parts:
+        # 각 부분이 2글자인지 확인
+        if len(part) != 2:
+            return False
+        # 각 부분이 16진수로 변환 가능한지 확인
+        try:
+            # 16진수 문자열을 정수로 변환 시도
+            int(part, 16)
+        except ValueError:
+            # 변환 실패 시 (16진수가 아닐 경우) 에러 발생
+            return False
+            
+    return True
+
+# 테스트
+mac1 = "00-1A-2B-3C-4D-5E"
+mac2 = "00:1a:2b:3c:4d:5e"
+mac3 = "00-1A-2B-3G-4D-5E" # 'G'는 16진수가 아님
+mac4 = "00-1A-2B-4D-5E" # 5부분 밖에 없음
+print(f"'{mac1}'는 유효한 MAC 주소인가? {validate_mac_address(mac1)}")
+print(f"'{mac2}'는 유효한 MAC 주소인가? {validate_mac_address(mac2)}")
+print(f"'{mac3}'는 유효한 MAC 주소인가? {validate_mac_address(mac3)}")
+print(f"'{mac4}'는 유효한 MAC 주소인가? {validate_mac_address(mac4)}")</code></pre>
+                 <p><strong>상세 풀이 및 설명:</strong> 먼저 문자열에 '-'나 ':'가 있는지 확인하여 구분자를 파악하고, 해당 구분자로 문자열을 split 합니다. 구분자가 없으면 유효하지 않은 형식입니다. 분리된 리스트 parts의 길이가 6이 아니면 MAC 주소 형식이 아니므로 False를 반환합니다. for 루프로 parts의 각 부분을 순회합니다. 각 부분의 길이가 2인지 확인합니다. try-except 구문을 사용하여 각 부분이 유효한 16진수인지 검사합니다. int(part, 16)은 16진수 문자열 part를 10진수 정수로 변환하는 코드입니다. 만약 part에 'G'와 같이 16진수가 아닌 문자가 포함되어 있으면 ValueError가 발생합니다. except ValueError: 블록이 실행되면, 이는 유효하지 않은 문자가 포함되었다는 뜻이므로 False를 반환합니다. 모든 검사를 예외 없이 통과하면 True를 반환합니다.</p>
+           </div>
+            <div class="code-example">
+                <h4>8. 간단한 ARP 테이블 시뮬레이터</h4>
+                <p>IP 주소를 키로, MAC 주소를 값으로 가지는 딕셔너리(ARP 테이블)를 만드세요. IP 주소를 입력받아 해당하는 MAC 주소를 찾아 출력하는 함수를 작성하세요. 만약 테이블에 없으면 "MAC 주소를 찾을 수 없습니다."라고 출력하세요.</p>
+                <pre><code># IP 주소와 MAC 주소를 매핑하는 ARP 테이블 (딕셔너리)
+arp_table = {
+    "192.168.1.1": "00-DE-AD-BE-EF-01",
+    "192.168.1.101": "AA-BB-CC-DD-EE-FF",
+    "192.168.1.105": "11-22-33-44-55-66"
+}
+
+def find_mac_address(ip_to_find):
+    """ARP 테이블에서 주어진 IP에 해당하는 MAC 주소를 찾습니다."""
+    # .get() 메서드는 키가 있으면 값을, 없으면 None을 반환하여 에러를 방지
+    mac_address = arp_table.get(ip_to_find)
+    
+    if mac_address:
+        print(f"IP {ip_to_find}의 MAC 주소는 {mac_address} 입니다.")
+    else:
+        print(f"ARP 테이블에서 IP {ip_to_find}에 대한 항목을 찾을 수 없습니다.")
+        
+# 테스트
+find_mac_address("192.168.1.101")
+find_mac_address("192.168.1.200")</code></pre>
+                <p><strong>상세 풀이 및 설명:</strong> ARP 테이블의 역할을 하는 arp_table 딕셔너리를 생성합니다. 키는 IP 주소, 값은 MAC 주소입니다. find_mac_address 함수는 찾으려는 IP 주소를 인자로 받습니다. arp_table.get(ip_to_find): 딕셔너리의 .get() 메서드를 사용합니다. 만약 ip_to_find가 딕셔너리의 키로 존재하면 해당하는 값을 mac_address 변수에 저장하고, 키가 존재하지 않으면 None을 저장합니다. arp_table[ip_to_find]처럼 직접 접근하면 키가 없을 때 에러가 발생하지만, .get()은 에러 없이 안전하게 처리할 수 있습니다. if mac_address: : mac_address 변수에 값이 제대로 저장되었다면(즉, None이 아니라면) True로 평가됩니다. 이 경우 MAC 주소를 출력합니다. 그렇지 않으면(else), 키를 찾지 못한 것이므로 "찾을 수 없습니다" 메시지를 출력합니다.</p>
+            </div>
+            <div class="code-example">
+                <h4>9. 네트워크 경로 추적 시뮬레이션</h4>
+                <p>path = ["MyPC", "Router1", "ISP_Server", "Google_Server"] 와 같이 데이터가 거쳐가는 경로가 리스트로 주어졌을 때, 각 단계별로 "Pinging [노드 이름]..." 메시지를 출력하며 경로를 순서대로 보여주는 프로그램을 작성하세요.</p>
+                <pre><code>import time
+
+def simulate_traceroute(destination):
+    """특정 목적지까지의 가상 경로를 추적하여 보여줍니다."""
+    # 실제 경로는 아니지만, 라우터를 거쳐가는 과정을 흉내 냄
+    path = [
+        "192.168.1.1 (우리 집 공유기)",
+        "203.247.66.1 (지역 ISP 서버)",
+        "210.117.123.5 (백본망 라우터)",
+        f"{destination} (최종 목적지)"
+    ]
+    
+    print(f"'{destination}'까지의 경로 추적 중...")
+    for hop_number, node in enumerate(path):
+        # enumerate는 인덱스와 값을 함께 제공 (0부터 시작)
+        print(f"{hop_number + 1}\t{node}")
+        time.sleep(0.5) # 각 단계를 보여주기 위해 0.5초 대기
+        
+    print("\n경로 추적 완료.")
+
+# 테스트
+simulate_traceroute("8.8.8.8 (Google DNS)")</code></pre>
+                 <p><strong>상세 풀이 및 설명:</strong> import time : time.sleep() 함수를 사용하기 위해 모듈을 가져옵니다. simulate_traceroute 함수는 목적지 주소를 인자로 받아, 그곳까지 가는 가상의 경로 path 리스트를 정의합니다. for hop_number, node in enumerate(path): : enumerate 함수를 사용하면 for 루프에서 리스트의 인덱스(hop_number)와 값(node)을 동시에 얻을 수 있습니다. print(f"{hop_number + 1}\t{node}") : hop_number가 0부터 시작하므로 1을 더해 1단계부터 보이게 하고, \t는 탭 문자로 출력을 정렬하는 효과를 줍니다. time.sleep(0.5) : 프로그램을 0.5초 동안 잠시 멈춥니다. 이를 통해 각 경로가 하나씩 순서대로 나타나는 것처럼 보여, 실제 traceroute 명령어의 동작을 시각적으로 흉내 낼 수 있습니다.</p>
+           </div>
+            <div class="code-example">
+                <h4>10. 포트(Port) 개념 설명용 코드</h4>
+                <p>하나의 IP 주소에서 여러 프로그램이 통신할 수 있음을 보여주기 위해, {"192.168.0.5": {80: "WebServer", 443: "WebServer_Secure", 22: "SSH_Server"}} 와 같은 딕셔너리를 만드세요. IP 주소와 포트 번호를 입력받아 어떤 서비스가 실행 중인지 출력하는 프로그램을 작성하세요.</p>
+                <pre><code># IP별로 열려있는 포트와 서비스 정보를 담은 딕셔너리
+server_ports = {
+    "210.117.123.10": {
+        80: "HTTP (Web Server)",
+        443: "HTTPS (Secure Web Server)",
+        21: "FTP (File Transfer)"
+    },
+    "210.117.123.11": {
+        22: "SSH (Secure Shell)",
+        3306: "MySQL (Database)"
+    }
+}
+
+def check_service_on_port(ip, port):
+    """주어진 IP와 포트 번호에서 실행 중인 서비스를 확인합니다."""
+    # 해당 IP 정보가 있는지 먼저 확인
+    if ip in server_ports:
+        server = server_ports[ip]
+        # 해당 서버에 요청한 포트 정보가 있는지 확인
+        service = server.get(port)
+        if service:
+            print(f"'{ip}'의 {port}번 포트에서는 '{service}' 서비스가 실행 중입니다.")
+        else:
+            print(f"'{ip}'의 {port}번 포트는 열려있지 않거나 서비스 정보가 없습니다.")
+    else:
+        print(f"서버({ip}) 정보를 찾을 수 없습니다.")
+
+# 테스트
+check_service_on_port("210.117.123.10", 80)
+check_service_on_port("210.117.123.10", 25) # 25번 포트는 목록에 없음
+check_service_on_port("210.117.123.11", 22)
+check_service_on_port("127.0.0.1", 8080) # IP가 목록에 없음</code></pre>
+                <p><strong>상세 풀이 및 설명:</strong> 중첩된 딕셔너리 server_ports를 사용하여 IP 주소별로, 그리고 그 안에서 포트 번호별로 어떤 서비스가 실행 중인지 정보를 구조화합니다. check_service_on_port 함수는 IP와 포트 번호를 인자로 받습니다. if ip in server_ports: : 먼저 바깥 딕셔너리에 해당 IP 키가 존재하는지 확인합니다. server = server_ports[ip] : IP가 존재하면, 그 값(내부 딕셔너리)을 server 변수에 저장합니다. service = server.get(port) : 내부 딕셔너리에서 port 키에 해당하는 값을 .get() 메서드로 안전하게 가져옵니다. if service: : 포트에 해당하는 서비스 정보가 있다면(None이 아니라면), 해당 서비스 이름을 출력합니다. 나머지 else 구문들은 IP가 없거나, IP는 있지만 해당 포트 정보가 없는 경우에 대한 예외 메시지를 각각 출력합니다. 이 코드는 IP 주소라는 큰 주소 안에서, 포트 번호가 각기 다른 프로그램을 찾아가는 '방 번호'와 같은 역할을 한다는 것을 명확히 보여줍니다.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
