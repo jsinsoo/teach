@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>수업 지도안: 압축의 효율성 분석</title>
+    <style>
+        body {
+            font-family: 'Malgun Gothic', '맑은 고딕', sans-serif;
+            line-height: 1.8;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            color: #212529;
+        }
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 40px;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border: 1px solid #dee2e6;
+        }
+        h1, h2, h3, h4 {
+            color: #0056b3;
+            border-bottom: 2px solid #e9ecef;
+            padding-bottom: 10px;
+        }
+        h1 {
+            text-align: center;
+            border-bottom: 3px solid #0056b3;
+            font-size: 2em;
+            margin-bottom: 30px;
+        }
+        h2 {
+            font-size: 1.6em;
+            margin-top: 50px;
+        }
+        h3 {
+            font-size: 1.3em;
+            color: #007bff;
+            border-bottom: 1px dashed #ced4da;
+            margin-top: 30px;
+        }
+        h4 {
+            font-size: 1.1em;
+            color: #17a2b8;
+            border-bottom: none;
+            margin-top: 25px;
+        }
+        ul, ol {
+            padding-left: 25px;
+            background-color: #fdfdfd;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        .section {
+            margin-bottom: 40px;
+        }
+        .concept-box, .code-example, .quiz-section, .flow-section {
+            background-color: #f8f9fa;
+            padding: 25px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border: 1px solid #e9ecef;
+        }
+        .concept-box strong {
+            color: #0056b3;
+        }
+        pre {
+            background-color: #2b2b2b;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 5px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-family: 'D2Coding', 'Consolas', 'Monaco', monospace;
+        }
+        code {
+            font-family: 'D2Coding', 'Consolas', 'Monaco', monospace;
+            background-color: #e9ecef;
+            padding: 2px 5px;
+            border-radius: 4px;
+        }
+        blockquote {
+            border-left: 5px solid #007bff;
+            background: #f1f3f5;
+            padding: 15px;
+            margin: 20px 0;
+            font-style: italic;
+        }
+        .quiz-question {
+            margin-bottom: 25px;
+        }
+        .quiz-question .question-text {
+            font-weight: bold;
+            margin-bottom: 10px;
+            white-space: pre-line;
+        }
+        .quiz-question .options {
+            padding-left: 20px;
+        }
+        .quiz-question .answer {
+            font-weight: bold;
+            color: #28a745;
+        }
+        .explanation {
+            margin-top: 10px;
+            padding: 12px;
+            background-color: #e7f3fe;
+            border-left: 5px solid #007bff;
+            font-size: 0.95em;
+        }
+        .sub-section {
+            margin-top:20px;
+            padding-left: 15px;
+            border-left: 3px solid #007bff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>과학고 정보 수업 지도안: II. 데이터 - 222. 압축의 효율성 분석</h1>
+
+        <div class="section">
+            <h2>1. 학습 목표</h2>
+            <h3>개념적 목표:</h3>
+            <ul>
+                <li>압축 효율성을 평가하는 객관적인 척도로서 '압축률'을 설명할 수 있다.</li>
+                <li>데이터의 '엔트로피(Entropy)' 개념을 정보의 불확실성 또는 무작위성의 척도로 이해하고, 엔트로피가 압축 효율의 이론적 한계와 어떤 관계가 있는지 설명할 수 있다.</li>
+                <li>압축 알고리즘의 성능이 데이터의 종류와 특성(중복성, 패턴)에 따라 크게 달라짐을 구체적인 사례를 들어 설명할 수 있다.</li>
+                <li>압축 기술에서 발생하는 주요 '상충 관계(Trade-off)', 즉 '압축률 vs. 속도' (무손실 압축)와 '압축률 vs. 품질' (손실 압축)의 의미를 이해한다.</li>
+            </ul>
+            <h3>절차적 목표:</h3>
+            <ul>
+                <li>서로 다른 두 데이터에 동일한 압축 알고리즘을 적용했을 때, 압축률 차이가 발생하는 이유를 데이터의 특성을 근거로 분석할 수 있다.</li>
+                <li>Python 코드를 사용하여 주어진 데이터의 압축률을 계산하고, 압축에 소요되는 시간을 측정하여 알고리즘의 효율성을 비교, 분석할 수 있다.</li>
+                <li>손실 압축에서 압축 레벨(품질 설정)을 조절함에 따라 파일 크기와 시각적 품질이 어떻게 변하는지 실험적으로 확인할 수 있다.</li>
+                <li>주어진 데이터의 특성을 파악하고, 문제 상황(목표)에 가장 적합한 압축 전략(손실/무손실, 알고리즘 종류)을 선택하고 그 근거를 제시할 수 있다.</li>
+            </ul>
+            <h3>태도적 목표:</h3>
+            <ul>
+                <li>정량적인 데이터(압축률, 시간)에 기반하여 시스템의 성능을 객관적으로 분석하고 평가하는 공학적 태도를 기른다.</li>
+                <li>모든 경우에 완벽한 단 하나의 해결책은 없으며, 주어진 조건과 제약 하에서 최적의 해를 찾아가는 과정의 중요성을 인식한다.</li>
+                <li>이론적 개념(엔트로피)이 실제 기술의 성능 한계를 결정하는 원리를 이해하고, 이론과 실제를 연결하여 사고하려는 과학적 탐구 자세를 가진다.</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>2. 핵심 개념 상세 설명</h2>
+            <div class="concept-box">
+                <p><strong>압축률 (Compression Ratio):</strong> 압축이 얼마나 잘 되었는지를 나타내는 가장 기본적인 성능 지표.</p>
+                <p>압축률(%) = (1 - (압축 후 크기 / 원본 크기)) * 100
+
+                높은 압축률은 더 작은 파일 크기를 의미하며, 이는 저장 공간과 전송 비용을 절약해준다.</p>
+                
+                <p><strong>엔트로피 (Entropy):</strong> 정보 이론의 핵심 개념으로, 데이터 집합이 갖는 '불확실성' 또는 '무작위성'의 정도를 정량적으로 측정한 값.</p>
+                <ul>
+                    <li><strong>낮은 엔트로피:</strong> 데이터에 예측 가능한 패턴이나 중복성이 많음을 의미. (예: "AAAAAAAAAA", "ababababab") -&gt; 압축하기 쉬움.</li>
+                    <li><strong>높은 엔트로피:</strong> 데이터가 거의 무작위(random)에 가까워 예측이 어려움을 의미. (예: 암호화된 데이터, 원주율의 소수점 부분) -&gt; 압축하기 매우 어려움.</li>
+                </ul>
+                
+                <p><strong>섀넌의 소스 코딩 정리:</strong> 정보 이론의 창시자 클로드 섀넌은 데이터의 엔트로피가 그 데이터를 무손실 압축했을 때 얻을 수 있는 평균 비트 길이의 이론적인 최솟값임을 증명했습니다. 즉, 엔트로피는 무손실 압축의 넘을 수 없는 한계입니다.</p>
+                
+                <p><strong>압축 효율의 상충 관계 (Trade-offs in Compression Efficiency):</strong> 하나의 지표를 얻기 위해 다른 지표를 희생해야 하는 관계. "세상에 공짜 점심은 없다"는 말과 같습니다.</p>
+                <ul>
+                    <li><strong>무손실 압축: 압축률 vs. 속도/자원:</strong> 더 높은 압축률을 얻기 위해, 더 복잡하고 정교한 알고리즘(예: LZMA)은 데이터의 패턴을 찾는 데 더 많은 시간과 CPU 연산, 메모리를 필요로 합니다. 반면, 간단한 알고리즘(예: RLE)은 매우 빠르지만 특정 패턴의 데이터가 아니면 압축률이 낮습니다.</li>
+                    <li><strong>손실 압축: 압축률 vs. 품질:</strong> 가장 대표적인 상충 관계로, '품질(Quality)', '파일 크기(Size)', '인코딩/디코딩 속도(Speed)'의 삼각관계입니다. 압축률을 높이면(파일 크기를 줄이면) 더 많은 데이터를 버려야 하므로 품질이 저하됩니다. 품질을 높이면(데이터를 덜 버리면) 파일 크기가 커집니다.</li>
+                </ul>
+                
+                <p><strong>데이터 특성과 알고리즘 적합성:</strong> 압축 알고리즘의 효율성은 전적으로 원본 데이터가 어떤 특성을 가지고 있느냐에 따라 결정됩니다.</p>
+                <ul>
+                    <li><strong>RLE:</strong> 같은 값이 길게 연속되는 데이터(예: 흑백 만화 이미지, 팩스 문서)에 최적.</li>
+                    <li><strong>허프만 코딩:</strong> 문자(심볼)의 출현 빈도가 매우 불균등한 데이터(예: 특정 단어가 많이 쓰인 영문 텍스트)에 효율적.</li>
+                    <li><strong>LZ 계열 (ZIP, PNG):</strong> 이전에 등장했던 문자열 패턴이 뒤에 다시 반복되는 데이터(예: HTML, 일반 텍스트, 프로그램 코드)에 매우 효과적.</li>
+                    <li><strong>JPEG/MP3:</strong> 인간의 시각/청각 특성을 이용하므로, 사람이 소비하는 멀티미디어 데이터에 적합.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>3. 수업의 흐름</h2>
+            <div class="flow-section">
+                <h3>(도입) 수업을 시작하며 (5분)</h3>
+                <blockquote>"모든 것은 가능한 한 간단하게 만들어져야 한다. 하지만 더 간단하게는 안 된다." - 알베르트 아인슈타인 (으로 알려진 격언)</blockquote>
+                <p>"여러분, 아인슈타인은 복잡한 현상의 본질을 꿰뚫는 '단순함'을 추구했습니다. 데이터 압축 역시 마찬가지입니다. 우리는 데이터의 크기를 가능한 한 작게, 즉 '간단하게' 만들고 싶어 합니다. 하지만 어디까지 줄일 수 있을까요? 정보를 손상시키지 않는 한계는 어디일까요? 그리고 더 작게 만들기 위해 우리는 무엇을 희생해야 할까요? 오늘은 압축의 효율성을 '분석'하며, 이 '가장 간단하지만, 더는 간단해질 수 없는' 최적의 지점을 찾아가는 과학적 탐험을 시작하겠습니다."</p>
+            </div>
+            <div class="flow-section">
+                <h3>(전개) 핵심 개념 탐구: '인류 유산 디지털 아카이브' 프로젝트 (30분)</h3>
+                <h4>[프로젝트 목표] "다양한 인류 유산(문서, 이미지, 소리)을 가장 효율적으로 압축하여 영구 보존하는 방법 분석"</h4>
+                
+                <div class="sub-section">
+                    <h4>Stage 1: 얼마나 줄었는가? - 압축률과 엔트로피 (10분)</h4>
+                    <p>압축의 성공 여부를 판단하는 첫 기준은 '압축률'임을 설명하고 공식을 복습합니다.</p>
+                    <p>"압축이 전혀 안 되는 데이터도 있을까?" 질문을 던지며 엔트로피 개념을 도입. 엔트로피를 '정보의 밀도' 또는 '예측 불가능성'으로 비유합니다.</p>
+                    <p>과학/수학 예시 코드: 규칙적인 DNA 염기서열과 무작위 염기서열의 엔트로피를 (간단하게) 계산하고, 왜 무작위 서열이 압축하기 어려운지 설명합니다. (섀넌 엔트로피 공식 제시)</p>
+                    <pre><code>import math
+from collections import Counter
+
+def calculate_shannon_entropy(text):
+    # H(X) = -\sum [p(x_i) * log2(p(x_i))]
+    if not text: return 0.0
+    prob_dist = {char: count / len(text) for char, count in Counter(text).items()}
+    entropy = -sum([p * math.log2(p) for p in prob_dist.values()])
+    return entropy
+
+# 1. 규칙적인 서열 (중복성 높음 -> 낮은 엔트로피)
+dna_pattern = "ATATATATATATATAT"
+entropy1 = calculate_shannon_entropy(dna_pattern)
+
+# 2. 무작위적인 서열 (중복성 낮음 -> 높은 엔트로피)
+dna_random = "AGCTTGACGTTAACCG"
+entropy2 = calculate_shannon_entropy(dna_random)
+
+print("1. [엔트로피] 데이터의 압축 한계를 이론적으로 분석합니다.")
+print(f" - 규칙적 서열 '{dna_pattern}'의 엔트로피: {entropy1:.2f}")
+print(f" - 무작위 서열 '{dna_random}'의 엔트로피: {entropy2:.2f}")
+print(" -> 엔트로피가 높을수록(무작위할수록) 압축하기 어렵습니다.")
+</code></pre>
+                    <p><strong>상세 설명:</strong> 이 코드는 압축 효율의 이론적 배경인 '섀넌 엔트로피'를 직접 계산해봅니다. 엔트로피 공식 H(X) = -\sum [p(x_i) * log2(p(x_i))]을 학생들에게 소개합니다. p(x_i)는 각 문자가 나타날 확률입니다. 규칙적인 서열 dna_pattern은 'A'와 'T'만 50% 확률로 나타나므로 엔트로피가 낮게 계산됩니다. 반면, 무작위 서열 dna_random은 여러 문자가 비교적 고르게 분포하여 엔트로피가 높게 나옵니다. 이를 통해 학생들은 '압축이 잘 된다'는 것이 '데이터의 엔트로피가 낮다'는 수학적 속성과 동일함을 이해하게 됩니다.</p>
+                </div>
+                
+                <div class="sub-section">
+                    <h4>Stage 2: 무엇을 포기할 것인가? - 상충 관계 분석 (10분)</h4>
+                    <p>무손실 압축의 상충 관계: "구텐베르크 성경 원문 텍스트"를 압축하는 상황을 가정. 빠른 압축(낮은 압축률)과 느린 압축(높은 압축률)의 장단점을 설명. 실시간 전송이 중요하면 속도, 영구 보관이 중요하면 압축률을 우선해야 함을 설명합니다.</p>
+                    <p>실생활 예시 코드: 파이썬의 zlib 라이브러리를 사용하여, 동일한 텍스트를 다른 압축 레벨(1~9)로 압축해보고, 압축률과 소요 시간의 관계를 측정하여 보여줍니다.</p>
+                    <pre><code>import zlib
+import time
+
+# 셰익스피어의 햄릿 일부
+text_data = "To be, or not to be, that is the question..." * 1000
+encoded_data = text_data.encode('utf-8')
+
+print("\n2a. [무손실 압축 Trade-off] 압축 레벨에 따른 효율성 비교:")
+for level in [1, 5, 9]:
+    start_time = time.time()
+    compressed = zlib.compress(encoded_data, level=level)
+    end_time = time.time()
+    
+    duration = (end_time - start_time) * 1000 # ms
+    ratio = (1 - len(compressed) / len(encoded_data)) * 100
+    
+    print(f" - 레벨 {level}: 압축률={ratio:.2f}%, 소요시간={duration:.2f} ms")
+print(" -> 레벨이 높을수록 압축률은 약간 오르지만, 소요 시간이 크게 증가합니다.")
+</code></pre>
+                    <p><strong>상세 설명:</strong> 이 코드는 '압축률 vs. 속도'의 상충 관계를 정량적으로 보여줍니다. zlib.compress 함수는 level 인자를 통해 압축 강도를 조절할 수 있습니다. time 모듈을 사용하여 각 레벨별 압축 소요 시간을 측정합니다. 실행 결과, 레벨 1(가장 빠름)에 비해 레벨 9(최고 압축)는 압축률은 소폭 향상되지만, 실행 시간은 몇 배로 늘어나는 것을 확인할 수 있습니다. 이를 통해 학생들은 상황에 맞는 적절한 압축 레벨을 선택해야 하는 공학적 판단의 필요성을 배우게 됩니다.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>4. 진단평가 (OX 퀴즈)</h2>
+            <div class="quiz-section">
+                <div class="quiz-question"><p>1. 데이터의 엔트로피가 높을수록 무손실 압축의 효율이 좋다. (X)</p><div class="explanation">상세 풀이: 엔트로피는 데이터의 무작위성을 나타내는 척도입니다. 엔트로피가 높다는 것은 데이터가 무작위적이고 중복성이 낮다는 의미이므로, 압축하기가 매우 어렵고 압축 효율이 떨어집니다.</div></div>
+                <div class="quiz-question"><p>2. 압축률 90%는 원본 데이터 크기의 10%로 줄어들었음을 의미한다. (O)</p><div class="explanation">상세 풀이: 압축률 90%는 원본 대비 90%의 크기가 '감소'했음을 의미합니다. 따라서 남은 파일의 크기는 원본의 10%가 됩니다.</div></div>
+                <div class="quiz-question"><p>3. 무손실 압축에서는 압축률과 압축 속도가 항상 비례한다. (X)</p><div class="explanation">상세 풀이: 일반적으로 압축률과 속도는 '상충 관계(Trade-off)'에 있습니다. 더 높은 압축률을 얻기 위해 더 복잡한 알고리즘을 사용하면, 더 많은 연산이 필요하므로 압축 속도는 느려지는 경향이 있습니다.</div></div>
+                <div class="quiz-question"><p>4. 손실 압축은 압축률을 높이면 원본과의 데이터 차이(품질 저하)가 커진다. (O)</p><div class="explanation">상세 풀이: 손실 압축은 데이터를 버려서 압축률을 높이는 방식이므로, 압축률을 높인다는 것은 더 많은 데이터를 버린다는 의미입니다. 따라서 원본과의 차이가 커져 품질이 저하됩니다.</div></div>
+                <div class="quiz-question"><p>5. 이미 압축된 파일(예: ZIP 파일)을 다시 압축하면, 압축률이 매우 높게 나타난다. (X)</p><div class="explanation">상세 풀이: 이미 압축된 파일은 데이터의 중복성이 대부분 제거되어 엔트로피가 매우 높은 상태입니다. 이러한 데이터에 다시 압축을 시도하면 크기가 거의 줄지 않거나, 압축 파일 헤더 정보 등으로 인해 오히려 크기가 약간 더 커질 수 있습니다.</div></div>
+                <div class="quiz-question"><p>6. 섀넌의 소스 코딩 정리에 따르면, 데이터의 엔트로피는 해당 데이터를 압축할 수 있는 이론적인 한계를 제시한다. (O)</p><div class="explanation">상세 풀이: 섀넌은 데이터의 엔트로피가 그 데이터를 무손실 압축했을 때, 심볼 당 평균 비트 수의 최솟값임을 증명했습니다. 즉, 어떤 무손실 압축 알고리즘도 데이터의 엔트로피보다 더 작게 압축할 수는 없습니다.</div></div>
+                <div class="quiz-question"><p>7. 데이터에 특정 패턴이나 규칙이 전혀 없을수록 RLE 압축의 효율이 좋다. (X)</p><div class="explanation">상세 풀이: RLE(Run-Length Encoding)는 '같은 데이터가 연속으로 반복되는' 특정 패턴에 최적화된 알고리즘입니다. 패턴이 전혀 없는 무작위 데이터는 RLE 압축 효과가 거의 없습니다.</div></div>
+                <div class="quiz-question"><p>8. 압축 알고리즘의 성능은 원본 데이터의 특성과 무관하게 항상 일정하다. (X)</p><div class="explanation">상세 풀이: 압축 알고리즘의 성능은 원본 데이터의 특성(중복성, 패턴, 빈도 분포 등)에 매우 크게 의존합니다. 특정 데이터에 매우 효과적인 알고리즘이 다른 종류의 데이터에는 비효율적일 수 있습니다.</div></div>
+                <div class="quiz-question"><p>9. JPEG 압축 레벨을 낮추면(품질을 낮추면) 파일 크기는 커진다. (X)</p><div class="explanation">상세 풀이: JPEG 압축 레벨(품질)을 낮춘다는 것은 더 많은 데이터를 버려도 좋다는 의미이므로, 압축률이 높아져 파일 크기는 '작아집니다'.</div></div>
+                <div class="quiz-question"><p>10. 어떤 압축 알고리즘을 선택할지는 압축률, 속도, 데이터의 종류, 사용 목적 등을 종합적으로 고려하여 결정해야 한다. (O)</p><div class="explanation">상세 풀이: 모든 상황에 맞는 최고의 압축 알고리즘은 없습니다. 빠른 전송이 중요한지, 영구 보관이 중요한지, 데이터 손실이 허용되는지 등 다양한 요소를 고려하여 가장 적합한 압축 전략을 선택하는 것이 중요합니다.</div></div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>5. 형성평가 (5지선다형)</h2>
+            <div class="quiz-section">
+                <div class="quiz-question"><p class="question-text">1. 다음 중 데이터의 엔트로피(Entropy)가 가장 높을 것으로 예상되는 것은?</p><ol><li>"0000000000000000"</li><li>"abababababababab"</li><li>한글 '가'로만 채워진 텍스트 파일</li><li>AES-256으로 암호화된 파일</li><li>동일한 단어가 많이 반복되는 신문 기사</li></ol><p class="answer">정답: ④</p><div class="explanation">상세 풀이: 좋은 암호화 알고리즘의 결과물은 통계적으로 거의 완벽한 무작위(random) 데이터처럼 보여야 합니다. 만약 암호문에 패턴이 보인다면 해독의 단서가 될 수 있기 때문입니다. 따라서 잘 암호화된 파일은 엔트로피가 매우 높고, 무손실 압축이 거의 되지 않습니다. ①, ②, ③, ⑤는 모두 명백한 패턴과 중복성을 가지므로 엔트로피가 낮습니다.</div></div>
+                <div class="quiz-question"><p class="question-text">2. 원본 파일 크기가 2MB이고, 압축률이 75%일 때, 압축 후 파일의 크기는?</p><ol><li>250 KB</li><li>500 KB</li><li>750 KB</li><li>1 MB</li><li>1.5 MB</li></ol><p class="answer">정답: ②</p><div class="explanation">상세 풀이: 압축률이 75%라는 것은 원본 크기의 75%가 줄어들었다는 의미입니다. 따라서 남은 파일의 크기는 원본의 (100 - 75)% = 25% 입니다. 2MB (2048 KB)의 25%는 512 KB 이므로, 보기 중 가장 가까운 값은 500 KB 입니다.</div></div>
+                <div class="quiz-question"><p class="question-text">3. 무손실 압축 프로그램을 개발할 때, '최대한 높은 압축률'과 '최대한 빠른 압축 속도'를 동시에 달성하기 어려운 이유는 무엇인가?</p><ol><li>두 목표는 수학적으로 관계가 없기 때문이다.</li><li>높은 압축률을 위해서는 복잡한 패턴 분석이 필요하여 더 많은 연산 시간이 소요되는 상충 관계에 있기 때문이다.</li><li>압축 속도가 빠르면 데이터에 손실이 발생하기 때문이다.</li><li>무손실 압축은 압축률이 항상 고정되어 있기 때문이다.</li><li>빠른 압축은 저사양 컴퓨터에서는 불가능하기 때문이다.</li></ol><p class="answer">정답: ②</p><div class="explanation">상세 풀이: 더 높은 압축률을 달성하려면 데이터 내에 숨어있는 더 복잡하고 긴 패턴을 찾아내야 합니다. 이러한 탐색 과정은 더 많은 CPU 연산과 메모리를 필요로 하므로, 자연스럽게 압축 속도는 느려지게 됩니다. 이것이 바로 '압축률 vs. 속도'의 상충 관계(Trade-off)입니다.</div></div>
+                <div class="quiz-question"><p class="question-text">4. 의료용 X-ray 이미지 원본 파일을 이메일로 전송하려고 한다. 어떤 압축 방식을 선택하는 것이 가장 바람직한가?</p><ol><li>JPEG (손실 압축)</li><li>MP3 (손실 압축)</li><li>ZIP (무손실 압축)</li><li>MPEG (손실 압축)</li><li>압축하지 않고 그대로 전송한다.</li></ol><p class="answer">정답: ③</p><div class="explanation">상세 풀이: 의료 영상은 환자의 진단과 직결되는 매우 중요한 정보이므로, 단 1픽셀의 정보 손실도 허용되어서는 안 됩니다. 따라서 반드시 원본이 100% 보존되는 무손실 압축(ZIP, PNG, TIFF LZW 등)을 사용해야 합니다.</div></div>
+                <div class="quiz-question"><p class="question-text">5. 다음 중 데이터의 특성과 그에 가장 적합한 압축 알고리즘의 연결이 옳지 않은 것은?</p><ol><li>WWWWWWWWWWBBBB -> RLE</li><li>영어 소설 텍스트 -> 허프만 코딩</li><li>프로그램 소스 코드 -> LZ77 (ZIP에서 사용)</li><li>사람의 목소리 녹음 -> JPEG</li><li>1011010010111101 (랜덤 비트열) -> 압축 효과 거의 없음</li></ol><p class="answer">정답: ④</p><div class="explanation">상세 풀이: JPEG는 정지 '이미지'를 위한 손실 압축 알고리즘입니다. 사람의 목소리와 같은 '오디오' 데이터에는 MP3, AAC 등의 손실 압축 알고리즘이 적합합니다.</div></div>
+                <div class="quiz-question"><p class="question-text">6. 데이터 압축의 효율성을 분석하는 활동으로 가장 거리가 먼 것은?</p><ol><li>동일한 파일에 대해 RLE와 ZIP의 압축률을 비교한다.</li><li>JPEG 파일의 품질 설정을 10, 50, 100으로 바꾸며 파일 크기의 변화를 기록한다.</li><li>암호화 키의 길이를 늘리면서 암호화에 걸리는 시간을 측정한다.</li><li>텍스트 파일과 이미지 파일에 zlib 압축을 적용하고 압축률 차이를 분석한다.</li><li>압축 레벨을 다르게 설정하며 압축 속도와 압축률의 관계를 그래프로 그린다.</li></ol><p class="answer">정답: ③</p><div class="explanation">상세 풀이: 암호화 키 길이는 '보안 강도'와 '암호화 속도'에 영향을 미치지만, '압축'의 효율성과는 직접적인 관련이 없습니다. 나머지는 모두 압축 알고리즘의 성능과 효율성을 분석하는 활동입니다.</div></div>
+                <div class="quiz-question"><p class="question-text">7. 컴퓨터 바탕화면을 캡쳐한 이미지 파일(PNG)이 풍경 사진(JPG)에 비해 파일 크기가 작게 나오는 경향이 있다. 그 이유를 가장 잘 설명한 것은?</p><ol><li>PNG는 손실 압축, JPG는 무손실 압축이기 때문이다.</li><li>바탕화면 이미지는 풍경 사진보다 엔트로피가 낮기 때문이다.</li><li>바탕화면 이미지는 항상 크기가 작기 때문이다.</li><li>PNG는 텍스트 압축에, JPG는 이미지 압축에 특화되었기 때문이다.</li><li>바탕화면 이미지는 색상 수가 더 많기 때문이다.</li></ol><p class="answer">정답: ②</p><div class="explanation">상세 풀이: 컴퓨터 바탕화면은 아이콘, 단색 배경 등 동일한 색상으로 이루어진 넓은 영역이 많습니다. 이는 데이터의 중복성이 매우 높고 패턴이 단순하다는 의미이며, 정보 이론 관점에서는 '엔트로피가 낮다'고 말합니다. PNG는 이러한 특징을 잘 활용하는 무손실 압축(LZ77+허프만)을 사용하므로 압축 효율이 좋습니다. 반면, 풍경 사진은 복잡하고 다양한 색상 정보로 이루어져 엔트로피가 상대적으로 높습니다.</div></div>
+                <div class="quiz-question"><p class="question-text">8. 다음 중 데이터 압축에 대한 설명으로 가장 옳은 것은?</p><ol><li>모든 데이터는 최소 50% 이상 압축될 수 있다.</li><li>손실 압축은 원본을 완벽하게 복원할 수 없지만, 높은 압축률을 얻을 수 있다.</li><li>무손실 압축은 항상 손실 압축보다 압축률이 높다.</li><li>데이터의 크기를 늘려서 정보를 추가하는 과정이다.</li><li>압축된 데이터는 암호화된 데이터보다 항상 안전하다.</li></ol><p class="answer">정답: ②</p><div class="explanation">상세 풀이: 손실 압축의 핵심적인 특징이자 상충 관계입니다. 일부 데이터를 버리는 대가로 높은 압축률을 얻습니다. ①번과 같이 모든 데이터를 압축할 수 있다는 보장은 없으며(엔트로피 한계), ③ 무손실 압축은 일반적으로 손실 압축보다 압축률이 낮습니다.</div></div>
+                <div class="quiz-question"><p class="question-text">9. "No Free Lunch Theorem"을 데이터 압축에 적용할 때, 다음 중 가장 적절한 해석은?</p><ol><li>압축 소프트웨어는 항상 유료로 구매해야 한다.</li><li>모든 종류의 데이터에 대해 항상 최고의 성능을 내는 '만능' 압축 알고리즘은 존재하지 않는다.</li><li>압축을 하면 항상 데이터의 일부를 잃게 된다.</li><li>압축에 드는 시간과 압축으로 절약하는 시간은 항상 같다.</li><li>데이터 압축 기술은 더 이상 발전할 여지가 없다.</li></ol><p class="answer">정답: ②</p><div class="explanation">상세 풀이: "세상에 공짜 점심은 없다"는 이 정리는, 어떤 문제에 대해 모든 상황에서 뛰어난 성능을 보이는 보편적인 알고리즘은 존재할 수 없다는 의미를 담고 있습니다. 데이터 압축에서는, 어떤 알고리즘이 특정 종류의 데이터(예: 텍스트)에 매우 효율적이더라도, 다른 종류의 데이터(예: 오디오)에는 비효율적일 수 있음을 의미합니다.</div></div>
+                <div class="quiz-question"><p class="question-text">10. 압축률을 계산하는 공식으로 옳은 것은? (단, O=원본 크기, C=압축 후 크기)</p><ol><li>(C / O) * 100</li><li>(O / C) * 100</li><li>(1 - C / O) * 100</li><li>(1 - O / C) * 100</li><li>(O - C) * 100</li></ol><p class="answer">정답: ③</p><div class="explanation">상세 풀이: C / O는 원본 대비 압축 파일의 크기 비율입니다. 1에서 이 비율을 빼면 '줄어든 비율'이 계산되고, 여기에 100을 곱하여 백분율로 나타냅니다.</div></div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>6. 코딩 실습 예제</h2>
+            <div class="code-example">
+                <h4>1. 압축 효율 분석기</h4>
+                <pre><code>def rle_encode(data):
+    if not data: return []
+    encoded, count = [], 1
+    for i in range(1, len(data)):
+        if data[i] == data[i-1]: count += 1
+        else:
+            encoded.append((data[i-1], count))
+            count = 1
+    encoded.append((data[len(data)-1], count))
+    return encoded
+
+def calculate_compression_ratio(original_size, compressed_size):
+    if original_size == 0: return 0.0
+    return round((1 - (compressed_size / original_size)) * 100, 2)
+
+def analyze_efficiency_by_data_type():
+    data1 = "aaaaaaaaaabbbbbbbbbb"
+    encoded1 = rle_encode(data1)
+    ratio1 = calculate_compression_ratio(len(data1), len(encoded1))
+    print(f"--- 데이터: '{data1}' ---")
+    print(f"원본 크기(가정): {len(data1)}, 압축 후 크기(가정): {len(encoded1)}")
+    print(f"압축률: {ratio1}%")
+    
+    data2 = "abcdefghijklmnopqrst"
+    encoded2 = rle_encode(data2)
+    ratio2 = calculate_compression_ratio(len(data2), len(encoded2))
+    print(f"\n--- 데이터: '{data2}' ---")
+    print(f"원본 크기(가정): {len(data2)}, 압축 후 크기(가정): {len(encoded2)}")
+    print(f"압축률: {ratio2}%")
+    print("\n결론: RLE 압축은 반복적인 데이터에 훨씬 더 효율적입니다.")
+
+analyze_efficiency_by_data_type()
+</code></pre>
+                <p><strong>상세 풀이 및 설명:</strong> 이 코드는 동일한 rle_encode 알고리즘을 사용하여 서로 다른 특성의 데이터에 대한 압축 효율을 정량적으로 비교합니다. data1은 중복성이 매우 높아, 20글자가 단 2개의 정보(('a', 10), ('b', 10))로 압축됩니다. 따라서 압축률이 매우 높게 계산됩니다. data2는 중복성이 전혀 없어, 20글자가 20개의 정보(('a', 1), ('b', 1), ...)로 표현됩니다. 압축 효과가 전혀 없어 압축률이 0%로 계산됩니다. 이를 통해 학생들은 압축 효율성이 알고리즘 자체만으로 결정되는 것이 아니라, '알고리즘과 데이터 특성의 궁합'에 따라 결정된다는 중요한 사실을 배울 수 있습니다.</p>
+            </div>
+            
+            <div class="code-example">
+                <h4>2. 최악의 RLE 시나리오</h4>
+                <pre><code># 1번의 rle_encode 함수가 필요
+def analyze_rle_efficiency(data):
+    """RLE 압축이 효율적인지, 비효율적인지 분석합니다."""
+    if not data:
+        print("데이터가 없습니다.")
+        return
+    encoded_list = rle_encode(data)
+    original_size = len(data)
+    compressed_size = len(encoded_list) * 2 # (문자, 횟수) 튜플을 2바이트로 가정
+    print(f"\n--- 데이터: '{data}' ---")
+    print(f"원본 크기: {original_size} Bytes")
+    print(f"압축 후 크기 (추정): {compressed_size} Bytes")
+    if compressed_size > original_size: print("결과: 압축 비효율적 (크기가 더 커짐)")
+    elif compressed_size == original_size: print("결과: 압축 효과 없음")
+    else: print("결과: 압축 효율적")
+
+analyze_rle_efficiency("AABBCCDD")
+analyze_rle_efficiency("ABCDE")
+analyze_rle_efficiency("AAAAA")
+</code></pre>
+                <p><strong>상세 풀이 및 설명:</strong> 이 함수는 RLE 압축의 '최악의 경우(worst-case)'를 분석합니다. RLE의 최악의 경우는 모든 문자가 반복되지 않는 경우입니다. 예를 들어, ABCDE를 RLE로 압축하면 [('A',1), ('B',1), ('C',1), ('D',1), ('E',1)]이 됩니다. compressed_size = len(encoded_list) * 2: 원본은 각 문자당 1바이트씩 5바이트라고 가정할 때, 압축 후에는 각 문자를 표현하는데 (문자, 횟수)의 2바이트가 필요하므로 총 10바이트가 되어 크기가 오히려 2배로 늘어납니다. 이 함수는 이러한 현상을 코드로 보여주며, 압축 알고리즘이 잘못된 종류의 데이터에 적용될 경우 오히려 역효과를 낼 수 있음을 알려줍니다.</p>
+            </div>
+
+            <div class="code-example">
+                <h4>3. Shannon 엔트로피 계산기</h4>
+                <pre><code>import math
+from collections import Counter
+def calculate_entropy(text):
+    """문자열의 섀넌 엔트로피를 계산합니다. (단위: bits/symbol)"""
+    if not text:
+        return 0.0
+    counter = Counter(text)
+    text_length = len(text)
+    probabilities = [count / text_length for count in counter.values()]
+    entropy = -sum([p * math.log2(p) for p in probabilities])
+    return entropy
+
+low_entropy_text = "aaaaabbbbb"
+high_entropy_text = "abcdefghij"
+entropy1 = calculate_entropy(low_entropy_text)
+entropy2 = calculate_entropy(high_entropy_text)
+print(f"'{low_entropy_text}'의 엔트로피: {entropy1:.4f} bits/symbol")
+print(f"'{high_entropy_text}'의 엔트로피: {entropy2:.4f} bits/symbol")
+</code></pre>
+                <p><strong>상세 풀이 및 설명:</strong> 이 함수는 정보 이론의 핵심인 섀넌 엔트로피를 계산합니다. 엔트로피는 특정 문자(심볼)를 표현하는 데 필요한 평균 정보량(비트 수)을 의미합니다. Counter를 이용해 각 문자의 빈도를 계산하고, 전체 길이로 나누어 확률(p)을 구합니다. sum([p * math.log2(p) for p in probabilities]): 리스트 컴프리헨션을 사용하여 모든 문자에 대해 p * log_{2}(p)를 계산하고 그 합을 구합니다. 결과에 -를 붙여 최종 엔트로피를 계산합니다. low_entropy_text는 'a'와 'b' 두 종류만 있으므로 엔트로피가 낮습니다(약 1.0). 이는 각 문자를 표현하는 데 평균적으로 1비트면 충분하다는 의미입니다. high_entropy_text는 10종류의 문자가 동일한 확률로 나타나므로 엔트로피가 높습니다(약 3.32). 이는 각 문자를 표현하는 데 평균 3.32비트가 필요하다는 의미이며, 압축의 여지가 적다는 것을 뜻합니다.</p>
+            </div>
+            
+            <div class="code-example">
+                <h4>4. 엔트로피와 압축률의 관계</h4>
+                <pre><code>import zlib
+# 3번의 calculate_entropy, 1번의 calculate_compression_ratio 함수가 필요
+text_low_entropy = "AAAAAABBBBCD"
+text_high_entropy = "ABCDEFGHIJKL"
+entropy_low = calculate_entropy(text_low_entropy)
+entropy_high = calculate_entropy(text_high_entropy)
+compressed_low = zlib.compress(text_low_entropy.encode())
+compressed_high = zlib.compress(text_high_entropy.encode())
+ratio_low = calculate_compression_ratio(len(text_low_entropy), len(compressed_low))
+ratio_high = calculate_compression_ratio(len(text_high_entropy), len(compressed_high))
+print(f"--- 데이터: '{text_low_entropy}' ---")
+print(f"엔트로피: {entropy_low:.2f} | 압축률: {ratio_low:.2f}%")
+print(f"\n--- 데이터: '{text_high_entropy}' ---")
+print(f"엔트로피: {entropy_high:.2f} | 압축률: {ratio_high:.2f}%")
+print("\n결론: 엔트로피가 낮은(중복성이 높은) 데이터의 압축률이 더 높습니다.")
+</code></pre>
+                <p><strong>상세 풀이 및 설명:</strong> 이 코드는 이론(엔트로피)과 실제(zlib 압축률) 사이의 관계를 실험적으로 보여줍니다. text_low_entropy는 'A'가 많이 나오고 다른 문자는 적게 나오는, 빈도수가 불균등한 데이터입니다. 따라서 엔트로피가 상대적으로 낮게 계산됩니다. text_high_entropy는 모든 문자가 한 번씩만 나오는, 빈도수가 균등한 데이터입니다. 따라서 엔트로피가 상대적으로 높게 계산됩니다. 두 데이터를 zlib으로 압축해보면, 엔트로피가 낮았던 text_low_entropy의 압축률이 훨씬 더 높게 나오는 것을 확인할 수 있습니다. 이는 엔트로피가 실제로 무손실 압축의 효율성을 예측하는 좋은 지표임을 보여줍니다.</p>
+            </div>
+            
+            <div class="code-example">
+                <h4>5. 손실 압축 품질 비교: 오차 계산</h4>
+                <pre><code>def calculate_mse(original_list, lossy_list):
+    """두 리스트 간의 평균 제곱 오차(MSE)를 계산합니다."""
+    if len(original_list) != len(lossy_list):
+        return None
+    squared_error_sum = sum([(orig - lossy)**2 for orig, lossy in zip(original_list, lossy_list)])
+    mse = squared_error_sum / len(original_list)
+    return mse
+
+original_signal = [10, 22, 31, 48, 53]
+quantized_high = [round(x/2.0)*2 for x in original_signal] # [10, 22, 32, 48, 54]
+quantized_low = [round(x/10.0)*10 for x in original_signal] # [10, 20, 30, 50, 50]
+mse1 = calculate_mse(original_signal, quantized_high)
+mse2 = calculate_mse(original_signal, quantized_low)
+print(f"원본 신호: {original_signal}")
+print(f"고품질 압축 결과: {quantized_high} -> MSE: {mse1:.2f}")
+print(f"저품질 압축 결과: {quantized_low} -> MSE: {mse2:.2f}")
+print("\n결론: 압축을 많이 할수록(저품질), 원본과의 오차(MSE)가 커집니다.")
+</code></pre>
+                <p><strong>상세 풀이 및 설명:</strong> 손실 압축의 '품질 저하'를 객관적으로 측정하는 방법 중 하나가 '평균 제곱 오차(MSE)'입니다. calculate_mse 함수는 원본과 손실된 데이터의 각 원소를 비교하여, 그 차이를 제곱한 값들의 평균을 계산합니다. 오차를 제곱하기 때문에, 차이가 클수록 MSE 값은 기하급수적으로 커집니다. quantized_high는 2단위로 양자화하여 원본과 차이가 적고, quantized_low는 10단위로 양자화하여 원본과 차이가 큽니다. 테스트 결과를 보면, 더 많이 압축된(단순화된) quantized_low의 MSE 값이 훨씬 더 크게 나옵니다. 이는 '압축률'과 '품질' 사이의 상충 관계를 수치적으로 보여주는 것입니다.</p>
+            </div>
+
+            <div class="code-example">
+                <h4>6. 무손실 압축 속도 비교</h4>
+                <pre><code>import zlib
+import time
+import os
+file_size = 10 * 1024 * 1024 # 10MB
+text_data = (b"This is a sample text for testing compression speed and ratio. " * (file_size // 60))[:file_size]
+
+def test_zlib_speed(data, level):
+    """zlib 압축 속도와 압축률을 측정합니다."""
+    start_time = time.perf_counter()
+    compressed = zlib.compress(data, level=level)
+    end_time = time.perf_counter()
+    duration_ms = (end_time - start_time) * 1000
+    ratio = (1 - len(compressed) / len(data)) * 100
+    print(f" - Level {level}: 소요시간={duration_ms:7.2f} ms | 압축 후 크기={len(compressed):,} Bytes | 압축률={ratio:.2f}%")
+
+print(f"--- zlib 압축 속도/압축률 비교 (원본: {len(text_data):,} Bytes) ---")
+test_zlib_speed(text_data, 1)
+test_zlib_speed(text_data, 5)
+test_zlib_speed(text_data, 9)
+</code></pre>
+                <p><strong>상세 풀이 및 설명:</strong> 이 코드는 무손실 압축의 '압축률 vs. 속도' 상충 관계를 실험적으로 증명합니다. time.perf_counter()는 시스템의 유휴 시간이 아닌, 실제 경과 시간을 매우 정밀하게 측정해주어 이런 성능 테스트에 적합합니다. zlib.compress의 level 인자는 1(가장 빠름, 낮은 압축률)부터 9(가장 느림, 높은 압축률)까지 설정할 수 있습니다. 테스트를 실행하면, level 1이 가장 빠르지만 압축률은 가장 낮고, level 9가 가장 느리지만 압축률은 가장 높은 것을 명확하게 확인할 수 있습니다. level 5는 그 중간 정도의 성능을 보입니다. 이를 통해 사용자는 '시간'과 '공간' 중 무엇을 더 절약할지 목적에 따라 옵션을 선택해야 함을 배울 수 있습니다.</p>
+            </div>
+            
+             <div class="code-example">
+                <h4>7. 데이터 종류에 따른 압축 효율 비교</h4>
+                <pre><code>import zlib
+import os
+DATA_SIZE = 100 * 1024 # 100KB
+text_data = (b"This is a sample text for testing compression efficiency. " * (DATA_SIZE // 54))[:DATA_SIZE]
+random_data = os.urandom(DATA_SIZE)
+compressed_text = zlib.compress(text_data)
+compressed_random = zlib.compress(random_data)
+ratio_text = (1 - len(compressed_text) / len(text_data)) * 100
+ratio_random = (1 - len(compressed_random) / len(random_data)) * 100
+
+print(f"--- 데이터 종류에 따른 압축 효율 (원본 크기: {DATA_SIZE} Bytes) ---")
+print(f"텍스트 데이터:\n - 압축 후 크기: {len(compressed_text):,} Bytes\n - 압축률: {ratio_text:.2f}%")
+print(f"\n무작위 데이터:\n - 압축 후 크기: {len(compressed_random):,} Bytes\n - 압축률: {ratio_random:.2f}%")
+print("\n결론: 패턴과 중복성이 있는 텍스트 데이터가 무작위 데이터보다 훨씬 압축이 잘 됩니다.")
+</code></pre>
+                <p><strong>상세 풀이 및 설명:</strong> 이 코드는 압축 알고리즘의 성능이 '데이터의 특성'에 의해 결정된다는 것을 보여줍니다. text_data는 동일한 문장이 반복되므로, LZ 계열 알고리즘(zlib 내부 사용)이 "이전에 나왔던 구문"을 참조하여 매우 효율적으로 압축할 수 있습니다. os.urandom(DATA_SIZE)는 암호학적으로 안전한, 예측 불가능한 무작위 바이트 데이터를 생성합니다. 이 데이터는 반복되는 패턴이 거의 없어 중복성이 매우 낮고, 엔트로피가 거의 최대치에 가깝습니다. 실행 결과, 텍스트 데이터는 높은 압축률을 보이지만, 무작위 데이터는 압축 후 크기가 원본과 거의 같거나 zlib 헤더 정보 때문에 오히려 약간 더 커질 수 있습니다.</p>
+            </div>
+            
+            <div class="code-example">
+                <h4>8. 이미지 색상 수 줄이기 (손실 압축)</h4>
+                <pre><code>def reduce_color_palette(pixels, step=32):
+    """각 픽셀의 R, G, B 값을 step 단위로 양자화하여 색상 수를 줄입니다."""
+    new_pixels = []
+    for r, g, b in pixels:
+        new_r = round(r / step) * step
+        new_g = round(g / step) * step
+        new_b = round(b / step) * step
+        new_pixels.append((max(0, min(255, new_r)), max(0, min(255, new_g)), max(0, min(255, new_b))))
+    return new_pixels
+
+original_pixels = [(255, 10, 22), (250, 12, 28), (123, 88, 199), (128, 90, 201), (5, 180, 99)]
+reduced_color_pixels = reduce_color_palette(original_pixels, step=32)
+original_color_count = len(set(original_pixels))
+reduced_color_count = len(set(reduced_color_pixels))
+print(f"원본 픽셀: {original_pixels}")
+print(f"색상 수 감소 후 픽셀: {reduced_color_pixels}")
+print(f"\n고유 색상 수: {original_color_count}개 -> {reduced_color_count}개")
+print("결론: 색상의 정밀도를 낮춰(손실) 표현에 필요한 정보량을 줄였습니다.")
+</code></pre>
+                 <p><strong>상세 풀이 및 설명:</strong> 이 코드는 이미지 손실 압축의 핵심 원리 중 하나인 '색상 양자화'를 시뮬레이션합니다. 24비트 트루컬러 이미지는 약 1670만 개의 색상을 표현할 수 있지만, 실제 이미지에서 사용되는 색상 수는 그보다 적고, 비슷한 색상들을 묶어 표현할 수 있습니다. reduce_color_palette 함수는 각 픽셀의 R, G, B 값을 step 단위로 반올림하여, 비슷한 색상들을 하나의 대표 색상으로 만듭니다. 예를 들어, step=32이면 R, G, B 각각 8가지 값(0, 32, 64, ..., 224)만 가질 수 있으므로, 총 8*8*8 = 512개의 색상으로 모든 색을 표현하게 됩니다. 이 과정에서 (255, 10, 22)와 (250, 12, 28)처럼 미세하게 다르던 색상들이 (256, 0, 32) -> (255, 0, 32) 와 같이 동일한 색상으로 변환됩니다. 이로 인해 고유한 색상의 수가 줄어들어, 이미지를 인덱스 컬러(팔레트) 방식으로 저장할 때 파일 크기를 크게 줄일 수 있습니다.</p>
+           </div>
+           
+             <div class="code-example">
+                <h4>9. 데이터의 변화에 따른 RLE 효율성 시각화</h4>
+                <pre><code>def rle_encode_size_only(data):
+    """RLE 압축 후의 정보량(튜플 개수)만 계산합니다."""
+    if not data: return 0
+    count = 1
+    for i in range(1, len(data)):
+        if data[i] != data[i-1]:
+            count += 1
+    return count
+
+print("--- 데이터 패턴에 따른 RLE 효율성 변화 ---")
+print("\n패턴 1: 'A' 반복")
+print(" 원본 길이 -> 압축 후 정보량")
+for i in [1, 5, 10, 20, 50]:
+    data = 'A' * i
+    compressed_size = rle_encode_size_only(data)
+    print(f" {i:10} -> {compressed_size}")
+
+print("\n패턴 2: 'AB' 반복")
+print(" 원본 길이 -> 압축 후 정보량")
+for i in [1, 5, 10, 20, 50]:
+    data = 'AB' * i
+    compressed_size = rle_encode_size_only(data)
+    print(f" {len(data):10} -> {compressed_size}")
+</code></pre>
+                 <p><strong>상세 풀이 및 설명:</strong> rle_encode_size_only 함수는 실제 압축 데이터를 만들지 않고, 결과로 나올 튜플의 개수만 계산하여 RLE의 정보량 변화를 효율적으로 추적합니다. 패턴 1: data = 'A' * i의 경우, 데이터가 아무리 길어져도 연속된 'A' 덩어리는 하나뿐이므로, 압축 후 정보량은 항상 1입니다. 원본 길이가 길어질수록 압축 효율이 기하급수적으로 좋아집니다. 패턴 2: data = 'AB' * i의 경우, ABABAB... 와 같이 문자가 계속 바뀌므로, 압축 후 정보량은 ('A',1), ('B',1), ... 와 같이 원본 길이와 비례하여 계속 증가합니다. 이 두 가지 극단적인 시나리오를 통해, 학생들은 데이터에 '어떤 패턴'이 있느냐에 따라 동일한 알고리즘의 효율성이 어떻게 극적으로 변하는지를 명확하게 시각적으로 이해할 수 있습니다.</p>
+           </div>
+           
+            <div class="code-example">
+                <h4>10. 적절한 압축 방식 추천기</h4>
+                <pre><code>def suggest_compression(filename):
+    """파일 이름의 확장자를 보고 적절한 압축 방식을 추천합니다."""
+    fn_lower = filename.lower()
+    
+    if fn_lower.endswith(('.txt', '.csv', '.py', '.c', '.h', '.exe', '.dll')):
+        return "무손실 압축 권장 (데이터 손실 절대 불가)"
+    elif fn_lower.endswith(('.jpg', '.jpeg', '.mp3', '.aac', '.mp4', '.avi', '.mov')):
+        return "손실 압축 적합 (사람이 소비하는 미디어)"
+    elif fn_lower.endswith(('.zip', '.gz', '.png', '.7z')):
+        return "이미 압축된 형식 (재압축 효율 낮음)"
+    else:
+        return "알 수 없는 파일 형식"
+
+files_to_test = ["report.txt", "photo.JPG", "music.mp3", "archive.zip", "program.exe", "document.docx"]
+for f in files_to_test:
+    recommendation = suggest_compression(f)
+    print(f"파일 '{f}': {recommendation}")
+</code></pre>
+                <p><strong>상세 풀이 및 설명:</strong> 이 함수는 실제 압축을 수행하는 것이 아니라, 파일의 '종류'(확장자를 통해 유추)를 바탕으로 어떤 압축 전략을 선택해야 하는지에 대한 '메타 지식'을 코드로 구현한 것입니다. .lower()를 사용하여 대소문자 구분 없이 확장자를 비교합니다. if-elif-else 구조를 사용하여 파일 확장자를 여러 카테고리로 분류합니다. 무손실 필요: 텍스트, 소스코드, 실행 파일 등 정보의 정확성이 100% 보장되어야 하는 파일. 손실 적합: 사람이 보고 듣는 멀티미디어 파일. 약간의 품질 저하를 감수하고 높은 압축률을 얻는 것이 이득인 경우가 많습니다. 이미 압축됨: ZIP 파일이나 PNG(무손실 압축 사용) 파일 등은 이미 내부에 압축 알고리즘이 적용되어 있으므로, 다시 압축해도 효과가 거의 없습니다. 이 코드는 학생들에게 압축 효율성 분석의 최종 목표가 '상황에 맞는 최적의 전략 선택'임을 상기시켜주는 좋은 예제가 됩니다.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

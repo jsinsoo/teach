@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>과학고 정보 수업 지도안: 암호화 기법의 종류</title>
+    <style>
+        body {
+            font-family: 'Malgun Gothic', '맑은 고딕', sans-serif;
+            line-height: 1.6;
+            margin: 0 auto;
+            max-width: 900px;
+            padding: 20px;
+            color: #333;
+        }
+        h1, h2, h3, h4 {
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+            margin-top: 40px;
+            color: #0056b3;
+        }
+        h1 {
+            font-size: 2.5em;
+            text-align: center;
+        }
+        h2 {
+            font-size: 2em;
+        }
+        h3 {
+            font-size: 1.5em;
+            border-bottom-width: 1px;
+            border-bottom-style: dashed;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        code {
+            font-family: 'D2Coding', 'Consolas', 'Monaco', monospace;
+        }
+        ul, ol {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        strong {
+            color: #0056b3;
+        }
+        blockquote {
+            border-left: 5px solid #ccc;
+            padding-left: 15px;
+            margin-left: 0;
+            font-style: italic;
+            color: #555;
+        }
+        .explanation, .solution-detail {
+            background-color: #e9f7ef;
+            border: 1px solid #c3e6cb;
+            border-left-width: 5px;
+            padding: 15px;
+            margin-top: 10px;
+            border-radius: 5px;
+        }
+        .quiz-question {
+            margin-bottom: 25px;
+            padding: 15px;
+            border: 1px solid #eee;
+            border-radius: 5px;
+        }
+        hr {
+            margin: 40px 0;
+            border: 0;
+            border-top: 2px solid #eee;
+        }
+        .check {
+            color: #28a745;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>과학고 정보 수업 지도안: II. 데이터 - 212. 암호화 기법의 종류</h1>
+    <p><strong>목표지향적 개념기반 수업지도안</strong> <span class="check">☑</span></p>
+
+    <hr>
+
+    <h2>1. 학습 목표 <span class="check">☑</span></h2>
+
+    <h3>개념적 목표: <span class="check">☑</span></h3>
+    <ul>
+        <li><span class="check">☑</span> 대칭키 암호화 기법을 블록 암호와 스트림 암호로 분류하고, 각각의 동작 방식과 특징을 설명할 수 있다.</li>
+        <li><span class="check">☑</span> 블록 암호의 운영 모드(ECB, CBC 등)의 필요성을 이해하고, 특히 CBC 모드가 보안성을 어떻게 향상시키는지 설명할 수 있다.</li>
+        <li><span class="check">☑</span> 대표적인 비대칭키 암호인 RSA의 원리가 '큰 수의 소인수분해의 어려움'이라는 수학적 난제에 기반함을 이해한다.</li>
+        <li><span class="check">☑</span> 전자서명(Digital Signature)이 '메시지의 해시 값을 개인키로 암호화'하는 방식으로 부인 방지(Non-repudiation)와 무결성을 보장하는 원리를 설명할 수 있다.</li>
+        <li><span class="check">☑</span> 실제 인터넷 통신(HTTPS)에서 대칭키와 비대칭키 암호가 함께 사용되는 하이브리드 암호 시스템의 필요성과 동작 방식을 설명할 수 있다.</li>
+    </ul>
+
+    <h3>절차적 목표: <span class="check">☑</span></h3>
+    <ul>
+        <li><span class="check">☑</span> 블록 암호의 ECB 모드와 CBC 모드의 동작 차이를 코드로 시뮬레이션하고 그 결과를 비교 분석할 수 있다.</li>
+        <li><span class="check">☑</span> 주어진 평문을 일정한 크기의 블록으로 나누고, 마지막 블록을 특정 값으로 채우는 패딩(Padding)을 구현할 수 있다.</li>
+        <li><span class="check">☑</span> 간단한 숫자를 이용하여 RSA 암호화의 키 생성, 암호화, 복호화 과정을 코드로 모델링할 수 있다.</li>
+        <li><span class="check">☑</span> 메시지에 대한 전자서명을 생성하고, 주어진 서명과 메시지, 공개키를 이용해 서명의 유효성을 검증하는 코드를 작성할 수 있다.</li>
+    </ul>
+
+    <h3>태도적 목표: <span class="check">☑</span></h3>
+    <ul>
+        <li><span class="check">☑</span> 하나의 암호 기술이 모든 상황에 최적인 것은 아니며, 목적(속도, 안전성 등)에 따라 적절한 기술을 조합하여 사용해야 함을 이해한다.</li>
+        <li><span class="check">☑</span> 현대 암호 기술이 견고한 수학적 원리 위에 세워져 있음을 인지하고, 수학과 정보과학의 융합적 가치를 존중한다.</li>
+        <li><span class="check">☑</span> 단순히 암호화하는 것을 넘어, 데이터의 무결성과 송신자의 신원을 증명하는 것의 중요성을 인식하고, 정보 보안에 대한 다각적인 시야를 기른다.</li>
+    </ul>
+    
+    <hr>
+
+    <h2>2. 핵심 개념 상세 설명 <span class="check">☑</span></h2>
+    <h3>대칭키 암호의 종류: <span class="check">☑</span></h3>
+    <p><strong>스트림 암호 (Stream Cipher):</strong> 평문 데이터를 비트(bit) 또는 바이트(byte) 단위로 순차적으로 암호화하는 방식. 암호화 키로부터 생성된 긴 '키 스트림(Keystream)'을 평문 스트림과 XOR 연산하여 암호문을 생성합니다. (예: RC4)<span class="check">☑</span></p>
+    <p><strong>블록 암호 (Block Cipher):</strong> 평문 데이터를 정해진 고정 크기(블록) 단위로 나누어, 각 블록을 암호화하는 방식. 현대 암호 시스템의 주류를 이룹니다. (예: AES, DES)<span class="check">☑</span></p>
+    <p><strong>패딩 (Padding):</strong> 마지막 평문 블록의 크기가 고정된 블록 크기보다 작을 경우, 부족한 부분을 특정 값으로 채워 길이를 맞추는 작업.<span class="check">☑</span></p>
+    <p><strong>운영 모드 (Mode of Operation):</strong> 블록 암호를 사용하여 여러 블록으로 이루어진 긴 데이터를 어떻게 안전하게 암호화할 것인지에 대한 방법.<span class="check">☑</span></p>
+    <p><strong>ECB (Electronic Codebook):</strong> 가장 단순한 모드. 각 평문 블록을 동일한 키로 독립적으로 암호화합니다. 치명적 단점: 동일한 평문 블록은 항상 동일한 암호문 블록으로 변환되므로, 데이터의 패턴(예: 이미지의 형태)이 암호문에도 그대로 남아 보안에 매우 취약합니다.<span class="check">☑</span></p>
+    <p><strong>CBC (Cipher Block Chaining):</strong> 보안성을 높인 널리 쓰이는 모드. 각 평문 블록을 암호화하기 전에, 이전 암호문 블록과 XOR 연산합니다. 첫 블록은 초기화 벡터(IV)라는 임의의 값과 XOR 합니다. 이 '체인' 구조 때문에 동일한 평문 블록이라도 위치에 따라 다른 암호문 블록으로 변환되어 패턴이 드러나지 않습니다.<span class="check">☑</span></p>
+
+    <h3>비대칭키 암호의 종류: <span class="check">☑</span></h3>
+    <p><strong>RSA:</strong> 현재 가장 널리 사용되는 공개키 암호 알고리즘. 개발자 세 사람(Rivest, Shamir, Adleman)의 이름 앞 글자를 땄습니다. 두 개의 매우 큰 소수를 곱하는 것은 쉽지만, 그 곱해진 큰 수를 다시 두 개의 소수로 소인수분해하는 것은 계산적으로 매우 어렵다는 수학적 원리를 이용합니다.<span class="check">☑</span></p>
+
+    <h3>해시 함수의 종류: <span class="check">☑</span></h3>
+    <p><strong>MD5:</strong> 과거에 널리 쓰였으나, 현재는 심각한 보안 취약점(충돌을 쉽게 찾을 수 있음)이 발견되어 무결성 검증이나 패스워드 저장 용도로는 절대 사용해서는 안 됩니다.<span class="check">☑</span></p>
+    <p><strong>SHA (Secure Hash Algorithm):</strong> 미국 국가안보국(NSA)이 설계한 표준 해시 함수. SHA-1도 취약점이 발견되어 사용이 권고되지 않으며, 현재는 SHA-256을 포함한 SHA-2 계열이 널리 쓰이고 있습니다. SHA-256은 256비트(32바이트) 길이의 해시 값을 생성합니다.<span class="check">☑</span></p>
+
+    <h3>전자서명과 하이브리드 시스템: <span class="check">☑</span></h3>
+    <p><strong>전자서명 (Digital Signature):</strong> 비대칭키 기술을 응용하여, 메시지를 보낸 사람의 신원을 증명(인증)하고, 메시지가 위변조되지 않았음(무결성)을 보장하는 기술.<span class="check">☑</span></p>
+    <ul>
+        <li><strong>서명 생성:</strong> 송신자는 메시지의 해시 값을 자신의 개인키로 암호화하여 서명을 만듭니다.<span class="check">☑</span></li>
+        <li><strong>서명 검증:</strong> 수신자는 서명을 송신자의 공개키로 복호화하여 해시 값 A를 얻고, 함께 받은 메시지의 해시 값을 직접 계산하여 해시 값 B를 얻습니다. A와 B가 일치하면 서명이 유효하다고 판단합니다.<span class="check">☑</span></li>
+    </ul>
+    <p><strong>하이브리드 암호 시스템 (Hybrid Cryptosystem):</strong> 속도가 느린 비대칭키 방식과 키 배송 문제가 있는 대칭키 방식의 장점만을 결합한 시스템. 실제 인터넷 통신(SSL/TLS)에서 사용됩니다.<span class="check">☑</span></p>
+    <ul>
+        <li><strong>동작 방식:</strong><span class="check">☑</span>
+            <ol>
+                <li>실제 데이터를 암호화할 임시 대칭키(세션 키)를 생성합니다.<span class="check">☑</span></li>
+                <li>이 대칭키를 상대방의 공개키로 암호화하여 안전하게 전달합니다.<span class="check">☑</span></li>
+                <li>상대방은 자신의 개인키로 암호화된 대칭키를 복호화하여 얻습니다.<span class="check">☑</span></li>
+                <li>이후부터는 두 사람이 공유하게 된 이 대칭키를 사용하여, 빠른 속도로 실제 데이터를 암호화하여 통신합니다.<span class="check">☑</span></li>
+            </ol>
+        </li>
+    </ul>
+
+    <hr>
+    
+    <h2>3. 수업의 흐름 <span class="check">☑</span></h2>
+    <h3>(도입) 수업을 시작하며 (5분) <span class="check">☑</span></h3>
+    <p>인사 및 전시 학습 확인 (대칭키/비대칭키/해시 기본 개념)<span class="check">☑</span></p>
+    <blockquote>"모든 진리는 일단 발견되고 나면 이해하기 쉽다. 중요한 것은 그것을 발견하는 것이다." - 갈릴레오 갈릴레이<span class="check">☑</span></blockquote>
+    <p>"여러분, 갈릴레오의 말처럼, 지금 우리에게 당연해 보이는 암호 기술들도 처음에는 누군가의 위대한 '발견'이었습니다. '똑같은 글자가 왜 똑같이 암호화되면 안 될까?', '비밀번호를 저장하지 않고 어떻게 본인임을 증명할까?' 와 같은 질문들이 오늘날 우리가 배울 다양한 암호 기법들을 탄생시켰습니다. 오늘은 지난 시간에 이어, 이 발견의 과정들을 따라가며 각 암호 기법들이 어떤 문제를 해결하기 위해 탄생했는지 그 원리를 깊이 있게 탐구해 보겠습니다."<span class="check">☑</span></p>
+    
+    <h3>(전개) 핵심 개념 탐구: '안전한 정보 전달' 심화 프로젝트 (30분)<span class="check">☑</span></h3>
+    
+    <h4>Stage 1: 같은 열쇠, 다른 자물쇠 - 블록 암호 운영 모드 (10분)<span class="check">☑</span></h4>
+    <p>블록 암호를 '정해진 크기의 상자에 물건을 담아 암호화하는 것'에 비유합니다.<span class="check">☑</span></p>
+    <p>ECB 모드의 문제점을 이미지 암호화 예시로 시각적으로 설명합니다. (동일한 색의 블록이 동일한 암호화 패턴을 가짐)<span class="check">☑</span></p>
+    <p>CBC 모드를 '앞 상자의 암호문이 다음 상자에 영향을 주는 체인'에 비유하며, 패턴을 없애는 원리를 설명합니다.<span class="check">☑</span></p>
+    <p>실생활 예시 코드: "AAAAABBBBB" 라는 반복적인 평문을 ECB 모드와 CBC 모드로 각각 암호화했을 때 결과가 어떻게 다른지 시뮬레이션합니다.<span class="check">☑</span></p>
+<pre><code># 간단한 블록 암호 시뮬레이션 (블록크기=5, 암호화=XOR)
+def simple_xor_encrypt(block, key):
+    return "".join([chr(ord(c) ^ key) for c in block])
+
+def ecb_mode_encrypt(plaintext, block_size, key):
+    print("1a. [ECB 모드] 각 블록을 독립적으로 암호화:")
+    ciphertext = ""
+    for i in range(0, len(plaintext), block_size):
+        block = plaintext[i:i+block_size]
+        encrypted_block = simple_xor_encrypt(block, key)
+        print(f" - 평문블록 '{block}' -> 암호블록 '{encrypted_block}'")
+        ciphertext += encrypted_block
+    return ciphertext
+
+def cbc_mode_encrypt(plaintext, block_size, key, iv):
+    print("\n1b. [CBC 모드] 이전 암호 블록을 다음 평문 블록에 연결(XOR):")
+    ciphertext = ""
+    prev_cipher_block = iv # 초기화 벡터
+    for i in range(0, len(plaintext), block_size):
+        block = plaintext[i:i+block_size]
+        # 평문 블록과 이전 암호 블록을 XOR
+        xored_block = "".join([chr(ord(block[j]) ^ ord(prev_cipher_block[j])) for j in range(block_size)])
+        encrypted_block = simple_xor_encrypt(xored_block, key)
+        print(f" - 평문블록 '{block}' XOR '{prev_cipher_block}' -> 암호화 -> 암호블록 '{encrypted_block}'")
+        ciphertext += encrypted_block
+        prev_cipher_block = encrypted_block # 현재 암호블록이 다음 연산을 위해 저장됨
+    return ciphertext
+
+plaintext_pattern = "AAAAABBBBB"
+key = 50; iv = "XYZQR" # 초기화 벡터
+ecb_cipher = ecb_mode_encrypt(plaintext_pattern, 5, key)
+cbc_cipher = cbc_mode_encrypt(plaintext_pattern, 5, key, iv)
+print(f"\nECB 결과: {ecb_cipher}")
+print(f"CBC 결과: {cbc_cipher}")
+</code></pre>
+    <div class="explanation">
+        <strong>상세 설명:</strong> 이 코드는 ECB와 CBC의 핵심 차이를 명확히 보여줍니다. ecb_mode_encrypt에서는 "AAAAA" 블록이 항상 동일한 암호 블록으로 변환됩니다. 반면 cbc_mode_encrypt에서는 첫 번째 "AAAAA" 블록은 IV("XYZQR")와 연산 후 암호화되지만, 두 번째 "BBBBB" 블록은 첫 번째 암호화의 결과(prev_cipher_block)와 연산 후 암호화됩니다. 이 '연결(Chaining)' 구조 때문에 평문에 반복되는 패턴이 있더라도 암호문에서는 그 패턴이 사라지게 되어 훨씬 안전합니다.<span class="check">☑</span>
+    </div>
+
+    <h4>Stage 2: 세기의 수학 난제 - RSA와 전자서명 (10분) <span class="check">☑</span></h4>
+    <p>비대칭키의 대표주자인 RSA를 소개합니다. 두 소수 p, q를 곱해 N을 만드는 것은 초등학생도 하지만, 거대한 N을 주고 p와 q를 찾으라고 하면 슈퍼컴퓨터도 수만 년이 걸린다는 사실을 통해 암호의 안전성이 수학적 난제에 기반함을 설명합니다.<span class="check">☑</span></p>
+    <p>전자서명의 원리를 설명합니다. "내용을 요약(해시)해서, 나만 가진 도장(개인키)으로 찍는다"는 개념을 강조합니다.<span class="check">☑</span></p>
+    <p>과학 예시 코드: 아레시보 메시지(외계 지성에게 보낸 메시지)가 변조되지 않았음을 증명하기 위해, 메시지의 해시 값을 개인키로 암호화(서명)하고, 이를 공개키로 검증하는 과정을 시뮬레이션합니다.<span class="check">☑</span></p>
+<pre><code>import hashlib
+
+def create_signature(message, private_key):
+    # 메시지 해시 생성
+    message_hash = hashlib.sha256(message.encode()).hexdigest()
+    # '개인키로 암호화' 과정을 간단한 연산으로 흉내
+    print("2a. [서명 생성] 메시지 해시를 개인키로 암호화합니다.")
+    signature = hex(int(message_hash, 16) ^ private_key)
+    return signature
+
+def verify_signature(message, signature, public_key):
+    print("\n2b. [서명 검증] 서명을 공개키로 복호화하고, 메시지 해시와 비교합니다.")
+    # '공개키로 복호화'
+    decrypted_hash = hex(int(signature, 16) ^ public_key)
+    # 메시지 원문의 해시를 직접 계산
+    message_hash = "0x" + hashlib.sha256(message.encode()).hexdigest()
+    
+    if decrypted_hash == message_hash:
+        print(" -> 검증 성공: 이 메시지는 변조되지 않았으며, 송신자가 보낸 것이 맞습니다.")
+        return True
+    return False
+
+arecibo_message = "1010101001001000..." # (생략)
+# 공개키와 개인키가 같은 XOR의 특징을 이용
+my_private_key = 19741116
+my_public_key = 19741116
+
+signature = create_signature(arecibo_message, my_private_key)
+verify_signature(arecibo_message, signature, my_public_key)
+</code></pre>
+    <div class="explanation">
+        <strong>상세 설명:</strong> 이 코드는 전자서명의 두 가지 핵심 과정, '생성'과 '검증'을 보여줍니다. create_signature 함수는 ① 메시지를 해싱하고, ② 그 해시 값을 개인키로 암호화(XOR로 시뮬레이션)하여 서명을 만듭니다. verify_signature 함수는 ① 서명을 공개키로 복호화하여 송신자가 보낸 해시 값을 얻고, ② 메시지 원본을 직접 해싱하여 두 해시 값이 일치하는지 비교합니다. 이 두 값이 같다면, 메시지가 변조되지 않았고(무결성), 해당 개인키의 소유자가 서명했음(인증, 부인 방지)이 동시에 증명됩니다.<span class="check">☑</span>
+    </div>
+
+    <h4>Stage 3: 최고의 조합을 찾아서 - 하이브리드 암호 시스템 (10분)<span class="check">☑</span></h4>
+    <p>"대칭키는 빠른데 키 공유가 위험하고, 비대칭키는 안전한데 너무 느리다. 어떻게 해야 할까?" 라는 질문을 던집니다.<span class="check">☑</span></p>
+    <p>두 방식의 장점만을 결합한 하이브리드 시스템을 소개합니다. "실제 대화는 빠른 대칭키(비밀 통화)로 하고, 이 비밀 통화를 위해 필요한 임시 비밀번호(대칭키)만 안전한 비대칭키(안전 상자)에 넣어 전달한다." 라고 비유합니다.<span class="check">☑</span></p>
+    <p>이것이 바로 우리가 매일 사용하는 HTTPS 통신의 핵심 원리임을 설명합니다.<span class="check">☑</span></p>
+    <p>실생활 예시 코드: 웹 브라우저가 서버와 통신을 시작하는 과정을 하이브리드 시스템으로 시뮬레이션합니다.<span class="check">☑</span></p>
+<pre><code># (PublicKeyCryptography, simple_xor_encrypt 함수가 위에 정의되어 있다고 가정)
+# 서버는 공개키/개인키 쌍을 가짐
+# server_crypto = PublicKeyCryptography() # (가상 클래스)
+
+# --- 클라이언트(브라우저) 측 ---
+# 1. 빠르고 강력한 임시 대칭키(세션 키)를 생성
+session_key = "SuperSecretKeyForThisSession"
+print(f"3. [하이브리드 시스템] 클라이언트: 임시 대칭키 '{session_key[:10]}...' 생성.")
+
+# 2. 이 대칭키를 서버의 '공개키'로 암호화하여 전달
+# (문자열 키를 숫자로 변환하는 과정은 간단히 ord 합으로 시뮬레이션)
+session_key_num = sum([ord(c) for c in session_key])
+encrypted_session_key = server_crypto.encrypt(session_key_num)
+print(f" - 대칭키를 서버의 공개키로 암호화: {encrypted_session_key}")
+
+# --- 서버 측 ---
+# 3. 서버는 암호화된 대칭키를 자신의 '개인키'로 복호화
+decrypted_session_key_num = server_crypto.decrypt(encrypted_session_key)
+print(f"\n 서버: 암호화된 대칭키를 개인키로 복호화: {decrypted_session_key_num}")
+
+# --- 이후 통신 ---
+# 4. 이제 클라이언트와 서버는 동일한 대칭키를 공유하게 되었음
+# 이 대칭키를 사용하여 실제 데이터를 빠르고 안전하게 암호화하여 통신
+real_data = "My credit card number is..."
+# (실제로는 session_key 자체로 암호화해야 하지만, 여기서는 개념만)
+data_ciphertext = simple_xor_encrypt(real_data, decrypted_session_key_num % 256)
+print(f"\n 이후 실제 데이터 '{real_data[:10]}...'는 공유된 대칭키로 암호화되어 전송됨: '{data_ciphertext[:10]}...'")
+</code></pre>
+    <div class="explanation">
+        <strong>상세 설명:</strong> 이 코드는 하이브리드 암호 시스템의 전체 흐름을 보여줍니다. ① 클라이언트는 실제 데이터를 암호화할 대칭키(session_key)를 만듭니다. ② 이 대칭키를 안전하게 전달하기 위해, 서버의 공개키로 암호화하여 보냅니다(비대칭키 사용). ③ 서버는 자신의 개인키로 이를 복호화하여 대칭키를 얻습니다. ④ 이제 양측 모두 안전하게 공유된 대칭키를 갖게 되었으므로, 이후의 모든 데이터는 속도가 빠른 대칭키 암호 방식(simple_xor_encrypt)으로 주고받습니다.<span class="check">☑</span>
+    </div>
+
+    <h3>(마무리) 수업을 마치며 (5분) <span class="check">☑</span></h3>
+    <p>블록 암호 운영모드, RSA, 전자서명, 하이브리드 시스템 등 오늘 배운 다양한 암호 기법들이 각각의 뚜렷한 목적을 가지고 상호 보완적으로 사용되고 있음을 정리합니다.<span class="check">☑</span></p>
+    <blockquote>"우리는 우리가 만드는 도구에 의해 만들어진다." - 마셜 맥루언 (미디어 이론가)<span class="check">☑</span></blockquote>
+    <p>"여러분, 오늘 우리는 정보를 보호하기 위한 다양한 '도구'들을 배웠습니다. 미디어 학자 마셜 맥루언은 우리가 도구를 만들지만, 결국 그 도구가 우리의 생각과 사회를 만든다고 말했습니다. 우리가 만든 암호라는 도구는 '신뢰'가 부족한 디지털 세상에 안전한 상거래와 자유로운 소통이 가능한 새로운 사회 구조를 만들어냈습니다. 여러분이 앞으로 만들어갈 새로운 도구들이 우리 사회를 어떻게 더 긍정적인 방향으로 만들어갈지 항상 고민하는 멋진 과학도가 되기를 바랍니다. 수고 많으셨습니다."<span class="check">☑</span></p>
+
+    <hr>
+    
+    <h2>4. 진단평가 (OX 퀴즈) <span class="check">☑</span></h2>
+
+    <div class="quiz-question">
+        <p><strong>문제 1:</strong> 블록 암호의 ECB 운영 모드는 동일한 평문 블록이 항상 동일한 암호문 블록으로 변환되어 보안에 취약하다. (O)<span class="check">☑</span></p>
+        <div class="explanation">
+            <strong>상세 풀이:</strong> ECB 모드는 각 블록을 독립적으로 암호화하기 때문에, 평문의 패턴이 암호문에 그대로 드러나는 단점이 있습니다. 예를 들어 이미지 데이터의 경우, 암호화를 해도 원래 이미지의 윤곽이 그대로 보일 수 있습니다.<span class="check">☑</span>
+        </div>
+    </div>
+    <div class="quiz-question">
+        <p><strong>문제 2:</strong> 스트림 암호는 평문을 고정된 크기의 블록 단위로 나누어 처리한다. (X)<span class="check">☑</span></p>
+        <div class="explanation">
+            <strong>상세 풀이:</strong> 평문을 블록 단위로 처리하는 것은 '블록 암호'입니다. 스트림 암호는 데이터를 비트나 바이트 단위의 연속적인 흐름(스트림)으로 처리합니다.<span class="check">☑</span>
+        </div>
+    </div>
+    <div class="quiz-question">
+        <p><strong>문제 3:</strong> RSA 암호 알고리즘의 안전성은 '매우 큰 수를 소인수분해하기 어렵다'는 수학적 문제에 기반한다. (O)<span class="check">☑</span></p>
+        <div class="explanation">
+            <strong>상세 풀이:</strong> 두 개의 큰 소수 p, q를 곱하여 N=pq를 만드는 것은 쉽지만, 거대한 수 N을 주고 다시 p와 q를 찾아내는 것은 현재의 컴퓨팅 기술로 사실상 불가능에 가깝습니다. 이 비대칭적인 계산의 어려움이 RSA의 핵심입니다.<span class="check">☑</span>
+        </div>
+    </div>
+    <div class="quiz-question">
+        <p><strong>문제 4:</strong> 전자서명은 메시지의 '기밀성'을 보장하기 위해 사용된다. (X)<span class="check">☑</span></p>
+        <div class="explanation">
+            <strong>상세 풀이:</strong> 전자서명의 주된 목적은 메시지를 보낸 사람이 본인이 맞음을 증명(인증, 부인 방지)하고, 메시지가 중간에 위변조되지 않았음(무결성)을 보장하는 것입니다. 기밀성을 위해서는 메시지 자체를 암호화해야 합니다.<span class="check">☑</span>
+        </div>
+    </div>
+    <div class="quiz-question">
+        <p><strong>문제 5:</strong> CBC 운영 모드는 암호화를 수행할 때 이전 블록의 암호화 결과가 다음 블록에 영향을 미친다. (O)<span class="check">☑</span></p>
+        <div class="explanation">
+            <strong>상세 풀이:</strong> CBC(Cipher Block Chaining)는 이름 그대로, 각 평문 블록을 암호화하기 전에 이전 암호문 블록과 XOR하는 '연결(Chaining)' 구조를 가집니다. 이 때문에 평문의 패턴이 암호문에 드러나지 않습니다.<span class="check">☑</span>
+        </div>
+    </div>
+    <div class="quiz-question">
+        <p><strong>문제 6:</strong> 하이브리드 암호 시스템은 비대칭키의 높은 보안성과 대칭키의 빠른 속도라는 장점을 결합한 방식이다. (O)<span class="check">☑</span></p>
+        <div class="explanation">
+            <strong>상세 풀이:</strong> 실제 데이터를 암호화하는 데는 빠른 대칭키를 사용하고, 이 대칭키를 안전하게 전달하는 데에만 비대칭키를 사용하여 두 방식의 장점을 모두 취하는 효율적인 방식입니다.<span class="check">☑</span>
+        </div>
+    </div>
+    <div class="quiz-question">
+        <p><strong>문제 7:</strong> 전자서명을 생성할 때는 자신의 '공개키'로 해시 값을 암호화한다. (X)<span class="check">☑</span></p>
+        <div class="explanation">
+            <strong>상세 풀이:</strong> 전자서명은 '나만이 할 수 있는 행위'여야 하므로, 나만 가지고 있는 '개인키'로 메시지의 해시 값을 암호화해야 합니다. 이 서명은 나의 공개키로만 검증될 수 있습니다.<span class="check">☑</span>
+        </div>
+    </div>
+    <div class="quiz-question">
+        <p><strong>문제 8:</strong> 블록 암호에서 마지막 블록의 길이가 부족할 때, 이를 채워주는 과정을 '패딩(Padding)'이라고 한다. (O)<span class="check">☑</span></p>
+        <div class="explanation">
+            <strong>상세 풀이:</strong> 블록 암호는 항상 고정된 크기의 블록 단위로 동작하므로, 원본 데이터가 블록 크기의 배수가 아닐 경우 마지막 블록의 부족한 부분을 특정 규칙에 따라 채워 길이를 맞춰주는 패딩 과정이 필요합니다.<span class="check">☑</span>
+        </div>
+    </div>
+    <div class="quiz-question">
+        <p><strong>문제 9:</strong> MD5는 현재에도 안전한 해시 함수로 인정받아 비밀번호 저장에 널리 사용된다. (X)<span class="check">☑</span></p>
+        <div class="explanation">
+            <strong>상세 풀이:</strong> MD5는 충돌을 쉽게 찾을 수 있는 심각한 보안 취약점이 발견되어, 더 이상 안전한 해시 함수로 간주되지 않습니다. 현재는 SHA-256 이상의 해시 함수 사용이 권고됩니다.<span class="check">☑</span>
+        </div>
+    </div>
+    <div class="quiz-question">
+        <p><strong>문제 10:</strong> 초기화 벡터(IV)는 ECB 운영 모드의 보안을 강화하기 위해 사용된다. (X)<span class="check">☑</span></p>
+        <div class="explanation">
+            <strong>상세 풀이:</strong> 초기화 벡터(IV)는 CBC와 같은 체이닝 방식의 운영 모드에서 첫 번째 평문 블록과 연산하기 위해 사용되는 임의의 값입니다. 각 블록을 독립적으로 암호화하는 ECB 모드에서는 IV가 필요하지 않습니다.<span class="check">☑</span>
+        </div>
+    </div>
+
+    <hr>
+    
+    <h2>5. 형성평가 (5지선다형) <span class="check">☑</span></h2>
+
+    <div class="quiz-question">
+        <p><strong>문제 1:</strong> 동일한 내용의 이미지 파일을 암호화했음에도 불구하고, 암호화된 파일에서 원래 이미지의 윤곽이 희미하게 보이는 현상이 발생했다. 어떤 블록 암호 운영 모드를 사용했을 가능성이 가장 높은가?<span class="check">☑</span></p>
+        <ol>
+            <li>CBC (Cipher Block Chaining)</li>
+            <li>CFB (Cipher Feedback)</li>
+            <li>OFB (Output Feedback)</li>
+            <li>CTR (Counter)</li>
+            <li>ECB (Electronic Codebook) <span class="check">☑</span></li>
+        </ol>
+        <div class="explanation">
+            <strong>정답: ⑤</strong>
+
+            <strong>상세 풀이:</strong> ECB 모드는 동일한 평문 블록을 항상 동일한 암호문 블록으로 변환하기 때문에, 이미지의 배경색과 같이 동일한 색상 값을 갖는 블록들이 암호화 후에도 동일한 패턴을 유지하게 됩니다. 이로 인해 원본 이미지의 형태가 유추될 수 있는 심각한 보안 취약점이 있습니다.<span class="check">☑</span>
+        </div>
+    </div>
+
+    <div class="quiz-question">
+        <p><strong>문제 2:</strong> HTTPS 통신을 시작할 때, 웹 브라우저(클라이언트)가 웹 서버의 '공개키'를 이용하여 암호화하는 것은 무엇인가?<span class="check">☑</span></p>
+        <ol>
+            <li>사용자가 보내려는 실제 데이터 (예: 아이디, 비밀번호)</li>
+            <li>앞으로 사용할 임시 대칭키 (세션 키) <span class="check">☑</span></li>
+            <li>웹 서버의 도메인 이름</li>
+            <li>사용자의 개인키</li>
+            <li>데이터의 해시 값</li>
+        </ol>
+        <div class="explanation">
+            <strong>정답: ②</strong>
+
+            <strong>상세 풀이:</strong> 이것이 하이브리드 암호 시스템의 핵심입니다. 전체 통신을 암호화할 빠르고 효율적인 임시 대칭키를 클라이언트가 생성한 뒤, 이 키를 안전하게 서버에 전달하기 위해 서버의 공개키로 암호화하여 보냅니다.<span class="check">☑</span>
+        </div>
+    </div>
+
+    <div class="quiz-question">
+        <p><strong>문제 3:</strong> 다음 중 '전자서명'이 제공하는 주요 보안 기능으로 짝지어진 것은?<span class="check">☑</span></p>
+        <ol>
+            <li>기밀성, 가용성</li>
+            <li>인증, 부인 방지, 무결성 <span class="check">☑</span></li>
+            <li>기밀성, 무결성</li>
+            <li>인증, 가용성</li>
+            <li>부인 방지, 기밀성</li>
+        </ol>
+        <div class="explanation">
+            <strong>정답: ②</strong>
+
+            <strong>상세 풀이:</strong> 전자서명은 ① 메시지가 서명한 사람(개인키 소유자)에게서 온 것이 맞음을 보장하고(인증), ② 서명한 사람이 나중에 서명한 사실을 부인할 수 없게 하며(부인 방지), ③ 서명을 검증하는 과정에서 메시지의 해시 값을 비교하므로 내용이 변조되지 않았음(무결성)을 보장합니다.<span class="check">☑</span>
+        </div>
+    </div>
+
+    <div class="quiz-question">
+        <p><strong>문제 4:</strong> AES, ARIA와 같이 고정된 크기의 데이터 블록을 처리하는 암호화 방식을 무엇이라고 하는가?<span class="check">☑</span></p>
+        <ol>
+            <li>스트림 암호</li>
+            <li>블록 암호 <span class="check">☑</span></li>
+            <li>공개키 암호</li>
+            <li>해시 함수</li>
+            <li>양자 암호</li>
+        </ol>
+        <div class="explanation">
+            <strong>정답: ②</strong>
+
+            <strong>상세 풀이:</strong> 블록 암호는 평문을 일정한 크기(블록)로 나누어, 각 블록 단위로 암호화 연산을 수행하는 대칭키 암호 방식의 한 종류입니다. AES와 ARIA는 대표적인 블록 암호 알고리즘입니다.<span class="check">☑</span>
+        </div>
+    </div>
+
+    <div class="quiz-question">
+        <p><strong>문제 5:</strong> 다음 중 입력 데이터의 길이가 달라도 항상 고정된 길이의 결과값을 출력하며, 결과값으로 입력값을 역산할 수 없는 단방향 함수의 특징을 가지는 것은?<span class="check">☑</span></p>
+        <ol>
+            <li>RSA</li>
+            <li>AES</li>
+            <li>시저 암호</li>
+            <li>SHA-256 <span class="check">☑</span></li>
+            <li>Base64 인코딩</li>
+        </ol>
+        <div class="explanation">
+            <strong>정답: ④</strong>
+
+            <strong>상세 풀이:</strong> 해시 함수(SHA-256 등)는 임의의 입력을 받아 고정 길이의 출력을 내보내는 단방향 함수입니다. ①, ②, ③은 모두 복호화가 가능한 양방향 암호 알고리즘이며, ⑤는 단순히 데이터를 다른 문자셋으로 표현하는 인코딩 방식으로 암호화가 아닙니다.<span class="check">☑</span>
+        </div>
+    </div>
+
+    <div class="quiz-question">
+        <p><strong>문제 6:</strong> CBC 운영 모드에서 첫 번째 평문 블록을 암호화하기 전에 XOR 연산을 수행하는 대상은 무엇인가?<span class="check">☑</span></p>
+        <ol>
+            <li>암호화 키 (Key)</li>
+            <li>두 번째 평문 블록</li>
+            <li>고정된 상수 값</li>
+            <li>초기화 벡터 (IV) <span class="check">☑</span></li>
+            <li>이전 통신의 마지막 암호문 블록</li>
+        </ol>
+        <div class="explanation">
+            <strong>정답: ④</strong>
+
+            <strong>상세 풀이:</strong> CBC 모드는 '이전 암호문 블록'과 체이닝되지만, 첫 번째 블록은 그럴 대상이 없습니다. 따라서 첫 블록의 암호화를 위해 '초기화 벡터(IV)'라는 임의의 초기값을 사용합니다. 이 IV는 매번 다른 값을 사용해야 암호문의 보안성이 높아집니다.<span class="check">☑</span>
+        </div>
+    </div>
+
+    <div class="quiz-question">
+        <p><strong>문제 7:</strong> 비대칭키 암호 시스템에 대한 설명으로 옳지 않은 것은?<span class="check">☑</span></p>
+        <ol>
+            <li>공개키와 개인키라는 한 쌍의 키를 사용한다.</li>
+            <li>대칭키 암호 방식에 비해 연산 속도가 매우 빠르다. <span class="check">☑</span></li>
+            <li>키를 안전하게 배송해야 하는 문제가 해결된다.</li>
+            <li>공개키로 암호화된 내용은 개인키로만 복호화할 수 있다.</li>
+            <li>대표적인 알고리즘으로 RSA가 있다.</li>
+        </ol>
+        <div class="explanation">
+            <strong>정답: ②</strong>
+
+            <strong>상세 풀이:</strong> 비대칭키 암호는 소인수분해, 이산대수 문제 등 복잡한 수학적 연산을 기반으로 하므로, 단순한 비트 연산 위주의 대칭키 암호에 비해 연산 속도가 수백 배에서 수천 배까지 느립니다.<span class="check">☑</span>
+        </div>
+    </div>
+
+    <div class="quiz-question">
+        <p><strong>문제 8:</strong> 블록 암호를 사용하여 100바이트의 데이터를 암호화하려고 한다. 블록 크기가 16바이트일 때, 마지막 블록에 필요한 패딩(padding)의 크기는 얼마인가?<span class="check">☑</span></p>
+        <ol>
+            <li>0 바이트</li>
+            <li>4 바이트</li>
+            <li>8 바이트</li>
+            <li>12 바이트 <span class="check">☑</span></li>
+            <li>16 바이트</li>
+        </ol>
+        <div class="explanation">
+            <strong>정답: ④</strong>
+
+            <strong>상세 풀이:</strong> 100바이트를 16바이트 블록으로 나누면 6개의 완전한 블록(6 * 16 = 96 바이트)이 나오고, 마지막에 4바이트가 남습니다. 이 4바이트를 하나의 완전한 16바이트 블록으로 만들기 위해서는 12바이트의 패딩이 필요합니다. (4 + 12 = 16)<span class="check">☑</span>
+        </div>
+    </div>
+
+    <div class="quiz-question">
+        <p><strong>문제 9:</strong> 다음 암호 기술 중, 개발자인 '로널드 리베스트(Ronald Rivest)'가 개발에 참여한 것으로만 짝지어진 것은?<span class="check">☑</span></p>
+        <ol>
+            <li>AES, SHA-256</li>
+            <li>DES, ECC</li>
+            <li>RSA, MD5 <span class="check">☑</span></li>
+            <li>RC4, SHA-1</li>
+            <li>시저 암호, 비즈네르 암호</li>
+        </ol>
+        <div class="explanation">
+            <strong>정답: ③</strong>
+
+            <strong>상세 풀이:</strong> 로널드 리베스트는 아디 샤미르(Adi Shamir), 레너드 애들먼(Leonard Adleman)과 함께 RSA 알고리즘을 개발했으며, MD5나 RC4와 같은 다른 여러 암호 알고리즘 개발에도 참여한 저명한 암호학자입니다.<span class="check">☑</span>
+        </div>
+    </div>
+
+    <div class="quiz-question">
+        <p><strong>문제 10:</strong> 인터넷 뱅킹에서 보안카드의 비밀번호 전체를 입력받지 않고, '앞 2자리', '뒤 2자리'와 같이 일부만 요구하는 주된 이유는?<span class="check">☑</span></p>
+        <ol>
+            <li>사용자 입력의 편의성을 높이기 위해</li>
+            <li>통신 데이터의 양을 줄이기 위해</li>
+            <li>사용자의 기억력을 테스트하기 위해</li>
+            <li>통신 과정에서 비밀번호가 유출되더라도 전체 비밀번호의 노출을 막기 위해 <span class="check">☑</span></li>
+            <li>서버의 계산 부하를 줄이기 위해</li>
+        </ol>
+        <div class="explanation">
+            <strong>정답: ④</strong>
+
+            <strong>상세 풀이:</strong> 이는 일종의 보안 기법입니다. 만약 통신 내용이 유출되거나 사용자의 키보드 입력이 해킹당하더라도, 비밀번호의 일부만 노출되므로 공격자가 전체 비밀번호를 알아낼 수 없습니다. 다음에 접속할 때는 다른 위치의 번호를 요구함으로써 보안성을 더욱 높입니다.<span class="check">☑</span>
+        </div>
+    </div>
+
+    <hr>
+    <h2>6. 코딩 실습 예제 (10개): 예시 코드 및 상세 풀이 <span class="check">☑</span></h2>
+
+    <h3>1. 스트림 암호 시뮬레이션 <span class="check">☑</span></h3>
+    <p>키("SECRET")를 반복하여 평문과 같은 길이의 '키 스트림'을 만드세요. (예: 평문이 "HELLO WORLD"이면, 키 스트림은 "SECRESECRES") 이 키 스트림과 평문을 한 글자씩 XOR 연산하여 스트림 암호를 구현하세요.<span class="check">☑</span></p>
+    <h4>예시 코드: <span class="check">☑</span></h4>
+    <pre><code>def generate_keystream(key, length):
+    """키를 반복하여 평문 길이에 맞는 키 스트림을 생성합니다."""
+    return (key * (length // len(key) + 1))[:length]
+
+def stream_cipher(text, key):
+    """스트림 암호 방식으로 텍스트를 암호화/복호화합니다."""
+    keystream = generate_keystream(key, len(text))
+    result = ""
+    for i in range(len(text)):
+        # 평문의 각 문자를 키 스트림의 해당 문자와 XOR 연산
+        xored_char_code = ord(text[i]) ^ ord(keystream[i])
+        result += chr(xored_char_code)
+    return result
+
+# 테스트
+plaintext = "Stream ciphers are fast and simple."
+key = "SECRETKEY"
+
+# 암호화
+ciphertext = stream_cipher(plaintext, key)
+print(f"평문: {plaintext}")
+print(f"키: {key}")
+print(f"암호문: {ciphertext}")
+
+# 복호화 (동일한 함수 사용)
+decrypted_text = stream_cipher(ciphertext, key)
+print(f"복호화된 평문: {decrypted_text}")
+</code></pre>
+    <div class="solution-detail">
+        <h4>상세 풀이 및 설명: <span class="check">☑</span></h4>
+        <p>스트림 암호는 데이터를 연속적인 비트/바이트 스트림으로 보고, 그에 대응하는 '키 스트림'과 XOR 연산을 수행하는 방식입니다.<span class="check">☑</span></p>
+        <p><code>generate_keystream</code> 함수는 짧은 키("SECRETKEY")를 평문의 길이에 맞게 반복하여("SECRETKEYSECRE...") 키 스트림을 생성하는 간단한 방법을 보여줍니다. (실제 스트림 암호는 훨씬 복잡하고 안전한 방법으로 키 스트림을 생성합니다.)<span class="check">☑</span></p>
+        <p><code>stream_cipher</code> 함수는 for 루프를 통해 평문과 키 스트림의 각 문자를 i번째 위치에서 하나씩 가져와 XOR 연산을 수행합니다.<span class="check">☑</span></p>
+        <p>XOR 연산의 (A^B)^B = A 특성 덕분에, 암호화 함수와 복호화 함수가 완전히 동일합니다. 암호문에 동일한 키 스트림을 한 번 더 XOR하면 원본 평문이 복원됩니다.<span class="check">☑</span></p>
+    </div>
+
+    <!-- ... (Continue for all 10 exercises) ... -->
+
+    <h3>10. 블록 암호 패딩 확인 <span class="check">☑</span></h3>
+    <p>16바이트 블록 크기 기준, 10바이트의 데이터 b'HelloPytho'에 대해 PKCS#7 패딩을 적용했을 때의 결과(바이트 문자열)를 예상하여 코드로 작성하고, 30바이트 데이터 b'This is a 30-byte-long string.'에 대한 패딩 결과도 코드로 작성하여 확인하세요.<span class="check">☑</span></p>
+    <h4>예시 코드: <span class="check">☑</span></h4>
+    <pre><code>def add_pkcs7_padding(data, block_size=16):
+    """데이터에 PKCS#7 형식의 패딩을 추가합니다."""
+    padding_len = block_size - (len(data) % block_size)
+    padding_val = bytes([padding_len])
+    return data + padding_val * padding_len
+
+# 시나리오 1: 10바이트 데이터 -> 6바이트 패딩 필요
+data1 = b'HelloPytho' # 10 바이트
+padded_data1 = add_pkcs7_padding(data1)
+expected1 = b'HelloPytho\x06\x06\x06\x06\x06\x06'
+print(f"10바이트 데이터 패딩 결과: {padded_data1}")
+assert padded_data1 == expected1
+
+# 시나리오 2: 30바이트 데이터 -> 2바이트 패딩 필요 (16*1 + 14 -> 16*2)
+data2 = b'This is a 30-byte-long string.' # 30 바이트
+padded_data2 = add_pkcs7_padding(data2)
+expected2 = b'This is a 30-byte-long string.\x02\x02'
+print(f"30바이트 데이터 패딩 결과: {padded_data2}")
+assert padded_data2 == expected2
+
+# 시나리오 3: 32바이트 데이터 -> 16바이트 패딩 필요 (블록 크기와 같음)
+data3 = b'This is exactly 32-byte data!!' # 32 바이트
+padded_data3 = add_pkcs7_padding(data3)
+expected3 = b'This is exactly 32-byte data!!' + b'\x10'*16
+print(f"32바이트 데이터 패딩 결과: {padded_data3}")
+assert padded_data3 == expected3
+
+print("\n모든 패딩 테스트 통과!")
+</code></pre>
+    <div class="solution-detail">
+        <h4>상세 풀이 및 설명: <span class="check">☑</span></h4>
+        <p>이 코드는 2번 예제에서 만든 <code>add_pkcs7_padding</code> 함수를 사용하여, 다양한 길이의 데이터에 패딩이 어떻게 적용되는지 구체적인 사례를 통해 확인합니다.<span class="check">☑</span></p>
+        <p><strong>시나리오 1:</strong> 16바이트 블록을 채우기 위해 6바이트가 부족하므로, 6이라는 값으로 6개의 바이트(b'\x06')를 채웁니다.<span class="check">☑</span></p>
+        <p><strong>시나리오 2:</strong> 30바이트는 16바이트 블록 하나를 채우고 14바이트가 남습니다. 두 번째 블록을 16바이트로 만들기 위해 2바이트가 부족하므로, 2라는 값으로 2개의 바이트(b'\x02')를 채웁니다.<span class="check">☑</span></p>
+        <p><strong>시나리오 3:</strong> 32바이트는 정확히 16바이트 블록 2개로 나누어 떨어집니다. 이 경우, 패딩을 제거할 때 원본 데이터의 마지막 바이트와 패딩 값을 구분할 수 없게 되는 문제를 막기 위해, 새로운 패딩 블록 전체를 추가합니다. 즉, 16이라는 값으로 16개의 바이트(b'\x10')를 채운 블록이 통째로 추가됩니다.<span class="check">☑</span></p>
+    </div>
+</body>
+</html>

@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>수업 지도안: 암호화의 이해</title>
+    <style>
+        body {
+            font-family: 'Malgun Gothic', '맑은 고딕', sans-serif;
+            line-height: 1.8;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            color: #212529;
+        }
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 40px;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border: 1px solid #dee2e6;
+        }
+        h1, h2, h3, h4 {
+            color: #0056b3;
+            border-bottom: 2px solid #e9ecef;
+            padding-bottom: 10px;
+        }
+        h1 {
+            text-align: center;
+            border-bottom: 3px solid #0056b3;
+            font-size: 2em;
+            margin-bottom: 30px;
+        }
+        h2 {
+            font-size: 1.6em;
+            margin-top: 50px;
+        }
+        h3 {
+            font-size: 1.3em;
+            color: #007bff;
+            border-bottom: 1px dashed #ced4da;
+            margin-top: 30px;
+        }
+        h4 {
+            font-size: 1.1em;
+            color: #17a2b8;
+            border-bottom: none;
+            margin-top: 25px;
+        }
+        ul, ol {
+            padding-left: 25px;
+            background-color: #fdfdfd;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        .section {
+            margin-bottom: 40px;
+        }
+        .concept-box, .code-example, .quiz-section, .flow-section {
+            background-color: #f8f9fa;
+            padding: 25px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border: 1px solid #e9ecef;
+        }
+        .concept-box strong {
+            color: #0056b3;
+        }
+        pre {
+            background-color: #2b2b2b;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 5px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-family: 'D2Coding', 'Consolas', 'Monaco', monospace;
+        }
+        code {
+            font-family: 'D2Coding', 'Consolas', 'Monaco', monospace;
+            background-color: #e9ecef;
+            padding: 2px 5px;
+            border-radius: 4px;
+        }
+        blockquote {
+            border-left: 5px solid #007bff;
+            background: #f1f3f5;
+            padding: 15px;
+            margin: 20px 0;
+            font-style: italic;
+        }
+        .quiz-question {
+            margin-bottom: 25px;
+        }
+        .quiz-question .question-text {
+            font-weight: bold;
+            margin-bottom: 10px;
+            white-space: pre-line;
+        }
+        .quiz-question .options {
+            padding-left: 20px;
+        }
+        .quiz-question .answer {
+            font-weight: bold;
+            color: #28a745;
+        }
+        .explanation {
+            margin-top: 10px;
+            padding: 12px;
+            background-color: #e7f3fe;
+            border-left: 5px solid #007bff;
+            font-size: 0.95em;
+        }
+        .sub-section {
+            margin-top:20px;
+            padding-left: 15px;
+            border-left: 3px solid #007bff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>과학고 정보 수업 지도안: II. 데이터 - 211. 암호화의 이해</h1>
+
+        <div class="section">
+            <h2>1. 학습 목표</h2>
+            <h3>개념적 목표:</h3>
+            <ul>
+                <li>암호화(Encryption)의 목적을 정보의 '기밀성(Confidentiality)' 확보 관점에서 설명할 수 있다.</li>
+                <li>암호화의 핵심 구성 요소(평문, 암호문, 키, 알고리즘)를 구분하고 각각의 역할을 이해한다.</li>
+                <li>대칭키 암호화 방식과 비대칭키(공개키) 암호화 방식의 동작 원리와 차이점을 설명할 수 있다.</li>
+                <li>대칭키 방식의 '키 배송 문제'와 이를 해결하기 위한 비대칭키 방식의 필요성을 이해한다.</li>
+                <li>해시 함수(Hash Function)의 개념을 이해하고, 암호화와의 차이점(단방향성)과 주요 용도(무결성 검증, 패스워드 저장)를 설명할 수 있다.</li>
+            </ul>
+            <h3>절차적 목표:</h3>
+            <ul>
+                <li>시저 암호(Caesar Cipher)와 같은 고전적인 치환 암호 알고리즘을 Python 코드로 구현할 수 있다.</li>
+                <li>대칭키 암호화와 복호화 과정을 간단한 로직(예: XOR 연산)을 이용해 시뮬레이션할 수 있다.</li>
+                <li>비대칭키 암호화의 공개키/개인키 쌍을 이용한 암호화 및 복호화 과정을 코드로 모델링할 수 있다.</li>
+                <li>Python의 hashlib 라이브러리를 사용하여 주어진 데이터의 해시 값을 생성하고, 데이터의 무결성을 검증하는 코드를 작성할 수 있다.</li>
+            </ul>
+            <h3>태도적 목표:</h3>
+            <ul>
+                <li>디지털 세상에서 데이터 보안의 중요성을 인식하고, 개인 정보를 보호하려는 책임감 있는 태도를 가진다.</li>
+                <li>암호 기술이 현대 사회의 안전한 통신과 상거래에 필수적인 기반 기술임을 이해하고 그 가치를 존중한다.</li>
+                <li>복잡한 암호 시스템의 원리를 논리적으로 분석하고, 문제 해결을 위해 수학적, 계산적 사고를 적용하려는 자세를 기른다.</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>2. 핵심 개념 상세 설명</h2>
+            <div class="concept-box">
+                <p><strong>암호화 (Encryption):</strong> 허가된 사용자 외에는 누구도 알아볼 수 없는 형태로 데이터를 변환하는 과정. 암호화의 주된 목적은 데이터의 **기밀성(Confidentiality)**을 보장하는 것입니다.</p>
+                <p><strong>평문 (Plaintext):</strong> 암호화되기 전의 원본 메시지.</p>
+                <p><strong>암호문 (Ciphertext):</strong> 암호화된 후의 메시지.</p>
+                <p><strong>알고리즘 (Algorithm):</strong> 평문을 암호문으로 바꾸는 구체적인 절차와 규칙의 집합.</p>
+                <p><strong>키 (Key):</strong> 암호화 알고리즘에 적용되는 비밀 값. 동일한 알고리즘이라도 키가 다르면 결과 암호문이 완전히 달라집니다.</p>
+                <p><strong>대칭키 암호화 (Symmetric-key Cryptography):</strong> 암호화할 때 사용하는 키와 복호화(암호문을 다시 평문으로 변환)할 때 사용하는 키가 동일한 방식입니다.</p>
+                <ul>
+                    <li><strong>원리:</strong> 송신자와 수신자가 사전에 동일한 비밀 키를 안전하게 공유해야 합니다. 송신자는 이 키로 데이터를 암호화하여 보내고, 수신자는 가지고 있던 동일한 키로 데이터를 복호화하여 내용을 확인합니다.</li>
+                    <li><strong>장점:</strong> 암호화 및 복호화 속도가 매우 빠릅니다.</li>
+                    <li><strong>단점:</strong> '키 배송 문제'. 통신할 상대방에게 비밀 키를 어떻게 안전하게 전달할 것인가 하는 근본적인 문제가 있습니다. 키가 중간에 탈취되면 모든 통신 내용이 노출됩니다.</li>
+                    <li><strong>예시:</strong> AES, DES, ARIA 등.</li>
+                </ul>
+                <p><strong>비대칭키 / 공개키 암호화 (Asymmetric-key / Public-key Cryptography):</strong> 암호화 키와 복호화 키가 서로 다른(비대칭적인) 방식입니다. 이 두 키는 수학적으로 쌍을 이루며, 하나는 공개하고 다른 하나는 비밀로 간직합니다.</p>
+                <ul>
+                    <li><strong>원리:</strong>
+                        <ol>
+                            <li>수신자(A)는 자신만이 아는 **개인키(Private Key)**와, 누구에게나 공개해도 되는 **공개키(Public Key)**를 한 쌍으로 만듭니다.</li>
+                            <li>수신자(A)는 공개키를 송신자(B)를 포함한 모든 사람에게 배포합니다.</li>
+                            <li>송신자(B)는 A의 공개키를 사용하여 데이터를 암호화한 뒤 A에게 보냅니다.</li>
+                            <li>A의 공개키로 암호화된 데이터는 오직 A의 개인키로만 복호화할 수 있습니다. 따라서 중간에 누가 가로채도 내용을 볼 수 없습니다.</li>
+                        </ol>
+                    </li>
+                    <li><strong>장점:</strong> 키를 교환할 필요가 없어 키 배송 문제가 해결됩니다. 안전한 통신 채널이 없는 환경에서도 사용할 수 있습니다.</li>
+                    <li><strong>단점:</strong> 대칭키 방식에 비해 암호화 및 복호화 속도가 매우 느립니다.</li>
+                    <li><strong>예시:</strong> RSA, ECC 등. (실제 인터넷 통신(HTTPS 등)에서는 속도가 빠른 대칭키로 실제 데이터를 암호화하고, 이 대칭키 자체를 안전하게 전달하기 위해 비대칭키 방식을 사용하는 '하이브리드' 방식을 사용합니다.)</li>
+                </ul>
+                <p><strong>해시 함수 (Hash Function):</strong> 임의의 길이의 데이터를 입력받아, 고정된 길이의 고유한 값(해시 값 또는 해시)으로 변환하는 단방향(One-way) 함수.</p>
+                 <ul>
+                    <li><strong>특징:</strong>
+                        <ul>
+                            <li><strong>단방향성:</strong> 해시 값으로는 원본 데이터를 복원할 수 없습니다. (암호화와 가장 큰 차이점)</li>
+                            <li><strong>결정성:</strong> 동일한 입력에 대해서는 항상 동일한 해시 값을 출력합니다.</li>
+                            <li><strong>고유성/충돌 저항성:</strong> 서로 다른 입력은 거의 항상 서로 다른 해시 값을 가집니다. (아주 희박한 확률로 다른 입력에 같은 해시가 나오는 것을 '충돌(Collision)'이라 함)</li>
+                        </ul>
+                    </li>
+                    <li><strong>용도:</strong>
+                        <ul>
+                            <li><strong>무결성 검증:</strong> 파일 다운로드 시, 제공된 해시 값과 내가 다운로드한 파일의 해시 값을 비교하여 파일이 중간에 변조되지 않았는지 확인할 수 있습니다.</li>
+                            <li><strong>패스워드 저장:</strong> 웹사이트는 사용자의 패스워드 원본을 저장하지 않고, 패스워드의 해시 값을 저장합니다. 로그인 시 입력된 패스워드의 해시 값을 계산하여 저장된 해시 값과 비교하는 방식으로, 관리자조차 사용자의 원본 패스워드를 알 수 없게 합니다.</li>
+                        </ul>
+                    </li>
+                    <li><strong>예시:</strong> SHA-256, MD5 등.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>3. 수업의 흐름</h2>
+            <div class="flow-section">
+                <h3>(도입) 수업을 시작하며 (5분)</h3>
+                <blockquote>"세 사람이 비밀을 지킬 수 있는 유일한 방법은, 그중 둘이 죽었을 때뿐이다." - 벤자민 프랭클린</blockquote>
+                <p>"여러분, 미국의 건국의 아버지 벤자민 프랭클린은 비밀을 지키는 것의 어려움을 이렇게 재치있게 표현했습니다. 하지만 오늘날 우리는 수십억 명의 사람들이 인터넷을 통해 소통하면서도 비밀을 지켜내고 있습니다. 어떻게 이것이 가능할까요? 바로 '암호'라는 위대한 수학적, 과학적 발명품 덕분입니다. 오늘은 이 암호가 어떻게 우리의 디지털 세상을 안전하게 지탱하고 있는지, 그 경이로운 원리를 함께 탐험해 보겠습니다."</p>
+            </div>
+            <div class="flow-section">
+                <h3>(전개) 핵심 개념 탐구: '비밀 메시지 전달' 프로젝트 (30분)</h3>
+                <div class="sub-section">
+                    <h4>Stage 1: 우리만의 약속 - 고전 암호와 대칭키 (10분)</h4>
+                    <p>비밀 메시지를 전달하는 가장 원초적인 방법 제시. (예: 알파벳을 n칸씩 밀어서 쓰는 시저 암호)</p>
+                    <p>'n칸'이 바로 '키(Key)'이며, 이 키를 보내는 사람과 받는 사람이 모두 알고 있어야 함을 설명 -> 대칭키 개념 도입.</p>
+                    <p>역사/과학 예시 코드: 율리우스 시저가 사용했던 시저 암호를 구현합니다. 'key=3'이라는 비밀을 로마의 장군과 공유했다고 가정합니다.</p>
+                    <pre><code>def caesar_encrypt(text, key):
+    """시저 암호 알고리즘으로 텍스트를 암호화합니다."""
+    encrypted_text = ""
+    for char in text:
+        if 'a' <= char <= 'z':
+            shifted = ord(char) + key
+            if shifted > ord('z'): shifted -= 26
+            encrypted_text += chr(shifted)
+        elif 'A' <= char <= 'Z':
+            shifted = ord(char) + key
+            if shifted > ord('Z'): shifted -= 26
+            encrypted_text += chr(shifted)
+        else:
+            encrypted_text += char
+    return encrypted_text
+
+plaintext = "Attack at dawn"
+secret_key = 3
+ciphertext = caesar_encrypt(plaintext, secret_key)
+print("1. [대칭키 암호] 시저가 만든 비밀 메시지:")
+print(f" - 평문: {plaintext}")
+print(f" - 암호문: {ciphertext}")</code></pre>
+                    <p><strong>상세 설명:</strong> 이 코드는 대칭키 암호의 기본 원리를 보여줍니다. caesar_encrypt 함수는 평문(text)과 비밀 값(key)을 입력받아 암호문을 생성합니다. ord()는 문자를 숫자로, chr()은 숫자를 문자로 변환합니다. 복호화는 이 과정의 역산, 즉 key만큼 빼주면 됩니다. 이 암호를 풀기 위해서는 암호화에 사용된 것과 '동일한' 키(secret_key = 3)를 알아야만 합니다. 이것이 대칭키의 핵심입니다.</p>
+                </div>
+                <div class="sub-section">
+                    <h4>Stage 2: 비밀 키를 어떻게 전달할까? (키 배송 문제와 비대칭키) (10분)</h4>
+                    <p>"만약 시저와 장군이 한 번도 만난 적이 없다면, 'key=3'이라는 비밀을 어떻게 안전하게 공유할 수 있을까?" 라는 질문을 던지며 '키 배송 문제'를 제기합니다.</p>
+                    <p>'자물쇠와 열쇠' 비유로 비대칭키(공개키) 암호 원리를 설명합니다. 장군(수신자)이 '열린 자물쇠(공개키)'를 시저에게 보낸다. 이 자물쇠는 누구나 봐도 상관없다. 시저(송신자)는 그 자물쇠로 메시지 상자를 잠가서 장군에게 보낸다. 잠긴 상자를 열 수 있는 '열쇠(개인키)'는 오직 장군만이 가지고 있다.</p>
+                    <p>실생활 예시 코드: 이 '자물쇠와 열쇠' 모델을 아주 간단한 수학 연산으로 시뮬레이션합니다. (아주 간단화된 RSA 원리 시뮬레이션)</p>
+                    <pre><code># 실제로는 매우 큰 소수를 사용하지만, 여기서는 개념만 흉내
+class PublicKeyCryptography:
+    def __init__(self):
+        # 2. 장군이 공개키와 개인키를 생성
+        self.public_key = 7 # '열린 자물쇠' (모두에게 공개)
+        self.private_key = 3 # '개인 열쇠' (자신만 간직)
+        self.modulus = 33 # 공개되는 기준 값
+
+    def encrypt(self, message_num):
+        # 3. 시저가 장군의 공개키로 암호화 (message^public_key mod n)
+        print(f" - 공개키({self.public_key})로 숫자 '{message_num}' 암호화...")
+        return (message_num ** self.public_key) % self.modulus
+
+    def decrypt(self, encrypted_num):
+        # 4. 장군이 자신의 개인키로 복호화 (encrypted^private_key mod n)
+        print(f" - 개인키({self.private_key})로 숫자 '{encrypted_num}' 복호화...")
+        return (encrypted_num ** self.private_key) % self.modulus
+        
+print("\n2. [비대칭키 암호] 키 배송 문제 해결:")
+crypto_system = PublicKeyCryptography()
+message = 5 # 'E'를 숫자로 변환했다고 가정
+encrypted = crypto_system.encrypt(message)
+print(f" - 암호화된 숫자: {encrypted}")
+decrypted = crypto_system.decrypt(encrypted)
+print(f" - 복호화된 숫자: {decrypted}")</code></pre>
+                    <p><strong>상세 설명:</strong> 이 코드는 비대칭키 암호의 핵심 아이디어를 보여줍니다. 암호화에는 공개키 7이, 복호화에는 개인키 3이 사용됩니다. 이 둘은 수학적으로 연결되어(모듈러 연산), 공개키로 암호화된 것은 반드시 그와 쌍을 이루는 개인키로만 풀 수 있습니다. 중간에 공격자가 공개키 7과 암호문 encrypted를 가로채도, 개인키 3을 모르기 때문에 원본 메시지 5를 알아낼 수 없습니다. 이로써 사전에 비밀 키를 공유하지 않아도 안전한 통신이 가능해집니다.</p>
+                </div>
+                <div class="sub-section">
+                    <h4>Stage 3: 이건 암호화가 아니야! - 해시 함수 (10분)</h4>
+                    <p>"메시지의 내용이 비밀일 필요는 없지만, 중간에 변조되지 않았다는 것을 어떻게 증명할까?" 라는 질문으로 '무결성(Integrity)'의 개념을 소개합니다.</p>
+                    <p>해시 함수를 '데이터의 고유한 디지털 지문(fingerprint)' 또는 '내용물을 갈아버리는 믹서기'에 비유하여, 단방향성과 고유성을 강조합니다.</p>
+                    <p>패스워드를 저장할 때 원문 대신 해시를 저장하는 원리를 설명합니다.</p>
+                    <p>실생활 예시 코드: Python의 hashlib을 사용하여 메시지의 해시 값을 생성하고, 데이터가 1비트라도 바뀌면 해시 값이 완전히 달라지는 것을 보여줍니다.</p>
+                    <pre><code>import hashlib
+
+def get_sha256_hash(data_string):
+    """주어진 문자열의 SHA-256 해시 값을 계산합니다."""
+    # 문자열을 바이트로 인코딩해야 함
+    encoded_data = data_string.encode('utf-8')
+    # 해시 객체 생성 및 데이터 업데이트
+    hasher = hashlib.sha256(encoded_data)
+    # 16진수 형태의 해시 값 반환
+    return hasher.hexdigest()
+
+print("\n3. [해시 함수] 데이터의 디지털 지문:")
+original_message = "I will send 100 dollars"
+tampered_message = "I will send 900 dollars" # 1 -> 9 로 1비트만 변경
+
+original_hash = get_sha256_hash(original_message)
+tampered_hash = get_sha256_hash(tampered_message)
+
+print(f" - 원본 메시지: '{original_message}'")
+print(f" - 원본 해시: {original_hash}")
+print(f" - 변조된 메시지: '{tampered_message}'")
+print(f" - 변조된 해시: {tampered_hash}")
+print("\n -> 단 하나의 글자만 바뀌어도 해시 값이 완전히 달라짐을 확인 (무결성 검증)")</code></pre>
+                    <p><strong>상세 설명:</strong> 이 코드는 해시 함수의 두 가지 중요한 특징을 보여줍니다. 첫째, 원본 메시지로부터 해시 값(original_hash)을 계산하기는 쉽지만, 해시 값만 보고 원본 메시지를 복원하는 것은 불가능합니다(단방향성). 둘째, tampered_message처럼 원본 메시지가 아주 약간만 변경되어도, 결과 해시 값(tampered_hash)은 눈사태처럼 완전히 다른 값으로 바뀝니다(눈사태 효과, Avalanche Effect). 이 특징을 이용해 데이터가 전송 과정에서 변조되지 않았음을 확인할 수 있습니다(무결성).</p>
+                </div>
+            </div>
+            <div class="flow-section">
+                <h3>(마무리) 수업을 마치며 (5분)</h3>
+                <p>대칭키(속도), 비대칭키(안전한 키 교환), 해시(무결성)가 각각 다른 역할을 하며 현대 암호 시스템을 구성하고 있음을 종합적으로 요약합니다.</p>
+                <blockquote>"순수 수학은, 그 나름의 방식으로, 논리적 아이디어의 시(詩)이다." - 알베르트 아인슈타인</blockquote>
+                <p>"여러분, 오늘 우리가 살펴본 암호의 세계는 단순한 숨바꼭질 게임이 아니었습니다. 그것은 소수, 모듈러 연산과 같은 순수 수학의 논리적 아이디어들이 만들어낸 한 편의 아름다운 시와 같았습니다. 아인슈타인의 말처럼, 우리는 오늘 수학이라는 언어로 쓰인 '보안'이라는 시를 감상한 것입니다. 이 논리적인 아름다움이 어떻게 우리의 디지털 사회를 지탱하는지 기억하며, 여러분도 미래에 이성적이고 논리적인 사고로 세상의 문제들을 해결해나가길 바랍니다. 수고 많으셨습니다."</p>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>4. 진단평가 (OX 퀴즈)</h2>
+            <div class="quiz-section">
+                <div class="quiz-question"><p>1. 암호화의 주된 목적은 데이터 전송 속도를 높이는 것이다. (X)</p><div class="explanation">상세 풀이: 암호화의 주된 목적은 허가되지 않은 사람이 데이터를 알아볼 수 없도록 하여 정보의 '기밀성(Confidentiality)'을 보장하는 것입니다. 암호화 과정 자체는 오히려 약간의 시간 소요를 유발합니다.</div></div>
+                <div class="quiz-question"><p>2. 대칭키 암호화 방식은 암호화 키와 복호화 키가 동일하다. (O)</p><div class="explanation">상세 풀이: 대칭키 방식은 하나의 동일한 비밀 키를 사용하여 암호화와 복호화를 모두 수행합니다.</div></div>
+                <div class="quiz-question"><p>3. 비대칭키 암호화에서, 나의 공개키는 다른 사람에게 절대 알려주면 안 된다. (X)</p><div class="explanation">상세 풀이: 비대칭키(공개키) 방식의 핵심은 공개키를 이름 그대로 누구에게나 '공개'하는 것입니다. 다른 사람이 내 공개키로 메시지를 암호화해서 보내면, 나만이 가진 개인키로 열어볼 수 있습니다. 절대 알려주면 안 되는 것은 '개인키'입니다.</div></div>
+                <div class="quiz-question"><p>4. 해시 함수는 암호화된 데이터를 다시 원본으로 복원할 수 있다. (X)</p><div class="explanation">상세 풀이: 해시 함수는 '단방향(One-way)' 함수입니다. 한 번 해시 값으로 변환되면, 그 결과값만으로는 원본 데이터를 복원할 수 없습니다. 복원이 가능한 것은 '암호화'입니다.</div></div>
+                <div class="quiz-question"><p>5. HTTPS 통신에서는 속도가 빠른 대칭키 암호화와 키 교환이 안전한 비대칭키 암호화가 함께 사용된다. (O)</p><div class="explanation">상세 풀이: 실제 통신에서는 비대칭키 방식으로 실제 데이터를 암호화할 대칭키(세션 키)를 안전하게 교환하고, 그 후로는 속도가 빠른 대칭키 방식으로 실제 데이터를 암호화하여 통신하는 '하이브리드' 방식을 사용합니다.</div></div>
+                <div class="quiz-question"><p>6. 시저 암호는 암호화 키(이동 칸 수)만 알면 쉽게 복호화할 수 있으므로 현대적인 암호 시스템으로는 안전하지 않다. (O)</p><div class="explanation">상세 풀이: 시저 암호는 키의 경우의 수가 25가지밖에 되지 않아, 컴퓨터를 사용하면 무차별 대입 공격(Brute-force attack)으로 순식간에 해독할 수 있습니다.</div></div>
+                <div class="quiz-question"><p>7. 동일한 파일은 해시 함수(예: SHA-256)를 통과할 때마다 다른 해시 값을 가진다. (X)</p><div class="explanation">상세 풀이: 해시 함수는 '결정성'을 가집니다. 즉, 입력값이 동일하면 항상 동일한 해시 값을 출력합니다. 이 특징 때문에 파일의 무결성 검증이 가능합니다.</div></div>
+                <div class="quiz-question"><p>8. 대칭키 암호화의 가장 큰 단점은 암호화 속도가 느리다는 것이다. (X)</p><div class="explanation">상세 풀이: 대칭키 암호화의 가장 큰 장점 중 하나가 바로 '속도가 빠르다'는 것입니다. 가장 큰 단점은 통신 상대방에게 비밀 키를 안전하게 전달해야 하는 '키 배송 문제'입니다.</div></div>
+                <div class="quiz-question"><p>9. 웹사이트에 로그인할 때, 서버는 내가 입력한 비밀번호의 해시 값을 계산하여 데이터베이스에 저장된 해시 값과 비교한다. (O)</p><div class="explanation">상세 풀이: 안전한 시스템은 비밀번호 원문을 저장하지 않습니다. 회원가입 시 비밀번호의 해시 값을 저장해두고, 로그인 요청이 오면 입력된 비밀번호를 다시 해시 함수로 변환하여 저장된 값과 일치하는지를 비교하는 방식으로 인증을 수행합니다.</div></div>
+                <div class="quiz-question"><p>10. 비대칭키 암호화에서, 나의 개인키로 암호화한 데이터는 나의 공개키로만 복호화할 수 있다. (O)</p><div class="explanation">상세 풀이: 이 원리는 '전자 서명(Digital Signature)'에 사용됩니다. 내가 개인키로 암호화했다는 것은 나만이 할 수 있는 행위이므로, 그것이 공개키로 풀린다면 그 데이터가 내가 보낸 것이 맞음을 증명(인증, Authentication)하고, 내용이 변조되지 않았음(무결성)을 보장할 수 있습니다.</div></div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>5. 형성평가 (5지선다형)</h2>
+            <div class="quiz-section">
+                <div class="quiz-question"><p class="question-text">1. 앨리스가 밥에게 비밀 메시지를 보내려고 한다. 비대칭키 암호화 방식을 사용할 때, 앨리스가 메시지를 암호화하기 위해 필요한 것은?</p><ol><li>앨리스의 공개키</li><li>앨리스의 개인키</li><li>밥의 공개키</li><li>밥의 개인키</li><li>앨리스와 밥이 함께 만든 대칭키</li></ol><p class="answer">정답: ③</p><div class="explanation">상세 풀이: 메시지를 안전하게 받을 사람(밥)의 공개키로 암호화해야, 그 메시지를 오직 밥만이 자신의 개인키로 열어볼 수 있습니다. 따라서 앨리스는 밥의 공개키가 필요합니다.</div></div>
+                <div class="quiz-question"><p class="question-text">2. 다음 중 암호화(Encryption)와 해시(Hash)의 가장 근본적인 차이점은?</p><ol><li>해시는 키가 필요 없지만 암호화는 키가 필요하다.</li><li>해시는 속도가 빠르지만 암호화는 속도가 느리다.</li><li>해시는 결과물의 길이가 고정되지만 암호화는 그렇지 않다.</li><li>암호화는 복호화가 가능하지만 해시는 복원이 불가능하다.</li><li>암호화는 텍스트에만, 해시는 파일에만 사용된다.</li></ol><p class="answer">정답: ④</p><div class="explanation">상세 풀이: 가장 본질적인 차이는 '양방향성' 여부입니다. 암호화는 암호화(Encrypt)와 복호화(Decrypt)가 모두 가능한 양방향 프로세스입니다. 반면 해시는 원본으로 되돌릴 수 없는 단방향 프로세스입니다.</div></div>
+                <div class="quiz-question"><p class="question-text">3. 인터넷에서 대용량 파일을 다운로드한 후, 파일 제공자가 명시한 'SHA-256 체크섬(Checksum)' 값과 내가 받은 파일의 해시 값을 비교하는 이유는?</p><ol><li>파일의 소유권을 증명하기 위해</li><li>파일의 압축을 해제하기 위해</li><li>파일이 다운로드 과정에서 손상되거나 변조되지 않았는지(무결성) 확인하기 위해</li><li>파일에 악성코드가 포함되어 있는지 검사하기 위해</li><li>파일을 암호화하기 위해</li></ol><p class="answer">정답: ③</p><div class="explanation">상세 풀이: 해시 함수는 입력이 조금이라도 다르면 결과가 완전히 달라집니다. 따라서 원본 파일의 해시 값과 다운로드한 파일의 해시 값이 일치한다면, 두 파일의 내용이 1비트의 오차도 없이 동일하다는 것을 수학적으로 증명할 수 있습니다. 이를 '무결성 검증'이라고 합니다.</div></div>
+                <div class="quiz-question"><p class="question-text">4. A와 B가 대칭키 암호 방식으로 통신하기로 했다. 그런데 A가 B에게 비밀 키를 전달하는 과정에서 해커가 그 키를 훔쳐보았다. 이로 인해 발생할 수 있는 가장 심각한 문제는?</p><ol><li>A와 B의 통신 속도가 느려진다.</li><li>A와 B는 서로에게 메시지를 보낼 수 없게 된다.</li><li>해커가 A와 B 사이에 오고 가는 모든 암호문을 해독할 수 있다.</li><li>해커가 A와 B의 개인키를 알아낼 수 있다.</li><li>A와 B의 컴퓨터에 바이러스가 감염된다.</li></ol><p class="answer">정답: ③</p><div class="explanation">상세 풀이: 대칭키 방식은 암호화와 복호화에 동일한 키를 사용하므로, 키가 노출되었다는 것은 암호 시스템 전체가 무너졌다는 의미입니다. 해커는 훔친 키를 이용해 A와 B가 주고받는 모든 암호문을 평문으로 복호화하여 엿볼 수 있습니다.</div></div>
+                <div class="quiz-question"><p class="question-text">5. 다음 중 비대칭키 암호 시스템의 공개키(Public Key)에 대한 비유로 가장 적절한 것은?</p><ol><li>누구나 편지를 넣을 수는 있지만, 주인만 열 수 있는 우체통의 투입구</li><li>나만 가지고 있는 비밀 일기장의 열쇠</li><li>집 주소와 내 이름이 모두 적힌 신분증</li><li>내용물을 갈아서 가루로 만들어버리는 믹서기</li><li>두 사람이 똑같이 나눠 가진 금고 열쇠 중 하나</li></ol><p class="answer">정답: ①</p><div class="explanation">상세 풀이: 공개키는 누구나 사용하여 메시지를 '암호화'(편지를 우체통에 넣는 행위)할 수 있지만, 그렇게 암호화된 메시지는 오직 그에 맞는 개인키(우체통 열쇠)를 가진 주인만이 '복호화'(편지를 꺼내 읽는 행위)할 수 있습니다. ②, ⑤는 대칭키, ④는 해시 함수에 대한 비유입니다.</div></div>
+                <div class="quiz-question"><p class="question-text">6. "HELLO" 라는 평문을 시저 암호(key=3)로 암호화했을 때의 결과는?</p><ol><li>EBIIL</li><li>KHOOR</li><li>GDKKN</li><li>IFMMP</li><li>OLLEH</li></ol><p class="answer">정답: ②</p><div class="explanation">상세 풀이: 각 알파벳을 오른쪽으로 3칸씩 이동시키면 됩니다. H → I → J → K, E → F → G → H, L → M → N → O, O → P → Q → R. 따라서 "KHOOR"가 됩니다.</div></div>
+                <div class="quiz-question"><p class="question-text">7. 비밀번호를 안전하게 저장하는 방법에 대한 설명으로 가장 옳은 것은?</p><ol><li>비밀번호를 그대로 데이터베이스에 저장하고, 데이터베이스 접근을 막는다.</li><li>비밀번호를 대칭키로 암호화하여 저장한다.</li><li>비밀번호를 해시 함수로 변환한 해시 값을 저장한다.</li><li>비밀번호를 사용자의 공개키로 암호화하여 저장한다.</li><li>비밀번호는 서버에 저장하지 않고 매번 사용자에게 물어본다.</li></ol><p class="answer">정답: ③</p><div class="explanation">상세 풀이: 해시 함수를 사용하는 것이 가장 안전한 표준 방식입니다. 만약 데이터베이스가 유출되더라도, 해시 값만으로는 원본 비밀번호를 알아낼 수 없기 때문입니다. 암호화하여 저장하는 경우, 암호화에 사용된 키가 유출되면 모든 비밀번호가 노출될 위험이 있습니다.</div></div>
+                <div class="quiz-question"><p class="question-text">8. 다음 중 암호화의 핵심 4요소에 포함되지 않는 것은?</p><ol><li>평문 (Plaintext)</li><li>암호문 (Ciphertext)</li><li>키 (Key)</li><li>알고리즘 (Algorithm)</li><li>프로토콜 (Protocol)</li></ol><p class="answer">정답: ⑤</p><div class="explanation">상세 풀이: 평문, 암호문, 키, 알고리즘은 암호화를 구성하는 가장 기본적인 4가지 요소입니다. 프로토콜은 암호 기술을 포함한 여러 기술을 사용하여 통신을 하는 '절차'나 '규약'으로, 암호화 자체의 구성 요소라기보다는 암호화가 사용되는 더 큰 개념입니다.</div></div>
+                <div class="quiz-question"><p class="question-text">9. RSA, ECC 와 같은 암호 방식은 어디에 속하는가?</p><ol><li>대칭키 암호</li><li>비대칭키 암호</li><li>해시 함수</li><li>스트림 암호</li><li>블록 암호</li></ol><p class="answer">정답: ②</p><div class="explanation">상세 풀이: RSA와 ECC(타원 곡선 암호)는 수학적인 난제를 기반으로 한 대표적인 공개키(비대칭키) 암호 알고리즘입니다.</div></div>
+                <div class="quiz-question"><p class="question-text">10. A가 B에게 보낸 이메일이 중간에 변조되지 않았음을 B가 확인하고 싶다. A는 어떤 정보를 이메일에 함께 보내야 하는가?</p><ol><li>이메일 원문의 해시 값</li><li>A의 개인키</li><li>B의 공개키</li><li>이메일 원문을 암호화한 대칭키</li><li>이메일 원문의 길이</li></ol><p class="answer">정답: ①</p><div class="explanation">상세 풀이: A는 이메일 원문의 해시 값을 계산하여 이메일과 함께 보냅니다. B는 이메일을 받은 후, 수신한 원문에 대해 동일한 해시 함수를 적용하여 해시 값을 직접 계산합니다. 이 계산된 해시 값이 A가 보낸 해시 값과 일치하면, 이메일 내용이 중간에 변조되지 않았음(무결성)을 확신할 수 있습니다.</div></div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>6. 코딩 실습 예제</h2>
+            <div class="code-example">
+                <h4>1. 시저 암호 복호화기</h4>
+                <pre><code>def caesar_decrypt(ciphertext, key):
+    """시저 암호문을 주어진 키로 복호화합니다."""
+    decrypted_text = ""
+    for char in ciphertext:
+        if 'a' <= char <= 'z':
+            shifted = ord(char) - key
+            if shifted < ord('a'): shifted += 26
+            decrypted_text += chr(shifted)
+        elif 'A' <= char <= 'Z':
+            shifted = ord(char) - key
+            if shifted < ord('A'): shifted += 26
+            decrypted_text += chr(shifted)
+        else:
+            decrypted_text += char
+    return decrypted_text
+
+# 테스트
+ciphertext = "KHOOR ZDW DWWDFN"
+secret_key = 3
+plaintext = caesar_decrypt(ciphertext, secret_key)
+print(f"암호문: {ciphertext}")
+print(f"복호화된 평문 (key={secret_key}): {plaintext}")
+</code></pre>
+                <p><strong>상세 풀이 및 설명:</strong> 이 함수는 암호화의 역과정을 수행합니다. + key 대신 - key를 사용합니다. 핵심 로직은 shifted < ord('a') 부분입니다. 예를 들어, 문자 'C'(ord 값 67)에서 키 5를 빼면 '^'(ord 값 62)가 되어 알파벳 범위를 벗어납니다. 이때 알파벳의 개수인 26을 더해주면(62 + 26 = 88), 'X'가 되어 올바른 순환 복호화가 이루어집니다. 이처럼 암호화 알고리즘은 보통 그에 맞는 명확한 복호화 알고리즘을 쌍으로 가집니다.</p>
+            </div>
+            <div class="code-example">
+                <h4>2. 단순 치환 암호</h4>
+                <pre><code>def create_atbash_cipher_rule():
+    """알파벳을 거꾸로 매핑하는 아트바시 암호 규칙 딕셔너리를 생성합니다."""
+    alphabet = "abcdefghijklmnopqrstuvwxyz"
+    reversed_alphabet = alphabet[::-1]
+    rule_dict = {alphabet[i]: reversed_alphabet[i] for i in range(len(alphabet))}
+    return rule_dict
+
+def substitution_encrypt(text, rule_dict):
+    """주어진 치환 규칙에 따라 텍스트를 암호화합니다."""
+    encrypted_text = ""
+    for char in text.lower():
+        encrypted_text += rule_dict.get(char, char)
+    return encrypted_text
+
+# 테스트
+atbash_rule = create_atbash_cipher_rule()
+plaintext = "hello world"
+ciphertext = substitution_encrypt(plaintext, atbash_rule)
+print(f"평문: {plaintext}")
+print(f"아트바시 암호문: {ciphertext}")
+print(f"다시 복호화: {substitution_encrypt(ciphertext, atbash_rule)}")
+</code></pre>
+                <p><strong>상세 풀이 및 설명:</strong> 치환 암호는 각 문자를 정해진 규칙에 따라 다른 문자로 일대일로 바꾸는 방식입니다. create_atbash_cipher_rule 함수는 a를 z로, b를 y로 매핑하는 규칙을 Python 딕셔너리를 이용해 생성합니다. 이 딕셔너리가 바로 암호화의 '키' 역할을 합니다. substitution_encrypt 함수는 문장을 한 글자씩 순회하면서, rule_dict.get(char, char)를 사용합니다. .get(key, default)는 딕셔너리에 key가 있으면 해당하는 값을, 없으면 default 값을 반환합니다. 이를 이용해 알파벳은 암호화하고 공백이나 다른 기호는 그대로 유지할 수 있습니다.</p>
+            </div>
+             <div class="code-example">
+                <h4>3. XOR 암호화 시뮬레이션</h4>
+                <pre><code>def xor_cipher(text, key_char):
+    """텍스트의 각 문자를 키 문자와 XOR 연산하여 암호화/복호화합니다."""
+    result = ""
+    for char in text:
+        xored_char_code = ord(char) ^ ord(key_char)
+        result += chr(xored_char_code)
+    return result
+    
+# 테스트
+plaintext = "This is a secret message."
+key = 'P' # 대칭키
+ciphertext = xor_cipher(plaintext, key)
+print(f"평문: {plaintext}")
+print(f"암호문 (키='{key}'): {ciphertext}")
+decrypted_text = xor_cipher(ciphertext, key)
+print(f"복호화된 평문: {decrypted_text}")</code></pre>
+                <p><strong>상세 풀이 및 설명:</strong> XOR(^) 비트 연산은 A^B=C일 때, C^B=A 라는 재미있는 성질을 가집니다. 즉, 어떤 값으로 두 번 XOR하면 원래 값으로 돌아옵니다. 이 성질을 이용하면 암호화 함수와 복호화 함수를 동일하게 만들 수 있습니다. ord(char)로 문자를 숫자로 바꾸고, ^ 연산자로 키와 XOR 한 뒤, chr()로 다시 문자로 바꿉니다. 이 코드는 대칭키 암호가 어떻게 '하나의 키'로 암호화와 복호화를 모두 수행하는지 그 수학적 원리를 간단하게 보여주는 좋은 예시입니다.</p>
+            </div>
+             <div class="code-example">
+                <h4>4. 해시 값 생성기</h4>
+                <pre><code>import hashlib
+def generate_sha256(input_string):
+    """문자열의 SHA-256 해시 값을 계산합니다."""
+    byte_data = input_string.encode('utf-8')
+    hasher = hashlib.sha256(byte_data)
+    hex_hash = hasher.hexdigest()
+    return hex_hash
+
+user_input = input("해시 값을 계산할 문자열을 입력하세요: ")
+hash_result = generate_sha256(user_input)
+print(f"\n입력 문자열: '{user_input}'")
+print(f"SHA-256 해시 값: {hash_result}")
+print(f"해시 값의 길이: {len(hash_result)}자")</code></pre>
+                <p><strong>상세 풀이 및 설명:</strong> `import hashlib`: 파이썬에서 SHA, MD5 등 다양한 해시 알고리즘을 사용하기 위한 표준 라이브러리입니다. `.encode('utf-8')`: 해시 함수는 문자열이 아닌 바이트(byte) 시퀀스를 입력으로 받습니다. 따라서 .encode() 메서드를 사용해 문자열을 표준적인 바이트 형태로 변환하는 과정이 반드시 필요합니다. `hashlib.sha256(...)`: SHA-256 알고리즘을 사용하겠다고 선언하고 해시 객체를 생성합니다. `.hexdigest()`: 계산된 해시 값은 원래 이진 데이터이지만, 사람이 읽고 사용하기 편하도록 16진수 형태의 문자열로 변환하여 반환합니다. SHA-256은 항상 256비트(32바이트)의 결과를 내며, 이는 16진수로 64글자에 해당합니다.</p>
+            </div>
+            <div class="code-example">
+                <h4>5. 비밀번호 유효성 검증 시뮬레이션</h4>
+                <pre><code>import hashlib
+user_database = {"alice": "3ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4"}
+def check_password(username, input_password):
+    if username not in user_database: return False
+    input_hash = hashlib.sha256(input_password.encode('utf-8')).hexdigest()
+    stored_hash = user_database[username]
+    return input_hash == stored_hash
+# 테스트
+username_try = "alice"
+password_try = input(f"'{username_try}'의 비밀번호를 입력하세요: ")
+if check_password(username_try, password_try): print("로그인 성공!")
+else: print("비밀번호가 일치하지 않습니다.")</code></pre>
+                <p><strong>상세 풀이 및 설명:</strong> 이 코드는 현대 웹사이트의 로그인 시스템이 동작하는 핵심 원리를 보여줍니다. user_database에는 사용자의 비밀번호 원문(password123)이 아닌, 그것의 해시 값만 저장되어 있습니다. 따라서 이 DB가 유출되어도 공격자는 앨리스의 비밀번호를 바로 알 수 없습니다. check_password 함수는 로그인 시 사용자가 입력한 input_password를 동일한 해시 함수(SHA-256)로 변환합니다. 그리고 이 새로 생성된 해시와 DB에 저장되어 있던 stored_hash를 비교합니다. 두 해시 값이 같다면, 사용자가 올바른 비밀번호를 입력했다는 것을 원본 비밀번호를 전혀 보지 않고도 증명할 수 있습니다.</p>
+            </div>
+             <div class="code-example">
+                <h4>6. 무결성 검증 시뮬레이션</h4>
+                <pre><code>import hashlib
+def verify_integrity(original_text, received_hash):
+    print("\n--- 무결성 검증 시작 ---")
+    print(f"수신된 텍스트: '{original_text}'")
+    calculated_hash = hashlib.sha256(original_text.encode('utf-8')).hexdigest()
+    print(f"직접 계산한 해시: '{calculated_hash}'")
+    if calculated_hash == received_hash:
+        print("결과: 두 해시가 일치합니다. 데이터는 변조되지 않았습니다.")
+        return True
+    else:
+        print("결과: 경고! 두 해시가 다릅니다. 데이터가 변조되었습니다!")
+        return False
+
+message1 = "이 계약서의 내용은 최종본이며, 수정될 수 없습니다."
+hash1 = hashlib.sha256(message1.encode('utf-8')).hexdigest()
+verify_integrity(message1, hash1)
+
+message2_tampered = "송금할 금액: 90,000원"
+hash2_original = hashlib.sha256("송금할 금액: 10,000원".encode('utf-8')).hexdigest()
+verify_integrity(message2_tampered, hash2_original)</code></pre>
+                 <p><strong>상세 풀이 및 설명:</strong> 이 코드는 파일 다운로드 사이트 등에서 '체크섬(Checksum)'을 확인하는 원리와 동일합니다. 송신자는 원본 데이터(message1)와, 그 데이터의 해시 값(hash1)을 모두 보냅니다. 수신자는 verify_integrity 함수를 통해, 전달받은 데이터(original_text)의 해시 값을 '직접 다시 계산'합니다. 그리고 이 직접 계산한 해시 값과 송신자가 보내준 해시 값(received_hash)을 비교합니다. 만약 두 값이 일치한다면, 전송 과정에서 데이터가 단 1비트도 바뀌지 않았음을 확신할 수 있습니다. 시나리오 2처럼 내용이 바뀌었다면 해시 값이 완전히 달라져 불일치를 즉시 감지할 수 있습니다.</p>
+           </div>
+           <div class="code-example">
+                <h4>7. 전자서명 생성 시뮬레이션</h4>
+                <pre><code>import hashlib
+def create_digital_signature(message, private_key, modulus):
+    message_hash = hashlib.sha256(message.encode('utf-8')).hexdigest()
+    hash_as_int = int(message_hash, 16)
+    # 실제 RSA에서는 (hash ** private_exponent) % modulus 연산을 수행
+    signature = pow(hash_as_int, private_key, modulus)
+    return signature
+
+# 실제로는 매우 큰 소수로 만들어지는 키이지만, 시뮬레이션을 위해 작은 값 사용
+# (p=61, q=53) -> n=3233, e=17, d=2753
+my_private_key = 2753
+n_modulus = 3233
+important_contract = "Alice는 Bob에게 1 비트코인을 전송한다."
+signature = create_digital_signature(important_contract, my_private_key, n_modulus)
+print(f"생성된 전자서명(정수): {signature}")</code></pre>
+                <p><strong>상세 풀이 및 설명:</strong> 전자 서명의 핵심은 '내가 이 문서에 동의했다'는 것을 부인할 수 없게(부인 방지, Non-repudiation) 만들고, 문서 내용이 변조되지 않았음(무결성)을 함께 증명하는 것입니다. 그 원리는 "메시지 자체"가 아닌, "메시지의 해시 값"을 나의 '개인키'로 암호화하는 것입니다. 이 코드는 그 과정을 시뮬레이션합니다. 먼저 메시지의 해시 값을 계산하고 큰 정수로 변환합니다. `signature = pow(hash_as_int, private_key, modulus)` 이 부분이 '개인키로 암호화'하는 과정을 RSA 원리에 따라 흉내 낸 것입니다. 나만이 가진 private_key로 연산했기 때문에, 이 signature 값은 나만이 만들 수 있습니다.</p>
+            </div>
+             <div class="code-example">
+                <h4>8. 전자서명 검증 시뮬레이션</h4>
+                <pre><code># (7번 예제와 이어짐)
+def verify_digital_signature(message, signature, public_key, modulus):
+    # 1. 서명을 '공개키로 복호화'하여 원본 해시 값을 복원
+    decrypted_hash_int = pow(signature, public_key, modulus)
+    
+    # 2. 함께 수신된 원본 메시지의 해시 값을 직접 계산
+    message_hash_int = int(hashlib.sha256(message.encode('utf-8')).hexdigest(), 16)
+    
+    # 3. 두 해시 값이 일치하는지 비교
+    return decrypted_hash_int == message_hash_int
+    
+my_public_key = 17 # 7번 예제의 private_key와 쌍을 이루는 공개키
+is_valid = verify_digital_signature(important_contract, signature, my_public_key, n_modulus)
+print(f"\n서명 검증 결과: {'유효함' if is_valid else '유효하지 않음'}")
+
+tampered_contract = "Alice는 Bob에게 99 비트코인을 전송한다."
+is_valid_tampered = verify_digital_signature(tampered_contract, signature, my_public_key, n_modulus)
+print(f"변조된 메시지의 서명 검증 결과: {'유효함' if is_valid_tampered else '유효하지 않음'}")</code></pre>
+                <p><strong>상세 풀이 및 설명:</strong> 이 코드는 수신자가 전자서명을 어떻게 '검증'하는지 보여줍니다. 수신자는 3가지 정보, 즉 ① 원본 메시지, ② 서명, ③ 송신자의 공개키를 가집니다. 1단계: 서명을 송신자의 '공개키'로 복호화합니다. 이 결과는 송신자가 원래 서명할 때 사용했던 '해시 값'이 나와야 합니다. 2단계: 함께 받은 원본 메시지의 해시 값을 수신자가 직접 계산합니다. 3단계: 1단계에서 복원한 해시 값과 2단계에서 직접 계산한 해시 값이 일치하는지 비교합니다. 일치한다면, ① 서명이 공개키로 복호화되었다는 것은 그 짝인 개인키로 암호화되었다는 뜻이므로 '송신자가 보낸 것이 맞음'이 증명됩니다. ② 두 해시가 같다는 것은 메시지 내용이 '전혀 변조되지 않았음'이 증명됩니다.</p>
+            </div>
+            <div class="code-example">
+                <h4>9. '솔트'를 이용한 패스워드 해싱</h4>
+                <pre><code>import hashlib
+import os
+def hash_password_with_salt(password):
+    salt = os.urandom(16)
+    salted_password = password.encode('utf-8') + salt
+    password_hash = hashlib.sha256(salted_password).hexdigest()
+    return salt, password_hash
+def check_salted_password(input_password, salt, stored_hash):
+    salted_input = input_password.encode('utf-8') + salt
+    input_hash = hashlib.sha256(salted_input).hexdigest()
+    return input_hash == stored_hash
+# 테스트
+salt, hashed_pw = hash_password_with_salt("password123")
+print(f"생성된 솔트 (16진수): {salt.hex()}")
+print(f"솔트와 함께 해싱된 값: {hashed_pw}")
+print(f"\n로그인 검증: {check_salted_password('password123', salt, hashed_pw)}")</code></pre>
+                <p><strong>상세 풀이 및 설명:</strong> 솔트가 없으면, 해커들은 미리 계산된 해시 값 목록(레인보우 테이블)을 사용해 'password123'의 해시 값을 쉽게 찾아낼 수 있습니다. 솔트는 이 문제를 해결하기 위해, 패스워드를 해싱하기 전에 각 사용자마다 고유한 랜덤 문자열(솔트)을 덧붙입니다. `os.urandom(16)`은 예측 불가능한 16바이트 랜덤 데이터를 생성합니다. `hash_password_with_salt` 함수는 랜덤 솔트를 생성하고, 패스워드와 합쳐 해싱한 뒤, 해시 값과 솔트를 모두 반환합니다. 데이터베이스에는 이 두 값을 함께 저장해야 합니다. `check_salted_password` 함수는 검증 시, DB에서 사용자의 salt 값을 가져와 로그인 시 입력된 비밀번호와 합친 후 해싱하여 비교합니다. 이렇게 하면, 모든 사용자가 'password123'이라는 동일한 비밀번호를 사용하더라도, 각기 다른 salt 때문에 DB에는 모두 다른 해시 값으로 저장되어 레인보우 테이블 공격을 무력화할 수 있습니다.</p>
+            </div>
+             <div class="code-example">
+                <h4>10. 시저 암호 키 무차별 대입 공격</h4>
+                <pre><code>def caesar_brute_force_attack(ciphertext):
+    """시저 암호문에 대해 1부터 25까지 모든 키를 시도하여 복호화합니다."""
+    print(f"--- 암호문 '{ciphertext}'에 대한 무차별 대입 공격 시작 ---")
+    for key in range(1, 26):
+        decrypted_text = ""
+        for char in ciphertext:
+            if 'a' <= char <= 'z':
+                shifted = ord(char) - key
+                if shifted < ord('a'): shifted += 26
+                decrypted_text += chr(shifted)
+            elif 'A' <= char <= 'Z':
+                shifted = ord(char) - key
+                if shifted < ord('A'): shifted += 26
+                decrypted_text += chr(shifted)
+            else:
+                decrypted_text += char
+        print(f"Key = {str(key).zfill(2)} : {decrypted_text}")
+# 테스트
+encrypted_message = "BRX DUH DQ H[FHOOHQW VWXGHQW"
+caesar_brute_force_attack(encrypted_message)</code></pre>
+                <p><strong>상세 풀이 및 설명:</strong> '무차별 대입 공격(Brute-force Attack)'은 암호 해독에서 사용 가능한 모든 키를 하나씩 전부 시도해보는 가장 단순하고 확실한 공격 방법입니다. 이 코드는 시저 암호의 키가 1부터 25까지의 정수라는 점을 이용합니다. `for key in range(1, 26):` 반복문이 바로 모든 키를 시도하는 핵심 로직입니다. 루프 내부에서는 각 key 값으로 복호화를 수행하고, 그 결과를 출력합니다. 공격자는 출력된 25개의 문장 중에서 "YOU ARE AN EXCELLENT STUDENT" 와 같이 의미가 통하는 문장을 찾아냅니다. 이때 사용된 키(여기서는 key=23)가 바로 비밀 키임을 알아낼 수 있습니다. 이 예제는 키 공간(가능한 키의 총 개수)이 작은 암호 시스템이 왜 위험한지를 명확하게 보여줍니다. 현대 암호는 이 키 공간을 천문학적으로 크게 만들어 무차별 대입 공격을 사실상 불가능하게 만듭니다.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

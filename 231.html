@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>수업 지도안: 빅데이터의 이해</title>
+    <style>
+        body {
+            font-family: 'Malgun Gothic', '맑은 고딕', sans-serif;
+            line-height: 1.8;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            color: #212529;
+        }
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 40px;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border: 1px solid #dee2e6;
+        }
+        h1, h2, h3, h4 {
+            color: #0056b3;
+            border-bottom: 2px solid #e9ecef;
+            padding-bottom: 10px;
+        }
+        h1 {
+            text-align: center;
+            border-bottom: 3px solid #0056b3;
+            font-size: 2em;
+            margin-bottom: 30px;
+        }
+        h2 {
+            font-size: 1.6em;
+            margin-top: 50px;
+        }
+        h3 {
+            font-size: 1.3em;
+            color: #007bff;
+            border-bottom: 1px dashed #ced4da;
+            margin-top: 30px;
+        }
+        h4 {
+            font-size: 1.1em;
+            color: #17a2b8;
+            border-bottom: none;
+            margin-top: 25px;
+        }
+        ul, ol {
+            padding-left: 25px;
+            background-color: #fdfdfd;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        .section {
+            margin-bottom: 40px;
+        }
+        .concept-box, .code-example, .quiz-section, .flow-section {
+            background-color: #f8f9fa;
+            padding: 25px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border: 1px solid #e9ecef;
+        }
+        .concept-box strong {
+            color: #0056b3;
+        }
+        pre {
+            background-color: #2b2b2b;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 5px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-family: 'D2Coding', 'Consolas', 'Monaco', monospace;
+        }
+        code {
+            font-family: 'D2Coding', 'Consolas', 'Monaco', monospace;
+            background-color: #e9ecef;
+            padding: 2px 5px;
+            border-radius: 4px;
+        }
+        blockquote {
+            border-left: 5px solid #007bff;
+            background: #f1f3f5;
+            padding: 15px;
+            margin: 20px 0;
+            font-style: italic;
+        }
+        .quiz-question {
+            margin-bottom: 25px;
+        }
+        .quiz-question .question-text {
+            font-weight: bold;
+            margin-bottom: 10px;
+            white-space: pre-line;
+        }
+        .quiz-question .options {
+            padding-left: 20px;
+        }
+        .quiz-question .answer {
+            font-weight: bold;
+            color: #28a745;
+        }
+        .explanation {
+            margin-top: 10px;
+            padding: 12px;
+            background-color: #e7f3fe;
+            border-left: 5px solid #007bff;
+            font-size: 0.95em;
+        }
+        .sub-section {
+            margin-top:20px;
+            padding-left: 15px;
+            border-left: 3px solid #007bff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>과학고 정보 수업 지도안: II. 데이터 - 231. 빅데이터의 이해</h1>
+
+        <div class="section">
+            <h2>1. 학습 목표</h2>
+            <h3>개념적 목표:</h3>
+            <ul>
+                <li>빅데이터를 3V(Volume, Velocity, Variety) 또는 5V(+Veracity, Value)의 특징으로 정의하고, 기존 데이터와의 차이점을 설명할 수 있다.</li>
+                <li>정형, 반정형, 비정형 데이터의 차이를 이해하고 각각의 예를 제시할 수 있다.</li>
+                <li>빅데이터가 '데이터 기반 의사결정'을 통해 과학, 산업, 사회에 어떤 가치를 창출하는지 설명할 수 있다.</li>
+                <li>빅데이터 처리의 어려움을 설명하고, 이를 해결하기 위한 분산 처리(Distributed Processing)의 기본 개념을 이해한다.</li>
+                <li>빅데이터 활용에 따르는 개인정보 보호, 데이터 편향성 등 사회적, 윤리적 쟁점을 이해한다.</li>
+            </ul>
+            <h3>절차적 목표:</h3>
+            <ul>
+                <li>Python을 이용하여 대용량의 테스트 데이터를 생성하고, 파일 크기를 통해 데이터의 양(Volume)을 체감할 수 있다.</li>
+                <li>실시간으로 데이터가 생성되는 스트리밍 환경(Velocity)을 간단히 시뮬레이션하고, 이를 처리하는 코드를 작성할 수 있다.</li>
+                <li>정형(리스트), 반정형(JSON), 비정형(텍스트) 데이터를 모두 포함하는 복합적인 데이터 구조를 다룰 수 있다.</li>
+                <li>대용량 데이터에서 의미 있는 정보(예: 특정 단어의 빈도수)를 추출하는 간단한 데이터 분석 코드를 작성할 수 있다.</li>
+                <li>데이터에 포함된 오류나 결측치를 처리(정제)하는 기본적인 데이터 클리닝 로직을 구현할 수 있다.</li>
+            </ul>
+            <h3>태도적 목표:</h3>
+            <ul>
+                <li>방대한 데이터 속에 숨겨진 패턴과 인사이트를 찾으려는 데이터 지향적, 탐구적 자세를 가진다.</li>
+                <li>하나의 현상을 다양한 관점의 데이터로 바라보고 융합적으로 해석하려는 태도를 기른다.</li>
+                <li>데이터를 활용할 때 발생할 수 있는 프라이버시, 공정성 등의 윤리적 문제를 인지하고, 기술을 책임감 있게 사용하려는 자세를 함양한다.</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>2. 핵심 개념 상세 설명</h2>
+            <div class="concept-box">
+                <p><strong>빅데이터 (Big Data):</strong> 단순히 '양이 많은 데이터'를 넘어, 기존의 데이터 처리 방식으로는 수집, 저장, 관리, 분석하기 어려울 정도로 방대하고(Volume), 빠르게 생성되며(Velocity), 형태가 다양한(Variety) 데이터 또는 그 데이터를 처리하고 분석하는 기술을 의미합니다. 빅데이터의 핵심은 데이터 자체보다, 그 속에서 새로운 가치(Value)와 통찰(Insight)을 찾아내는 것에 있습니다.</p>
+                <h3>빅데이터의 특징 (V's of Big Data):</h3>
+                <ul>
+                    <li><strong>양 (Volume):</strong> 데이터의 물리적인 크기. 테라바이트(TB), 페타바이트(PB)를 넘어 엑사바이트(EB) 단위에 이르는 엄청난 양을 의미합니다.</li>
+                    <li><strong>속도 (Velocity):</strong> 데이터가 생성되고 이동하는 속도. 소셜 미디어의 실시간 포스팅, 금융 시장의 거래 데이터, IoT 센서 데이터처럼 끊임없이 스트리밍 형태로 발생하는 데이터를 의미합니다.</li>
+                    <li><strong>다양성 (Variety):</strong> 데이터의 형태와 구조.
+                        <ul>
+                            <li><strong>정형 데이터 (Structured Data):</strong> 관계형 데이터베이스의 테이블처럼 행과 열로 명확하게 구조화된 데이터. (예: 학생 성적표, 은행 거래 내역)</li>
+                            <li><strong>반정형 데이터 (Semi-structured Data):</strong> JSON, XML처럼 데이터의 구조를 설명하는 스키마(메타데이터)를 포함하고 있어 정형 데이터만큼 엄격하지는 않지만, 분석이 용이한 데이터.</li>
+                            <li><strong>비정형 데이터 (Unstructured Data):</strong> 특별한 구조 없이 내용만 있는 데이터로, 빅데이터의 80% 이상을 차지합니다. (예: 텍스트 문서, 이미지, 동영상, 음성 파일)</li>
+                        </ul>
+                    </li>
+                    <li><strong>정확성 (Veracity):</strong> 데이터의 신뢰도와 품질. 데이터에 노이즈, 편향, 오류 등이 포함될 수 있으며, 분석 전에 데이터의 정확성을 확보(데이터 정제)하는 것이 매우 중요합니다.</li>
+                    <li><strong>가치 (Value):</strong> 빅데이터 분석을 통해 얻어지는 최종적인 결과물. 기업의 이윤 증대, 질병 예측, 교통 문제 해결 등 실질적인 가치를 창출하는 것이 빅데이터의 궁극적인 목표입니다.</li>
+                </ul>
+                <p><strong>분산 처리 (Distributed Processing):</strong> 한 대의 고성능 컴퓨터로 처리하기 어려운 대용량의 데이터를, 여러 대의 일반 컴퓨터(클러스터)로 나누어 병렬적으로 처리하는 기술. 빅데이터 처리의 핵심 기반 기술이며, 대표적으로 하둡(Hadoop)의 맵리듀스(MapReduce)가 있습니다.</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>3. 수업의 흐름</h2>
+            <div class="flow-section">
+                <h3>(도입) 수업을 시작하며 (5분)</h3>
+                <blockquote>"데이터의 가장 큰 가치는, 우리가 결코 예상하지 못했던 것을 우리 스스로 주목하게 만드는 힘에 있다." - 존 튜키 (통계학자, '비트'와 '소프트웨어' 용어 창시자)</blockquote>
+                <p>"여러분, 통계학의 거장 존 튜키는 데이터가 우리의 편견을 깨고 새로운 사실을 보게 만드는 '창문'이라고 말했습니다. 오늘날 우리는 인류 역사상 가장 거대한 창문을 마주하고 있습니다. 바로 '빅데이터'입니다. 유튜브가 내 취향을 나보다 더 잘 알고, 구글이 독감의 유행을 질병관리본부보다 먼저 예측하는 힘은 어디에서 나올까요? 오늘은 그 거대한 데이터의 바다 속으로 들어가, 숨겨진 보물, 즉 '가치'를 찾아내는 항해술을 함께 배워보겠습니다."</p>
+            </div>
+            <div class="flow-section">
+                <h3>(전개) 핵심 개념 탐구: '인류 게놈 프로젝트에서 화성 탐사까지' (30분)</h3>
+                <h4>[프로젝트 목표] "다양한 과학 프로젝트에서 생성되는 빅데이터의 특징을 이해하고, 그 속에서 가치를 찾는 방법 시뮬레이션"</h4>
+                
+                <div class="sub-section">
+                    <h4>Stage 1: 데이터의 3V를 체감하다 (12분)</h4>
+                    <p><strong>양(Volume):</strong> 인간의 게놈 데이터는 한 사람당 수백 기가바이트에 달함을 설명. 이것이 수만 명 모이면 페타바이트급 빅데이터가 됨을 설명합니다.</p>
+                    <p>수학/과학 예시 코드: 대용량 유전체 데이터를 시뮬레이션하여 10MB 크기의 파일을 직접 생성하고, 파일 크기를 통해 '양'을 체감합니다.</p>
+                    <pre><code>import random
+import os
+
+def generate_large_genome_file(filename, size_in_mb):
+    bases = ['A', 'T', 'C', 'G']
+    target_size = size_in_mb * 1024 * 1024
+    print(f"1a. [Volume] 약 {size_in_mb}MB 크기의 유전체 데이터 파일 '{filename}' 생성 시작...")
+    with open(filename, 'w') as f:
+        while f.tell() < target_size:
+            f.write(random.choice(bases))
+    print(f" -> 생성 완료. 대용량 파일 생성은 많은 저장 공간을 필요로 합니다.")
+
+# generate_large_genome_file("genome_sample.txt", 10) # 실행 시 시간이 걸릴 수 있습니다.</code></pre>
+                    <p><strong>상세 설명:</strong> 이 코드는 빅데이터의 '양(Volume)'을 직접 체험하게 합니다. size_in_mb를 조절하여 수십, 수백 MB의 파일을 생성해봄으로써, 학생들이 페타바이트나 엑사바이트가 얼마나 거대한 크기인지 간접적으로 느낄 수 있습니다. f.tell()은 현재 파일의 크기를 바이트 단위로 알려주는 함수입니다.</p>
+                    
+                    <p><strong>속도(Velocity):</strong> 화성 탐사 로버 '큐리오시티'가 매초마다 수많은 센서 데이터를 지구로 끊임없이 전송하는 상황을 설명합니다.</p>
+                    <p>실생활 예시 코드: 화성 탐사 로버가 1초마다 온도와 방사선량 데이터를 스트리밍하는 상황을 while 루프와 time.sleep으로 시뮬레이션합니다.</p>
+                    <pre><code>import time
+
+def stream_mars_rover_data():
+    print("\n1b. [Velocity] 화성 로버 데이터 스트리밍 시작 (5초간 시뮬레이션)...")
+    for i in range(5):
+        data_packet = {
+            "timestamp": time.time(),
+            "temp": -60 + random.uniform(-5, 5),
+            "radiation": 0.75 + random.uniform(-0.1, 0.1)
+        }
+        print(f" -> 수신: {data_packet}")
+        time.sleep(1)
+
+stream_mars_rover_data()</code></pre>
+                    <p><strong>상세 설명:</strong> 이 코드는 빅데이터의 '속도(Velocity)'를 보여줍니다. for 루프와 time.sleep(1)을 통해, 데이터가 일회성으로 주어지는 것이 아니라, 시간의 흐름에 따라 계속해서 쏟아져 들어오는 '스트리밍' 환경을 흉내 냅니다. 실제 시스템에서는 이 데이터를 실시간으로 처리하여 로버의 상태를 즉각 판단해야 합니다.</p>
+                    
+                    <p><strong>다양성(Variety):</strong> 하나의 천문 관측 프로젝트에서 생성되는 데이터(수치로 된 별의 밝기-정형, 관측 로그 텍스트-비정형, 촬영된 성운 이미지-비정형)를 예로 들어 다양성을 설명합니다.</p>
+                    <p>실생활 예시 코드: 다양한 형태의 천문 데이터를 하나의 리스트에 담고, 각 데이터의 타입을 확인하여 분리 처리하는 로직을 작성합니다.</p>
+                    <pre><code>astronomical_data_feed = [
+    (1, 19.5, 3.14),  # (별 ID, 등급, 색지수) - 정형 데이터 (튜플)
+    {"event": "Supernova detected", "galaxy": "M82", "observer": "Hubble"},  # 반정형 (JSON/Dict)
+    "Log: Telescope orientation adjusted by 2.5 degrees.",  # 비정형 (텍스트)
+    # ... 이미지 데이터 (바이트 형태) 등 ...
+]
+
+print("\n1c. [Variety] 다양한 종류의 천문 데이터 처리:")
+for data in astronomical_data_feed:
+    if isinstance(data, tuple):
+        print(f" - 처리: 정형 데이터 (별 카탈로그 DB에 저장)")
+    elif isinstance(data, dict):
+        print(f" - 처리: 반정형 데이터 (이벤트 로그 시스템에 전송)")
+    elif isinstance(data, str):
+        print(f" - 처리: 비정형 데이터 (자연어 처리 분석 대상으로 전달)")</code></pre>
+                     <p><strong>상세 설명:</strong> 이 코드는 빅데이터의 '다양성(Variety)'을 다루는 방법을 보여줍니다. isinstance() 함수를 사용하여 리스트에 섞여 있는 각 데이터의 타입(튜플, 딕셔너리, 문자열)을 확인합니다. 그리고 데이터의 종류에 따라 각기 다른 처리 방식(DB 저장, 로그 전송, 자연어 분석)을 적용합니다. 이는 빅데이터 시스템이 다양한 데이터 소스를 통합적으로 처리해야 함을 시사합니다.</p>
+                </div>
+                
+                <div class="sub-section">
+                    <h4>Stage 2: 데이터에서 보물찾기 (Veracity & Value) (18분)</h4>
+                    <p><strong>정확성(Veracity):</strong> 우주선 센서의 오류나 통신 장애로 인해 데이터에 이상치(Outlier)나 결측치(Missing value)가 생길 수 있음을 설명합니다. "쓰레기를 넣으면 쓰레기가 나온다(Garbage In, Garbage Out)"는 격언을 소개하며 데이터 정제의 중요성을 강조합니다.</p>
+                    <p>과학 예시 코드: 센서 데이터 리스트에서 통계적으로 벗어나는 이상치를 제거하는 간단한 필터링 함수를 구현합니다.</p>
+                    <pre><code>def clean_sensor_data(data_points):
+    if not data_points: return []
+    # 평균과 표준편차를 이용한 이상치 제거 (Z-score와 유사한 개념)
+    mean = sum(data_points) / len(data_points)
+    if len(data_points) < 2: return data_points
+    std_dev = (sum([(x - mean)**2 for x in data_points]) / (len(data_points)-1))**0.5
+    if std_dev == 0: return data_points
+
+    cleaned_data = []
+    for point in data_points:
+        # 평균에서 표준편차의 2배 이상 벗어나는 값은 이상치로 간주
+        if abs(point - mean) < 2 * std_dev:
+            cleaned_data.append(point)
+    return cleaned_data
+
+print("\n2a. [Veracity] 데이터의 정확성 확보 (이상치 제거):")
+raw_temp_data = [25.1, 24.9, 25.0, 99.9, 24.8, 25.2] # 99.9는 센서 오류
+cleaned_temp_data = clean_sensor_data(raw_temp_data)
+print(f" - 원본 데이터: {raw_temp_data}")
+print(f" - 정제된 데이터: {cleaned_temp_data}")</code></pre>
+                    <p><strong>상세 설명:</strong> 이 코드는 빅데이터의 '정확성(Veracity)'을 확보하는 데이터 정제 과정을 보여줍니다. clean_sensor_data 함수는 데이터의 평균과 표준편차를 계산합니다. 그리고 각 데이터 포인트가 평균에서 너무 멀리 떨어져 있는지 (abs(point - mean) > 2 * std_dev)를 확인하여, 통계적으로 비정상적인 값(이상치)을 제거합니다. 이는 분석 결과의 신뢰도를 높이기 위해 반드시 필요한 전처리 과정입니다.</p>
+                    
+                    <p><strong>가치(Value):</strong> 정제된 데이터를 분석하여 새로운 의미를 찾는 과정. 수많은 항성 데이터 속에서 외계 행성의 존재를 암시하는 '밝기 감소' 패턴을 찾아내는 것을 예로 듭니다.</p>
+                    <p>과학 예시 코드: 케플러 우주 망원경이 수집한 별의 밝기 데이터(시계열)에서 주기적으로 밝기가 감소하는 패턴(행성이 별 앞을 지나는 현상, Transit)을 찾아내는 간단한 알고리즘을 시뮬레이션합니다.</p>
+                    <pre><code>def find_exoplanet_transit(light_curve_data, threshold):
+    """별의 밝기 곡선에서 행성 통과(밝기 감소) 패턴을 찾습니다."""
+    if not light_curve_data: return False
+    avg_light = sum(light_curve_data) / len(light_curve_data)
+    potential_transits = []
+    for i, light_level in enumerate(light_curve_data):
+        if light_level < avg_light * (1 - threshold):
+            potential_transits.append(i)
+    if potential_transits:
+        print(f"2b. [Value] 외계 행성 후보 발견! 시간 {potential_transits}에서 밝기 감소 패턴 감지.")
+        return True
+    else:
+        print("2b. [Value] 특이 패턴 없음. 외계 행성 후보를 찾지 못함.")
+        return False
+
+kepler_data = [1.0, 1.0, 1.0, 0.98, 0.97, 0.98, 1.0, 1.0, 1.0, 1.0]
+find_exoplanet_transit(kepler_data, threshold=0.02) # 2% 이상 감소 시 감지</code></pre>
+                    <p><strong>상세 설명:</strong> 이 코드는 빅데이터 분석의 궁극적 목표인 '가치(Value)' 창출을 보여줍니다. find_exoplanet_transit 함수는 대량의 시계열 데이터(light_curve_data) 속에서, 그냥 봐서는 알기 어려운 미세한 '패턴'(평균 밝기보다 일정 수준 이상 감소하는 현상)을 찾아냅니다. 이 패턴이 바로 '외계 행성의 존재'라는 엄청난 과학적 '가치'와 '통찰'을 제공합니다. 이는 빅데이터가 어떻게 단순한 데이터의 모음을 넘어 새로운 발견을 이끄는지를 보여주는 핵심 예시입니다.</p>
+                </div>
+            </div>
+            
+            <div class="flow-section">
+                <h3>(마무리) 수업을 마치며 (5분)</h3>
+                <p>빅데이터의 5V 특징을 요약하고, 빅데이터의 진정한 가치는 데이터를 수집하고 정제하여 그 속에서 새로운 패턴과 의미를 발견하는 데 있음을 강조합니다.</p>
+                <blockquote>"AI는 아마도 인류가 지금까지 해온 가장 중요한 작업일 것입니다. 나는 그것을 불이나 전기보다 더 심오한 것이라고 생각합니다." - 순다르 피차이 (구글 CEO)</blockquote>
+                <p>"여러분, 오늘 우리는 빅데이터라는 거대한 '연료'를 살펴보았습니다. 구글의 CEO 순다르 피차이는 AI를 불이나 전기에 비유했습니다. 그렇다면 빅데이터는 바로 그 불을 타오르게 하고, 전기를 흐르게 하는 에너지원입니다. 데이터가 없다면 AI도, 현대의 수많은 기술도 존재할 수 없습니다. 오늘 배운 데이터 기반의 사고방식을 통해, 여러분이 미래 사회의 새로운 '불'과 '전기'를 만들어내는 창의적인 인재로 성장하기를 기대합니다. 수고 많으셨습니다."</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>4. 진단평가 (OX 퀴즈)</h2>
+            <div class="quiz-section">
+                <div class="quiz-question"><p class="question-text">1. 빅데이터는 단순히 데이터의 양(Volume)이 많은 것을 의미한다. (X)</p><div class="explanation">상세 풀이: 빅데이터는 양(Volume)뿐만 아니라, 생성 속도(Velocity), 형태의 다양성(Variety)까지 포함하는 개념으로, 기존의 방식으로는 처리하기 어려운 데이터를 총칭합니다.</div></div>
+                <div class="quiz-question"><p class="question-text">2. 엑셀 스프레드시트와 같은 테이블 형태의 데이터는 '정형 데이터'에 속한다. (O)</p><div class="explanation">상세 풀이: 정형 데이터는 행과 열의 고정된 스키마(구조)를 가지는 데이터를 의미하며, 엑셀 시트나 데이터베이스 테이블이 대표적인 예입니다.</div></div>
+                <div class="quiz-question"><p class="question-text">3. 유튜브에 매분마다 업로드되는 동영상들은 빅데이터의 특징 중 '속도(Velocity)'와 '다양성(Variety)'을 잘 보여준다. (O)</p><div class="explanation">상세 풀이: 동영상은 끊임없이 실시간으로 업로드(속도)되며, 그 자체로 용량이 크고(양), 정형화되지 않은 '비정형 데이터'(다양성)에 해당하므로 빅데이터의 여러 특징을 동시에 보여줍니다.</div></div>
+                <div class="quiz-question"><p class="question-text">4. 데이터의 '정확성(Veracity)'은 데이터의 양이 얼마나 많은지를 나타내는 척도이다. (X)</p><div class="explanation">상세 풀이: 데이터의 정확성(Veracity)은 데이터가 얼마나 신뢰할 수 있고, 오류나 노이즈가 적은지를 나타내는 품질의 척도입니다. 양을 나타내는 것은 Volume입니다.</div></div>
+                <div class="quiz-question"><p class="question-text">5. 빅데이터 분석의 궁극적인 목표는 가능한 한 많은 데이터를 수집하여 보관하는 것이다. (X)</p><div class="explanation">상세 풀이: 빅데이터의 궁극적인 목표는 수집된 데이터를 분석하여 그 속에서 기존에는 몰랐던 새로운 통찰과 실질적인 '가치(Value)'를 창출하는 것입니다.</div></div>
+                <div class="quiz-question"><p class="question-text">6. JSON이나 XML 파일은 데이터 내에 구조에 대한 설명이 포함되어 있어 '반정형 데이터'로 분류된다. (O)</p><div class="explanation">상세 풀이: 반정형 데이터는 정형 데이터처럼 고정된 테이블 구조는 아니지만, 태그나 키-값 쌍 등을 이용해 데이터의 계층 구조나 의미를 파악할 수 있는 유연한 구조를 가집니다.</div></div>
+                <div class="quiz-question"><p class="question-text">7. 데이터에 포함된 오류나 결측치를 제거하는 과정을 '데이터 시각화'라고 한다. (X)</p><div class="explanation">상세 풀이: 데이터의 오류나 결측치를 처리하는 과정은 '데이터 정제(Data Cleaning)' 또는 '데이터 전처리(Data Preprocessing)'라고 합니다. 데이터 시각화는 분석된 결과를 그래프나 차트로 표현하는 것입니다.</div></div>
+                <div class="quiz-question"><p class="question-text">8. 분산 처리 시스템은 여러 대의 컴퓨터를 연결하여 대용량 데이터를 병렬적으로 처리하는 기술이다. (O)</p><div class="explanation">상세 풀이: 한 대의 컴퓨터로 감당하기 어려운 빅데이터를 여러 대의 컴퓨터(클러스터)로 나누어 동시에 처리함으로써, 처리 시간을 단축하고 시스템의 확장성을 확보하는 빅데이터 처리의 핵심 기술입니다.</div></div>
+                <div class="quiz-question"><p class="question-text">9. SNS에 올라오는 사용자들의 글, 사진, 동영상은 대부분 '비정형 데이터'이다. (O)</p><div class="explanation">상세 풀이: 텍스트, 이미지, 비디오 등은 정해진 구조가 없는 데이터이므로 비정형 데이터에 속합니다.</div></div>
+                <div class="quiz-question"><p class="question-text">10. 빅데이터는 그 가치가 매우 크기 때문에, 개인정보 보호와 같은 윤리적 문제는 고려하지 않아도 된다. (X)</p><div class="explanation">상세 풀이: 빅데이터는 개인의 사생활, 민감 정보 등을 다량 포함할 수 있으므로, 그 활용에 있어 개인정보 보호와 데이터 오남용 방지 등 엄격한 윤리적, 법적 규제를 준수하는 것이 매우 중요합니다.</div></div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>5. 형성평가 (5지선다형)</h2>
+            <div class="quiz-section">
+                <div class="quiz-question"><p class="question-text">1. 매일 전 세계에서 발생하는 신용카드 거래 데이터를 실시간으로 분석하여 사기 거래를 탐지하는 시스템이 있다. 이 시스템이 다루는 데이터의 특징과 가장 관련이 깊은 것은?</p><ol><li>양(Volume)과 다양성(Variety)</li><li>속도(Velocity)와 정확성(Veracity)</li><li>양(Volume)과 가치(Value)</li><li>다양성(Variety)과 정확성(Veracity)</li><li>속도(Velocity)와 가치(Value)</li></ol><p class="answer">정답: ②</p><div class="explanation">상세 풀이: '실시간으로' 발생하는 데이터를 처리해야 하므로 '속도(Velocity)'가 매우 중요합니다. 또한, 정상 거래와 사기 거래를 정확히 구분해야 하므로 데이터의 '정확성(Veracity)'이 시스템의 성능을 좌우합니다. 잘못된 판단은 큰 금융 손실을 야기할 수 있습니다.</div></div>
+                <div class="quiz-question"><p class="question-text">2. 다음 중 '비정형 데이터(Unstructured Data)'에 해당하는 것을 모두 고른 것은?
+가. 학생들의 성적 데이터베이스 테이블
+나. 유튜브 크리에이터가 올린 동영상 파일
+다. 이메일 본문 내용
+라. XML 형식으로 작성된 웹사이트 구조 문서</p><ol><li>가, 나</li><li>나, 다</li><li>다, 라</li><li>가, 라</li><li>나, 다, 라</li></ol><p class="answer">정답: ②</p><div class="explanation">상세 풀이: '가'는 명확한 행과 열이 있는 정형 데이터, '라'는 태그로 구조를 설명하는 반정형 데이터입니다. '나'(동영상)와 '다'(자연어 텍스트)는 정해진 구조가 없는 대표적인 비정형 데이터입니다.</div></div>
+                <div class="quiz-question"><p class="question-text">3. 빅데이터 분석 과정에서 "Garbage In, Garbage Out" 이라는 격언이 강조하는 단계는?</p><ol><li>데이터 수집</li><li>데이터 정제 (Data Cleaning)</li><li>데이터 분석</li><li>데이터 시각화</li><li>데이터 저장</li></ol><p class="answer">정답: ②</p><div class="explanation">상세 풀이: "쓰레기(잘못된 데이터)를 넣으면 쓰레기(잘못된 분석 결과)가 나온다"는 의미로, 분석을 수행하기 전에 데이터에 포함된 오류, 노이즈, 결측치 등을 처리하는 데이터 정제 단계의 중요성을 강조하는 말입니다.</div></div>
+                <div class="quiz-question"><p class="question-text">4. 다음 중 빅데이터의 '가치(Value)'를 창출한 사례로 가장 적절한 것은?</p><ol><li>100페타바이트의 천문 관측 데이터를 하드디스크에 저장했다.</li><li>실시간 SNS 데이터를 분석하여 전염병 확산 경로를 예측했다.</li><li>매일 1억 건의 로그 데이터를 생성하는 시스템을 구축했다.</li><li>다양한 형식의 데이터를 하나의 데이터베이스로 통합했다.</li><li>인터넷에서 10만 장의 고양이 이미지를 수집했다.</li></ol><p class="answer">정답: ②</p><div class="explanation">상세 풀이: '가치'는 데이터를 통해 얻어지는 유용한 '통찰'이나 '결과'를 의미합니다. 전염병 확산 경로 예측은 사회 안전에 기여하는 실질적인 가치를 창출한 사례입니다. 나머지 보기들은 데이터의 수집, 저장, 통합 단계에 해당하며, 그 자체만으로는 가치를 창출했다고 보기 어렵습니다.</div></div>
+                <div class="quiz-question"><p class="question-text">5. 빅데이터를 처리하기 위해 '분산 처리' 기술을 사용하는 가장 주된 이유는?</p><ol><li>데이터 보안을 강화하기 위해</li><li>데이터 압축률을 높이기 위해</li><li>한 대의 컴퓨터로는 감당하기 어려운 대용량 데이터를 여러 대로 나누어 처리하기 위해</li><li>데이터의 종류를 통일하기 위해</li><li>데이터의 생성 속도를 늦추기 위해</li></ol><p class="answer">정답: ③</p><div class="explanation">상세 풀이: 빅데이터의 가장 큰 특징인 '대용량(Volume)'을 한 대의 고성능 컴퓨터(Scale-up)로 처리하는 데에는 한계가 있습니다. 따라서 여러 대의 일반 컴퓨터를 묶어(Scale-out) 작업을 분산시키는 '분산 처리' 방식이 빅데이터 처리의 표준적인 해법이 되었습니다.</div></div>
+                <div class="quiz-question"><p class="question-text">6. 다음 빅데이터의 특징(V)과 그에 대한 설명이 잘못 연결된 것은?</p><ol><li>Volume - 처리해야 할 데이터의 전체 크기</li><li>Velocity - 데이터가 얼마나 빠르게 생성되고 수집되는지</li><li>Variety - 데이터가 얼마나 다양한 소스로부터 오는지</li><li>Veracity - 데이터의 품질과 신뢰성 수준</li><li>Value - 데이터 분석을 통해 얻는 유의미한 결과</li></ol><p class="answer">정답: ③</p><div class="explanation">상세 풀이: 'Variety'는 데이터 소스의 다양성보다는 데이터 자체의 '형태'나 '구조'가 얼마나 다양한지를 의미합니다. (예: 정형, 반정형, 비정형 데이터가 섞여 있음)</div></div>
+                <div class="quiz-question"><p class="question-text">7. 온라인 쇼핑몰이 고객의 과거 구매 기록, 검색 기록, 장바구니 내용 등을 분석하여 개인 맞춤 상품을 추천하는 것은 주로 빅데이터의 어떤 특징을 활용한 것인가?</p><ol><li>정확성(Veracity)과 속도(Velocity)</li><li>양(Volume)과 다양성(Variety)</li><li>가치(Value)와 속도(Velocity)</li><li>정확성(Veracity)과 다양성(Variety)</li><li>양(Volume)과 가치(Value)</li></ol><p class="answer">정답: ②</p><div class="explanation">상세 풀이: 수많은 고객의 방대한 구매/검색 기록('양')과, 클릭 로그, 상품평(텍스트), 구매 내역(정형) 등 다양한 형태의 데이터('다양성')를 종합적으로 분석하여 추천 알고리즘을 만듭니다.</div></div>
+                <div class="quiz-question"><p class="question-text">8. 데이터 분석가가 되기 위해 필요한 역량으로 가장 거리가 먼 것은?</p><ol><li>통계학적 지식과 데이터 해석 능력</li><li>데이터 전처리 및 정제 능력</li><li>하드웨어 회로를 직접 설계하고 제작하는 능력</li><li>Python, R 등 데이터 분석 도구 활용 능력</li><li>분석 결과를 명확하게 전달하는 시각화 및 소통 능력</li></ol><p class="answer">정답: ③</p><div class="explanation">상세 풀이: 데이터 분석가는 주로 소프트웨어와 알고리즘을 다루어 데이터 속에서 의미를 찾는 역할을 합니다. 하드웨어 회로 설계는 임베디드 시스템 엔지니어 등 다른 분야의 전문성에 해당합니다.</div></div>
+                <div class="quiz-question"><p class="question-text">9. 다음 중 빅데이터 활용 시 발생할 수 있는 윤리적 문제로 보기 어려운 것은?</p><ol><li>알고리즘의 편향성으로 인한 특정 집단에 대한 차별</li><li>개인정보 유출로 인한 사생활 침해</li><li>데이터 처리 과정에서의 과도한 에너지 소비 및 환경 문제</li><li>데이터 분석을 통한 질병의 조기 진단</li><li>개인의 동의 없는 민감 정보 수집 및 활용</li></ol><p class="answer">정답: ④</p><div class="explanation">상세 풀이: 질병의 조기 진단은 빅데이터를 활용하여 인류의 건강에 기여하는 긍정적인 '가치' 창출 사례입니다. 나머지는 모두 빅데이터 시대에 경계해야 할 부정적인 측면 또는 윤리적 쟁점입니다.</div></div>
+                <div class="quiz-question"><p class="question-text">10. 한 대의 컴퓨터에서 100GB 파일을 처리하는 데 100분이 걸린다고 가정하자. 10대의 컴퓨터로 분산 처리 시스템을 구축했을 때, 처리 시간이 10분으로 단축되었다면 이는 빅데이터 시스템의 어떤 장점을 보여주는가?</p><ol><li>데이터의 압축률 향상</li><li>병렬 처리를 통한 성능 및 확장성 향상</li><li>데이터의 보안성 강화</li><li>알고리즘의 정확도 향상</li><li>데이터의 시각화 능력 향상</li></ol><p class="answer">정답: ②</p><div class="explanation">상세 풀이: 하나의 큰 작업을 여러 개로 나누어 동시에 처리하는 '병렬 처리'를 통해 전체 작업 시간을 크게 단축할 수 있습니다. 또한, 데이터가 더 커지면 컴퓨터를 더 추가(Scale-out)하여 성능을 유지할 수 있는 '확장성'을 보여주는 예시입니다.</div></div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>6. 코딩 실습 예제</h2>
+            <div class="code-example">
+                <h4>1. 대용량 로그 파일 생성기</h4>
+                <p>웹서버의 로그를 시뮬레이션하는 프로그램을 작성하세요. <code>[시간] IP주소 요청메서드</code> 형식의 로그를 10만 줄 포함하는 <code>web_log.txt</code> 파일을 생성하세요. (IP주소와 요청메서드는 임의로 생성)</p>
+                <pre><code>import random
+import datetime
+
+def generate_web_log_file(filename, num_lines):
+    """지정된 줄 수만큼의 가상 웹 로그 파일을 생성합니다."""
+    print(f"'{filename}' 파일에 {num_lines}줄의 로그를 생성합니다...")
+    methods = ['GET', 'POST', 'PUT', 'DELETE']
+    resources = ['/index.html', '/api/users', '/images/logo.png', '/about.html']
+    with open(filename, 'w') as f:
+        for _ in range(num_lines):
+            timestamp = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            ip = f"{random.randint(1,254)}.{random.randint(0,255)}.{random.randint(0,255)}.{random.randint(1,254)}"
+            method = random.choice(methods)
+            resource = random.choice(resources)
+            log_line = f"[{timestamp}] {ip} {method} {resource}\n"
+            f.write(log_line)
+    print("로그 파일 생성 완료.")
+    
+# 테스트
+generate_web_log_file("web_log_large.txt", 100000)
+</code></pre>
+                <p><strong>상세 풀이 및 설명:</strong> 이 코드는 빅데이터의 <strong>양(Volume)</strong>을 직접 만들어보는 실습입니다. `num_lines`를 10만, 100만으로 늘려보며 파일 크기가 어떻게 변하는지, 파일을 여는 데 걸리는 시간이 어떻게 달라지는지 체감할 수 있습니다. 로그 데이터는 시간, IP, 요청 메서드 등 일정한 형식을 갖추고 있어, 이후에 파싱하고 분석하는 작업의 좋은 재료가 됩니다. 각 로그 라인은 `random` 모듈을 이용해 동적으로 생성되어, 실제 로그와 유사한 형태를 갖도록 했습니다.</p>
+            </div>
+            
+            <div class="code-example">
+                <h4>2. 스트리밍 데이터 처리 시뮬레이션</h4>
+                <p>1초마다 <code>{ "stock_code": "005930", "price": 현재가격 }</code> 형태의 주식 시세 데이터가 생성된다고 가정합니다. 10초 동안 이 데이터를 실시간으로 받아, 가격이 특정 기준(예: 80000원)을 넘을 때만 "매도 경고!"를 출력하는 프로그램을 작성하세요.</p>
+                <pre><code>import time
+import random
+
+def real_time_stock_monitor(stock_code, alert_price):
+    """실시간 주식 시세를 모니터링하여 특정 가격 도달 시 경고를 보냅니다."""
+    print(f"--- '{stock_code}' 실시간 모니터링 시작 (기준가: {alert_price}원) ---")
+    current_price = alert_price - 2000 # 시작 가격 설정
+    for i in range(10): # 10초 동안 시뮬레이션
+        current_price += random.randint(-300, 300) # 가격이 랜덤하게 변동
+        data_packet = {"stock_code": stock_code, "price": current_price}
+        print(f"[{i+1}초] 수신: {data_packet}")
+        
+        # 실시간 처리 로직
+        if current_price > alert_price:
+            print(f" !!! 매도 경고: 현재 가격({current_price}원)이 목표가({alert_price}원)를 초과했습니다! !!!")
+        time.sleep(1)
+    print("--- 모니터링 종료 ---")
+
+# 테스트
+real_time_stock_monitor("005930", 80000)
+</code></pre>
+                <p><strong>상세 풀이 및 설명:</strong> 이 코드는 빅데이터의 <strong>속도(Velocity)</strong>를 시뮬레이션합니다. 데이터가 한 번에 주어지는 것이 아니라, 시간의 흐름에 따라 계속해서 도착하는 '스트리밍' 환경을 흉내 냅니다. `for` 루프와 `time.sleep(1)`를 사용해 1초마다 새로운 데이터가 생성되는 상황을 만들었습니다. `if current_price > alert_price:` 이 부분이 바로 '실시간 처리' 로직입니다. 데이터를 저장하고 나중에 분석하는 것이 아니라, 데이터가 도착하는 즉시 조건을 확인하고 반응합니다. 금융 거래, 사기 탐지, 실시간 추천 등 빠른 의사결정이 필요한 분야에서 매우 중요합니다.</p>
+            </div>
+            
+            <div class="code-example">
+                <h4>3. 다양한 데이터 형식 파싱하기</h4>
+                <p><code>[ "Type:A,Value:10", {"sensor": "temp", "value": 25}, "Error log: connection failed" ]</code> 와 같이 여러 형식의 데이터가 섞인 리스트를 처리하는 함수를 작성하세요. 각 데이터의 타입(문자열, 딕셔너리)을 확인하고, 타입에 따라 다른 방식으로 정보를 추출하여 출력하세요.</p>
+                <pre><code>def parse_mixed_data_feed(feed):
+    """다양한 형식의 데이터가 섞인 피드를 파싱하여 처리합니다."""
+    print("--- 혼합 데이터 피드 처리 시작 ---")
+    for index, item in enumerate(feed):
+        print(f"\n[데이터 {index+1}] 원본: {item}")
+        if isinstance(item, dict): # 반정형 데이터 (JSON/Dict) 처리
+            sensor_type = item.get("sensor", "N/A")
+            value = item.get("value", "N/A")
+            print(f" -> 종류: 반정형 | 센서: {sensor_type}, 값: {value}")
+        elif isinstance(item, str) and item.startswith("Type:"): # 특정 규칙의 문자열 처리
+            parts = item.split(',')
+            data_type = parts[0].split(':')[1]
+            data_value = parts[1].split(':')[1]
+            print(f" -> 종류: 규칙 기반 텍스트 | 타입: {data_type}, 값: {data_value}")
+        elif isinstance(item, str): # 그 외 비정형 텍스트 처리
+            print(f" -> 종류: 비정형 | 내용: {item}")
+        else: # 그 외 모든 타입
+            print(f" -> 종류: 알 수 없음")
+
+# 테스트
+mixed_feed = [
+    {"sensor": "temp", "value": 25.5, "unit": "C"},
+    "Type:A,Value:10",
+    "CRITICAL: System halt due to overheating.",
+    ("User01", "Login", 1678886400) # 튜플 (정형)
+]
+parse_mixed_data_feed(mixed_feed)
+</code></pre>
+                <p><strong>상세 풀이 및 설명:</strong> 이 코드는 빅데이터의 <strong>다양성(Variety)</strong>을 다루는 방법을 보여줍니다. `isinstance()` 함수는 변수가 특정 클래스(타입)의 인스턴스인지 확인하는 파이썬 내장 함수입니다. 이를 통해 데이터의 종류를 구별할 수 있습니다. `if-elif-else` 구조를 사용하여, 데이터의 타입이나 형식에 따라 각기 다른 처리 로직을 적용합니다. 딕셔너리는 키를 이용해 값을 추출합니다. 특정 규칙이 있는 문자열은 `split`과 같은 문자열 메서드를 이용해 파싱합니다. 그 외의 문자열은 일반 텍스트로 처리합니다. 이러한 '데이터 형식에 따른 분기 처리'는 다양한 소스로부터 오는 데이터를 통합적으로 다루는 빅데이터 시스템의 필수적인 기능입니다.</p>
+            </div>
+            
+            <div class="code-example">
+                <h4>4. 텍스트 데이터에서 단어 빈도수 계산</h4>
+                <p>긴 텍스트 문자열(예: 신문 기사)에서 가장 많이 등장하는 단어 5개를 찾아 출력하는 프로그램을 작성하세요. (단, "a", "the", "in" 등 불용어는 제외)</p>
+                <pre><code>from collections import Counter
+import re
+
+def find_top_words(text, num_words=5):
+    """텍스트에서 가장 빈번하게 등장하는 단어를 찾습니다."""
+    # 1. 텍스트를 소문자로 바꾸고, 단어만 추출
+    words = re.findall(r'\b\w+\b', text.lower())
+    # 2. 불용어(stopword) 리스트 정의
+    stopwords = {'the', 'a', 'an', 'in', 'of', 'to', 'is', 'and', 'it', 'for'}
+    # 3. 불용어를 제외한 단어 리스트 생성
+    meaningful_words = [word for word in words if word not in stopwords]
+    # 4. Counter로 단어 빈도수 계산
+    word_counts = Counter(meaningful_words)
+    # 5. 가장 흔한 단어 num_words 개를 반환
+    return word_counts.most_common(num_words)
+
+# 테스트
+article = "Big data is a term for data sets that are large or complex. Big data analytics challenges include capturing data, data storage, data analysis, search, sharing, and visualization. The term 'big data' has been in use since the 1990s."
+top_5_words = find_top_words(article, 5)
+print(f"--- 텍스트에서 가장 많이 사용된 단어 Top 5 ---")
+for word, count in top_5_words:
+    print(f" '{word}': {count}회")
+</code></pre>
+                <p><strong>상세 풀이 및 설명:</strong> 이 코드는 비정형 텍스트 데이터에서 <strong>가치(Value)</strong>를 추출하는 가장 기본적인 방법인 '단어 빈도수 분석'을 보여줍니다. `re.findall(r'\b\w+\b', ...)`: 정규 표현식을 사용하여 문장 부호를 제외한 순수한 단어들만 추출합니다. <strong>불용어(Stopword):</strong> 'the', 'a' 등 분석에 큰 의미가 없는 단어들을 의미합니다. 이를 제외해야 'big', 'data'와 같이 실제 의미 있는 단어의 빈도를 정확히 파악할 수 있습니다. <strong>Counter:</strong> 단어 리스트를 인자로 받아 각 단어의 출현 횟수를 효율적으로 계산합니다. `.most_common(5)`: 계산된 빈도수 중에서 가장 높은 상위 5개를 (단어, 횟수) 튜플의 리스트 형태로 반환합니다. 이 결과는 텍스트의 핵심 주제를 파악하는 데 사용될 수 있습니다.</p>
+            </div>
+
+            <div class="code-example">
+                <h4>5. 데이터 정제: 결측치 처리</h4>
+                <p>숫자 데이터 리스트에 `None` 값(결측치)이 섞여있다고 가정합니다. (예: `[10, 20, None, 30, None]`) `None`을 제외한 나머지 숫자들의 평균값으로 `None`을 대체하는 `fill_missing_with_mean(data_list)` 함수를 작성하세요.</p>
+                <pre><code>def fill_missing_with_mean(data_list):
+    """리스트의 결측치(None)를 나머지 값들의 평균으로 대체합니다."""
+    # 1. None을 제외한 유효한 데이터만 추출
+    valid_data = [item for item in data_list if item is not None]
+    # 2. 유효한 데이터가 있을 경우에만 평균 계산
+    if not valid_data:
+        return data_list # 모든 값이 None이면 그대로 반환
+    mean_value = sum(valid_data) / len(valid_data)
+    print(f"계산된 평균값: {mean_value:.2f}")
+    # 3. None을 평균값으로 대체한 새로운 리스트 생성
+    cleaned_list = [mean_value if item is None else item for item in data_list]
+    return cleaned_list
+
+# 테스트
+sensor_readings = [22.5, 23.1, None, 22.8, 24.0, None, 23.5]
+print(f"원본 데이터: {sensor_readings}")
+cleaned_data = fill_missing_with_mean(sensor_readings)
+print(f"결측치 처리 후 데이터: {cleaned_data}")
+</code></pre>
+                <p><strong>상세 풀이 및 설명:</strong> 이 코드는 빅데이터의 <strong>정확성(Veracity)</strong>을 높이기 위한 데이터 정제(Data Cleaning) 기법 중 하나인 '결측치 대체'를 보여줍니다. 센서 오류나 통신 실패로 인해 데이터가 누락되는 경우는 매우 흔합니다. <strong>1단계:</strong> 리스트 컴프리헨션을 사용하여 `None`이 아닌 유효한 값들만으로 새로운 리스트(`valid_data`)를 만듭니다. <strong>2단계:</strong> 이 `valid_data` 리스트를 이용해 평균값을 계산합니다. <strong>3단계:</strong> 다시 원본 리스트를 순회하면서, 값이 `None`인 항목은 방금 계산한 평균값으로, 그렇지 않은 항목은 원래 값으로 채워 새로운 리스트(`cleaned_list`)를 만듭니다. 이는 분석의 정확도를 높이기 위한 중요한 전처리 과정입니다.</p>
+            </div>
+            
+             <div class="code-example">
+                <h4>6. 간단한 맵리듀스(MapReduce) 시뮬레이션: 단어 세기</h4>
+                <p>대용량 텍스트를 여러 조각으로 나누어 단어 개수를 세는 맵리듀스를 시뮬레이션합니다. <strong>Map 단계:</strong> 각 텍스트 조각을 받아 (단어, 1) 형태의 리스트를 반환하는 함수. <strong>Reduce 단계:</strong> 동일한 단어에 대한 (단어, [1, 1, 1, ...]) 리스트를 받아, (단어, 총개수)를 반환하는 함수를 작성하세요.</p>
+                <pre><code>def map_function(text_chunk):
+    """Map 단계: 텍스트 조각을 (단어, 1) 쌍으로 변환"""
+    words = text_chunk.lower().split()
+    return [(word, 1) for word in words]
+
+def reduce_function(word, counts):
+    """Reduce 단계: 동일한 단어의 카운트들을 합산"""
+    return (word, sum(counts))
+
+def simulate_map_reduce(full_text):
+    print("--- 맵리듀스 시뮬레이션 ---")
+    # 0. 데이터를 두 개의 노드로 분산했다고 가정
+    chunk1 = "The quick brown fox"
+    chunk2 = "jumps over the lazy brown dog"
+    
+    # 1. Map 단계: 각 노드에서 독립적으로 실행
+    map_result1 = map_function(chunk1)
+    map_result2 = map_function(chunk2)
+    print(f"Map 결과 1: {map_result1}")
+    print(f"Map 결과 2: {map_result2}")
+    
+    # 2. Shuffle & Sort 단계 (그룹화)
+    shuffled = {}
+    for word, count in map_result1 + map_result2:
+        if word not in shuffled: shuffled[word] = []
+        shuffled[word].append(count)
+    print(f"\nShuffle 결과 (그룹화): {shuffled}")
+    
+    # 3. Reduce 단계: 각 그룹에 대해 독립적으로 실행
+    reduce_result = [reduce_function(word, counts) for word, counts in shuffled.items()]
+    print(f"\nReduce 결과: {reduce_result}")
+    return reduce_result
+
+# 테스트
+simulate_map_reduce("The quick brown fox jumps over the lazy brown dog")
+</code></pre>
+                <p><strong>상세 풀이 및 설명:</strong> 이 코드는 빅데이터 분산 처리의 핵심 패러다임인 맵리듀스를 시뮬레이션합니다. <strong>Map 단계:</strong> 대용량 데이터를 여러 조각(chunk)으로 나누어, 각 조각에 대해 동일한 작업을 병렬적으로 수행합니다. 여기서는 각 단어를 (단어, 1) 이라는 중간 결과물로 변환합니다. <strong>Shuffle & Sort 단계:</strong> Map 단계의 결과물들을 '키'(여기서는 '단어')를 기준으로 재정렬하고 그룹화합니다. `{'brown': [1, 1], 'the': [1, 1], ...}` 와 같이 동일한 단어의 카운트들이 하나의 리스트로 모입니다. <strong>Reduce 단계:</strong> 그룹화된 데이터를 바탕으로, 각 키에 대해 집계 작업을 수행합니다. 여기서는 `sum()` 함수를 이용해 각 단어의 총 빈도수를 계산합니다. 이러한 '나누어 계산하고(Map) 나중에 합치는(Reduce)' 방식은 수십, 수백 대의 컴퓨터를 활용하여 대용량 데이터를 효율적으로 처리하는 빅데이터 기술의 근간을 이룹니다.</p>
+           </div>
+           
+            <div class="code-example">
+                <h4>7. 데이터 크기 단위 변환기</h4>
+                <p>바이트(byte) 단위의 파일 크기를 입력받아, KB, MB, GB 단위로 변환하여 보기 좋게 출력하는 `format_bytes(size)` 함수를 작성하세요.</p>
+                <pre><code>def format_bytes(size_in_bytes):
+    """바이트 단위 크기를 KB, MB, GB 등으로 보기 좋게 변환합니다."""
+    if size_in_bytes < 1024:
+        return f"{size_in_bytes} Bytes"
+    elif size_in_bytes < 1024**2:
+        return f"{size_in_bytes / 1024:.2f} KB"
+    elif size_in_bytes < 1024**3:
+        return f"{size_in_bytes / (1024**2):.2f} MB"
+    elif size_in_bytes < 1024**4:
+        return f"{size_in_bytes / (1024**3):.2f} GB"
+    else:
+        return f"{size_in_bytes / (1024**4):.2f} TB"
+
+# 테스트
+print(f"1000 Bytes -> {format_bytes(1000)}")
+print(f"204800 Bytes -> {format_bytes(204800)}") # 200 KB
+print(f"5242880 Bytes -> {format_bytes(5242880)}") # 5 MB
+print(f"1073741824 Bytes -> {format_bytes(1073741824)}") # 1 GB
+</code></pre>
+                <p><strong>상세 풀이 및 설명:</strong> 이 함수는 빅데이터의 <strong>양(Volume)</strong>을 사람이 직관적으로 이해하기 쉬운 단위로 표현해주는 유틸리티 함수입니다. 컴퓨터에서 데이터 크기 단위는 1024(2^10)배씩 커집니다. (1KB = 1024 Bytes, 1MB = 1024 KB, ...) `if-elif-else` 구문을 사용하여 입력된 `size_in_bytes` 값의 범위에 따라 적절한 단위로 변환합니다. `size / 1024**2`는 `size / (1024 * 1024)`와 같으며 MB 단위를 계산합니다. `:.2f` f-string 서식은 소수점 둘째 자리까지 반올림하여 깔끔하게 표시하는 역할을 합니다.</p>
+            </div>
+
+             <div class="code-example">
+                <h4>8. 이상치(Outlier) 탐지</h4>
+                <p>온도 센서 데이터 리스트에서, 평균값에서 표준편차의 3배 이상 벗어나는 값을 '이상치'로 간주하고, 해당 값과 인덱스를 출력하는 `detect_outliers(data)` 함수를 작성하세요.</p>
+                <pre><code>import math
+def detect_outliers_by_std(data):
+    """평균과 표준편차를 이용해 이상치를 탐지합니다."""
+    if len(data) < 2: return []
+    mean = sum(data) / len(data)
+    variance = sum([(x - mean)**2 for x in data]) / len(data)
+    std_dev = math.sqrt(variance)
+    
+    # 3-sigma rule: 평균에서 표준편차의 3배 이상 벗어나는 값
+    threshold = 3 * std_dev
+    if std_dev == 0: return []
+    
+    outliers = []
+    print(f"\n데이터 분석: 평균={mean:.2f}, 표준편차={std_dev:.2f}, 임계값={threshold:.2f}")
+    for i, value in enumerate(data):
+        if abs(value - mean) > threshold:
+            print(f" -> 이상치 발견! 인덱스 {i}의 값 {value}")
+            outliers.append((i, value))
+    return outliers
+
+# 테스트
+eeg_signal = [10, 12, 11, 13, 9, 10, 12, 100, 11, 13, 10]
+detect_outliers_by_std(eeg_signal)
+</code></pre>
+                 <p><strong>상세 풀이 및 설명:</strong> 이 코드는 데이터의 <strong>정확성(Veracity)</strong>을 확보하기 위한 또 다른 데이터 정제 기법인 '이상치 탐지'를 보여줍니다. 여기서는 통계학에서 널리 쓰이는 3-시그마 규칙을 간단히 응용했습니다. 데이터가 정규분포를 따른다고 가정할 때, 대부분의 값(99.7%)은 '평균 \pm 3 * 표준편차' 범위 안에 존재합니다. 이 범위를 크게 벗어나는 값은 이상치일 가능성이 높습니다. 함수는 먼저 데이터의 평균(mean)과 표준편차(std_dev)를 계산합니다. 그 후, 각 데이터 값이 평균에서 `3 * std_dev` 이상 떨어져 있는지(`abs(value - mean) > threshold`)를 검사합니다. 이러한 이상치는 분석 결과에 큰 왜곡을 줄 수 있으므로, 제거하거나 다른 값으로 대체하는 등의 후처리가 필요합니다.</p>
+           </div>
+           
+            <div class="code-example">
+                <h4>9. 데이터 그룹핑 및 집계</h4>
+                <p><code>[('과일', '사과'), ('과일', '바나나'), ('채소', '당근')]</code> 와 같이 (카테고리, 아이템) 튜플로 이루어진 리스트가 있습니다. 각 카테고리별로 아이템이 몇 개씩 있는지 계산하여 딕셔너리 `{'과일': 3, '채소': 1}` 형태로 출력하세요.</p>
+                <pre><code>from collections import defaultdict
+
+def group_and_count(data_tuples):
+    """(카테고리, 아이템) 형태의 데이터를 카테고리별로 그룹화하고 개수를 셉니다."""
+    # 키가 없을 때 자동으로 0을 기본값으로 가지는 딕셔너리 생성
+    category_counts = defaultdict(int)
+    for category, item in data_tuples:
+        # 해당 카테고리의 카운트를 1 증가
+        category_counts[category] += 1
+    return dict(category_counts) # 일반 딕셔너리로 변환하여 반환
+
+# 테스트
+sales_data = [
+    ('전자제품', 'TV'), ('과일', '사과'), ('가구', '의자'),
+    ('전자제품', '노트북'), ('과일', '바나나'), ('전자제품', '에어컨'),
+    ('과일', '딸기')
+]
+summary = group_and_count(sales_data)
+print("--- 카테고리별 판매 수량 집계 ---")
+print(summary)
+</code></pre>
+                <p><strong>상세 풀이 및 설명:</strong> 이 코드는 빅데이터 분석의 가장 흔한 작업 중 하나인 <strong>'그룹별 집계(Group by Aggregation)'</strong>를 시뮬레이션합니다. SQL의 `GROUP BY` 구문과 유사한 역할을 합니다. `from collections import defaultdict`: `defaultdict`는 일반 딕셔너리와 달리, 존재하지 않는 키를 조회할 때 에러를 발생시키는 대신 지정된 기본값(여기서는 `int`의 기본값인 0)을 자동으로 생성해주는 편리한 자료구조입니다. `for category, item in data_tuples:`: 데이터를 순회하며, 각 항목의 `category`를 가져옵니다. `category_counts[category] += 1`: `defaultdict` 덕분에, 해당 `category`가 처음 등장하더라도 자동으로 0으로 초기화된 후 1이 더해집니다. 이를 통해 코드가 매우 간결해집니다. 이러한 그룹핑과 집계는 대량의 원시 데이터를 의미 있는 요약 정보로 만드는 데 필수적입니다.</p>
+            </div>
+            
+            <div class="code-example">
+                <h4>10. 정형/반정형/비정형 데이터 분류기</h4>
+                <p>문자열을 입력받아, 해당 문자열이 간단한 규칙에 따라 정형/반정형/비정형 데이터 중 어디에 속하는지 추측하여 반환하는 `classify_data_format(data_string)` 함수를 작성하세요. (규칙: 쉼표로만 구분되면 '정형', `{}` 와 `:`가 있으면 '반정형', 그 외는 '비정형')</p>
+                <pre><code>def classify_data_format(data_string):
+    """간단한 규칙으로 데이터 문자열의 형식을 분류합니다."""
+    s = data_string.strip() # 앞뒤 공백 제거
+    
+    # 규칙 1: '{'로 시작하고 '}'로 끝나며 ':'가 있으면 반정형(JSON)으로 간주
+    if s.startswith('{') and s.endswith('}') and ':' in s:
+        return "반정형 (Semi-structured)"
+        
+    # 규칙 2: 쉼표(,)를 포함하고, 줄바꿈이 없으며, 중괄호가 없으면 정형(CSV)으로 간주
+    if ',' in s and '\n' not in s and '{' not in s:
+        # 더 정확하려면 모든 필드가 숫자인지 등을 확인해야 함
+        return "정형 (Structured)"
+        
+    # 규칙 3: 그 외에는 모두 비정형으로 간주
+    return "비정형 (Unstructured)"
+
+# 테스트
+data1 = "10,25.5,80"
+data2 = '{"name": "sensor1", "value": 10.5}'
+data3 = "This is a long sentence from a book."
+print(f"'{data1}' -> {classify_data_format(data1)}")
+print(f"'{data2}' -> {classify_data_format(data2)}")
+print(f"'{data3}' -> {classify_data_format(data3)}")
+</code></pre>
+                 <p><strong>상세 풀이 및 설명:</strong> 이 코드는 빅데이터의 <strong>다양성(Variety)</strong>을 다루기 위한 첫 단계인 '형식 분류'를 간단한 규칙으로 구현한 것입니다. 실제 빅데이터 시스템은 훨씬 더 정교한 파서와 라이브러리를 사용하지만, 이 코드는 각 데이터 형식의 핵심적인 특징을 이용합니다. <strong>반정형 (JSON):</strong> `{` 와 `}` 로 감싸져 있고, 키:값 쌍을 가지므로 `:` 문자가 반드시 존재합니다. <strong>정형 (CSV):</strong> 각 데이터 필드가 쉼표(`,`)로 구분됩니다. <strong>비정형:</strong> 위와 같은 뚜렷한 구조적 특징이 없는 일반 텍스트입니다. 이처럼 데이터의 형식을 먼저 파악해야, 그에 맞는 적절한 파싱 및 처리 도구를 선택하여 다음 분석 단계로 나아갈 수 있습니다.</p>
+           </div>
+        </div>
+    </div>
+</body>
+</html>

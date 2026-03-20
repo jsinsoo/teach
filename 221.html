@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>과학고 정보 수업 지도안: 디지털 데이터 압축의 이해</title>
+    <style>
+        body {
+            font-family: 'Malgun Gothic', '맑은 고딕', sans-serif;
+            line-height: 1.6;
+            margin: 0 auto;
+            max-width: 900px;
+            padding: 20px;
+            color: #333;
+        }
+        h1, h2, h3, h4 {
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+            margin-top: 40px;
+            color: #0056b3;
+        }
+        h1 {
+            font-size: 2.5em;
+            text-align: center;
+        }
+        h2 {
+            font-size: 2em;
+        }
+        h3 {
+            font-size: 1.5em;
+            border-bottom-width: 1px;
+            border-bottom-style: dashed;
+        }
+        h4 {
+            font-size: 1.2em;
+            border-bottom: none;
+            color: #17a2b8;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        code {
+            font-family: 'D2Coding', 'Consolas', 'Monaco', monospace;
+        }
+        ul, ol {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        strong {
+            color: #0056b3;
+        }
+        blockquote {
+            border-left: 5px solid #ccc;
+            padding-left: 15px;
+            margin-left: 0;
+            font-style: italic;
+            color: #555;
+        }
+        .explanation, .solution-detail {
+            background-color: #e9f7ef;
+            border: 1px solid #c3e6cb;
+            border-left-width: 5px;
+            padding: 15px;
+            margin-top: 10px;
+            border-radius: 5px;
+        }
+        .quiz-question {
+            margin-bottom: 25px;
+            padding: 15px;
+            border: 1px solid #eee;
+            border-radius: 5px;
+        }
+        hr {
+            margin: 40px 0;
+            border: 0;
+            border-top: 2px solid #eee;
+        }
+        .check {
+            color: #28a745;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>과학고 정보 수업 지도안: II. 데이터 - 221. 디지털 데이터 압축의 이해</h1>
+    <p><strong>목표지향적 개념기반 수업지도안 <span class="check">☑</span></strong></p>
+
+    <hr>
+
+    <h2>1. 학습 목표 <span class="check">☑</span></h2>
+
+    <h3>개념적 목표: <span class="check">☑</span></h3>
+    <ul>
+        <li><span class="check">☑</span> 데이터 압축의 필요성을 '저장 공간 효율화'와 '전송 속도 향상'의 관점에서 설명할 수 있다.</li>
+        <li><span class="check">☑</span> 압축의 핵심 원리인 '데이터의 중복성(Redundancy) 제거'를 이해한다.</li>
+        <li><span class="check">☑</span> 손실 압축(Lossy)과 무손실 압축(Lossless)의 차이점을 원본 데이터의 복원 가능 여부로 설명하고, 각각의 대표적인 활용 분야(이미지, 문서 등)를 제시할 수 있다.</li>
+        <li><span class="check">☑</span> 무손실 압축의 대표적인 알고리즘인 RLE(Run-Length Encoding)와 허프만 코딩(Huffman Coding)의 동작 원리를 설명할 수 있다.</li>
+        <li><span class="check">☑</span> 손실 압축이 인간의 인지적 한계(예: 시각, 청각의 둔감성)를 이용하는 원리를 이해한다.</li>
+    </ul>
+
+    <h3>절차적 목표: <span class="check">☑</span></h3>
+    <ul>
+        <li><span class="check">☑</span> 주어진 데이터에 대해 압축률(Compression Ratio)을 계산할 수 있다.</li>
+        <li><span class="check">☑</span> RLE(Run-Length Encoding) 알고리즘을 이용하여 반복되는 문자열을 압축하고 복원하는 코드를 작성할 수 있다.</li>
+        <li><span class="check">☑</span> 주어진 텍스트의 문자별 빈도를 계산하고, 이를 바탕으로 허프만 코딩의 원리를 적용하여 데이터를 인코딩하는 과정을 시뮬레이션할 수 있다.</li>
+        <li><span class="check">☑</span> Python의 zlib과 같은 표준 라이브러리를 사용하여 간단한 데이터 압축 및 해제 코드를 작성할 수 있다.</li>
+    </ul>
+
+    <h3>태도적 목표: <span class="check">☑</span></h3>
+    <ul>
+        <li><span class="check">☑</span> 정보를 보다 효율적으로 표현하고 저장하려는 문제 해결 태도를 기른다.</li>
+        <li><span class="check">☑</span> 압축 기술 선택 시, 압축률과 데이터 품질(손실 여부) 사이의 상충 관계(Trade-off)를 고려하는 합리적 의사결정 능력을 함양한다.</li>
+        <li><span class="check">☑</span> 정보 이론의 기본 원리가 어떻게 현실의 컴퓨팅 기술에 적용되는지 이해하고, 과학적 원리를 실용적으로 응용하는 것에 흥미를 가진다.</li>
+    </ul>
+
+    <hr>
+    
+    <h2>2. 핵심 개념 상세 설명</h2>
+    <p><strong>데이터 압축 (Data Compression):</strong> 데이터의 본질적인 정보는 유지하면서, 중복되는 부분을 제거하거나 데이터를 다른 형식으로 변환하여 전체 데이터의 크기(비트 수)를 줄이는 기술. 주된 목적은 저장 공간을 절약하고, 네트워크를 통한 데이터 전송 시간을 단축하는 것입니다. <span class="check">☑</span></p>
+    <p><strong>압축률 (Compression Ratio):</strong> 원본 데이터 대비 얼마나 데이터가 압축되었는지를 나타내는 척도. <span class="check">☑</span></p>
+    <blockquote>압축률(%) = (1 - (압축 후 크기 / 원본 크기)) * 100 <span class="check">☑</span></blockquote>
+    <p>압축률이 높을수록 더 효율적으로 압축된 것입니다. <span class="check">☑</span></p>
+    
+    <p><strong>무손실 압축 (Lossless Compression):</strong> 압축 과정에서 데이터의 손실이 전혀 없으며, 압축을 해제(복원)했을 때 원본 데이터와 100% 동일한 데이터를 얻을 수 있는 방식. <span class="check">☑</span></p>
+    <p><strong>특징:</strong> 데이터의 정확성이 매우 중요할 때 사용됩니다. (예: 프로그램 실행 파일, 문서 파일(txt, docx), 유전자 데이터, 은행 거래 기록) <span class="check">☑</span></p>
+    <p><strong>알고리즘 예시:</strong> <span class="check">☑</span></p>
+    <ul>
+        <li><strong>RLE (Run-Length Encoding):</strong> 연속적으로 반복되는 데이터를 '반복 횟수 + 데이터'의 형태로 표현하는 방식. 매우 간단하지만 데이터 패턴에 따라 효율이 크게 달라집니다. (예: AAAAABBC -> 5A2B1C)</li>
+        <li><strong>허프만 코딩 (Huffman Coding):</strong> 데이터에 자주 등장하는 문자(또는 값)에는 짧은 길이의 비트 코드를, 드물게 등장하는 문자에는 긴 길이의 비트 코드를 할당하는 '가변 길이 인코딩' 방식. 전체 데이터의 평균 비트 길이를 줄여 압축합니다. (예: 모스 부호에서 자주 쓰이는 'E'를 가장 짧은 ㆍ으로 표현하는 것과 원리가 유사)</li>
+    </ul>
+
+    <p><strong>손실 압축 (Lossy Compression):</strong> 압축 과정에서 원본 데이터의 일부가 영구적으로 손실되는 방식. 압축을 해제해도 원본과 완전히 동일한 데이터로 복원되지 않습니다. <span class="check">☑</span></p>
+    <p><strong>특징:</strong> 인간의 감각(시각, 청각)이 미세한 차이를 잘 인지하지 못한다는 점을 이용하여, 사람이 거의 알아챌 수 없는 데이터를 제거함으로써 높은 압축률을 얻습니다. (예: 이미지, 동영상, 오디오 파일) <span class="check">☑</span></p>
+    <p><strong>알고리즘 예시:</strong> <span class="check">☑</span></p>
+    <ul>
+        <li><strong>JPEG (이미지):</strong> 사람의 눈이 색상의 변화보다 밝기의 변화에 더 민감하다는 점을 이용, 색상 정보를 일부 손실시켜 압축합니다.</li>
+        <li><strong>MP3 (오디오):</strong> 사람이 들을 수 없는 너무 높거나 낮은 주파수의 소리, 또는 더 큰 소리에 묻혀서 들리지 않는 작은 소리(마스킹 효과) 등을 제거하여 압축합니다.</li>
+        <li><strong>MPEG (동영상):</strong> 동영상의 연속된 프레임 간의 차이점(변화된 부분)만을 저장하는 방식으로 데이터의 시간적 중복성을 제거하여 압축합니다.</li>
+    </ul>
+
+    <hr>
+    
+    <h2>3. 수업의 흐름 <span class="check">☑</span></h2>
+
+    <h3>(도입) 수업을 시작하며 (5분) <span class="check">☑</span></h3>
+    <p>인사 및 전시 학습 확인 <span class="check">☑</span></p>
+    <p>"정보 이론의 아버지" 클로드 섀넌의 업적을 간략히 언급. <span class="check">☑</span></p>
+    <blockquote>"정보란 불확실성이 해소되는 것이다." - 클로드 섀넌 (수학자, 정보 이론의 창시자) <span class="check">☑</span></blockquote>
+    <p>"여러분, 혹시 4K 영화 한 편의 용량이 수십 기가바이트에 달한다는 사실을 아나요? 이 거대한 데이터를 어떻게 우리는 스트리밍으로 보고, 스마트폰에 저장할 수 있을까요? 바로 '압축'이라는 마법 덕분입니다. 정보 이론의 아버지 클로드 섀넌은 정보의 본질을 '불확실성의 해소'라고 정의했습니다. 반대로 말하면, 데이터 속의 '확실한 것', 즉 예측 가능하고 반복되는 부분은 굳이 모두 가지고 있을 필요가 없다는 뜻입니다. 오늘은 이 '필요 없는 확실함'을 걷어내고 정보의 알맹이만 남기는 데이터 압축의 세계를 탐험해 보겠습니다." <span class="check">☑</span></p>
+
+    <h3>(전개) 핵심 개념 탐구: '우주 탐사선 보이저호의 데이터 전송' 프로젝트 (30분) <span class="check">☑</span></h3>
+    <p>[프로젝트 목표] "수십억 km 떨어진 보이저호가 촬영한 흑백 이미지를 최소한의 데이터로 지구에 전송하기 위한 압축 방법 고안" <span class="check">☑</span></p>
+    
+    <h4>Stage 1: 반복을 찾아라! - 무손실 압축 RLE (10분) <span class="check">☑</span></h4>
+    <p>보이저호가 촬영한 우주의 검은 공간은 대부분 동일한 픽셀 값(예: 0)의 연속일 것임을 지적. <span class="check">☑</span></p>
+    <p>0, 0, 0, 0, 0, 0, 0, 0, 0, 0 (10바이트) -> (0, 10) (2바이트) 와 같이 표현하는 RLE의 원리를 설명합니다. <span class="check">☑</span></p>
+    <p>과학 예시 코드: 토성의 고리처럼 반복적인 패턴을 가진 가상의 이미지 데이터 한 줄을 RLE로 압축하고 복원하는 과정을 구현합니다. <span class="check">☑</span></p>
+<pre><code>def rle_encode(data):
+    if not data: return []
+    encoded_data = []
+    count = 1
+    for i in range(1, len(data)):
+        if data[i] == data[i-1]:
+            count += 1
+        else:
+            encoded_data.append((count, data[i-1]))
+            count = 1
+    encoded_data.append((count, data[len(data)-1])) # 마지막 덩어리 추가
+    return encoded_data
+
+# 토성 고리의 한 스캔 라인 데이터 (밝기 값) 라고 가정
+saturn_ring_data = [10, 10, 10, 200, 200, 200, 200, 200, 10, 10]
+print("1. [무손실 압축: RLE] 반복적인 데이터를 압축합니다.")
+print(f" - 원본 데이터: {saturn_ring_data} (길이: {len(saturn_ring_data)})")
+
+encoded = rle_encode(saturn_ring_data)
+print(f" - RLE 압축 결과: {encoded} (길이: {len(encoded)*2})") # (횟수, 값) 2개로 표현
+</code></pre>
+    <div class="explanation">
+        <strong>상세 설명:</strong> 이 코드는 무손실 압축의 가장 간단한 형태인 RLE를 보여줍니다. rle_encode 함수는 데이터를 순회하면서, 이전 값과 현재 값이 같으면 count를 늘리고, 달라지는 순간에 (반복횟수, 값) 형태의 튜플을 결과 리스트에 추가합니다. [10, 10, 10, ...] 이 [(3, 10), ...] 으로 변환되는 과정을 통해, 학생들은 '중복성 제거'라는 압축의 기본 원리를 직관적으로 이해할 수 있습니다. <span class="check">☑</span>
+    </div>
+
+    <h4>Stage 2: 빈도를 활용하라! - 무손실 압축 허프만 코딩 (10분) <span class="check">☑</span></h4>
+    <p>RLE는 반복이 없을 땐 비효율적임을 지적. "더 범용적인 방법은 없을까?" 라는 질문을 던집니다. <span class="check">☑</span></p>
+    <p>모스 부호에서 자주 쓰는 'E'는 ㆍ, 자주 안 쓰는 'Q'는 --ㆍ- 인 것처럼, 데이터에 자주 나오는 값에 짧은 코드를 할당하는 허프만 코딩의 원리를 설명합니다. <span class="check">☑</span></p>
+    <p>역사/과학 예시 코드: "Gallifrey"라는 행성 이름에서 각 문자의 빈도를 계산하고, 가상의 허프만 코드(짧은 코드/긴 코드)를 할당하는 과정을 시뮬레이션합니다. <span class="check">☑</span></p>
+<pre><code>from collections import Counter
+
+def build_frequency_table(text):
+    return Counter(text)
+
+def assign_huffman_codes_mock(frequency_table):
+    # 실제 허프만 트리를 만들지는 않고, 빈도 순으로 정렬하여 코드 길이만 흉내냄
+    sorted_chars = sorted(frequency_table.items(), key=lambda item: item[1], reverse=True)
+    codes = {}
+    # 가장 빈번한 문자부터 짧은 코드를 할당한다고 가정
+    mock_bit_codes = ["0", "10", "110", "1110", "11110", "111110"]
+    for i, (char, freq) in enumerate(sorted_chars):
+        codes[char] = mock_bit_codes[i]
+    return codes
+
+message_from_space = "Gallifrey"
+print("\n2. [무손실 압축: 허프만 코딩] 빈도를 이용해 인코딩합니다.")
+print(f" - 원본 메시지: {message_from_space}")
+
+freq_table = build_frequency_table(message_from_space.lower())
+print(f" - 빈도수 계산: {freq_table}")
+
+huffman_codes = assign_huffman_codes_mock(freq_table)
+print(f" - 허프만 코드 할당 (시뮬레이션): {huffman_codes}")
+
+encoded_message = "".join([huffman_codes[char] for char in message_from_space.lower()])
+print(f" - 인코딩된 메시지 (비트 스트림): {encoded_message}")
+</code></pre>
+    <div class="explanation">
+        <strong>상세 설명:</strong> 이 코드는 허프만 코딩의 핵심 아이디어인 '빈도 기반 가변 길이 코딩'을 보여줍니다. collections.Counter를 사용해 문자열의 빈도를 쉽게 계산합니다. assign_huffman_codes_mock 함수는 실제 알고리즘을 단순화하여, 빈도가 높은 문자('l', 'a', 'f')에 짧은 비트 코드('0', '10', '110')를, 빈도가 낮은 문자('g', 'i', 'r', 'e', 'y')에 긴 코드를 할당하는 '원리'를 보여줍니다. 이를 통해 학생들은 왜 이 방법이 전체 데이터 크기를 줄일 수 있는지 이해하게 됩니다. <span class="check">☑</span>
+    </div>
+
+    <h4>Stage 3: 버릴 것을 정하다 - 손실 압축 (10분) <span class="check">☑</span></h4>
+    <p>"만약 보이저호의 카메라에 약간의 노이즈가 꼈다면, 이 노이즈까지 100% 완벽하게 전송해야 할까?" 라는 질문으로 손실 압축의 필요성을 제시합니다. <span class="check">☑</span></p>
+    <p>인간의 눈과 귀는 완벽하지 않다는 사실을 설명. JPEG가 미세한 색상 차이를, MP3가 들리지 않는 소리를 제거하는 원리를 설명합니다. <span class="check">☑</span></p>
+    <p>실생활 예시 코드: 양자화(Quantization)를 통해 데이터의 정밀도를 낮추어 데이터를 손실시키는 과정을 시뮬레이션합니다. <span class="check">☑</span></p>
+<pre><code>def quantize(data, step):
+    """데이터를 step 단위로 양자화하여 정보량을 줄입니다 (손실 압축)."""
+    # 예: step=10 이면, 18 -> 10, 23 -> 20 으로 근사
+    return [round(x / step) * step for x in data]
+
+print("\n3. [손실 압축: 양자화] 정밀도를 낮춰 데이터를 압축합니다.")
+# 어떤 행성의 대기 성분 분석 데이터 (매우 정밀함)
+original_spectrum = [102.3, 108.1, 111.9, 155.6, 162.4]
+print(f" - 원본 정밀 데이터: {original_spectrum}")
+
+# 사람의 눈으로는 구분하기 힘든 정밀도를 10 단위로 묶어버림 (정보 손실 발생)
+lossy_compressed_data = quantize(original_spectrum, 10)
+print(f" - 손실 압축된 데이터: {lossy_compressed_data}")
+print(" -> 데이터의 세부 정보는 손실되었지만, 전체적인 분포(100대, 150대)는 유지됨.")
+</code></pre>
+    <div class="explanation">
+        <strong>상세 설명:</strong> 이 코드는 손실 압축의 핵심 원리 중 하나인 '양자화'를 보여줍니다. quantize 함수는 정밀한 소수점 데이터들을 step 단위의 '대표값'으로 묶어버립니다. 예를 들어, 102.3, 108.1, 111.9는 모두 110이라는 하나의 값으로 표현될 수 있습니다. 이 과정에서 2.3, -1.9, 1.9 와 같은 세부 정보는 영구적으로 '손실'되지만, 데이터의 전체적인 특징은 유지하면서 표현에 필요한 정보량은 크게 줄일 수 있습니다. 이는 JPEG, MP3 등에서 공통적으로 사용되는 핵심 기술입니다. <span class="check">☑</span>
+    </div>
+
+    <h3>(마무리) 수업을 마치며 (5분) <span class="check">☑</span></h3>
+    <p>무손실 압축(RLE, 허프만)과 손실 압축(JPEG, MP3)의 원리와 용도를 다시 한번 비교하며 정리합니다. <span class="check">☑</span></p>
+    <blockquote>"완벽함이란 더 이상 더할 것이 없는 상태가 아니라, 더 이상 뺄 것이 없는 상태이다." - 앙투안 드 생텍쥐페리 (소설가) <span class="check">☑</span></blockquote>
+    <p>"여러분, '어린 왕자'의 작가 생텍쥐페리는 완벽함을 '덜어냄의 미학'으로 표현했습니다. 오늘 우리가 배운 데이터 압축이야말로 이 말을 가장 잘 보여주는 기술일 것입니다. 불필요한 반복을 덜어내고(무손실), 감지하지 못하는 정보를 덜어냄(손실)으로써, 우리는 데이터의 본질에 더 가까이 다가갈 수 있었습니다. 여러분도 앞으로 문제를 해결할 때, 무엇을 더할지 고민하기 전에, 무엇을 덜어낼 수 있을지 먼저 생각해보는 지혜로운 과학도가 되기를 바랍니다. 수고 많으셨습니다." <span class="check">☑</span></p>
+
+    <hr>
+    
+    <h2>4. 진단평가 (OX 퀴즈)</h2>
+
+    <div class="quiz-question">
+        <p><strong>문제 1:</strong> 무손실 압축은 압축을 해제했을 때 원본 데이터와 100% 동일하게 복원된다. (O) <span class="check">☑</span></p>
+        <div class="explanation">
+            <strong>상세 풀이:</strong> 무손실 압축은 데이터의 손실 없이, 오직 표현 방식만을 바꾸어 크기를 줄이는 것이므로 원본으로의 완벽한 복원이 보장됩니다.
+        </div>
+    </div>
+    <div class="quiz-question">
+        <p><strong>문제 2:</strong> JPEG 이미지 파일은 무손실 압축 기술을 사용한다. (X) <span class="check">☑</span></p>
+        <div class="explanation">
+            <strong>상세 풀이:</strong> JPEG는 대표적인 '손실' 압축 기술입니다. 사람의 눈이 잘 인지하지 못하는 색상 정보 등을 제거하여 높은 압축률을 얻습니다.
+        </div>
+    </div>
+    <div class="quiz-question">
+        <p><strong>문제 3:</strong> RLE(Run-Length Encoding)는 "ABCDEFG"와 같이 반복되지 않는 데이터에 대해 압축 효율이 매우 좋다. (X) <span class="check">☑</span></p>
+        <div class="explanation">
+            <strong>상세 풀이:</strong> RLE는 "AAAAA"와 같이 동일한 데이터가 연속적으로 반복될 때 높은 효율을 보입니다. 반복이 없는 데이터에 적용하면 오히려 1A1B1C... 와 같이 크기가 더 커질 수 있습니다.
+        </div>
+    </div>
+    <div class="quiz-question">
+        <p><strong>문제 4:</strong> 허프만 코딩은 데이터에 자주 등장하는 문자에 더 긴 비트 코드를 할당한다. (X) <span class="check">☑</span></p>
+        <div class="explanation">
+            <strong>상세 풀이:</strong> 허프만 코딩은 반대로, 자주 등장하는 문자에 '더 짧은' 비트 코드를, 드물게 등장하는 문자에 '더 긴' 비트 코드를 할당하여 전체 데이터의 평균 길이를 줄입니다.
+        </div>
+    </div>
+    <div class="quiz-question">
+        <p><strong>문제 5:</strong> 손실 압축은 주로 프로그램 실행 파일이나 중요한 문서 파일을 압축하는 데 사용된다. (X) <span class="check">☑</span></p>
+        <div class="explanation">
+            <strong>상세 풀이:</strong> 프로그램이나 문서는 단 1비트의 손실도 허용되지 않으므로, 반드시 '무손실' 압축(ZIP 등)을 사용해야 합니다. 손실 압축은 이미지, 영상, 음원 파일에 주로 사용됩니다.
+        </div>
+    </div>
+    <div class="quiz-question">
+        <p><strong>문제 6:</strong> 압축률이 높을수록 데이터의 크기가 더 많이 줄어들었다는 것을 의미한다. (O) <span class="check">☑</span></p>
+        <div class="explanation">
+            <strong>상세 풀이:</strong> 압축률은 원본 대비 크기가 줄어든 비율을 나타내므로, 압축률이 80%인 파일은 50%인 파일보다 더 효율적으로 압축된 것입니다.
+        </div>
+    </div>
+    <div class="quiz-question">
+        <p><strong>문제 7:</strong> MP3 압축은 사람이 들을 수 없는 주파수 대역의 소리를 제거하는 원리를 이용한다. (O) <span class="check">☑</span></p>
+        <div class="explanation">
+            <strong>상세 풀이:</strong> MP3는 인간의 청각 심리 모델(Psychoacoustics)을 이용하여, 가청 주파수 범위를 벗어나는 소리나 다른 큰 소리에 묻혀서 들리지 않는 소리 등을 제거하여 데이터 크기를 줄입니다.
+        </div>
+    </div>
+    <div class="quiz-question">
+        <p><strong>문제 8:</strong> 무손실 압축의 핵심 원리는 데이터의 중복성을 제거하는 것이다. (O) <span class="check">☑</span></p>
+        <div class="explanation">
+            <strong>상세 풀이:</strong> RLE는 연속 데이터의 중복을, 허프만 코딩은 문자 빈도의 불균형(통계적 중복성)을, Lempel-Ziv 계열 알고리즘(ZIP 등)은 반복되는 구문의 중복을 제거하는 등, 무손실 압축은 다양한 형태의 중복성을 찾아내어 이를 더 효율적으로 표현하는 것을 목표로 합니다.
+        </div>
+    </div>
+    <div class="quiz-question">
+        <p><strong>문제 9:</strong> 데이터를 손실 압축한 후에는 어떤 방법으로도 원본 데이터를 완벽하게 복원할 수 없다. (O) <span class="check">☑</span></p>
+        <div class="explanation">
+            <strong>상세 풀이:</strong> 손실 압축은 압축 과정에서 일부 데이터가 '영구적으로 삭제'되기 때문에, 삭제된 정보를 다시 만들어낼 방법이 없어 원본으로의 완벽한 복원은 불가능합니다.
+        </div>
+    </div>
+    <div class="quiz-question">
+        <p><strong>문제 10:</strong> 압축의 주된 목적은 데이터의 보안을 강화하는 것이다. (X) <span class="check">☑</span></p>
+        <div class="explanation">
+            <strong>상세 풀이:</strong> 데이터의 보안(기밀성)을 강화하는 것은 '암호화'의 주된 목적입니다. '압축'의 주된 목적은 데이터의 크기를 줄여 저장 공간을 절약하고 전송 속도를 높이는 것입니다.
+        </div>
+    </div>
+
+    <hr>
+    
+    <h2>5. 형성평가 (5지선다형)</h2>
+    
+    <div class="quiz-question">
+        <p><strong>문제 1:</strong> 다음 중 무손실 압축(Lossless Compression)을 사용하기에 가장 적합한 파일은? <span class="check">☑</span></p>
+        <ol>
+            <li>고화질 영화 파일 (MP4)</li>
+            <li>친구들과 찍은 여행 사진 (JPG)</li>
+            <li>좋아하는 가수의 음악 파일 (MP3)</li>
+            <li>C++로 작성한 프로그램 소스 코드 (CPP)</li>
+            <li>인터넷에서 스트리밍하는 강의 영상</li>
+        </ol>
+        <div class="explanation">
+            <strong>정답: ④</strong>
+            <strong>상세 풀이:</strong> 프로그램 소스 코드는 단 하나의 문자라도 변경되거나 손실되면 컴파일 오류가 발생하거나 완전히 다른 프로그램이 되므로, 반드시 원본이 100% 보존되는 무손실 압축을 사용해야 합니다. 나머지 보기들은 모두 사람의 감각으로 소비되는 미디어 파일로, 약간의 손실을 감수하더라도 높은 압축률을 얻는 손실 압축이 더 적합합니다.
+        </div>
+    </div>
+
+    <div class="quiz-question">
+        <p><strong>문제 2:</strong> 문자열 "AAABBC"를 RLE(Run-Length Encoding) 방식으로 압축한 결과로 가장 올바른 것은? <span class="check">☑</span></p>
+        <ol>
+            <li>3A2B1C</li>
+            <li>A3B2C1</li>
+            <li>('A',3)('B',2)('C',1)</li>
+            <li>AABBCC</li>
+            <li>ABC</li>
+        </ol>
+        <div class="explanation">
+            <strong>정답: ①</strong>
+            <strong>상세 풀이:</strong> RLE는 '반복 횟수'와 '데이터'를 한 쌍으로 표현합니다. 'A'가 3번, 'B'가 2번, 'C'가 1번 반복되므로, 이를 순서대로 나열한 3A2B1C가 올바른 표현입니다. (구현에 따라 튜플 형태인 ③도 가능하지만, 가장 일반적인 문자열 표현은 ①입니다.)
+        </div>
+    </div>
+    
+    <div class="quiz-question">
+        <p><strong>문제 3:</strong> 다음 중 손실 압축(Lossy Compression)에 대한 설명으로 가장 옳은 것은? <span class="check">☑</span></p>
+        <ol>
+            <li>원본과 동일하게 100% 복원이 가능하다.</li>
+            <li>주로 텍스트 문서나 프로그램 파일을 압축하는 데 쓰인다.</li>
+            <li>압축 과정에서 데이터의 손실이 전혀 발생하지 않는다.</li>
+            <li>인간의 인지적 한계를 이용하여 불필요한 데이터를 제거한다.</li>
+            <li>RLE, 허프만 코딩이 대표적인 손실 압축 알고리즘이다.</li>
+        </ol>
+        <div class="explanation">
+            <strong>정답: ④</strong>
+            <strong>상세 풀이:</strong> 손실 압축의 핵심 원리는 사람이 잘 보지 못하고 듣지 못하는 미세한 데이터를 제거하여, 사람이 느끼는 품질 저하는 최소화하면서 압축률은 극대화하는 것입니다. RLE와 허프만 코딩은 무손실 압축입니다.
+        </div>
+    </div>
+    
+    <div class="quiz-question">
+        <p><strong>문제 4:</strong> 허프만 코딩 알고리즘의 기본 원리는 무엇인가? <span class="check">☑</span></p>
+        <ol>
+            <li>모든 문자를 동일한 길이의 코드로 변환한다.</li>
+            <li>데이터의 순서를 바꾸어 압축률을 높인다.</li>
+            <li>연속으로 반복되는 데이터의 개수를 세어 표현한다.</li>
+            <li>자주 나타나는 데이터에 짧은 코드를, 드물게 나타나는 데이터에 긴 코드를 할당한다.</li>
+            <li>수학적 변환을 통해 데이터의 일부를 버린다.</li>
+        </ol>
+        <div class="explanation">
+            <strong>정답: ④</strong>
+            <strong>상세 풀이:</strong> 허프만 코딩은 통계적 압축 기법으로, 데이터의 발생 빈도를 분석하여 빈도가 높은 데이터는 표현하는 비트 수를 줄이고, 빈도가 낮은 데이터는 비트 수를 늘려 전체 데이터의 평균 비트 길이를 최소화합니다.
+        </div>
+    </div>
+    
+    <div class="quiz-question">
+        <p><strong>문제 5:</strong> 원본 파일 크기가 100KB이고, 압축 후 파일 크기가 25KB가 되었을 때, 압축률은 얼마인가? <span class="check">☑</span></p>
+        <ol>
+            <li>25%</li>
+            <li>33.3%</li>
+            <li>50%</li>
+            <li>75%</li>
+            <li>400%</li>
+        </ol>
+        <div class="explanation">
+            <strong>정답: ④</strong>
+            <strong>상세 풀이:</strong> 압축률은 (1 - (압축 후 크기 / 원본 크기)) * 100 공식으로 계산합니다. (1 - (25 / 100)) * 100 = (1 - 0.25) * 100 = 0.75 * 100 = 75% 입니다.
+        </div>
+    </div>
+
+    <div class="quiz-question">
+        <p><strong>문제 6:</strong> 다음 중 데이터 압축의 주된 목적으로 가장 적절한 것을 두 개 고르면? <span class="check">☑</span></p>
+        <p>가. 데이터의 보안 강화</p>
+        <p>나. 저장 공간의 효율적 사용</p>
+        <p>다. 데이터의 무결성 보장</p>
+        <p>라. 네트워크 전송 시간 단축</p>
+        <ol>
+            <li>가, 나</li>
+            <li>가, 다</li>
+            <li>나, 다</li>
+            <li>나, 라</li>
+            <li>다, 라</li>
+        </ol>
+        <div class="explanation">
+            <strong>정답: ④</strong>
+            <strong>상세 풀이:</strong> 데이터 압축의 가장 핵심적인 목적은 데이터의 물리적인 크기를 줄이는 것입니다. 이를 통해 하드디스크나 클라우드 같은 '저장 공간'을 아낄 수 있고(나), 크기가 작아진 만큼 네트워크를 통해 더 빨리 보낼 수 있어 '전송 시간'이 단축됩니다(라). 보안은 암호화, 무결성은 해시 함수의 주된 목적입니다.
+        </div>
+    </div>
+
+    <div class="quiz-question">
+        <p><strong>문제 7:</strong> 손실 압축과 무손실 압축을 선택해야 하는 상황 판단으로 옳지 않은 것은? <span class="check">☑</span></p>
+        <ol>
+            <li>환자의 MRI 의료 영상 원본 -> 무손실 압축</li>
+            <li>친구에게 보낼 재미있는 동영상 -> 손실 압축</li>
+            <li>다음 학기 수강할 과목의 리스트가 담긴 텍스트 파일 -> 무손실 압축</li>
+            <li>운영체제 설치 프로그램 -> 손실 압축</li>
+            <li>웹사이트에 올릴 풍경 사진 -> 손실 압축</li>
+        </ol>
+        <div class="explanation">
+            <strong>정답: ④</strong>
+            <strong>상세 풀이:</strong> 운영체제 설치 프로그램은 단 1비트만 손상되어도 설치가 실패하거나 심각한 오류를 야기할 수 있습니다. 따라서 반드시 원본이 보존되는 무손실 압축을 사용해야 합니다. 의료 영상 원본(①) 역시 진단에 영향을 줄 수 있으므로 무손실 압축이 원칙입니다.
+        </div>
+    </div>
+    
+    <div class="quiz-question">
+        <p><strong>문제 8:</strong> 문자열 "BANANA"에 대한 문자별 빈도수를 올바르게 계산한 것은? <span class="check">☑</span></p>
+        <ol>
+            <li>B:1, A:3, N:2</li>
+            <li>B:1, A:1, N:1</li>
+            <li>B:1, A:2, N:3</li>
+            <li>B:3, A:2, N:1</li>
+            <li>B:2, A:3, N:1</li>
+        </ol>
+        <div class="explanation">
+            <strong>정답: ①</strong>
+            <strong>상세 풀이:</strong> 문자열 "BANANA"에는 'B'가 1번, 'A'가 3번, 'N'이 2번 등장합니다.
+        </div>
+    </div>
+    
+    <div class="quiz-question">
+        <p><strong>문제 9:</strong> 다음 중 데이터의 중복성(Redundancy)을 제거하는 원리를 이용하지 않는 기술은? <span class="check">☑</span></p>
+        <ol>
+            <li>RLE</li>
+            <li>허프만 코딩</li>
+            <li>ZIP</li>
+            <li>암호화 (Encryption)</li>
+            <li>PNG</li>
+        </ol>
+        <div class="explanation">
+            <strong>정답: ④</strong>
+            <strong>상세 풀이:</strong> 암호화는 데이터의 내용을 알아볼 수 없도록 변환하는 기술로, 데이터의 크기를 줄이는 것을 목적으로 하지 않습니다. 오히려 암호화 과정에서 데이터의 크기가 약간 늘어날 수도 있습니다. 나머지 보기들은 모두 데이터의 중복성을 제거하여 크기를 줄이는 압축 기술입니다.
+        </div>
+    </div>
+    
+    <div class="quiz-question">
+        <p><strong>문제 10:</strong> 어떤 이미지 파일을 계속해서 JPEG 형식으로 저장하고 다시 여는 작업을 반복했다. 어떤 현상이 발생할 가능성이 가장 높은가? <span class="check">☑</span></p>
+        <ol>
+            <li>파일의 용량이 계속해서 커진다.</li>
+            <li>이미지의 화질이 점점 저하된다.</li>
+            <li>이미지의 색상이 흑백으로 변한다.</li>
+            <li>파일이 무손실 압축으로 자동 변환된다.</li>
+            <li>아무런 변화도 일어나지 않는다.</li>
+        </ol>
+        <div class="explanation">
+            <strong>정답: ②</strong>
+            <strong>상세 풀이:</strong> JPEG는 손실 압축 방식이므로, 저장할 때마다 약간의 데이터 손실이 발생합니다. 이 작업을 반복하면 손실이 누적되어, 눈에 띄게 화질이 저하되는 현상이 발생합니다.
+        </div>
+    </div>
+    
+    <hr>
+    
+    <h2>6. 코딩 실습 예제 (10개): 예시 코드 및 상세 풀이</h2>
+
+    <h3>1. RLE 압축기 <span class="check">☑</span></h3>
+    <h4>예시 코드: <span class="check">☑</span></h4>
+<pre><code>def rle_encode(data):
+    """문자열을 Run-Length Encoding 방식으로 압축합니다."""
+    if not data:
+        return []
+    
+    encoded = []
+    current_char = data[0]
+    count = 1
+    
+    for i in range(1, len(data)):
+        if data[i] == current_char:
+            count += 1
+        else:
+            encoded.append((current_char, count))
+            current_char = data[i]
+            count = 1
+    
+    # 마지막으로 세고 있던 부분을 리스트에 추가
+    encoded.append((current_char, count))
+    return encoded
+
+# 테스트
+source_data = "AAABBCDDDDD"
+encoded_data = rle_encode(source_data)
+print(f"원본: '{source_data}'")
+print(f"RLE 압축 결과: {encoded_data}")
+</code></pre>
+    <h4>상세 풀이 및 설명: <span class="check">☑</span></h4>
+    <p>이 함수는 문자열을 처음부터 끝까지 순차적으로 탐색합니다. <span class="check">☑</span></p>
+    <p><code>current_char</code>는 현재 연속되고 있는 문자를, <code>count</code>는 그 문자의 연속 횟수를 저장합니다. <span class="check">☑</span></p>
+    <p><code>for</code> 루프를 돌면서, 다음 문자가 현재 문자와 다를 때, 지금까지 세어 온 (current_char, count)를 결과 리스트 <code>encoded</code>에 추가하고, <code>current_char</code>와 <code>count</code>를 새로 시작합니다. <span class="check">☑</span></p>
+    <p>루프가 모두 끝난 후, 마지막으로 세고 있던 덩어리(예: "DDDDD")는 루프 안에서 추가되지 않으므로, 루프 바깥에서 <code>encoded.append(...)</code>를 한 번 더 실행해 주어야 합니다. <span class="check">☑</span></p>
+
+    <h3>2. RLE 압축 해제기 <span class="check">☑</span></h3>
+    <h4>예시 코드: <span class="check">☑</span></h4>
+<pre><code>def rle_decode(encoded_data):
+    """RLE 방식으로 압축된 리스트를 원본 문자열로 복원합니다."""
+    decoded_string = ""
+    # 리스트의 각 튜플 (문자, 횟수)에 대해 반복
+    for char, count in encoded_data:
+        # 문자열 곱셈 연산을 이용해 문자를 count번 반복하여 이어 붙임
+        decoded_string += char * count
+    return decoded_string
+
+# 테스트
+encoded_data = [('A', 3), ('B', 2), ('C', 1), ('D', 5)]
+decoded_data = rle_decode(encoded_data)
+print(f"압축된 데이터: {encoded_data}")
+print(f"RLE 복원 결과: '{decoded_data}'")
+</code></pre>
+    <h4>상세 풀이 및 설명: <span class="check">☑</span></h4>
+    <p>이 함수는 RLE 압축의 역과정을 수행합니다. <span class="check">☑</span></p>
+    <p><code>for char, count in encoded_data:</code> 구문을 사용하여 리스트 안의 각 튜플을 순회하며, 문자(char)와 반복 횟수(count)를 각각 가져옵니다. <span class="check">☑</span></p>
+    <p>파이썬의 문자열 곱셈 기능('A' * 3은 'AAA'를 만듦)을 활용하여, 각 문자를 count번 반복한 문자열 조각을 만듭니다. <span class="check">☑</span></p>
+    <p>이 조각들을 <code>decoded_string</code>에 순서대로 계속 이어 붙이면(+=) 원본 문자열이 복원됩니다. <span class="check">☑</span></p>
+
+    <h3>3. 압축률 계산기 <span class="check">☑</span></h3>
+    <h4>예시 코드: <span class="check">☑</span></h4>
+<pre><code>def calculate_compression_ratio(original_size, compressed_size):
+    """원본과 압축 후 크기를 받아 압축률(%)을 계산합니다."""
+    if original_size == 0:
+        return 0.0 # 0으로 나누기 오류 방지
+    
+    ratio = (1 - (compressed_size / original_size)) * 100
+    return round(ratio, 2)
+
+# 테스트
+# 1번 예제의 결과 사용
+original_str = "AAABBCDDDDD"
+encoded_list = [('A', 3), ('B', 2), ('C', 1), ('D', 5)]
+# 문자열은 글자당 1바이트, 튜플은 더 많은 메모리를 차지하지만,
+# 여기서는 간단히 문자열 길이와 리스트 길이로 크기를 가정
+original_size = len(original_str)
+compressed_size = len(encoded_list) # 실제 바이트 크기는 아니지만, 정보량의 감소를 표현
+ratio = calculate_compression_ratio(original_size, compressed_size)
+
+print(f"원본 크기 (가정): {original_size}")
+print(f"압축 후 크기 (가정): {compressed_size}")
+print(f"압축률: {ratio}%")
+</code></pre>
+    <h4>상세 풀이 및 설명: <span class="check">☑</span></h4>
+    <p>압축률은 데이터 크기가 얼마나 줄었는지를 백분율로 나타낸 것입니다. <span class="check">☑</span></p>
+    <p><code>if original_size == 0:</code>: 원본 크기가 0이면 0으로 나누는 에러가 발생하므로, 이런 예외적인 경우는 미리 처리해주는 것이 안정적인 코드를 작성하는 방법입니다. <span class="check">☑</span></p>
+    <p><code>compressed_size / original_size</code>는 원본 대비 압축 파일의 크기 비율입니다. (예: 0.25는 25% 크기가 됨) <span class="check">☑</span></p>
+    <p><code>1 - ...</code>는 크기가 줄어든 비율을 계산합니다. (예: 1 - 0.25 = 0.75, 즉 75%가 줄어듦) <span class="check">☑</span></p>
+    <p>여기에 `* 100`을 하여 백분율로 만들고, <code>round(..., 2)</code>로 소수점 둘째 자리까지 정리하여 반환합니다. <span class="check">☑</span></p>
+
+    <h3>4. 문자 빈도수 계산기 <span class="check">☑</span></h3>
+    <h4>예시 코드: <span class="check">☑</span></h4>
+<pre><code>from collections import Counter
+import re
+
+def get_char_frequency(text):
+    """텍스트에서 알파벳 소문자의 빈도수를 계산하여 높은 순으로 반환합니다."""
+    # 정규 표현식을 사용해 텍스트에서 알파벳 소문자만 추출
+    only_alphas = "".join(re.findall('[a-z]', text.lower()))
+    
+    # Counter 객체로 빈도수 계산
+    frequency = Counter(only_alphas)
+    
+    # 빈도수가 높은 순으로 정렬하여 반환
+    return frequency.most_common()
+
+# 테스트
+# 찰스 다윈의 '종의 기원' 첫 문장
+sample_text = "When on board H.M.S. Beagle, as naturalist, I was much struck with certain facts in the distribution of the inhabitants of South America, and in the geological relations of the present to the past inhabitants of that continent."
+char_freq = get_char_frequency(sample_text)
+
+print(f"--- 텍스트 내 알파벳 빈도수 분석 (상위 10개) ---")
+for char, count in char_freq[:10]:
+    print(f" '{char}': {count}회")
+</code></pre>
+    <h4>상세 풀이 및 설명: <span class="check">☑</span></h4>
+    <p><code>from collections import Counter</code>: Counter는 리스트나 문자열과 같은 반복 가능한 객체를 인자로 받아, 각 요소가 몇 번 등장했는지를 세어 딕셔너리처럼 반환하는 매우 유용한 클래스입니다. <span class="check">☑</span></p>
+    <p><code>re.findall('[a-z]', text.lower())</code>: 텍스트를 모두 소문자로 바꾸고, 정규 표현식 <code>[a-z]</code>를 이용해 알파벳 소문자에 해당하는 모든 문자를 찾아 리스트로 반환합니다. 이를 통해 공백, 쉼표, 숫자 등을 분석에서 제외합니다. <span class="check">☑</span></p>
+    <p><code>Counter(...)</code>: 알파벳만 담긴 리스트를 Counter에 넘겨주면, <code>{ 't': 25, 'h': 18, ... }</code> 와 같은 빈도수 딕셔너리를 생성합니다. <span class="check">☑</span></p>
+    <p><code>.most_common()</code>: Counter 객체의 이 메서드는 빈도수가 높은 아이템부터 (아이템, 빈도수) 튜플의 리스트 형태로 정렬하여 반환해줍니다. 허프만 코딩의 전처리 과정에 매우 유용합니다. <span class="check">☑</span></p>
+
+    <h3>5. 간단한 허프만 인코딩 <span class="check">☑</span></h3>
+    <h4>예시 코드: <span class="check">☑</span></h4>
+<pre><code>def huffman_encode(text, huffman_dict):
+    """주어진 허프만 코드 딕셔너리를 이용해 텍스트를 인코딩합니다."""
+    encoded_bits = ""
+    for char in text:
+        encoded_bits += huffman_dict.get(char, "") # 딕셔너리에 없는 문자는 무시
+    return encoded_bits
+
+# 테스트
+# 'a'는 자주 나오고 'd'는 드물게 나온다고 가정
+huffman_codes = {'a': '0', 'b': '10', 'c': '110', 'd': '111'}
+plaintext = "abacada"
+encoded_string = huffman_encode(plaintext, huffman_codes)
+
+print(f"\n평문: {plaintext}")
+print(f"허프만 코드: {huffman_codes}")
+print(f"인코딩된 비트 스트림: {encoded_string}")
+
+# 고정 길이 인코딩(예: 3비트)과 비교
+# a=000, b=001, c=010, d=011... -> 7글자 * 3비트 = 21비트
+# 허프만 인코딩 결과 -> len("010011001110") = 14비트 -> 압축 효과 발생
+print(f"허프만 인코딩 길이: {len(encoded_string)} bits")
+</code></pre>
+    <h4>상세 풀이 및 설명: <span class="check">☑</span></h4>
+    <p>이 함수는 미리 계산된 허프만 코드표(<code>huffman_dict</code>)가 있다고 가정하고, 이를 이용해 실제 인코딩을 수행합니다. <span class="check">☑</span></p>
+    <p><code>for char in text:</code>: 평문을 한 글자씩 순회합니다. <span class="check">☑</span></p>
+    <p><code>encoded_bits += huffman_dict.get(char, "")</code>: 딕셔너리에서 현재 문자에 해당하는 비트 코드를 찾아 <code>encoded_bits</code> 문자열에 이어 붙입니다. <span class="check">☑</span></p>
+    <p>이 과정을 통해, 원래 각 문자가 8비트(ASCII)를 차지하던 것을, 가변 길이의 더 짧은 평균 비트로 표현하여 전체 데이터 크기를 줄일 수 있습니다. <span class="check">☑</span></p>
+
+    <h3>6. 간단한 허프만 디코딩 <span class="check">☑</span></h3>
+    <h4>예시 코드: <span class="check">☑</span></h4>
+<pre><code>def huffman_decode(encoded_bits, huffman_dict):
+    """허프만 코드로 인코딩된 비트 스트림을 디코딩합니다."""
+    # 디코딩을 위해 코드:문자 딕셔너리로 뒤집음
+    reverse_huffman_dict = {code: char for char, code in huffman_dict.items()}
+    
+    decoded_text = ""
+    current_code = ""
+    for bit in encoded_bits:
+        current_code += bit
+        # 현재까지의 비트 조각이 유효한 코드인지 확인
+        if current_code in reverse_huffman_dict:
+            decoded_text += reverse_huffman_dict[current_code]
+            current_code = "" # 코드 조각 초기화
+    
+    return decoded_text
+
+# 테스트
+huffman_codes = {'a': '0', 'b': '10', 'c': '110', 'd': '111'}
+encoded_string = "100111" # "bad"
+decoded_string = huffman_decode(encoded_string, huffman_codes)
+
+print(f"\n인코딩된 비트 스트림: {encoded_string}")
+print(f"디코딩된 평문: {decoded_string}")
+</code></pre>
+    <h4>상세 풀이 및 설명: <span class="check">☑</span></h4>
+    <p>허프만 디코딩은 인코딩보다 조금 더 복잡합니다. 코드가 가변 길이라 어디까지가 하나의 문자인지 찾아야 하기 때문입니다. <span class="check">☑</span></p>
+    <p><code>reverse_huffman_dict = {code: char ...}</code>: 디코딩을 쉽게 하기 위해, 원래의 {문자:코드} 딕셔너리를 {코드:문자} 딕셔너리로 뒤집어 줍니다. <span class="check">☑</span></p>
+    <p>비트 스트림을 처음부터 한 비트씩 읽으면서 <code>current_code</code>에 계속 추가합니다. <span class="check">☑</span></p>
+    <p>매 비트를 추가할 때마다, <code>current_code</code>가 <code>reverse_huffman_dict</code>에 유효한 키로 존재하는지 확인합니다. (예: '1', '10' -> 'b' 찾음!) <span class="check">☑</span></p>
+    <p>만약 유효한 코드를 찾았다면, 해당하는 문자를 결과에 추가하고, <code>current_code</code>를 다시 비워서 다음 코드 조각을 찾을 준비를 합니다. 이 원리가 가능한 이유는 허프만 코드는 어떤 코드도 다른 코드의 접두사(prefix)가 되지 않도록 설계되기 때문입니다. <span class="check">☑</span></p>
+    
+    <h3>7. 손실 압축: 반올림(Quantization) 시뮬레이션 <span class="check">☑</span></h3>
+    <h4>예시 코드: <span class="check">☑</span></h4>
+<pre><code>def quantize_to_step(data, step):
+    """데이터를 step 단위로 양자화(대표값으로 근사)합니다."""
+    if step == 0: return data
+    # (data/step)을 반올림하고 다시 step을 곱함
+    quantized_data = [round(value / step) * step for value in data]
+    return quantized_data
+
+# 테스트
+# 분광 분석기의 정밀한 파장 데이터라고 가정
+wavelengths = [402.1, 408.8, 411.2, 445.9, 449.5]
+print(f"\n원본 데이터: {wavelengths}")
+
+# 5 단위로 양자화 (정보 손실 발생)
+quantized_wavelengths = quantize_to_step(wavelengths, 5)
+print(f"5 단위 양자화 후: {quantized_wavelengths}")
+
+# 10 단위로 양자화 (더 많은 정보 손실)
+quantized_wavelengths_10 = quantize_to_step(wavelengths, 10)
+print(f"10 단위 양자화 후: {quantized_wavelengths_10}")
+</code></pre>
+    <h4>상세 풀이 및 설명: <span class="check">☑</span></h4>
+    <p><strong>양자화(Quantization)</strong>는 손실 압축의 핵심 단계 중 하나로, 연속적이거나 정밀한 값의 범위를 몇 개의 '대표값'으로 묶어 표현하는 과정입니다. <span class="check">☑</span></p>
+    <p><code>value / step</code>: 값을 step으로 나누어, 해당 값이 step의 몇 배수 근처에 있는지 계산합니다. <span class="check">☑</span></p>
+    <p><code>round(...)</code>: 위 결과값을 가장 가까운 정수로 반올림합니다. <span class="check">☑</span></p>
+    <p><code>* step</code>: 반올림된 정수 배수에 다시 step을 곱하여 최종 대표값을 얻습니다. <span class="check">☑</span></p>
+    <p>이 과정을 통해, 10, 11, 12, 13, 14는 모두 step=10일 때 대표값 10으로 변환될 수 있습니다. 이 과정에서 원래의 세밀한 정보는 사라지지만(손실), 표현해야 할 값의 종류가 줄어들어 데이터를 더 적은 비트로 표현할 수 있게 됩니다. <span class="check">☑</span></p>
+    
+    <h3>8. 이미지 데이터 다운샘플링 <span class="check">☑</span></h3>
+    <h4>예시 코드: <span class="check">☑</span></h4>
+<pre><code>def downsample_2x2(matrix):
+    """2x2 영역의 평균값으로 4x4 행렬을 2x2로 다운샘플링합니다."""
+    height, width = len(matrix), len(matrix[0])
+    new_height, new_width = height // 2, width // 2
+    
+    new_matrix = [[0 for _ in range(new_width)] for _ in range(new_height)]
+    
+    for r in range(new_height):
+        for c in range(new_width):
+            # 2x2 영역의 합을 구함
+            sum_val = matrix[2*r][2*c] + matrix[2*r][2*c+1] + \
+                      matrix[2*r+1][2*c] + matrix[2*r+1][2*c+1]
+            # 평균값을 새 행렬에 저장
+            new_matrix[r][c] = sum_val // 4
+    
+    return new_matrix
+
+# 테스트
+# 4x4 픽셀 밝기 값이라고 가정
+image_pixels = [
+    [10, 20, 90, 100],
+    [30, 40, 110, 120],
+    [130, 140, 210, 220],
+    [150, 160, 230, 240]
+]
+
+downsampled_image = downsample_2x2(image_pixels)
+
+print("\n--- 4x4 원본 이미지 픽셀 ---")
+for row in image_pixels: print(row)
+print("\n--- 2x2 다운샘플링된 이미지 픽셀 ---")
+for row in downsampled_image: print(row)
+# (10+20+30+40)/4 = 25
+# (90+100+110+120)/4 = 105
+# ...
+</code></pre>
+    <h4>상세 풀이 및 설명: <span class="check">☑</span></h4>
+    <p>다운샘플링은 이미지의 해상도(가로/세로 픽셀 수)를 줄여 데이터 크기를 줄이는 대표적인 손실 압축 기법입니다. <span class="check">☑</span></p>
+    <p>이 함수는 2x2 픽셀 그룹을 하나의 픽셀로 만드는 방식으로 동작합니다. <span class="check">☑</span></p>
+    <p><code>for r in range(new_height): for c in range(new_width):</code> 이중 루프를 통해 결과 이미지의 각 픽셀 위치를 순회합니다. <span class="check">☑</span></p>
+    <p><code>sum_val = ...</code>: 원본 이미지에서 현재 위치에 해당하는 2x2 영역의 4개 픽셀 값을 모두 더합니다. <span class="check">☑</span></p>
+    <p><code>new_matrix[r][c] = sum_val // 4</code>: 합계를 4로 나누어 '평균값'을 구하고, 이 값을 새로운 이미지의 픽셀 값으로 사용합니다. 이 과정에서 4개의 픽셀이 가진 개별 정보는 사라지고 하나의 평균값만 남게 되므로 정보 손실이 발생합니다. <span class="check">☑</span></p>
+    
+    <h3>9. zlib 라이브러리로 압축/해제 <span class="check">☑</span></h3>
+    <h4>예시 코드: <span class="check">☑</span></h4>
+<pre><code>import zlib
+
+# 3번 예제 함수가 필요
+def calculate_compression_ratio(original_size, compressed_size):
+    if original_size == 0: return 0.0
+    return round((1 - (compressed_size / original_size)) * 100, 2)
+
+# 원본 데이터 (긴 텍스트)
+original_text = "Data compression is the process of encoding information using fewer bits than the original representation. It can be either lossy or lossless."
+
+# 1. 압축을 위해 텍스트를 바이트로 변환
+original_bytes = original_text.encode('utf-8')
+
+# 2. zlib으로 압축
+compressed_data = zlib.compress(original_bytes)
+
+# 3. zlib으로 압축 해제
+decompressed_bytes = zlib.decompress(compressed_data)
+
+# 4. 바이트를 다시 텍스트로 변환
+decompressed_text = decompressed_bytes.decode('utf-8')
+
+print(f"\n원본 크기: {len(original_bytes)} bytes")
+print(f"압축 후 크기: {len(compressed_data)} bytes")
+print(f"압축률: {calculate_compression_ratio(len(original_bytes), len(compressed_data))}%")
+
+# 원본과 복원된 데이터가 동일한지 확인
+assert original_text == decompressed_text
+print("\n무손실 압축 검증: 원본과 복원된 텍스트가 일치합니다.")
+print(f"\n복원된 텍스트: {decompressed_text}")
+</code></pre>
+    <h4>상세 풀이 및 설명: <span class="check">☑</span></h4>
+    <p>zlib은 Deflate 알고리즘(Lempel-Ziv 계열 + 허프만 코딩)을 사용하는 파이썬 표준 라이브러리로, 무손실 압축을 수행합니다. ZIP, PNG, gzip 등 수많은 곳에서 사용되는 핵심 알고리즘입니다. <span class="check">☑</span></p>
+    <p><code>original_text.encode('utf-8')</code>: zlib과 같은 저수준 라이브러리는 텍스트가 아닌 바이트(byte) 단위로 동작하므로, 압축 전에 반드시 바이트로 인코딩해야 합니다. <span class="check">☑</span></p>
+    <p><code>zlib.compress()</code>: 인코딩된 바이트 데이터를 받아 압축된 바이트 데이터를 반환합니다. <span class="check">☑</span></p>
+    <p><code>zlib.decompress()</code>: 압축된 바이트 데이터를 받아 원본 바이트 데이터로 복원합니다. <span class="check">☑</span></p>
+    <p><code>decompressed_bytes.decode('utf-8')</code>: 복원된 바이트를 다시 사람이 읽을 수 있는 텍스트로 디코딩합니다. <span class="check">☑</span></p>
+    <p><code>assert</code>를 통해 원본과 복원된 텍스트가 100% 동일함을 확인함으로써, zlib이 무손실 압축임을 검증할 수 있습니다. <span class="check">☑</span></p>
+    
+    <h3>10. 압축 효율 비교 <span class="check">☑</span></h3>
+    <h4>예시 코드: <span class="check">☑</span></h4>
+<pre><code># 1번 예제의 rle_encode 함수가 필요합니다.
+def rle_encode(data):
+    if not data: return []
+    encoded = []; current_char = data[0]; count = 1
+    for i in range(1, len(data)):
+        if data[i] == current_char: count += 1
+        else:
+            encoded.append((current_char, count))
+            current_char = data[i]; count = 1
+    encoded.append((current_char, count))
+    return encoded
+
+# 시나리오 1: 반복이 매우 많은 데이터
+data_repetitive = "A" * 50 + "B" * 50 # 총 100글자
+encoded_repetitive = rle_encode(data_repetitive)
+# 압축 후 정보량: 2개의 (문자, 횟수) 튜플
+size_repetitive = len(encoded_repetitive)
+
+# 시나리오 2: 반복이 전혀 없는 데이터
+data_random = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz" # 52글자
+encoded_random = rle_encode(data_random)
+# 압축 후 정보량: 52개의 (문자, 횟수=1) 튜플
+size_random = len(encoded_random)
+
+print("\n--- RLE 압축 효율 비교 ---")
+print(f"반복 데이터 ('{data_repetitive[:10]}...')")
+print(f" - 원본 정보량 (가정): {len(data_repetitive)}")
+print(f" - 압축 후 정보량 (가정): {size_repetitive}")
+print(f" -> 압축이 매우 효율적임")
+
+print(f"\n비반복 데이터 ('{data_random[:10]}...')")
+print(f" - 원본 정보량 (가정): {len(data_random)}")
+print(f" - 압축 후 정보량 (가정): {size_random}")
+print(f" -> 압축 효과가 전혀 없거나 오히려 크기가 커짐")
+</code></pre>
+    <h4>상세 풀이 및 설명: <span class="check">☑</span></h4>
+    <p>이 코드는 압축 알고리즘이 '만능'이 아니며, 데이터의 특성에 따라 효율이 크게 달라진다는 중요한 사실을 보여줍니다. <span class="check">☑</span></p>
+    <p><code>data_repetitive</code>: 'A' 50개, 'B' 50개로 이루어진 데이터는 RLE로 압축하면 <code>[('A', 50), ('B', 50)]</code> 단 두 개의 튜플로 표현됩니다. 정보량이 100에서 2로 극적으로 줄어듭니다. <span class="check">☑</span></p>
+    <p><code>data_random</code>: 모든 문자가 다르고 반복이 전혀 없는 데이터는 RLE로 압축하면 <code>[('A', 1), ('B', 1), ...]</code> 와 같이 모든 문자에 대해 (문자, 1) 튜플이 생성됩니다. 정보량이 52에서 52로 전혀 줄지 않았으며, 튜플을 저장하는 추가 비용 때문에 실제 파일 크기는 오히려 더 커질 수 있습니다. <span class="check">☑</span></p>
+    <p>결론적으로, RLE는 흑백 이미지나 아이콘과 같이 동일한 색상이 넓은 영역에 걸쳐 나타나는 데이터에는 매우 효과적이지만, 사진이나 복잡한 텍스트 파일에는 비효율적임을 알 수 있습니다. <span class="check">☑</span></p>
+
+</body>
+</html>

@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>수업 지도안: 빅데이터 분석 프로젝트</title>
+    <style>
+        body {
+            font-family: 'Malgun Gothic', '맑은 고딕', sans-serif;
+            line-height: 1.8;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            color: #212529;
+        }
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 40px;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border: 1px solid #dee2e6;
+        }
+        h1, h2, h3, h4 {
+            color: #0056b3;
+            border-bottom: 2px solid #e9ecef;
+            padding-bottom: 10px;
+        }
+        h1 {
+            text-align: center;
+            border-bottom: 3px solid #0056b3;
+            font-size: 2em;
+            margin-bottom: 30px;
+        }
+        h2 {
+            font-size: 1.6em;
+            margin-top: 50px;
+        }
+        h3 {
+            font-size: 1.3em;
+            color: #007bff;
+            border-bottom: 1px dashed #ced4da;
+            margin-top: 30px;
+        }
+        h4 {
+            font-size: 1.1em;
+            color: #17a2b8;
+            border-bottom: none;
+            margin-top: 25px;
+        }
+        ul, ol {
+            padding-left: 25px;
+            background-color: #fdfdfd;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        .section {
+            margin-bottom: 40px;
+        }
+        .concept-box, .code-example, .quiz-section, .flow-section {
+            background-color: #f8f9fa;
+            padding: 25px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border: 1px solid #e9ecef;
+        }
+        .concept-box strong {
+            color: #0056b3;
+        }
+        pre {
+            background-color: #2b2b2b;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 5px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-family: 'D2Coding', 'Consolas', 'Monaco', monospace;
+        }
+        code {
+            font-family: 'D2Coding', 'Consolas', 'Monaco', monospace;
+            background-color: #e9ecef;
+            padding: 2px 5px;
+            border-radius: 4px;
+        }
+        blockquote {
+            border-left: 5px solid #007bff;
+            background: #f1f3f5;
+            padding: 15px;
+            margin: 20px 0;
+            font-style: italic;
+        }
+        .quiz-question {
+            margin-bottom: 25px;
+        }
+        .quiz-question .question-text {
+            font-weight: bold;
+            margin-bottom: 10px;
+            white-space: pre-line;
+        }
+        .quiz-question .options {
+            padding-left: 20px;
+        }
+        .quiz-question .answer {
+            font-weight: bold;
+            color: #28a745;
+        }
+        .explanation {
+            margin-top: 10px;
+            padding: 12px;
+            background-color: #e7f3fe;
+            border-left: 5px solid #007bff;
+            font-size: 0.95em;
+        }
+        .sub-section {
+            margin-top:20px;
+            padding-left: 15px;
+            border-left: 3px solid #007bff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>과학고 정보 수업 지도안: II. 데이터 - 299. 빅데이터 분석 프로젝트</h1>
+
+        <div class="section">
+            <h2>1. 학습 목표</h2>
+            <h3>개념적 목표:</h3>
+            <ul>
+                <li>데이터 분석 프로젝트의 전체 수명 주기(문제 정의 → 데이터 수집 → 데이터 정제 → 탐색적 분석 → 모델링/분석 → 결과 공유)를 설명할 수 있다.</li>
+                <li>프로젝트의 목표에 따라 필요한 데이터를 정의하고, 적절한 분석 및 시각화 기법을 선택하는 과정의 중요성을 이해한다.</li>
+                <li>데이터 정제, 탐색적 데이터 분석(EDA), 특성 공학(Feature Engineering)이 최종 분석 결과의 품질에 미치는 영향을 설명할 수 있다.</li>
+                <li>분석 결과를 해석하여 의미 있는 '인사이트'와 '스토리'를 도출하고, 이를 통해 설득력 있는 주장을 펼치는 과정을 이해한다.</li>
+            </ul>
+            <h3>절차적 목표:</h3>
+            <ul>
+                <li>Pandas를 사용하여 실제 데이터셋(CSV 파일 등)을 불러오고, .info(), .describe(), .isnull().sum() 등을 이용해 데이터의 기본 구조와 품질을 파악할 수 있다.</li>
+                <li>결측치 처리, 데이터 타입 변환, 파생 변수 생성 등 기본적인 데이터 정제 및 가공 작업을 수행할 수 있다.</li>
+                <li>.groupby()를 이용한 그룹별 집계와 Matplotlib를 이용한 시각화(막대, 선, 산점도 등)를 통해 탐색적 데이터 분석을 수행하고, 데이터에서 패턴을 발견할 수 있다.</li>
+                <li>분석의 전 과정을 논리적인 순서에 따라 코드로 구현하고, 각 단계의 결과와 해석을 주석이나 마크다운으로 기록하여 하나의 완성된 분석 보고서(또는 노트북)를 작성할 수 있다.</li>
+            </ul>
+            <h3>태도적 목표:</h3>
+            <ul>
+                <li>막연한 문제를 구체적이고 검증 가능한 질문으로 정의하고, 이를 해결하기 위해 체계적으로 계획을 수립하는 과학적 탐구 자세를 가진다.</li>
+                <li>분석 과정에서 나타나는 예상치 못한 결과나 데이터의 한계를 비판적으로 수용하고, 객관적인 사실에 기반하여 결론을 도출하려는 자세를 기른다.</li>
+                <li>자신의 분석 결과를 명확한 근거(데이터와 시각화)를 바탕으로 다른 사람에게 효과적으로 전달하고 공유하려는 책임감 있는 소통 능력을 함양한다.</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>2. 핵심 개념 상세 설명</h2>
+            <div class="concept-box">
+                <p><strong>데이터 분석 프로젝트 수명 주기 (Data Analysis Project Lifecycle):</strong> 하나의 데이터 분석 프로젝트가 아이디어에서부터 최종 보고서까지 완성되는 표준적인 과정. 일반적으로 다음과 같은 단계를 포함하며, 각 단계는 서로 영향을 주고받으며 반복적으로 수행될 수 있습니다.</p>
+                <ul>
+                    <li><strong>문제 정의 및 계획 (Problem Definition & Planning):</strong> 가장 중요한 첫 단계. 비즈니스 또는 연구 목표를 이해하고, 이를 데이터로 답할 수 있는 구체적인 질문으로 정의합니다. (예: "어떤 시간대에 자전거 대여량이 가장 많은가?") 성공의 기준과 프로젝트 계획을 수립합니다.</li>
+                    <li><strong>데이터 수집 (Data Collection):</strong> 정의된 문제를 해결하는 데 필요한 데이터를 확보합니다. 내부 데이터베이스, 공공 API, 웹 스크래핑 등 다양한 방법을 사용합니다.</li>
+                    <li><strong>데이터 준비 및 정제 (Data Preparation & Cleaning):</strong> 수집된 원시 데이터(Raw Data)를 분석에 적합한 형태로 가공하는 과정. 결측치 처리, 이상치 탐지, 데이터 타입 변환, 데이터 표준화 등이 포함되며, 전체 프로젝트 시간의 60~80%를 차지할 만큼 중요하고 시간이 많이 소요되는 작업입니다.</li>
+                    <li><strong>탐색적 데이터 분석 (EDA, Exploratory Data Analysis):</strong> 데이터를 시각화하거나 기초 통계량을 계산하며 데이터에 숨겨진 패턴, 관계, 구조 등을 탐색하는 과정. 이 과정을 통해 데이터에 대한 깊은 이해를 얻고, 본격적인 분석 방향에 대한 가설을 수립합니다.</li>
+                    <li><strong>모델링 및 심층 분석 (Modeling & In-depth Analysis):</strong> EDA를 통해 얻은 가설을 검증하거나, 미래를 예측하기 위해 통계적 모델 또는 머신러닝 모델을 구축하고 분석을 수행하는 단계.</li>
+                    <li><strong>결과 공유 및 발표 (Result Sharing & Presentation):</strong> 분석을 통해 발견한 결론과 인사이트를 차트, 그래프, 대시보드, 보고서 등의 형태로 정리하여, 의사결정권자나 대중이 쉽게 이해할 수 있도록 전달하는 최종 단계. 데이터 스토리텔링 역량이 중요합니다.</li>
+                    <li><strong>특성 공학 (Feature Engineering):</strong> 기존에 주어진 변수(특성, Feature)들을 조합하거나 가공하여, 모델의 성능을 높이거나 분석에 더 유용한 새로운 변수를 만들어내는 과정. (예시: '대여일시'라는 데이터가 있을 때, '요일', '시간대', '주중/주말'과 같은 새로운 파생 변수를 만들어내면 요일별, 시간대별 분석이 가능해집니다.)</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>3. 수업의 흐름</h2>
+            <div class="flow-section">
+                <h3>(도입) 수업을 시작하며 (5분)</h3>
+                <p>인사 및 전시 학습 확인 (빅데이터 분석 유형)</p>
+                <blockquote>"어딘가에서, 믿을 수 없는 무언가가 알려지기를 기다리고 있다." - 칼 세이건 (천문학자)</blockquote>
+                <p>"여러분, 우리는 지난 시간 동안 데이터의 바다를 항해하기 위한 다양한 기술들을 배웠습니다. 데이터를 수집하고, 정제하며, 시각화하고, 분석하는 법을 익혔죠. 오늘은 이 모든 기술을 총동원하여, 우리 손으로 직접 '믿을 수 없는 무언가'를 발견해내는 진정한 탐험을 떠나려 합니다. 바로 '빅데이터 분석 프로젝트'입니다. 하나의 질문에서 시작하여 데이터 속에서 답을 찾고, 세상을 설득하는 한 편의 논리적인 이야기를 완성하는 과정. 오늘 우리는 모두 데이터 탐정이자, 과학자이며, 스토리텔러가 될 것입니다."</p>
+            </div>
+            <div class="flow-section">
+                <h3>(전개) 실습 중심 프로젝트 수행: "서울시 공공자전거 '따릉이' 이용 데이터 분석" (35분)</h3>
+                <blockquote>[프로젝트 목표] "가상의 따릉이 대여 데이터를 분석하여, 이용 패턴을 파악하고 운영 효율화 방안에 대한 인사이트를 도출한다."</blockquote>
+                <p>(실습 전, 학생들에게 가상의 ddareungi_data.csv 파일 제공 가정)</p>
+                <div class="sub-section">
+                    <h4>Stage 1: 질문 던지기 (문제 정의) (5분)</h4>
+                    <p>"우리는 이 데이터로 무엇을 알고 싶은가?" 학생들과 함께 질문을 정의합니다.</p>
+                    <ul>
+                        <li>어떤 시간대에 대여가 가장 많을까? (출퇴근 시간?)</li>
+                        <li>어떤 대여소에서 가장 많은 대여가 일어날까? (핫스팟 찾기)</li>
+                        <li>이용 시간과 이동 거리 사이에는 어떤 관계가 있을까?</li>
+                    </ul>
+                    <p><strong>실생활 예시 코드:</strong> 프로젝트의 목표와 분석 질문을 주석으로 명확히 정의하고, 분석에 필요한 라이브러리를 임포트하며 프로젝트를 시작합니다.</p>
+                    <pre><code># 1. [문제 정의]
+
+# 목표: 따릉이 이용 패턴을 분석하여 운영 효율화 방안 도출
+# 분석 질문 1: 시간대별 이용량은 어떻게 되는가?
+# 분석 질문 2: 인기 있는 대여소 Top 10은 어디인가?
+# 분석 질문 3: 이용 시간과 이동 거리의 관계는 어떠한가?
+
+# 분석 환경 설정
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+# 한글 폰트 설정 (수업 시작 시 미리 안내)
+plt.rc('font', family='Malgun Gothic')
+plt.rcParams['axes.unicode_minus'] = False
+
+print("프로젝트 목표와 분석 질문을 정의하고, 분석 환경을 설정합니다.")
+</code></pre>
+                    <p><strong>상세 설명:</strong> 성공적인 프로젝트는 명확한 질문에서 시작됩니다. 코딩에 앞서, 무엇을 알아낼 것인지를 주석으로 명확히 정의하는 것은 프로젝트의 방향을 잃지 않게 하는 중요한 나침반 역할을 합니다.</p>
+                </div>
+                <div class="sub-section">
+                    <h4>Stage 2: 데이터와 첫 만남 (데이터 수집 및 이해) (7분)</h4>
+                    <p>Pandas를 이용하여 CSV 파일을 데이터프레임으로 불러옵니다.</p>
+                    <p>.head(), .info(), .describe()를 사용하여 데이터의 전체적인 구조, 타입, 기초 통계량을 파악합니다.</p>
+                    <p><strong>실생활 예시 코드:</strong> ddareungi_data.csv를 불러오고, 데이터의 첫인상을 확인합니다.</p>
+                    <pre><code># 2. [데이터 수집 및 이해]
+# (파일이 없으므로 가상 데이터프레임 생성으로 대체)
+data = {'대여시간': pd.to_datetime(['2023-10-26 08:05', '2023-10-26 08:10', '2023-10-26 18:30']),
+        '대여소': ['여의나루역', '국회의사당역', '여의나루역'],
+        '이용시간(분)': [15, 8, 25],
+        '이동거리(m)': [2200, 1100, 3500]}
+df = pd.DataFrame(data)
+
+# df = pd.read_csv('ddareungi_data.csv') # 실제로는 이 코드를 사용
+
+print("\n데이터 미리보기 (상위 5개):")
+print(df.head())
+print("\n데이터 기본 정보:")
+df.info()
+print("\n수치형 데이터 기술 통계:")
+print(df.describe())
+</code></pre>
+                    <p><strong>상세 설명:</strong> pd.read_csv()는 데이터 분석의 시작입니다. .head()로 데이터의 생김새를, .info()로 각 열의 데이터 타입과 결측치 유무를, .describe()로 숫자 데이터의 분포를 빠르게 훑어봄으로써, 데이터에 대한 첫인상을 얻고 다음 정제 단계의 계획을 세울 수 있습니다.</p>
+                </div>
+                 <div class="sub-section">
+                    <h4>Stage 3: 데이터 다듬기 (데이터 준비 및 정제) (8분)</h4>
+                    <p>'대여시간' 열을 문자열에서 datetime 객체로 변환하여 시간 관련 분석을 용이하게 합니다. datetime 객체에서 '시간(hour)'이라는 파생 변수를 생성합니다. (특성 공학) 결측치나 이상치가 있는지 확인하고 처리하는 과정을 설명합니다.</p>
+                    <p><strong>실생활 예시 코드:</strong> 대여시간에서 'hour' 열을 추출하고, 가상의 결측치를 처리합니다.</p>
+                    <pre><code># 3. [데이터 정제 및 가공]
+print("\n데이터 정제 및 '시간' 파생 변수 생성...")
+# '대여시간' 열을 datetime 타입으로 변환 (이미 위에서 변환됨)
+df['대여시간'] = pd.to_datetime(df['대여시간'])
+
+# '시간' 파생 변수 생성
+df['시간'] = df['대여시간'].dt.hour
+
+print("결측치 확인:")
+print(df.isnull().sum())
+# (만약 결측치가 있다면) df.dropna() 또는 df.fillna(0) 등으로 처리
+
+print("\n가공 후 데이터 (시간 열 추가):")
+print(df.head())
+</code></pre>
+                     <p><strong>상세 설명:</strong> 원시 데이터는 종종 분석에 바로 쓰기 어려운 형태입니다. '2023-10-26 08:05'라는 문자열보다, 시간 계산이 가능한 datetime 객체가 훨씬 유용합니다. `df['대여시간'].dt.hour`는 datetime 객체에서 시간 부분만 쉽게 추출하는 Pandas의 강력한 기능입니다. 이렇게 '시간'이라는 새로운 특성을 만들어내는 것이 바로 **특성 공학(Feature Engineering)**의 예시입니다.</p>
+                </div>
+                <div class="sub-section">
+                    <h4>Stage 4: 데이터 속 이야기 찾기 (탐색적 데이터 분석, EDA) (10분)</h4>
+                    <p>앞서 정의한 분석 질문에 답하기 위한 시각화를 수행합니다. 시간대별 이용량은 선 그래프, 인기 대여소는 막대그래프로 시각화합니다.</p>
+                    <p><strong>실생활 예시 코드:</strong> 시간대별 대여량을 계산하고 선 그래프로 시각화합니다.</p>
+                    <pre><code># 4. [탐색적 데이터 분석 (EDA)]
+print("\n분석 질문 1: 시간대별 이용량은 어떻게 되는가?")
+
+# 시간대별 대여 건수 계산 (groupby)
+hourly_counts = df.groupby('시간').size()
+
+# 시각화
+plt.figure(figsize=(10, 6))
+hourly_counts.plot(kind='line', marker='o', grid=True)
+plt.title('시간대별 따릉이 대여량', fontsize=16)
+plt.xlabel('시간 (시)', fontsize=12)
+plt.ylabel('대여 건수', fontsize=12)
+plt.xticks(range(0, 24))
+plt.show()
+
+print("그래프 해석: 출퇴근 시간대인 8시와 18시에 대여량이 집중되는 패턴(인사이트)을 발견할 수 있습니다.")
+</code></pre>
+                     <p><strong>상세 설명:</strong> EDA는 가설을 시각적으로 확인하는 과정입니다. "출퇴근 시간에 사람이 많을 것이다"라는 가설을 확인하기 위해, `.groupby('시간').size()`를 이용해 시간대별 건수를 집계합니다. 이를 선 그래프로 그리자, 8시와 18시 부근에 뚜렷한 피크(peak)가 나타나는 것을 볼 수 있습니다. 이 시각화 자료는 가설을 강력하게 뒷받침하는 '증거'가 되며, '출퇴근 시간대에 자전거를 추가 배치해야 한다'는 의사결정으로 이어질 수 있는 중요한 '인사이트'입니다.</p>
+                </div>
+            </div>
+            <div class="flow-section">
+                <h3>(마무리) 수업을 마치며 (5분)</h3>
+                <p>하나의 데이터 분석 프로젝트가 '질문 → 데이터 이해 → 정제 → 분석/시각화 → 해석/인사이트 도출'의 흐름으로 진행됨을 정리합니다.</p>
+                <blockquote>"세상에는 세 종류의 거짓말이 있다. 그럴듯한 거짓말, 새빨간 거짓말, 그리고 통계." - 마크 트웨인 (소설가)</blockquote>
+                <p>"여러분, 마크 트웨인은 통계가 어떻게 사람들을 속이는 데 사용될 수 있는지를 경고했습니다. 오늘 우리가 수행한 데이터 분석 프로젝트도 마찬가지입니다. 데이터를 어떻게 정제하고, 어떤 기준으로 분석하며, 어떤 그래프로 보여주느냐에 따라 전혀 다른 이야기가 만들어질 수 있습니다. 진정한 데이터 과학자는 단순히 기술을 사용하는 사람이 아니라, 데이터 이면의 진실을 정직하게 전달하고, 자신의 분석 결과에 책임질 줄 아는 '양심적인 스토리텔러'가 되어야 합니다. 오늘 배운 이 과정을 통해, 여러분이 세상을 더 나은 방향으로 이끄는 정직한 데이터 전문가로 성장하기를 바랍니다. 수고 많으셨습니다."</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>4. 진단평가 (OX 퀴즈)</h2>
+            <div class="quiz-section">
+                <div class="quiz-question"><p>1. 데이터 분석 프로젝트의 첫 단계는 가능한 한 많은 데이터를 수집하는 것이다. (X)</p><div class="explanation">상세 풀이: 첫 단계는 해결하고자 하는 '문제를 명확하게 정의'하고, 어떤 질문에 답할 것인지를 결정하는 것입니다.</div></div>
+                <div class="quiz-question"><p>2. .info()는 Pandas 데이터프레임의 각 열에 대한 데이터 타입과 결측치 정보를 보여주는 유용한 메서드이다. (O)</p><div class="explanation">상세 풀이: .info()는 데이터의 전체적인 구조(행/열 개수, 데이터 타입, 메모리 사용량 등)를 파악하는 데 필수적인 첫 단계입니다.</div></div>
+                <div class="quiz-question"><p>3. '대여일시' 열에서 '요일' 정보를 추출하여 새로운 열로 만드는 것은 '특성 공학(Feature Engineering)'의 예이다. (O)</p><div class="explanation">상세 풀이: 기존의 변수를 가공하거나 조합하여 분석에 더 유용한 새로운 변수를 만드는 모든 과정을 특성 공학이라고 합니다.</div></div>
+                <div class="quiz-question"><p>4. 탐색적 데이터 분석(EDA)은 데이터의 패턴이나 구조를 파악하기 위해 주로 시각화를 활용한다. (O)</p><div class="explanation">상세 풀이: EDA의 핵심은 데이터를 그래프로 그려보며, 숫자만으로는 알 수 없는 데이터의 특성, 분포, 관계, 이상치 등을 직관적으로 파악하는 것입니다.</div></div>
+                <div class="quiz-question"><p>5. 데이터 정제 과정은 전체 프로젝트에서 많은 시간을 차지하지만, 분석 결과의 품질에는 큰 영향을 주지 않는다. (X)</p><div class="explanation">상세 풀이: 데이터 정제는 분석 결과의 신뢰도를 결정하는 가장 중요한 과정 중 하나입니다. "쓰레기를 넣으면 쓰레기가 나온다"는 말처럼, 잘못된 데이터로 분석하면 잘못된 결론이 나옵니다.</div></div>
+                <div class="quiz-question"><p>6. Pandas의 .groupby() 메서드는 특정 열의 값을 기준으로 데이터를 그룹화하고, 각 그룹에 대한 집계(평균, 합계 등)를 계산하는 데 사용된다. (O)</p><div class="explanation">상세 풀이: .groupby()는 SQL의 GROUP BY 구문과 유사한 강력한 기능으로, 범주별 통계를 계산하는 데 핵심적으로 사용됩니다.</div></div>
+                <div class="quiz-question"><p>7. 프로젝트의 최종 목표는 복잡하고 어려운 분석 모델을 만드는 것이다. (X)</p><div class="explanation">상세 풀이: 최종 목표는 '문제를 해결'하고, 그 과정에서 얻은 '인사이트를 효과적으로 전달'하여 실제 의사결정에 도움을 주는 것입니다. 복잡한 모델은 그 목표를 위한 수단일 뿐입니다.</div></div>
+                <div class="quiz-question"><p>8. .describe() 메서드는 숫자형 데이터뿐만 아니라 문자열 데이터의 빈도수까지 계산해준다. (X)</p><div class="explanation">상세 풀이: .describe()는 기본적으로 숫자형(int, float) 열에 대한 기술 통계량(평균, 표준편차 등)을 계산합니다. 문자열 데이터에 대해서는 include='all' 옵션을 주면 개수(count), 고유값 개수(unique), 최빈값(top), 빈도(freq) 등을 보여줍니다.</div></div>
+                <div class="quiz-question"><p>9. 데이터 분석은 항상 정해진 하나의 정답을 찾아가는 과정이다. (X)</p><div class="explanation">상세 풀이: 데이터 분석은 정답이 없는 문제를 탐험하는 과정에 가깝습니다. 동일한 데이터라도 분석가의 관점, 가설, 분석 방법에 따라 다양한 해석과 결론이 나올 수 있습니다.</div></div>
+                <div class="quiz-question"><p>10. 분석 결과를 다른 사람에게 전달할 때는 시각화 자료를 사용하는 것이 효과적이다. (O)</p><div class="explanation">상세 풀이: 시각화는 복잡한 데이터 분석 결과를 사람들이 빠르고 직관적으로 이해할 수 있도록 돕는 가장 강력한 '소통' 도구입니다.</div></div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>5. 형성평가 (5지선다형)</h2>
+            <div class="quiz-section">
+                <div class="quiz-question"><p class="question-text">1. 데이터 분석 프로젝트를 시작할 때, '풀고자 하는 문제를 명확하게 정의하는' 단계의 중요성으로 가장 적절한 것은?</p><ol><li>프로젝트에 필요한 총 예산을 산출할 수 있다.</li><li>프로젝트의 최종 결과 보고서의 목차를 미리 정할 수 있다.</li><li>분석의 방향을 설정하고, 어떤 데이터를 수집하고 분석해야 할지에 대한 명확한 가이드라인을 제공한다.</li><li>프로젝트에 사용할 프로그래밍 언어와 라이브러리를 결정할 수 있다.</li><li>프로젝트의 실패 가능성을 미리 예측할 수 있다.</li></ol><p class="answer">정답: ③</p><div class="explanation">상세 풀이: 문제 정의는 프로젝트의 '나침반' 역할을 합니다. "어떤 시간대에 사람이 많은가?" 라는 질문이 정의되어야, '시간' 데이터와 '이용량' 데이터를 수집하고, 시간대별로 그룹화하여 분석하는 구체적인 계획을 세울 수 있습니다.</div></div>
+                <div class="quiz-question"><p class="question-text">2. Pandas 데이터프레임 df가 있을 때, df.isnull().sum() 코드를 실행하여 얻을 수 있는 정보는?</p><ol><li>데이터프레임의 전체 행의 개수</li><li>각 열(column)의 평균값</li><li>각 열에 포함된 결측치(missing value)의 개수</li><li>각 열의 데이터 타입</li><li>데이터프레임이 차지하는 메모리 용량</li></ol><p class="answer">정답: ③</p><div class="explanation">상세 풀이: df.isnull()은 각 셀이 결측치인지 여부를 True/False로 반환하고, .sum()은 각 열에 대해 True(결측치)의 개수를 합산합니다. 이는 데이터 정제 전, 데이터의 품질(완전성)을 확인하는 필수적인 과정입니다.</div></div>
+                <div class="quiz-question"><p class="question-text">3. 다음 중 '탐색적 데이터 분석(EDA)' 단계에서 수행하는 활동으로 가장 적합한 것은?</p><ol><li>웹사이트에서 데이터를 스크래핑하여 CSV 파일로 저장한다.</li><li>데이터의 분포와 변수 간의 관계를 파악하기 위해 다양한 그래프를 그려본다.</li><li>분석 결과를 바탕으로 파워포인트 보고서를 작성한다.</li><li>머신러닝 모델의 예측 정확도를 평가한다.</li><li>결측치를 평균값으로 대체한다.</li></ol><p class="answer">정답: ②</p><div class="explanation">상세 풀이: EDA의 핵심은 데이터를 '탐색'하는 것입니다. 선 그래프, 막대그래프, 산점도, 히스토그램 등 다양한 시각화 기법을 사용하여 데이터가 어떤 이야기를 담고 있는지 직관적으로 파악하고 가설을 세우는 활동입니다. ⑤는 데이터 정제, ③은 결과 공유 단계입니다.</div></div>
+                <div class="quiz-question"><p class="question-text">4. 따릉이 데이터의 '대여일시'(YYYY-MM-DD HH:MM) 열에서 '요일'(월,화,수...) 정보를 추출하여 새로운 '대여요일' 열을 추가했다. 이러한 작업을 무엇이라고 하는가?</p><ol><li>데이터 시각화</li><li>데이터 마이닝</li><li>특성 공학 (Feature Engineering)</li><li>기술 통계 분석</li><li>데이터 정규화</li></ol><p class="answer">정답: ③</p><div class="explanation">상세 풀이: 특성 공학은 기존의 변수를 가공하거나 조합하여 분석 모델에 더 유용한 새로운 변수(특성)를 만드는 과정입니다. '대여일시' 자체보다 '요일'이나 '시간대'가 이용 패턴 분석에 더 직접적인 정보를 제공할 수 있습니다.</div></div>
+                <div class="quiz-question"><p class="question-text">5. 프로젝트의 최종 단계에서, 분석가가 자신의 분석 결과와 인사이트를 경영진에게 보고하려고 한다. 이때 가장 효과적인 의사소통 도구는?</p><ol><li>분석에 사용된 전체 Python 코드</li><li>데이터베이스의 모든 원본 데이터 테이블</li><li>분석의 핵심 결론을 한눈에 보여주는 간결하고 명확한 시각화 자료(그래프)와 요약</li><li>분석 과정에서 시도했던 모든 실패한 알고리즘 목록</li><li>복잡한 수학 공식으로 가득 찬 통계 모델 요약표</li></ol><p class="answer">정답: ③</p><div class="explanation">상세 풀이: 최종 보고/발표의 목적은 '설득'과 '전달'입니다. 비전문가인 의사결정권자를 대상으로 할 때는, 복잡한 과정보다는 핵심적인 결론과 그 근거를 직관적으로 보여주는 시각화 자료와 스토리가 가장 효과적입니다.</div></div>
+                <div class="quiz-question"><p class="question-text">6. 데이터프레임 df에 df.groupby('대여소').size().sort_values(ascending=False).head(10) 코드를 실행했다. 이 코드가 수행하는 작업은?</p><ol><li>평점이 가장 높은 영화 10개를 찾는다.</li><li>가장 최근에 대여된 10건의 기록을 찾는다.</li><li>대여 건수가 가장 많은 상위 10개 대여소를 찾는다.</li><li>이동 거리가 가장 긴 상위 10건의 기록을 찾는다.</li><li>가장 오랜 시간 이용된 상위 10건의 기록을 찾는다.</li></ol><p class="answer">정답: ③</p><div class="explanation">상세 풀이: .groupby('대여소')로 대여소별로 그룹화하고, .size()로 각 그룹의 크기(대여 건수)를 계산한 뒤, .sort_values(ascending=False)로 내림차순 정렬하고, .head(10)으로 상위 10개를 선택하는 코드입니다.</div></div>
+                <div class="quiz-question"><p class="question-text">7. 데이터 분석 프로젝트 진행 시, 가장 많은 시간과 노력이 소요되는 단계는 일반적으로 어디인가?</p><ol><li>문제 정의</li><li>데이터 준비 및 정제</li><li>모델링</li><li>테스트</li><li>결과 발표</li></ol><p class="answer">정답: ②</p><div class="explanation">상세 풀이: 많은 데이터 분석가들이 전체 프로젝트 시간의 60~80%를 데이터 정제 및 가공에 사용한다고 말합니다. 현실 세계의 데이터는 대부분 불완전하고 오류가 많아, 분석에 적합한 형태로 만드는 데 많은 노력이 필요하기 때문입니다.</div></div>
+                <div class="quiz-question"><p class="question-text">8. 데이터 분석가에게 '데이터 스토리텔링' 역량이 중요한 이유는?</p><ol><li>코드를 더 빨리 작성할 수 있기 때문에</li><li>복잡한 분석 결과를 청중이 이해하고 공감할 수 있는 이야기로 만들어 설득력을 높이기 때문에</li><li>데이터 수집 비용을 절감할 수 있기 때문에</li><li>데이터베이스를 더 효율적으로 설계할 수 있기 때문에</li><li>데이터의 보안을 강화할 수 있기 때문에</li></ol><p class="answer">정답: ②</p><div class="explanation">상세 풀이: 데이터 스토리텔링은 분석 결과를 단순히 나열하는 것이 아니라, 문제의 배경, 분석 과정, 발견한 인사이트, 그리고 결론을 하나의 논리적인 이야기로 엮어 청중의 이해와 공감을 이끌어내는 능력입니다. 이는 분석의 가치를 최종적으로 실현하는 데 필수적입니다.</div></div>
+                <div class="quiz-question"><p class="question-text">9. 다음 중 데이터 분석 프로젝트의 '성공'을 판단하는 가장 중요한 기준은?</p><ol><li>얼마나 복잡하고 최신 머신러닝 모델을 사용했는가</li><li>얼마나 많은 양의 데이터를 사용했는가</li><li>얼마나 화려하고 아름다운 그래프를 만들었는가</li><li>프로젝트를 통해 처음에 정의했던 문제를 해결하고, 실제 의사결정에 긍정적인 영향을 주었는가</li><li>프로젝트를 얼마나 빠른 시간 안에 끝냈는가</li></ol><p class="answer">정답: ④</p><div class="explanation">상세 풀이: 프로젝트의 성공은 기술의 복잡성이나 데이터의 양이 아닌, '그래서 그 문제가 해결되었는가?', '이 분석이 실제 세상에 어떤 가치를 제공했는가?'로 평가됩니다. 문제 해결이라는 본질적인 목표 달성 여부가 가장 중요합니다.</div></div>
+                <div class="quiz-question"><p class="question-text">10. 다음 중 Pandas 라이브러리의 주된 용도는?</p><ol><li>과학적 계산 및 행렬 연산</li><li>데이터 시각화 및 그래프 생성</li><li>표 형태의 데이터를 다루고 분석하기 위한 자료구조(DataFrame) 제공</li><li>웹 페이지의 데이터를 수집하는 크롤러 제작</li><li>머신러닝 알고리즘 모델 제공</li></ol><p class="answer">정답: ③</p><div class="explanation">상세 풀이: Pandas의 핵심은 '데이터프레임(DataFrame)'이라는 2차원 표 형태의 자료구조입니다. 이를 통해 CSV, Excel 등 다양한 소스로부터 데이터를 쉽게 불러오고, 필터링, 그룹핑, 조인 등 강력한 데이터 가공 및 분석 기능을 수행할 수 있습니다.</div></div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>6. 코딩 실습 예제</h2>
+            <div class="code-example">
+                <h4>1. 데이터 불러오기 및 기본 정보 확인</h4>
+                <p>문제: 생성된 데이터프레임 df의 처음 3개 행, 마지막 3개 행, 그리고 전체 요약 정보(.info())를 출력하세요.</p>
+                <pre><code># 모든 예제에서 공통으로 사용할 가상 데이터 생성
+data = {
+    'date': pd.to_datetime(['2023-11-01', '2023-11-01', '2023-11-02', '2023-11-02', '2023-11-03', '2023-11-03', '2023-11-04']),
+    'category': ['과일', '채소', '과일', '과일', '채소', '과일', '채소'],
+    'item': ['사과', '배추', '바나나', '사과', '양파', '사과', None],
+    'quantity': [10, 5, 8, 12, None, 5, 3],
+    'price': [1500, 3000, 1000, 1600, 1200, 1550, 800]
+}
+df = pd.DataFrame(data)
+
+print("--- 1. 데이터 불러오기 및 기본 정보 확인 ---")
+print("\n[처음 3개 행]")
+print(df.head(3))
+print("\n[마지막 3개 행]")
+print(df.tail(3))
+print("\n[전체 요약 정보]")
+df.info()
+</code></pre>
+                <p><strong>상세 풀이 및 설명:</strong> <code>df.head(n)</code>: 데이터의 첫 n개 행을 보여줍니다. 데이터가 어떻게 생겼는지 파악하는 데 가장 먼저 사용됩니다. <code>df.tail(n)</code>: 데이터의 마지막 n개 행을 보여줍니다. 데이터가 순서대로 정렬되어 있을 경우 유용합니다. <code>df.info()</code>: 데이터프레임의 전체적인 정보를 요약해줍니다. 각 열의 이름, 결측치가 아닌 데이터의 개수(Non-Null Count), 데이터 타입(Dtype), 메모리 사용량 등을 보여주어 데이터의 구조와 품질을 한눈에 파악하게 해줍니다. 'item'과 'quantity' 열에 결측치가 있음을 알 수 있습니다.</p>
+            </div>
+            
+            <div class="code-example">
+                <h4>2. 기술 통계량 확인</h4>
+                <p>문제: 숫자형 열(quantity, price)에 대한 주요 기술 통계량을 출력하세요.</p>
+                <pre><code>print("\n--- 2. 기술 통계량 확인 ---")
+print(df.describe())
+</code></pre>
+                <p><strong>상세 풀이 및 설명:</strong> <code>df.describe()</code>: 숫자형 데이터를 가진 모든 열에 대해 개수(count), 평균(mean), 표준편차(std), 최솟값(min), 사분위수(25%, 50%, 75%), 최댓값(max)을 자동으로 계산하여 보여줍니다. 이를 통해 'quantity'의 평균은 약 8.8개, 'price'의 평균은 약 1591원임을 알 수 있고, 값의 범위를 통해 이상치의 존재 가능성을 짐작할 수 있습니다.</p>
+            </div>
+            
+            <div class="code-example">
+                <h4>3. 결측치 처리</h4>
+                <p>문제: item 열의 결측치는 "Unknown"으로, quantity 열의 결측치는 해당 열의 평균값으로 채워 넣고, 처리 후 결측치가 없는지 다시 확인하세요.</p>
+                <pre><code>print("\n--- 3. 결측치 처리 ---")
+print("처리 전 결측치 개수:\n", df.isnull().sum())
+# 'item' 열 결측치 처리
+df['item'].fillna('Unknown', inplace=True)
+# 'quantity' 열 결측치 처리
+mean_qty = df['quantity'].mean()
+df['quantity'].fillna(mean_qty, inplace=True)
+print("\n처리 후 결측치 개수:\n", df.isnull().sum())
+print("\n처리 후 데이터프레임:")
+print(df)
+</code></pre>
+                <p><strong>상세 풀이 및 설명:</strong> <code>.fillna(value, inplace=True)</code>: 결측치(NaN, None)를 지정된 value로 채우는 메서드입니다. `inplace=True` 옵션은 원본 데이터프레임을 직접 수정하라는 의미입니다. 문자열 열은 "Unknown", "N/A" 등 특정 문자열로 채우고, 숫자형 열은 평균값(mean)이나 중앙값(median)으로 채우는 것이 일반적인 결측치 처리 방법입니다.</p>
+            </div>
+            
+             <div class="code-example">
+                <h4>4. 파생 변수 생성 (특성 공학)</h4>
+                <p>문제: 'date' 열에서 '요일' 정보를 추출하여 'day_of_week'라는 새로운 열을 추가하세요.</p>
+                <pre><code>print("\n--- 4. 파생 변수 생성 ---")
+df['day_of_week'] = df['date'].dt.day_name()
+print(df[['date', 'day_of_week']])
+</code></pre>
+                <p><strong>상세 풀이 및 설명:</strong> Pandas에서 datetime 타입의 열은 `.dt` 접근자를 통해 다양한 시간 관련 정보(연, 월, 일, 요일, 시간 등)에 쉽게 접근할 수 있습니다. `df['date'].dt.day_name()`: 'date' 열의 각 날짜에 해당하는 요일 이름을 문자열(e.g., 'Monday')로 반환합니다. 이렇게 생성된 'day_of_week' 열은 "어떤 요일에 판매량이 높은가?"와 같은 새로운 분석을 가능하게 하는 중요한 파생 변수가 됩니다.</p>
+            </div>
+            
+            <div class="code-example">
+                <h4>5. 조건에 따른 데이터 필터링</h4>
+                <p>문제: 'category'가 '과일'이면서, 'quantity'가 10 이상인 데이터만 추출하여 출력하세요.</p>
+                <pre><code>print("\n--- 5. 조건에 따른 데이터 필터링 ---")
+is_fruit = df['category'] == '과일'
+is_many = df['quantity'] >= 10
+filtered_df = df[is_fruit & is_many]
+print(filtered_df)
+</code></pre>
+                <p><strong>상세 풀이 및 설명:</strong> Pandas의 불리언 인덱싱(Boolean Indexing)을 사용한 필터링입니다. `df['category'] == '과일'`은 각 행의 'category'가 '과일'이면 True, 아니면 False인 시리즈를 만듭니다. `&` 연산자를 사용하여 두 개의 불리언 시리즈에 대해 AND 연산을 수행합니다. `df[...]` 안에 최종 불리언 시리즈를 넣으면, True인 행들만 선택되어 새로운 데이터프레임이 생성됩니다.</p>
+            </div>
+            
+            <div class="code-example">
+                <h4>6. 그룹별 집계 및 시각화</h4>
+                <p>문제: 'category'별 평균 'price'를 계산하고, 결과를 막대그래프로 시각화하세요.</p>
+                <pre><code>print("\n--- 6. 그룹별 집계 및 시각화 ---")
+avg_price_by_cat = df.groupby('category')['price'].mean()
+print(avg_price_by_cat)
+avg_price_by_cat.plot(kind='bar', figsize=(7, 5), rot=0, grid=True)
+plt.title('카테고리별 평균 가격')
+plt.ylabel('평균 가격 (원)')
+plt.show()
+</code></pre>
+                 <p><strong>상세 풀이 및 설명:</strong> `.groupby('category')`: 데이터를 '과일' 그룹과 '채소' 그룹으로 나눕니다. `['price'].mean()`: 각 그룹 내에서 'price' 열의 평균값을 계산합니다. Pandas의 `.plot()` 메서드는 이렇게 집계된 시리즈(Series)나 데이터프레임을 매우 쉽게 시각화할 수 있게 해줍니다. `kind='bar'` 옵션을 주어 막대그래프를 그립니다.</p>
+           </div>
+           
+            <div class="code-example">
+                <h4>7. 시계열 데이터 시각화</h4>
+                <p>문제: 일자별 'price'의 합계를 계산하고, 시간에 따른 총매출액의 변화를 선 그래프로 시각화하세요.</p>
+                <pre><code>print("\n--- 7. 시계열 데이터 시각화 ---")
+daily_revenue = df.groupby('date')['price'].sum()
+print(daily_revenue)
+daily_revenue.plot(kind='line', figsize=(10, 5), marker='o')
+plt.title('일자별 총 매출액')
+plt.ylabel('총 매출액 (원)'); plt.xlabel('날짜')
+plt.grid(True); plt.show()
+</code></pre>
+                <p><strong>상세 풀이 및 설명:</strong> 시계열 데이터 분석의 기본입니다. x축이 시간의 흐름을 나타냅니다. `df.groupby('date')`: 날짜를 기준으로 데이터를 그룹화합니다. `['price'].sum()`: 각 날짜 그룹의 'price'를 모두 더하여 일별 총 매출액을 계산합니다. `kind='line'` 옵션을 사용하여 시간에 따른 변화 추세를 나타내는 데 가장 적합한 선 그래프를 그립니다.</p>
+            </div>
+            
+            <div class="code-example">
+                <h4>8. 변수 간 관계 분석 (산점도)</h4>
+                <p>문제: 'quantity'와 'price' 사이의 관계를 파악하기 위해 산점도를 그리세요.</p>
+                <pre><code>print("\n--- 8. 변수 간 관계 분석 (산점도) ---")
+plt.figure(figsize=(8, 6))
+plt.scatter(df['quantity'], df['price'], alpha=0.7)
+plt.title('수량과 가격의 관계')
+plt.xlabel('수량 (quantity)'); plt.ylabel('가격 (price)')
+plt.grid(True); plt.show()
+</code></pre>
+                 <p><strong>상세 풀이 및 설명:</strong> 산점도는 두 개의 수치형 변수 간의 관계를 시각화하는 데 사용됩니다. `plt.scatter(x, y)`: x축에 'quantity', y축에 'price'를 지정하여 각 데이터 행을 하나의 점으로 표현합니다. 이 예제 데이터에서는 뚜렷한 패턴이 보이지 않으므로, "수량과 가격 사이에는 특별한 상관관계가 보이지 않는다"고 해석할 수 있습니다.</p>
+           </div>
+
+           <div class="code-example">
+                <h4>9. 데이터 분포 확인 (히스토그램)</h4>
+                <p>문제: 'price' 데이터의 분포를 확인하기 위해 히스토그램을 그리세요.</p>
+                <pre><code>print("\n--- 9. 데이터 분포 확인 (히스토그램) ---")
+plt.figure(figsize=(8, 6))
+plt.hist(df['price'].dropna(), bins=5, edgecolor='black')
+plt.title('가격 데이터 분포')
+plt.xlabel('가격 (원)'); plt.ylabel('빈도수')
+plt.show()
+</code></pre>
+                <p><strong>상세 풀이 및 설명:</strong> 히스토그램은 하나의 수치형 변수가 어떤 값의 범위에 많이 분포해 있는지를 보여줍니다. `.dropna()`: 히스토그램을 그리기 전에 결측치가 있으면 에러가 발생할 수 있으므로, `.dropna()`를 이용해 결측치를 제거한 데이터를 사용합니다. `bins=5`: 전체 가격 범위를 5개의 구간으로 나누어, 각 구간에 속하는 데이터의 개수를 세어 막대의 높이로 표현합니다. 이 그래프를 통해, 이 데이터셋에서는 1500원 근처의 상품이 가장 많다는 것을 알 수 있습니다.</p>
+            </div>
+            
+            <div class="code-example">
+                <h4>10. 분석 결과 보고 (데이터 스토리텔링)</h4>
+                <p>문제: 지금까지 분석한 내용을 바탕으로, "과일과 채소 중 어떤 카테고리의 평균 가격이 더 높은가?"라는 질문에 대한 답을 시각화 자료와 함께 텍스트로 설명하세요.</p>
+                <pre><code>print("\n--- 10. 분석 결과 보고 ---")
+# 분석 (6번 예제 재사용)
+avg_price_by_cat = df.groupby('category')['price'].mean()
+# 시각화
+avg_price_by_cat.plot(kind='barh', figsize=(8, 4), grid=True)
+plt.title('카테고리별 평균 가격 비교')
+plt.xlabel('평균 가격 (원)')
+plt.ylabel('카테고리')
+plt.show()
+# 텍스트 설명 (스토리텔링)
+fruit_price = avg_price_by_cat['과일']
+veg_price = avg_price_by_cat['채소']
+print("\n[분석 결론]")
+print(f"분석 결과, '채소' 카테고리의 평균 가격({veg_price:.0f}원)이 '과일' 카테고리의 평균 가격({fruit_price:.0f}원)보다 더 높은 것으로 나타났습니다.")
+print("시각화된 막대그래프를 통해 두 카테고리의 가격 차이를 직관적으로 확인할 수 있습니다.")
+</code></pre>
+                 <p><strong>상세 풀이 및 설명:</strong> 데이터 분석 프로젝트의 최종 단계는 '결과 전달'입니다. 이 코드는 단순히 그래프만 그리는 것이 아니라, 그 그래프가 무엇을 의미하는지 명확한 텍스트로 함께 설명합니다. <strong>데이터 스토리텔링:</strong> ① 질문 제기("어떤 카테고리가 더 비싼가?") → ② 분석 및 근거 제시 (groupby로 평균 계산, barh(수평 막대그래프)로 시각화) → ③ 결론 도출 ("채소가 더 높다"). 이처럼 분석 결과와 시각화를 결합하여 하나의 논리적인 이야기를 만드는 것이 데이터 분석 프로젝트의 성공적인 마무리입니다.</p>
+           </div>
+        </div>
+    </div>
+</body>
+</html>

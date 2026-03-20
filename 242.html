@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>수업 지도안: 빅데이터 분석과 이해</title>
+    <style>
+        body {
+            font-family: 'Malgun Gothic', '맑은 고딕', sans-serif;
+            line-height: 1.8;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            color: #212529;
+        }
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 40px;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border: 1px solid #dee2e6;
+        }
+        h1, h2, h3, h4 {
+            color: #0056b3;
+            border-bottom: 2px solid #e9ecef;
+            padding-bottom: 10px;
+        }
+        h1 {
+            text-align: center;
+            border-bottom: 3px solid #0056b3;
+            font-size: 2em;
+            margin-bottom: 30px;
+        }
+        h2 {
+            font-size: 1.6em;
+            margin-top: 50px;
+        }
+        h3 {
+            font-size: 1.3em;
+            color: #007bff;
+            border-bottom: 1px dashed #ced4da;
+            margin-top: 30px;
+        }
+        h4 {
+            font-size: 1.1em;
+            color: #17a2b8;
+            border-bottom: none;
+            margin-top: 25px;
+        }
+        ul, ol {
+            padding-left: 25px;
+            background-color: #fdfdfd;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        .section {
+            margin-bottom: 40px;
+        }
+        .concept-box, .code-example, .quiz-section, .flow-section {
+            background-color: #f8f9fa;
+            padding: 25px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border: 1px solid #e9ecef;
+        }
+        .concept-box strong {
+            color: #0056b3;
+        }
+        pre {
+            background-color: #2b2b2b;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 5px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-family: 'D2Coding', 'Consolas', 'Monaco', monospace;
+        }
+        code {
+            font-family: 'D2Coding', 'Consolas', 'Monaco', monospace;
+            background-color: #e9ecef;
+            padding: 2px 5px;
+            border-radius: 4px;
+        }
+        blockquote {
+            border-left: 5px solid #007bff;
+            background: #f1f3f5;
+            padding: 15px;
+            margin: 20px 0;
+            font-style: italic;
+        }
+        .quiz-question {
+            margin-bottom: 25px;
+        }
+        .quiz-question .question-text {
+            font-weight: bold;
+            margin-bottom: 10px;
+            white-space: pre-line;
+        }
+        .quiz-question .options {
+            padding-left: 20px;
+        }
+        .quiz-question .answer {
+            font-weight: bold;
+            color: #28a745;
+        }
+        .explanation {
+            margin-top: 10px;
+            padding: 12px;
+            background-color: #e7f3fe;
+            border-left: 5px solid #007bff;
+            font-size: 0.95em;
+        }
+        .sub-section {
+            margin-top:20px;
+            padding-left: 15px;
+            border-left: 3px solid #007bff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>과학고 정보 수업 지도안: II. 데이터 - 242. 빅데이터 분석과 이해</h1>
+
+        <div class="section">
+            <h2>1. 학습 목표</h2>
+            <h3>개념적 목표:</h3>
+            <ul>
+                <li>빅데이터 분석의 4가지 유형(기술, 진단, 예측, 처방)을 구분하고, 각 분석이 답하고자 하는 질문을 설명할 수 있다.</li>
+                <li>머신러닝의 기본 개념을 이해하고, 지도학습(분류, 회귀)과 비지도학습(군집, 연관 규칙)의 차이점을 설명할 수 있다.</li>
+                <li>상관관계(Correlation)와 인과관계(Causation)의 차이를 명확히 인지하고, 데이터 분석 결과를 해석할 때 발생할 수 있는 논리적 오류를 설명할 수 있다.</li>
+                <li>데이터 마이닝(Data Mining)의 개념을 이해하고, 대용량 데이터 속에서 숨겨진 패턴과 지식을 발견하는 과정임을 설명한다.</li>
+            </ul>
+            <h3>절차적 목표:</h3>
+            <ul>
+                <li>Pandas 라이브러리를 사용하여 데이터셋을 불러오고, 기초 통계량을 계산하며, 그룹별 집계를 수행할 수 있다.</li>
+                <li>Matplotlib 라이브러리를 사용하여 분석 목적에 맞는 적절한 시각화(선, 막대, 산점도 등)를 구현할 수 있다.</li>
+                <li>간단한 선형 회귀(Linear Regression)의 원리를 이해하고, 두 변수 간의 관계를 모델링하여 예측하는 코드를 작성할 수 있다.</li>
+                <li>K-평균(K-Means) 군집화 알고리즘의 원리를 이해하고, 주어진 데이터 포인트를 여러 그룹으로 분류하는 과정을 시뮬레이션할 수 있다.</li>
+                <li>두 변수 간의 상관계수(Correlation Coefficient)를 계산하고, 그 의미를 해석할 수 있다.</li>
+            </ul>
+            <h3>태도적 목표:</h3>
+            <ul>
+                <li>"데이터는 답을 알고 있다"는 믿음을 바탕으로, 직관이 아닌 데이터에 기반하여 객관적으로 문제를 분석하고 의사결정하려는 태도를 기른다.</li>
+                <li>분석 결과가 항상 인과관계를 의미하는 것은 아님을 인지하고, 결과를 비판적으로 해석하고 검증하려는 과학적 회의론을 함양한다.</li>
+                <li>데이터 분석 과정에서 나타날 수 있는 편향이나 오류 가능성을 항상 염두에 두고, 분석 결과에 대한 사회적, 윤리적 책임을 고려하는 자세를 가진다.</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>2. 핵심 개념 상세 설명</h2>
+            <div class="concept-box">
+                <p><strong>빅데이터 분석의 4가지 유형:</strong> 데이터를 통해 얻고자 하는 질문의 종류에 따라 분석 수준을 나눌 수 있습니다.</p>
+                <ul>
+                    <li><strong>기술 분석 (Descriptive Analytics):</strong> "무슨 일이 일어났는가?" 과거의 데이터를 요약하고 시각화하여 현재 상황을 이해하는 가장 기본적인 분석. (예: 이번 달 제품별 매출액은 얼마인가?, 지역별 평균 기온은 어떠한가?)</li>
+                    <li><strong>진단 분석 (Diagnostic Analytics):</strong> "왜 일어났는가?" 기술 분석 결과를 바탕으로, 특정 현상의 원인을 파악하는 분석. (예: 왜 특정 제품의 매출이 급감했는가?, 왜 특정 지역의 트래픽이 증가했는가?)</li>
+                    <li><strong>예측 분석 (Predictive Analytics):</strong> "무슨 일이 일어날 것인가?" 과거 데이터의 패턴을 학습하여 미래의 결과를 예측하는 분석. 머신러닝 기법이 주로 사용됩니다. (예: 내일 주가는 어떻게 될 것인가?, 고객이 이탈할 확률은 얼마인가?)</li>
+                    <li><strong>처방 분석 (Prescriptive Analytics):</strong> "무엇을 해야 하는가?" 예측 분석 결과를 바탕으로, 특정 목표를 달성하기 위한 최적의 행동 방안을 제시하는 가장 높은 수준의 분석. (예: 매출을 극대화하기 위한 최적의 할인율은 얼마인가?, 교통 체증을 최소화하기 위한 최적의 신호 주기는 무엇인가?)</li>
+                </ul>
+                <p><strong>머신러닝 (Machine Learning):</strong> 컴퓨터가 명시적인 프로그래밍 없이, 데이터를 통해 스스로 학습하여 특정 작업을 수행하는 능력. 빅데이터 분석의 핵심 동력입니다.</p>
+                <ul>
+                    <li><strong>지도학습 (Supervised Learning):</strong> '정답'이 있는 데이터로 학습하는 방식. 데이터가 '입력(문제)'과 '결과(정답)'의 쌍으로 주어집니다.
+                        <ul>
+                            <li><strong>분류 (Classification):</strong> 데이터를 정해진 카테고리로 나누는 문제. (예: 이메일이 스팸인가 아닌가?, 사진 속 동물이 고양이인가 개인가?)</li>
+                            <li><strong>회귀 (Regression):</strong> 연속적인 숫자 값을 예측하는 문제. (예: 공부 시간에 따른 시험 점수 예측, 집 크기에 따른 가격 예측)</li>
+                        </ul>
+                    </li>
+                    <li><strong>비지도학습 (Unsupervised Learning):</strong> '정답'이 없는 데이터에서 스스로 구조나 패턴을 찾아내는 방식.
+                        <ul>
+                            <li><strong>군집화 (Clustering):</strong> 비슷한 특성을 가진 데이터들을 몇 개의 그룹으로 묶는 문제. (예: 고객을 구매 패턴에 따라 여러 그룹으로 분류)</li>
+                            <li><strong>연관 규칙 학습 (Association Rule Learning):</strong> 데이터 속에서 함께 자주 발생하는 항목들의 관계를 찾는 문제. (예: "기저귀를 산 사람이 맥주도 함께 사더라")</li>
+                        </ul>
+                    </li>
+                </ul>
+                <p><strong>상관관계와 인과관계 (Correlation vs. Causation):</strong> 데이터 분석에서 가장 주의해야 할 함정.</p>
+                <ul>
+                    <li><strong>상관관계:</strong> 두 변수가 함께 움직이는 경향. (예: 아이스크림 판매량이 증가할 때, 익사 사고율도 증가한다.)</li>
+                    <li><strong>인과관계:</strong> 한 변수가 다른 변수의 '원인'이 되는 관계.</li>
+                    <li><strong>오류:</strong> 아이스크림 판매량과 익사 사고율은 강한 양의 상관관계를 보이지만, 아이스크림이 익사의 원인은 아닙니다. 진짜 원인은 '여름 날씨(더위)'라는 숨겨진 변수입니다. 이처럼 상관관계가 인과관계를 의미하지는 않는다는 사실을 항상 명심해야 합니다.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>3. 수업의 흐름</h2>
+            <div class="flow-section">
+                <h3>(도입) 수업을 시작하며 (5분)</h3>
+                <blockquote>"데이터는 새로운 석유다." - 클라이브 험비 (영국 수학자, 데이터 과학자)</blockquote>
+                <p>"여러분, 데이터 과학자 클라이브 험비는 데이터를 '새로운 석유'에 비유했습니다. 원유(Raw Oil)가 그 자체로는 가치가 없지만, 정제 과정을 거쳐 휘발유, 플라스틱 등 엄청난 가치를 만들어내는 것처럼, 정제된 '원시 데이터(Raw Data)' 역시 '분석'이라는 과정을 통해 미래를 예측하고, 현상을 설명하며, 최적의 의사결정을 내리는 강력한 에너지원이 됩니다. 오늘은 이 원유를 황금으로 바꾸는 연금술, 즉 빅데이터 분석의 세계를 깊이 있게 탐험해 보겠습니다."</p>
+            </div>
+            <div class="flow-section">
+                <h3>(전개) 핵심 개념 탐구: '케플러의 눈으로 데이터 바라보기' (30분)</h3>
+                <blockquote>[프로젝트 배경] "16세기 천문학자 티코 브라헤는 수십 년간 행성의 위치를 맨눈으로 관측하여 방대한 양의 데이터를 남겼다. 그의 조수였던 요하네스 케플러는 이 빅데이터를 분석하여 행성 운동의 3가지 법칙이라는 위대한 발견을 이뤄냈다. 우리는 케플러가 되어 이 과정을 따라가 본다."</blockquote>
+                <div class="sub-section">
+                    <h4>Stage 1: 무슨 일이 일어났는가? (기술 분석 & 시각화) (7분)</h4>
+                    <p><strong>상황:</strong> 케플러가 가장 먼저 한 일은 티코의 방대한 관측 기록(숫자 더미)을 이해하는 것이었다. 특히 화성의 기묘한 움직임(역행 운동)에 주목했다.</p>
+                    <p><strong>분석 유형:</strong> 기술 분석. "화성의 궤적은 어떤 모습인가?"</p>
+                    <p><strong>과학 예시 코드:</strong> 시간에 따른 화성의 (x, y) 좌표 데이터를 Pandas 데이터프레임으로 만들고, Matplotlib을 이용해 궤적을 산점도로 시각화합니다.</p>
+                    <pre><code>import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+# 티코 브라헤의 화성 관측 데이터 시뮬레이션
+mars_data = {
+    'day': range(0, 365, 10),
+    'x_pos': [1.5*np.cos(t/100) + 0.1*np.cos(t/50) for t in range(0, 365, 10)],
+    'y_pos': [1.2*np.sin(t/100) + 0.1*np.sin(t/50) for t in range(0, 365, 10)]
+}
+df_mars = pd.DataFrame(mars_data)
+
+print("1. [기술 분석] 화성의 궤적을 시각화하여 '무슨 일이 일어났는지' 파악합니다.")
+plt.figure(figsize=(7,7))
+plt.scatter(df_mars['x_pos'], df_mars['y_pos'], s=10)
+plt.title("화성의 관측 궤적 (기술 분석)")
+plt.xlabel("X 좌표"); plt.ylabel("Y 좌표"); plt.axis('equal'); plt.grid(True)
+plt.show()
+print(" -> 데이터가 단순한 원이 아님을 한눈에 파악할 수 있습니다.")
+</code></pre>
+                    <p><strong>상세 설명:</strong> 이 코드는 빅데이터 분석의 첫 단계인 기술 분석과 시각화의 힘을 보여줍니다. 숫자만으로는 파악하기 힘든 화성의 복잡한 궤적을 scatter 플롯으로 그리자, '단순한 원이 아니다'라는 중요한 사실(인사이트)을 직관적으로 얻을 수 있습니다. 이것이 바로 모든 심층 분석의 출발점입니다.</p>
+                </div>
+                 <div class="sub-section">
+                    <h4>Stage 2: 무슨 일이 일어날 것인가? (예측 분석 & 회귀) (8분)</h4>
+                    <p><strong>상황:</strong> 케플러는 기존의 원형 궤도 모델이 예측에 계속 실패하자, 데이터를 가장 잘 설명하는 새로운 수학적 모델을 찾으려 했다.</p>
+                    <p><strong>분석 유형:</strong> 예측 분석. "이 패턴대로라면, 다음 날 화성은 어디에 있을 것인가?"</p>
+                    <p><strong>수학/과학 예시 코드:</strong> 간단한 1차원 데이터에 대해, numpy.polyfit을 이용해 선형 회귀(Linear Regression) 모델을 만들고 미래 값을 예측합니다.</p>
+                    <pre><code># 특정 기간 동안의 행성의 각도 변화 데이터라고 가정
+time = np.array([0, 1, 2, 3, 4, 5])
+angle = np.array([5, 7.1, 8.9, 11.2, 13.0, 15.1])
+
+# 1차 선형 회귀 모델(y=ax+b)의 계수 a, b를 찾음
+coef = np.polyfit(time, angle, 1)
+model = np.poly1d(coef) # 계수로부터 예측 모델(함수) 생성
+
+# 미래 시점(time=6)의 각도 예측
+predicted_angle = model(6)
+print("\n2. [예측 분석] 데이터의 추세를 학습하여 미래 값을 예측합니다.")
+print(f"학습된 모델: y = {coef[0]:.2f}x + {coef[1]:.2f}")
+print(f"시간이 6일 때, 예상 각도는 {predicted_angle:.2f} 입니다.")
+plt.figure(figsize=(8,5))
+plt.scatter(time, angle, label="관측 데이터")
+plt.plot(time, model(time), color='red', linestyle='--', label="회귀 모델")
+plt.scatter(6, predicted_angle, color='green', s=100, label=f"예측값: {predicted_angle:.2f}", zorder=5)
+plt.title("선형 회귀를 이용한 위치 예측")
+plt.xlabel("시간"); plt.ylabel("각도"); plt.legend(); plt.grid(True)
+plt.show()
+</code></pre>
+                    <p><strong>상세 설명:</strong> 이 코드는 지도학습의 '회귀' 분석을 보여줍니다. np.polyfit(x, y, 1)은 데이터(time, angle)를 가장 잘 설명하는 1차 직선(y = ax + b)의 계수 a와 b를 찾아줍니다. np.poly1d는 이 계수들로 실제 예측을 수행할 수 있는 함수(모델)를 만듭니다. 이 모델에 새로운 입력값(6)을 넣으면, 학습된 패턴에 기반한 결과값(예측 각도)이 출력됩니다. 이는 데이터로부터 '규칙'을 학습하는 머신러닝의 핵심 원리를 보여줍니다.</p>
+                </div>
+                 <div class="sub-section">
+                    <h4>Stage 3: 숨겨진 그룹 찾기 (비지도학습 & 군집화) (8분)</h4>
+                    <p><strong>상황:</strong> 케플러가 밤하늘의 수많은 별들의 밝기와 색상 데이터를 가지고 있다고 가정하자. 이 별들을 어떤 기준 없이 자연스러운 그룹으로 나눌 수 있을까?</p>
+                    <p><strong>분석 유형:</strong> 비지도학습. "데이터들이 스스로 형성하는 그룹은 무엇인가?"</p>
+                    <p><strong>과학 예시 코드:</strong> 헤르츠스프룽-러셀 도(H-R도)를 단순화하여, 별의 온도와 밝기 데이터를 바탕으로 K-평균 군집화(K-Means Clustering)를 시뮬레이션하여 별의 종류(주계열성, 거성 등)를 구분합니다.</p>
+                    <pre><code>from sklearn.cluster import KMeans
+
+# 별들의 (온도, 밝기) 데이터 시뮬레이션 (주계열성, 백색왜성 2개 그룹 생성)
+main_sequence = np.random.rand(50, 2) * np.array([20000, 5]) + np.array([5000, 0])
+white_dwarfs = np.random.rand(30, 2) * np.array([5000, 0.5]) + np.array([8000, 0])
+star_data = np.vstack([main_sequence, white_dwarfs])
+
+# K-평균 알고리즘으로 2개의 그룹으로 군집화
+kmeans = KMeans(n_clusters=2, random_state=0, n_init=10).fit(star_data)
+
+print("\n3. [비지도학습] 데이터의 숨겨진 구조(그룹)를 발견합니다.")
+plt.figure(figsize=(8,6))
+plt.scatter(star_data[:, 0], star_data[:, 1], c=kmeans.labels_, cmap='viridis')
+plt.title("K-평균 군집화를 이용한 별의 종류 구분")
+plt.xlabel("표면 온도 (K)"); plt.ylabel("절대 등급 (밝기)")
+plt.gca().invert_yaxis() # 밝기 등급은 낮을수록 밝으므로 y축 반전
+plt.show()
+</code></pre>
+                    <p><strong>상세 설명:</strong> 이 코드는 비지도학습의 '군집화'를 보여줍니다. 우리는 어떤 별이 주계열성인지 백색왜성인지 '정답'을 알려주지 않았습니다. KMeans 알고리즘은 단지 데이터의 분포만 보고, 수학적으로 가장 가까운 데이터들끼리 묶어 2개의 그룹을 스스로 찾아냅니다. kmeans.labels_에는 각 데이터가 몇 번 그룹에 속하는지가 저장되어 있으며, 이를 c (색상) 인자에 넘겨주어 그룹별로 다른 색으로 시각화했습니다. 이를 통해, 정답이 없는 데이터에서도 숨겨진 '구조'나 '그룹'을 발견할 수 있습니다.</p>
+                </div>
+                <div class="sub-section">
+                    <h4>Stage 4: 잘못된 결론 피하기 (상관관계 vs. 인과관계) (7분)</h4>
+                    <p><strong>상황:</strong> "혜성이 나타난 해에는 흑사병이 유행했다"는 과거의 기록(데이터)을 발견했다. "혜성이 흑사병의 원인인가?" 라는 잘못된 결론을 피해야 한다.</p>
+                    <p><strong>분석 유형:</strong> 진단 분석의 오류. 상관관계와 인과관계를 혼동하는 문제.</p>
+                    <p><strong>실생활 예시 코드:</strong> 아이스크림 판매량과 상어 공격 건수 데이터를 생성하고, 둘 사이의 높은 상관계수를 계산합니다. 하지만 이것이 인과관계가 아님을 주석으로 명확히 설명합니다.</p>
+                    <pre><code>data = {
+    'month': range(1, 13),
+    'icecream_sales': [10, 12, 15, 30, 50, 70, 80, 75, 60, 40, 20, 12],
+    'shark_attacks': [1, 1, 2, 4, 6, 8, 9, 8, 6, 4, 2, 1]
+}
+df_summer = pd.DataFrame(data)
+
+# 상관계수 계산 (-1 ~ 1, 1에 가까울수록 강한 양의 상관)
+correlation = df_summer['icecream_sales'].corr(df_summer['shark_attacks'])
+
+print("\n4. [상관관계 vs 인과관계] 데이터 분석의 가장 큰 함정!")
+df_summer.plot(x='icecream_sales', y='shark_attacks', kind='scatter', grid=True)
+plt.title(f"아이스크림 판매량과 상어 공격 건수 (상관계수: {correlation:.2f})")
+plt.show()
+print(" -> 분석 결과: 두 변수는 매우 강한 양의 상관관계를 보입니다.")
+print(" -> 결론: 하지만 아이스크림이 상어 공격의 '원인'은 아닙니다.")
+print(" -> 진짜 원인(잠재 변수): 두 현상을 모두 증가시키는 '여름 날씨'와 '해수욕객 수'입니다.")
+</code></pre>
+                    <p><strong>상세 설명:</strong> 이 코드는 데이터 분석가가 항상 경계해야 할 '상관관계와 인과관계의 혼동'을 보여줍니다. df.corr() 메서드는 두 변수 간의 상관계수를 쉽게 계산해줍니다. 산점도와 높은 상관계수(~0.99)는 두 변수가 거의 완벽하게 함께 움직인다는 것을 보여주지만, 이것이 원인과 결과의 관계임을 증명하지는 않습니다. 분석가는 데이터 너머의 '맥락'을 이해하고, '날씨'와 같은 제3의 변수(잠재 변수, Lurking Variable)의 존재를 항상 의심해야 한다는 중요한 교훈을 줍니다.</p>
+                </div>
+            </div>
+            <div class="flow-section">
+                <h3>(마무리) 수업을 마치며 (5분)</h3>
+                <p>기술, 진단, 예측, 처방 분석의 흐름과 머신러닝의 역할을 요약하고, 데이터 분석의 최종 목표는 단순한 숫자 계산이 아닌, 현상을 이해하고 미래를 대비하는 '지혜'를 얻는 것임을 강조합니다.</p>
+                <blockquote>"이론 없는 데이터는 맹목적이고, 데이터 없는 이론은 공허한 지적 유희일 뿐이다." - 이마누엘 칸트 (철학가) (의역)</blockquote>
+                <p>"여러분, 오늘 우리는 케플러가 되어 방대한 데이터 속에서 행성의 우아한 법칙을 발견하는 여정을 떠났습니다. 철학자 칸트의 말처럼, 티코 브라헤의 '데이터'가 없었다면 케플러의 '이론'은 공허했을 것이고, 케플러의 '이론(분석)'이 없었다면 데이터는 그저 맹목적인 숫자의 나열이었을 것입니다. 여러분은 오늘 이 둘을 연결하는 강력한 도구, 빅데이터 분석을 배웠습니다. 앞으로 여러분의 삶에서 마주하는 수많은 데이터 속에서, 여러분만의 위대한 이론과 통찰을 발견해내는 데이터 시대의 철학자가 되기를 바랍니다. 수고 많으셨습니다."</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>4. 진단평가 (OX 퀴즈)</h2>
+            <div class="quiz-section">
+                <div class="quiz-question"><p class="question-text">1. "지난 분기 우리 회사의 매출액은 얼마였는가?"라는 질문에 답하는 것은 예측 분석에 해당한다. (X)</p><div class="explanation">상세 풀이: 과거에 일어난 일에 대한 사실을 요약하고 설명하는 것은 '기술 분석(Descriptive Analytics)'입니다. 예측 분석은 미래에 일어날 일을 예측합니다.</div></div>
+                <div class="quiz-question"><p class="question-text">2. 지도학습(Supervised Learning)은 '정답'이 있는 데이터를 사용하여 모델을 학습시킨다. (O)</p><div class="explanation">상세 풀이: 지도학습은 '입력(문제)'과 '결과(정답)'가 쌍으로 이루어진 데이터를 통해, 입력과 결과 사이의 관계(패턴)를 학습합니다.</div></div>
+                <div class="quiz-question"><p class="question-text">3. 두 변수 사이에 높은 상관관계가 존재한다면, 둘 사이에는 반드시 인과관계가 존재한다. (X)</p><div class="explanation">상세 풀이: 상관관계는 인과관계의 필요조건일 수는 있지만, 충분조건은 아닙니다. 두 변수가 함께 움직이는 것처럼 보여도, 실제로는 제3의 변수가 두 변수 모두에 영향을 미치는 '허위 상관관계'일 수 있습니다.</div></div>
+                <div class="quiz-question"><p class="question-text">4. 군집화(Clustering)는 데이터들을 미리 정해진 카테고리로 나누는 지도학습의 한 종류이다. (X)</p><div class="explanation">상세 풀이: 군집화는 정답(카테고리)이 없는 데이터에서 알고리즘이 스스로 데이터의 구조를 파악하여 비슷한 것끼리 그룹으로 묶는 '비지도학습(Unsupervised Learning)'의 대표적인 예입니다.</div></div>
+                <div class="quiz-question"><p class="question-text">5. 빅데이터 분석에서 처방 분석은 특정 목표를 달성하기 위한 최적의 행동 방안을 제시하는 단계이다. (O)</p><div class="explanation">상세 풀이: 처방 분석은 기술, 진단, 예측 분석의 결과를 종합하여, "그래서 우리는 무엇을 해야 하는가?"라는 질문에 답하는 가장 높은 수준의 분석입니다.</div></div>
+                <div class="quiz-question"><p class="question-text">6. 회귀(Regression) 분석은 데이터가 '스팸/정상'과 같이 특정 범주에 속할 확률을 예측하는 문제이다. (X)</p><div class="explanation">상세 풀이: 특정 범주로 나누는 것은 '분류(Classification)' 문제입니다. 회귀 분석은 주가, 온도, 시험 점수 등 '연속적인 숫자 값'을 예측하는 문제입니다.</div></div>
+                <div class="quiz-question"><p class="question-text">7. 데이터 분석의 4단계(기술-진단-예측-처방)는 항상 순서대로 진행되며, 높은 단계일수록 더 큰 가치를 창출하는 경향이 있다. (O)</p><div class="explanation">상세 풀이: 일반적으로 과거를 이해(기술, 진단)하는 것보다 미래를 예측(예측)하고 행동을 결정(처방)하는 것이 더 큰 비즈니스적, 사회적 가치를 가집니다.</div></div>
+                <div class="quiz-question"><p class="question-text">8. 데이터 마이닝은 대용량 데이터 속에서 유용하고 의미 있는 패턴을 찾아내는 과정이다. (O)</p><div class="explanation">상세 풀이: 데이터 마이닝은 마치 광산에서 금을 캐는 것처럼, 거대한 데이터 더미 속에서 이전에는 알려지지 않았던 가치 있는 관계, 패턴, 규칙 등을 발견하는 기술과 과정을 총칭합니다.</div></div>
+                <div class="quiz-question"><p class="question-text">9. 비지도학습은 지도학습보다 항상 더 정확한 예측 모델을 만든다. (X)</p><div class="explanation">상세 풀이: 지도학습은 명확한 '정답'을 가지고 학습하므로, 일반적으로 예측 문제에서는 비지도학습보다 더 높은 정확도를 보입니다. 비지도학습은 정답이 없는 상황에서 데이터의 숨겨진 구조를 발견하는 데 주로 사용됩니다.</div></div>
+                <div class="quiz-question"><p class="question-text">10. "아이스크림을 많이 먹으면 성적이 떨어진다"는 주장은 상관관계를 인과관계로 오해했을 가능성이 있다. (O)</p><div class="explanation">상세 풀이: 아이스크림 판매량과 성적 하락은 '여름 방학'이라는 공통된 제3의 변수에 의해 영향을 받을 수 있습니다. 방학 동안 아이스크림 소비는 늘고, 학업 집중도는 떨어질 수 있습니다. 두 현상은 상관관계가 있을 수 있지만, 아이스크림이 성적 하락의 원인이라고 단정할 수는 없습니다.</div></div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>5. 형성평가 (5지선다형)</h2>
+            <div class="quiz-section">
+                <div class="quiz-question"><p class="question-text">1. 쇼핑몰 사이트에서 고객의 나이, 성별, 과거 구매 이력을 바탕으로 "이 고객이 다음 달에 재구매할 것인가, 안 할 것인가?"를 예측하는 모델을 만들려고 한다. 이는 어떤 분석 유형과 머신러닝 기법에 해당하는가?</p><ol><li>기술 분석 - 군집화</li><li>예측 분석 - 분류</li><li>진단 분석 - 회귀</li><li>처방 분석 - 연관 규칙</li><li>예측 분석 - 군집화</li></ol><p class="answer">정답: ②</p><div class="explanation">상세 풀이: '다음 달'의 일을 맞추는 것이므로 '예측 분석'이며, '재구매/비재구매'라는 두 개의 정해진 카테고리 중 하나로 나누는 문제이므로 지도학습의 '분류'에 해당합니다.</div></div>
+                <div class="quiz-question"><p class="question-text">2. 다음 중 "왜 지난달의 사용자 이탈률이 급증했는가?"라는 질문에 답하기 위한 분석은?</p><ol><li>기술 분석</li><li>진단 분석</li><li>예측 분석</li><li>처방 분석</li><li>데이터 마이닝</li></ol><p class="answer">정답: ②</p><div class="explanation">상세 풀이: '왜(Why)?'라는 질문에 답하며 특정 현상의 원인을 파악하는 것은 '진단 분석'의 전형적인 예입니다. 이탈한 사용자 그룹의 공통적인 특징, 특정 이벤트와의 연관성 등을 분석하게 됩니다.</div></div>
+                <div class="quiz-question"><p class="question-text">3. 고객들의 구매 내역 데이터를 분석하여 "기저귀를 구매한 고객은 맥주도 함께 구매하는 경향이 있다"는 규칙을 발견했다. 이는 어떤 머신러닝 기법에 해당하는가?</p><ol><li>분류</li><li>회귀</li><li>군집화</li><li>연관 규칙 학습</li><li>강화 학습</li></ol><p class="answer">정답: ④</p><div class="explanation">상세 풀이: 연관 규칙 학습(장바구니 분석)은 정답 없이 데이터 내에서 'A 아이템을 구매하면 B 아이템도 함께 구매한다'와 같이 항목들 간의 흥미로운 관계(연관성)를 찾아내는 비지도학습의 한 종류입니다.</div></div>
+                <div class="quiz-question"><p class="question-text">4. 빅데이터 분석 프로젝트를 수행하는 데이터 과학자의 역할로 가장 거리가 먼 것은?</p><ol><li>문제 해결을 위한 데이터 요구사항을 정의한다.</li><li>데이터의 품질을 검토하고, 결측치나 이상치를 처리한다.</li><li>서버 컴퓨터의 하드웨어를 직접 조립하고 운영체제를 설치한다.</li><li>분석 목적에 맞는 머신러닝 모델을 선택하고 구현한다.</li><li>분석 결과를 시각화하여 다른 부서 사람들에게 쉽게 설명한다.</li></ol><p class="answer">정답: ③</p><div class="explanation">상세 풀이: 하드웨어 조립 및 시스템 운영은 시스템 엔지니어나 인프라 엔지니어의 역할입니다. 데이터 과학자는 주로 데이터 자체를 다루고, 소프트웨어와 알고리즘을 이용해 데이터로부터 가치를 추출하는 데 집중합니다.</div></div>
+                <div class="quiz-question"><p class="question-text">5. 다음 중 '상관관계는 있지만 인과관계는 아닌' 사례로 가장 적절한 것은?</p><ol><li>흡연량이 많을수록 폐암 발병률이 높아진다.</li><li>공부 시간이 길수록 시험 성적이 오르는 경향이 있다.</li><li>도시의 아이스크림 판매량과 소매치기 발생 건수는 여름에 함께 증가한다.</li><li>약을 복용했더니 병이 나았다.</li><li>과속 운전을 하다가 교통사고가 났다.</li></ol><p class="answer">정답: ③</p><div class="explanation">상세 풀이: 아이스크림 판매량과 소매치기 발생 건수는 모두 '더운 날씨로 인해 거리에 유동 인구가 많아진다'는 공통된 원인(잠재 변수)에 의해 함께 증가하는 경향을 보이는 허위 상관관계의 대표적인 예입니다. ①, ④, ⑤는 강한 인과관계가 있으며, ②도 인과관계가 있다고 보는 것이 일반적입니다.</div></div>
+                <div class="quiz-question"><p class="question-text">6. 데이터 과학자가 분석 결과를 발표할 때, 가장 중요하게 고려해야 할 점은?</p><ol><li>최대한 많은 전문 용어와 복잡한 수식을 사용하여 전문성을 과시한다.</li><li>분석에 사용된 모든 코드를 한 줄씩 상세하게 설명한다.</li><li>데이터 분석을 통해 발견한 '인사이트'와 그것이 '무엇을 의미하는지'를 청중이 이해하기 쉽게 전달한다.</li><li>분석 과정에서 발생한 모든 오류와 실패 사례를 상세히 보고한다.</li><li>자신의 주장을 뒷받침하는 데이터만 선택적으로 보여준다.</li></ol><p class="answer">정답: ③</p><div class="explanation">상세 풀이: 데이터 분석의 최종 목표는 의사결정에 도움을 주는 것입니다. 따라서 분석 결과가 비즈니스적으로나 과학적으로 어떤 의미를 가지며, 이를 통해 어떤 행동을 취할 수 있는지를 명확하고 설득력 있게 전달하는 '스토리텔링' 능력이 매우 중요합니다.</div></div>
+                <div class="quiz-question"><p class="question-text">7. 머신러닝 모델의 '학습' 단계에 대한 설명으로 가장 올바른 것은?</p><ol><li>대용량의 데이터를 여러 컴퓨터에 나누어 저장하는 과정이다.</li><li>데이터 속의 오류를 찾아내어 제거하는 과정이다.</li><li>주어진 데이터(입력)와 정답(출력) 사이의 수학적 관계(패턴)를 찾는 과정이다.</li><li>분석 결과를 그래프나 차트로 그리는 과정이다.</li><li>완성된 모델을 실제 서비스에 적용하는 과정이다.</li></ol><p class="answer">정답: ③</p><div class="explanation">상세 풀이: 머신러닝의 '학습' 또는 '훈련(Training)'이란, 모델이 수많은 데이터 예시를 보고 입력과 출력 사이를 가장 잘 설명하는 최적의 수학적 함수 또는 규칙(가중치, 파라미터)을 찾아가는 과정을 의미합니다.</div></div>
+                <div class="quiz-question"><p class="question-text">8. '스팸 메일 필터링' 기능은 어떤 머신러닝 문제로 정의할 수 있는가?</p><ol><li>회귀 (Regression)</li><li>분류 (Classification)</li><li>군집화 (Clustering)</li><li>차원 축소 (Dimensionality Reduction)</li><li>강화 학습 (Reinforcement Learning)</li></ol><p class="answer">정답: ②</p><div class="explanation">상세 풀이: 이메일의 내용(단어, 보낸 사람 등)을 입력으로 받아, 해당 이메일이 '스팸' 또는 '정상'이라는 두 개의 미리 정해진 범주 중 하나로 나누는 문제이므로, 전형적인 '분류' 문제입니다.</div></div>
+                <div class="quiz-question"><p class="question-text">9. 다음 중 빅데이터 분석의 활용 사례로 가장 거리가 먼 것은?</p><ol><li>개인의 유전체 데이터를 분석하여 미래의 질병 발생 확률 예측</li><li>과거 판매 데이터를 학습하여 다음 분기 매출액 예측</li><li>고객들을 구매 패턴에 따라 여러 그룹으로 나누어 타겟 마케팅 수행</li><li>웹사이트의 HTML 코드를 작성하여 화면 디자인 구현</li><li>SNS 데이터를 실시간 분석하여 특정 키워드에 대한 대중의 감성 분석</li></ol><p class="answer">정답: ④</p><div class="explanation">상세 풀이: HTML 코드를 작성하여 웹사이트를 만드는 것은 '웹 개발'의 영역입니다. 나머지 보기들은 모두 빅데이터 분석 기술(예측, 군집, 텍스트 마이닝)을 활용하는 대표적인 사례입니다.</div></div>
+                <div class="quiz-question"><p class="question-text">10. 빅데이터 분석의 4단계 중, "항공권 가격을 언제 구매해야 가장 저렴할까?" 라는 질문에 대한 최적의 구매 시점을 알려주는 것은 어디에 해당하는가?</p><ol><li>기술 분석</li><li>진단 분석</li><li>예측 분석</li><li>처방 분석</li><li>데이터 수집</li></ol><p class="answer">정답: ④</p><div class="explanation">상세 풀이: 이 질문은 단순히 미래의 가격을 '예측'하는 것을 넘어, '가장 저렴하게 구매'라는 특정 목표를 달성하기 위한 '최적의 행동(언제 구매할지)'을 묻고 있으므로, 가장 높은 수준의 분석인 '처방 분석'에 해당합니다.</div></div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>6. 코딩 실습 예제</h2>
+            <div class="code-example">
+                <h4>1. 기술 통계 분석</h4>
+                <p>학생들의 시험 점수 리스트 [85, 92, 78, ...]가 주어졌을 때, Pandas를 이용하여 데이터프레임을 생성하고, .describe() 메서드를 사용하여 평균, 표준편차, 최소/최대값, 사분위수 등 주요 기술 통계량을 한 번에 출력하세요.</p>
+                <pre><code>import pandas as pd
+# 1. 데이터 준비
+scores = [85, 92, 78, 65, 100, 88, 95, 72, 90, 81]
+df = pd.DataFrame(scores, columns=['성적'])
+
+# 2. 기술 통계량 계산 및 출력
+print("--- '성적' 데이터 기술 통계량 ---")
+# .describe() 메서드가 주요 통계량을 자동으로 계산해 줌
+description = df['성적'].describe()
+print(description)
+</code></pre>
+                <p><strong>상세 풀이 및 설명:</strong> **기술 분석(Descriptive Analytics)**은 데이터의 특성을 요약하고 설명하는 분석입니다. Pandas의 `.describe()` 메서드는 이 기술 분석을 위한 매우 강력한 도구입니다. `count`: 데이터의 개수, `mean`: 평균값, `std`: 표준편차 (데이터가 평균으로부터 얼마나 흩어져 있는지), `min, max`: 최솟값, 최댓값, `25%, 50%, 75%`: 각각 1사분위수, 중앙값(median), 3사분위수를 의미하며, 데이터의 분포를 파악하는 데 사용됩니다. 이 한 줄의 코드로 데이터의 중심 경향성, 산포도, 범위 등을 한눈에 파악할 수 있습니다.</p>
+            </div>
+            
+            <div class="code-example">
+                <h4>2. 그룹별 집계 (Groupby)</h4>
+                <p>{'과목': ['수학', '과학', '수학', '과학'], '점수': [90, 95, 85, 98]} 데이터가 있습니다. Pandas의 .groupby()를 사용하여, 과목별 평균 점수를 계산하여 출력하세요.</p>
+                <pre><code>import pandas as pd
+# 1. 데이터 준비
+data = {'과목': ['수학', '과학', '수학', '과학', '수학', '과학'],
+        '학생': ['A', 'A', 'B', 'B', 'C', 'C'],
+        '점수': [90, 95, 85, 98, 77, 82]}
+df = pd.DataFrame(data)
+
+# 2. '과목'별로 그룹화하여 평균 점수 계산
+grouped_by_subject = df.groupby('과목')['점수'].mean()
+print("--- 과목별 평균 점수 ---")
+print(grouped_by_subject)
+
+# 3. '학생'별로 그룹화하여 평균 점수 계산
+grouped_by_student = df.groupby('학생')['점수'].mean()
+print("\n--- 학생별 평균 점수 ---")
+print(grouped_by_student)
+</code></pre>
+                 <p><strong>상세 풀이 및 설명:</strong> `.groupby()`는 빅데이터 분석에서 가장 많이 사용되는 기능 중 하나로, 특정 열(column)의 동일한 값을 기준으로 데이터를 그룹화하고, 각 그룹에 대해 집계 함수(평균, 합계, 개수 등)를 적용하는 데 사용됩니다. `df.groupby('과목')`: '수학' 그룹과 '과학' 그룹으로 데이터를 나눕니다. `['점수']`: 집계할 대상 열로 '점수'를 선택합니다. `.mean()`: 각 그룹의 평균을 계산하는 집계 함수를 적용합니다. 이러한 그룹별 집계는 전체 평균만으로는 알 수 없는, 각 그룹의 특성을 파악하여 더 깊은 인사이트를 얻게 해줍니다.</p>
+            </div>
+
+             <div class="code-example">
+                <h4>3. 간단한 선형 회귀 예측</h4>
+                <p>x(공부 시간)와 y(성적) 데이터가 주어졌을 때, numpy.polyfit()을 사용하여 1차 선형 회귀 모델을 학습시키고, 공부 시간이 5시간일 때의 예상 성적을 예측하는 코드를 작성하세요.</p>
+                <pre><code>import numpy as np
+import matplotlib.pyplot as plt
+
+# 1. 데이터 준비 (x: 독립변수, y: 종속변수)
+x_study_time = np.array([1, 2, 3, 4, 5, 6, 7])
+y_score = np.array([55, 62, 70, 78, 83, 88, 92])
+
+# 2. 선형 회귀 모델 학습 (1차 다항식의 계수 찾기)
+coef = np.polyfit(x_study_time, y_score, 1)
+model = np.poly1d(coef)
+
+# 3. 예측
+predict_x = 8
+predicted_score = model(predict_x)
+
+print(f"학습된 모델: y = {coef[0]:.2f}x + {coef[1]:.2f}")
+print(f"공부 시간이 {predict_x}시간일 때, 예상 성적은 {predicted_score:.2f}점 입니다.")
+</code></pre>
+                <p><strong>상세 풀이 및 설명:</strong> <strong>예측 분석(Predictive Analytics)</strong>의 대표적인 예시입니다. `np.polyfit(x, y, 1)`: NumPy 라이브러리의 이 함수는 x와 y 데이터를 가장 잘 설명하는 1차 다항식(y = ax + b)의 계수 [a, b]를 찾아줍니다. 이것이 바로 모델을 '학습'하는 과정입니다. `np.poly1d(coef)`: 찾아낸 계수들로 실제 예측을 수행할 수 있는 함수(모델)를 만듭니다. `model(8)`: 학습된 모델에 새로운 입력값 8을 넣어, 그에 해당하는 y값을 '예측'합니다. 시각화를 통해 실제 데이터와 우리 모델(회귀선)이 얼마나 잘 맞는지를 직관적으로 확인할 수 있습니다.</p>
+            </div>
+            
+            <div class="code-example">
+                <h4>4. 상관관계 행렬 계산</h4>
+                <p>'수학 점수', '과학 점수', '공부 시간' 세 가지 변수에 대한 데이터가 담긴 Pandas 데이터프레임을 만드세요. .corr() 메서드를 사용하여 세 변수 간의 모든 상관계수를 계산한 상관관계 행렬을 출력하세요.</p>
+                <pre><code>import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# 1. 데이터 준비
+data = { '수학성적': [85, 90, 75, 95, 80],
+         '과학성적': [90, 95, 80, 100, 85],
+         '공부시간': [4, 5, 3, 6, 3.5],
+         '수면시간': [7, 6.5, 8, 6, 7.5] }
+df = pd.DataFrame(data)
+
+# 2. 상관관계 행렬 계산
+correlation_matrix = df.corr()
+print("--- 변수 간 상관관계 행렬 ---")
+print(correlation_matrix)
+
+# 3. 히트맵으로 시각화 (Seaborn 라이브러리 활용)
+plt.figure(figsize=(8, 6))
+sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', fmt='.2f')
+plt.title('상관관계 히트맵')
+plt.show()
+</code></pre>
+                 <p><strong>상세 풀이 및 설명:</strong> `.corr()`: Pandas 데이터프레임의 이 메서드는 모든 숫자형 열들 사이의 피어슨 상관계수를 계산하여 행렬 형태로 반환합니다. **상관계수 해석:** 값은 -1에서 1 사이입니다. **1**에 가까울수록 강한 양의 상관관계 (하나가 증가하면 다른 하나도 증가). 예: 수학성적과 과학성적 (0.99)은 거의 완벽한 양의 상관관계를 보입니다. **-1**에 가까울수록 강한 음의 상관관계 (하나가 증가하면 다른 하나는 감소). 예: 공부시간과 수면시간 (-0.97)은 강한 음의 상관관계를 보입니다. **0**에 가까울수록 상관관계가 거의 없음. **히트맵:** 상관관계 행렬과 같이 2차원 데이터를 색상으로 표현하는 시각화 기법입니다. `seaborn` 라이브러리의 `heatmap`을 사용하면 쉽게 그릴 수 있습니다.</p>
+           </div>
+           
+            <div class="code-example">
+                <h4>5. K-평균 군집화 시뮬레이션</h4>
+                <p>2차원 평면에 임의의 데이터 포인트 50개를 생성하세요. 그 중 일부는 (10, 10) 근처에, 일부는 (30, 30) 근처에 분포하도록 만드세요. sklearn.cluster.KMeans를 사용하여 이 데이터들을 2개의 그룹으로 군집화하고, 각 점을 그룹에 따라 다른 색으로 칠한 산점도를 그리세요.</p>
+                <pre><code>from sklearn.cluster import KMeans
+import numpy as np
+import matplotlib.pyplot as plt
+
+# 1. 데이터 준비 (두 개의 그룹으로 나뉠만한 데이터 생성)
+group1 = np.random.randn(50, 2) + np.array([2, 2])
+group2 = np.random.randn(50, 2) + np.array([8, 8])
+data_points = np.vstack([group1, group2])
+
+# 2. K-평균 모델 생성 및 학습
+kmeans = KMeans(n_clusters=2, random_state=42, n_init='auto')
+kmeans.fit(data_points)
+labels = kmeans.labels_
+centroids = kmeans.cluster_centers_
+
+# 3. 군집화 결과 확인 및 시각화
+plt.figure(figsize=(8, 6))
+plt.scatter(data_points[:, 0], data_points[:, 1], c=labels, cmap='viridis', alpha=0.6)
+plt.scatter(centroids[:, 0], centroids[:, 1], marker='X', s=200, color='red', label='그룹 중심')
+plt.title('K-평균 군집화 결과')
+plt.xlabel('X 좌표'); plt.ylabel('Y 좌표')
+plt.legend(); plt.grid(True); plt.show()
+</code></pre>
+                <p><strong>상세 풀이 및 설명:</strong> <strong>비지도학습(Unsupervised Learning)</strong>의 대표적인 예시입니다. `sklearn.cluster.KMeans`: 사이킷런(Scikit-learn) 라이브러리의 K-평균 알고리즘 모델입니다. `n_clusters=2`: 우리는 이 데이터가 몇 개의 그룹으로 나뉠지 미리 알고리즘에 알려주어야 합니다. `.fit(data_points)`: 이 메서드를 호출하면, K-평균 알고리즘이 스스로 최적의 그룹 중심점을 찾아 각 데이터 포인트를 가장 가까운 중심점에 할당하는 '학습' 과정을 수행합니다. `kmeans.labels_`: 학습이 끝난 후, 각 데이터가 어느 그룹에 속하는지를 0, 1 등의 숫자로 나타낸 결과입니다. 이 결과를 `scatter` 플롯의 `c`(color) 인자에 넘겨주면 그룹별로 색상을 다르게 칠할 수 있습니다. 이를 통해, 정답이 없는 데이터에서도 숨겨진 '구조'나 '그룹'을 발견할 수 있습니다.</p>
+            </div>
+            
+             <div class="code-example">
+                <h4>6. 자연어 처리: TF-IDF 계산 시뮬레이션</h4>
+                <p>두 개의 문서 doc1 = "데이터 분석은 데이터 과학의 핵심이다" 와 doc2 = "데이터 과학은 매우 재미있다" 가 있습니다. '데이터'라는 단어의 TF(단어 빈도)와 IDF(역문서 빈도)의 개념을 설명하고, '데이터'가 두 문서 모두에 등장하여 IDF 값이 낮아질 것임을 설명하는 코멘트와 함께, 각 문서의 단어 빈도를 계산하는 코드를 작성하세요.</p>
+                <pre><code>from collections import Counter
+import math
+
+doc1 = "데이터 분석은 데이터 과학의 핵심이다"
+doc2 = "데이터 과학은 매우 재미있다"
+corpus = [doc1, doc2]
+
+# 2. TF(단어 빈도) 계산
+tf_result = []
+for doc in corpus:
+    doc_words = doc.split()
+    total_words = len(doc_words)
+    tf = {word: doc_words.count(word) / total_words for word in doc_words}
+    tf_result.append(tf)
+
+# 3. IDF(역문서 빈도) 계산
+N = len(corpus)
+all_words = set(doc1.split()) | set(doc2.split())
+idf = {}
+for word in all_words:
+    df = sum([1 for doc in corpus if word in doc])
+    idf[word] = math.log(N / (df + 1))
+
+# 4. TF-IDF 계산
+tfidf_result = []
+for tf_doc in tf_result:
+    tfidf = {word: tf_val * idf[word] for word, tf_val in tf_doc.items()}
+    tfidf_result.append(tfidf)
+
+print("--- TF-IDF 계산 결과 ---")
+print("문서1 TF-IDF:", {k: round(v, 2) for k, v in tfidf_result[0].items()})
+print("문서2 TF-IDF:", {k: round(v, 2) for k, v in tfidf_result[1].items()})
+</code></pre>
+                 <p><strong>상세 풀이 및 설명:</strong> <strong>TF(Term Frequency, 단어 빈도):</strong> 한 문서 내에서 특정 단어가 얼마나 자주 등장하는지. <strong>IDF(Inverse Document Frequency, 역문서 빈도):</strong> 특정 단어가 전체 문서 집합에서 얼마나 희귀하게 등장하는지. (IDF(t) = log(N / (df + 1))) <strong>TF-IDF = TF * IDF:</strong> 이 두 값을 곱하여 최종 가중치를 계산합니다. 이 코드는 TF와 IDF를 직접 계산하는 과정을 보여줍니다. '데이터'나 '과학은'은 두 문서에 모두 등장하여 IDF 값이 낮아지므로, 문서의 핵심 키워드로는 '분석은'이나 '재미있다'가 더 높은 점수를 받게 됩니다.</p>
+           </div>
+           
+            <div class="code-example">
+                <h4>7. 시간에 따른 변화율 계산</h4>
+                <p>일별 주가 데이터 리스트 [100, 110, 105, 115]가 있습니다. Pandas를 사용하여 이 데이터를 시계열 데이터로 만들고, .pct_change() 메서드를 사용하여 일별 주가 변화율(%)을 계산하여 출력하세요.</p>
+                <pre><code>import pandas as pd
+
+prices = [100, 110, 105, 115, 112]
+dates = pd.to_datetime(['2024-01-01', '2024-01-02', '2024-01-03', '2024-01-04', '2024-01-05'])
+price_series = pd.Series(prices, index=dates)
+
+daily_returns = price_series.pct_change()
+
+result_df = pd.DataFrame({'주가': price_series, '변화율(%)': daily_returns * 100})
+print(result_df)
+</code></pre>
+                <p><strong>상세 풀이 및 설명:</strong> 데이터 분석에서는 값 자체보다 '얼마나 변했는가'를 나타내는 변화율이 더 중요한 정보일 때가 많습니다. Pandas의 `.pct_change()` 메서드는 이러한 시계열 데이터의 기간별 변화율을 매우 쉽게 계산해줍니다. 첫 번째 값은 비교 대상(이전 값)이 없으므로 결과가 NaN(Not a Number)으로 나옵니다. 예를 들어, 1월 2일의 변화율 10%는 (110 - 100) / 100으로 계산된 것입니다. 1월 3일의 변화율 -4.55%는 (105 - 110) / 110으로 계산된 것입니다. 이 변화율 데이터는 주식 시장의 변동성을 분석하는 데 사용될 수 있습니다.</p>
+            </div>
+            
+            <div class="code-example">
+                <h4>8. 조건에 따른 데이터 필터링</h4>
+                <p>영화 데이터프레임(제목, 장르, 평점)에서, '장르'가 'SF'이면서 '평점'이 9.0 이상인 영화만 필터링하여 출력하는 코드를 작성하세요.</p>
+                <pre><code>import pandas as pd
+data = {'제목': ['인터스텔라', '기생충', '조커', '매트릭스', '어벤져스'],
+        '장르': ['SF', '드라마', '드라마', 'SF', '액션'],
+        '평점': [9.4, 9.2, 8.5, 9.0, 8.8]}
+df = pd.DataFrame(data)
+
+is_sf = df['장르'] == 'SF'
+is_high_rating = df['평점'] >= 9.0
+highly_rated_sf_movies = df[is_sf & is_high_rating]
+
+print("--- 평점 9.0 이상의 SF 영화 ---")
+print(highly_rated_sf_movies)
+</code></pre>
+                 <p><strong>상세 풀이 및 설명:</strong> 대용량 데이터에서 내가 원하는 특정 조건을 만족하는 데이터만 추출하는 '필터링'은 분석의 핵심입니다. Pandas에서는 `df['열 이름'] == '값'` 과 같은 비교 연산을 통해 각 행(row)이 조건을 만족하는지를 True/False로 나타내는 불리언 시리즈(Boolean Series)를 생성할 수 있습니다. `df[...]` 안에 이 불리언 시리즈를 넣으면, True에 해당하는 행들만 선택됩니다. 여러 조건을 조합할 때는 `&`(AND), `|`(OR) 연산자를 사용합니다. 각 조건은 `()`로 묶어주는 것이 안전합니다.</p>
+           </div>
+           
+            <div class="code-example">
+                <h4>9. 텍스트 데이터 정제</h4>
+                <p>['안녕하세요!!', '데이터 분석... 정말 재미있어요.', ' #파이썬'] 과 같은 텍스트 리스트가 있습니다. 각 텍스트에서 특수문자(!, ., #)를 제거하고, 모든 문자를 소문자로 변환하는 clean_text 함수를 작성하세요.</p>
+                <pre><code>import re
+def clean_text_list(text_list):
+    cleaned_list = []
+    for text in text_list:
+        lower_text = text.lower()
+        cleaned_text_item = re.sub(r'[^가-힣a-z0-9\s]', '', lower_text)
+        cleaned_list.append(cleaned_text_item.strip())
+    return cleaned_list
+
+raw_texts = ['Hello, World!! 123', '데이터 분석... 정말 재미있어요.', ' #파이썬 #빅데이터']
+cleaned = clean_text_list(raw_texts)
+print("--- 텍스트 정제 결과 ---")
+print(f"원본: {raw_texts}")
+print(f"정제 후: {cleaned}")
+</code></pre>
+                <p><strong>상세 풀이 및 설명:</strong> **자연어 처리(NLP)**에서 텍스트 데이터 정제는 분석의 정확도를 높이기 위한 필수 전처리 과정입니다. `re.sub(pattern, repl, string)`: `string`에서 `pattern`에 해당하는 부분을 찾아 `repl`로 대체합니다. `r'[^가-힣a-z0-9\s]'`: 이 정규 표현식 패턴은 '한글(가-힣), 알파벳 소문자(a-z), 숫자(0-9), 공백(\s)이 아닌(^) 모든 문자'를 의미합니다. 즉, 특수문자들을 지칭합니다. 이 정제 과정을 통해, 분석에 불필요한 특수문자들을 제거하고 의미 있는 단어들만 남길 수 있습니다.</p>
+            </div>
+            
+            <div class="code-example">
+                <h4>10. 처방 분석 시뮬레이션: 최적 가격 찾기</h4>
+                <p>가격에 따른 예상 판매량을 예측하는 간단한 모델(함수) `predict_sales(price) = 1000 - 5 * price` 가 있다고 가정합니다. '매출(가격 * 판매량)'을 최대로 만드는 가격을 100원부터 150원까지 1원 단위로 모두 계산하여 찾아내는 프로그램을 작성하세요.</p>
+                <pre><code>import numpy as np
+
+def predict_sales(price):
+    return max(0, 1000 - 5 * price)
+
+def find_optimal_price():
+    prices_to_test = np.arange(100, 151, 1)
+    max_revenue = 0
+    optimal_price = 0
+    
+    for price in prices_to_test:
+        sales = predict_sales(price)
+        revenue = price * sales
+        if revenue > max_revenue:
+            max_revenue = revenue
+            optimal_price = price
+            
+    print("--- 최적 가격 탐색 (처방 분석) ---")
+    print(f"예상 매출을 최대화하는 최적 가격은 '{optimal_price}'원 입니다.")
+    print(f"이때의 예상 최대 매출은 '{max_revenue}'원 입니다.")
+    return optimal_price, max_revenue
+
+find_optimal_price()
+</code></pre>
+                 <p><strong>상세 풀이 및 설명:</strong> <strong>처방 분석(Prescriptive Analytics)</strong>은 "그래서 무엇을 해야 하는가?"에 답하는 분석입니다. 이 코드는 '매출 극대화'라는 명확한 목표를 가지고 있습니다. `predict_sales` 함수는 과거 데이터를 바탕으로 만들어진 '예측 모델'의 역할을 합니다. `find_optimal_price` 함수는 가능한 모든 가격 후보에 대해 시뮬레이션을 수행합니다. 각 가격에 대한 예상 판매량을 '예측'하고, 예측된 판매량을 바탕으로 '매출'을 계산합니다. 계산된 매출들을 모두 비교하여 가장 높은 매출을 기록한 가격을 '최적의 행동 방안'으로 '처방'합니다. 이는 예측을 넘어, 목표 달성을 위한 능동적인 의사결정까지 나아가는 빅데이터 분석의 가장 높은 단계를 보여줍니다.</p>
+           </div>
+        </div>
+    </div>
+</body>
+</html>

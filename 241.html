@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>수업 지도안: 데이터 시각화의 이해</title>
+    <style>
+        body {
+            font-family: 'Malgun Gothic', '맑은 고딕', sans-serif;
+            line-height: 1.8;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            color: #212529;
+        }
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 40px;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border: 1px solid #dee2e6;
+        }
+        h1, h2, h3, h4 {
+            color: #0056b3;
+            border-bottom: 2px solid #e9ecef;
+            padding-bottom: 10px;
+        }
+        h1 {
+            text-align: center;
+            border-bottom: 3px solid #0056b3;
+            font-size: 2em;
+            margin-bottom: 30px;
+        }
+        h2 {
+            font-size: 1.6em;
+            margin-top: 50px;
+        }
+        h3 {
+            font-size: 1.3em;
+            color: #007bff;
+            border-bottom: 1px dashed #ced4da;
+            margin-top: 30px;
+        }
+        h4 {
+            font-size: 1.1em;
+            color: #17a2b8;
+            border-bottom: none;
+            margin-top: 25px;
+        }
+        ul, ol {
+            padding-left: 25px;
+            background-color: #fdfdfd;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        .section {
+            margin-bottom: 40px;
+        }
+        .concept-box, .code-example, .quiz-section, .flow-section {
+            background-color: #f8f9fa;
+            padding: 25px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border: 1px solid #e9ecef;
+        }
+        .concept-box strong {
+            color: #0056b3;
+        }
+        pre {
+            background-color: #2b2b2b;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 5px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-family: 'D2Coding', 'Consolas', 'Monaco', monospace;
+        }
+        code {
+            font-family: 'D2Coding', 'Consolas', 'Monaco', monospace;
+            background-color: #e9ecef;
+            padding: 2px 5px;
+            border-radius: 4px;
+        }
+        blockquote {
+            border-left: 5px solid #007bff;
+            background: #f1f3f5;
+            padding: 15px;
+            margin: 20px 0;
+            font-style: italic;
+        }
+        .quiz-question {
+            margin-bottom: 25px;
+        }
+        .quiz-question .question-text {
+            font-weight: bold;
+            margin-bottom: 10px;
+            white-space: pre-line;
+        }
+        .quiz-question .options {
+            padding-left: 20px;
+        }
+        .quiz-question .answer {
+            font-weight: bold;
+            color: #28a745;
+        }
+        .explanation {
+            margin-top: 10px;
+            padding: 12px;
+            background-color: #e7f3fe;
+            border-left: 5px solid #007bff;
+            font-size: 0.95em;
+        }
+        .sub-section {
+            margin-top:20px;
+            padding-left: 15px;
+            border-left: 3px solid #007bff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>과학고 정보 수업 지도안: II. 데이터 - 241. 데이터 시각화의 이해</h1>
+
+        <div class="section">
+            <h2>1. 학습 목표</h2>
+            <h3>개념적 목표:</h3>
+            <ul>
+                <li>데이터 시각화의 목적을 '데이터에 대한 이해(탐색)'와 '분석 결과의 전달(설명)'이라는 두 가지 관점에서 설명할 수 있다.</li>
+                <li>데이터의 종류(범주형, 수치형)와 분석 목적(비교, 관계, 분포, 시계열)에 따라 적절한 시각화 차트(막대, 선, 산점도, 히스토그램 등)를 선택할 수 있다.</li>
+                <li>효과적인 시각화의 원칙(명확성, 정확성, 간결성)을 이해하고, 잘못된 시각화가 어떻게 정보를 왜곡할 수 있는지 설명할 수 있다.</li>
+                <li>탐색적 데이터 분석(EDA) 과정에서 시각화가 데이터의 패턴, 추세, 이상치, 분포를 파악하는 데 핵심적인 역할을 함을 이해한다.</li>
+            </ul>
+            <h3>절차적 목표:</h3>
+            <ul>
+                <li>주어진 데이터셋에 대해, Python 코드를 이용하여 기초 통계량을 계산하고 이를 바탕으로 시각화 계획을 수립할 수 있다.</li>
+                <li>막대그래프와 선 그래프의 원리를 이해하고, 텍스트(아스키 아트) 기반으로 간단하게 구현할 수 있다.</li>
+                <li>두 변수 간의 관계를 나타내는 산점도의 원리를 이해하고, 2차원 텍스트 그리드에 데이터를 표현할 수 있다.</li>
+                <li>수치형 데이터의 분포를 파악하기 위해, 데이터를 특정 구간(bin)으로 나누고 각 구간의 빈도를 계산하는 히스토그램의 전처리 과정을 코드로 구현할 수 있다.</li>
+            </ul>
+            <h3>태도적 목표:</h3>
+            <ul>
+                <li>숫자의 나열만으로는 파악하기 힘든 인사이트를 시각화를 통해 발견하는 과정에 흥미와 유용성을 느낀다.</li>
+                <li>데이터를 시각적으로 표현할 때, 정보를 객관적이고 정직하게 전달하려는 윤리적 책임감을 가진다.</li>
+                <li>복잡한 데이터 이면에 숨겨진 이야기를 발견하고, 이를 다른 사람에게 효과적으로 전달하기 위한 스토리텔러로서의 역량을 함양한다.</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>2. 핵심 개념 상세 설명</h2>
+            <div class="concept-box">
+                <p><strong>데이터 시각화 (Data Visualization):</strong> 데이터 분석 결과를 사용자가 쉽게 이해할 수 있도록, 숫자나 텍스트 형태의 데이터를 차트, 그래프, 맵 등 시각적인 이미지로 변환하는 과정. "백문이 불여일견(百聞不如一見)"이라는 말처럼, 인간의 뇌가 텍스트보다 이미지를 훨씬 빠르고 직관적으로 처리한다는 인지적 특성을 활용합니다.</p>
+                <h3>시각화의 목적:</h3>
+                <ul>
+                    <li><strong>탐색 (Exploration):</strong> 데이터 분석가가 데이터 속에 숨겨진 패턴, 추세, 상관관계, 이상치 등을 스스로 발견하기 위해 사용합니다. (나 자신을 위한 시각화)</li>
+                    <li><strong>설명 (Explanation):</strong> 분석을 통해 발견한 인사이트나 주장을 다른 사람(청중)에게 효과적으로 전달하고 설득하기 위해 사용합니다. (다른 사람을 위한 시각화, 데이터 스토리텔링)</li>
+                </ul>
+                <h3>기본 차트의 종류와 용도:</h3>
+                <ul>
+                    <li><strong>막대그래프 (Bar Chart):</strong> 여러 항목(범주) 간의 값을 비교할 때 사용합니다. 막대의 길이로 값의 크기를 표현합니다. (예: 나라별 인구 비교, 과일별 판매량 비교)</li>
+                    <li><strong>선 그래프 (Line Chart):</strong> 시간의 흐름에 따른 데이터의 변화 추세를 보여줄 때 가장 효과적입니다. (예: 월별 기온 변화, 연도별 주가 변동)</li>
+                    <li><strong>산점도 (Scatter Plot):</strong> 두 개의 연속된 수치형 변수 사이의 관계(상관관계)를 파악하기 위해 사용합니다. 각 데이터 포인트를 2차원 평면 위의 점으로 표현합니다. (예: 공부 시간과 성적의 관계, 키와 몸무게의 관계)</li>
+                    <li><strong>히스토그램 (Histogram):</strong> 하나의 수치형 데이터가 어떤 분포를 가지고 있는지 보여줍니다. 전체 데이터 범위를 여러 개의 동일한 구간(bin)으로 나누고, 각 구간에 속하는 데이터의 개수(빈도)를 막대로 표현합니다. 막대그래프와 달리 막대들이 서로 붙어있습니다. (예: 전교생의 키 분포, 시험 점수의 분포)</li>
+                </ul>
+                <h3>좋은 시각화의 원칙:</h3>
+                <ul>
+                    <li><strong>명확성 (Clarity):</strong> 전달하려는 메시지가 무엇인지 명확하게 드러나야 합니다. 제목, 축 레이블, 범례 등을 정확히 표기해야 합니다.</li>
+                    <li><strong>정확성 (Accuracy):</strong> 데이터를 왜곡해서는 안 됩니다. 막대그래프의 y축을 0에서 시작하지 않거나, 축의 간격을 조작하여 변화를 과장하는 등의 행위는 정보를 오도할 수 있습니다.</li>
+                    <li><strong>간결성 (Simplicity):</strong> 불필요한 시각적 요소(3D 효과, 현란한 색상, 복잡한 배경 등)를 제거하고, 데이터 자체에 집중하게 만들어야 합니다. (에드워드 터프티의 '차트정크(Chartjunk)' 개념)</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>3. 수업의 흐름</h2>
+            <div class="flow-section">
+                <h3>(도입) 수업을 시작하며 (5분)</h3>
+                <blockquote>"가장 위대한 가치는 숫자에 있는 것이 아니라, 그것이 무엇을 의미하는지 우리에게 보여주는 그림에 있다." - 플로렌스 나이팅게일 (간호사, 통계학자)</blockquote>
+                <p>"여러분, '백의의 천사' 나이팅게일은 사실 위대한 데이터 과학자였습니다. 그녀는 크림 전쟁 당시, 병사들의 사망 원인 데이터를 표가 아닌 '로즈 다이어그램'이라는 혁신적인 그래프로 시각화했습니다. 이 한 장의 그림은 전투로 인한 사망자보다 비위생적인 환경 때문에 병으로 죽는 사망자가 압도적으로 많다는 충격적인 사실을 한눈에 보여주었고, 결국 영국 의회를 설득하여 병원 환경을 개선하고 수많은 생명을 구했습니다. 오늘은 이처럼 숫자 더미에 영혼을 불어넣어 세상을 바꾸는 힘, 데이터 시각화의 세계로 떠나보겠습니다."</p>
+            </div>
+            <div class="flow-section">
+                <h3>(전개) 핵심 개념 탐구: '나이팅게일의 크림 전쟁 보고서' 재구성 (30분)</h3>
+                <h4>[프로젝트 목표] "전쟁터의 사망자 데이터를 분석하고, 문제의 원인을 찾아내어 해결책을 설득하기 위한 시각화 자료 만들기"</h4>
+                <div class="sub-section">
+                    <h4>Stage 1: 원인 비교하기 - 막대그래프 (8분)</h4>
+                    <p><strong>상황:</strong> "전투 중 사망, 부상 후 병원 내 사망, 병원 내 질병으로 사망" 세 가지 원인에 따른 사망자 수를 비교하여 문제의 심각성을 드러내야 합니다.</p>
+                    <p><strong>시각화 선택:</strong> 여러 범주(사망 원인)의 값(사망자 수)을 비교하는 데는 '막대그래프'가 가장 적합함을 설명합니다.</p>
+                    <p><strong>실생활 예시 코드:</strong> 사망 원인별 데이터를 텍스트 기반 막대그래프로 시각화하여, 질병 사망자의 압도적인 수를 한눈에 보여줍니다.</p>
+                    <pre><code>def draw_text_bar_chart(data, max_bar_width=50):
+    print("1. [비교] 막대그래프로 사망 원인별 규모를 비교합니다.")
+    max_value = max(data.values())
+    for category, value in data.items():
+        # 값의 크기에 비례하여 막대 길이 계산
+        bar_length = int((value / max_value) * max_bar_width)
+        bar = '#' * bar_length
+        print(f" - {category.ljust(10)} | {bar} ({value})")
+
+# 나이팅게일 보고서의 가상 데이터
+crimean_war_deaths = {
+    "전투사망": 2000,
+    "부상악화": 4000,
+    "병원질병": 18000
+}
+draw_text_bar_chart(crimean_war_deaths)
+print(" -> '병원질병' 사망자가 압도적으로 많다는 사실을 즉시 파악할 수 있습니다.")</code></pre>
+                    <p><strong>상세 설명:</strong> 이 코드는 데이터 시각화의 가장 기본인 '비교'를 보여줍니다. draw_text_bar_chart 함수는 딕셔너리 형태의 데이터를 받아, 가장 큰 값을 기준으로 각 값의 상대적인 크기를 계산합니다. bar_length 계산 로직이 바로 데이터를 시각적 요소(막대의 길이)로 '매핑'하는 과정입니다. 텍스트('#')를 반복하여 막대를 그림으로써, 학생들은 숫자 18000이 2000보다 얼마나 큰지 직관적으로 체감하게 됩니다.</p>
+                </div>
+                <div class="sub-section">
+                    <h4>Stage 2: 변화 추적하기 - 선 그래프 (8분)</h4>
+                    <p><strong>상황:</strong> 나이팅게일이 병원 위생을 개선한 후, 월별 사망자 수가 어떻게 변했는지 보여주어 개선 효과를 증명해야 합니다.</p>
+                    <p><strong>시각화 선택:</strong> 시간의 흐름에 따른 데이터의 '추세'를 보여주는 데는 '선 그래프'가 최적임을 설명합니다.</p>
+                    <p><strong>실생활 예시 코드:</strong> 월별 질병 사망자 수 데이터를 텍스트 기반 선 그래프로 시각화하여, 위생 개선 후 사망자가 급감하는 추세를 보여줍니다.</p>
+                    <pre><code>def draw_text_line_chart(data, height=10):
+    print("\n2. [시계열] 선 그래프로 위생 개선 후 사망자 수 추세를 봅니다.")
+    max_val = max(data)
+    min_val = min(data)
+    for y in range(height, -1, -1):
+        # y축 값 계산
+        label = min_val + (max_val - min_val) * (y / height)
+        row_str = f"{int(label):>4} | "
+        for val in data:
+            # 현재 y축 값과 데이터 값을 비교하여 '*' 위치 결정
+            if val >= label: row_str += "* "
+            else: row_str += "  "
+        print(row_str)
+    print("   +-" + "--"*len(data))
+    print("     " + " ".join([f"{i+1}월" for i in range(len(data))]))
+
+# 위생 개선 전후 월별 사망자 수 (가상 데이터)
+deaths_per_month = [1000, 1200, 1100, 900, 300, 100]
+draw_text_line_chart(deaths_per_month)
+print(" -> 4월을 기점으로 사망자가 급격히 감소하는 추세를 명확히 볼 수 있습니다.")</code></pre>
+                    <p><strong>상세 설명:</strong> 이 코드는 시계열 데이터의 '추세'를 시각화하는 원리를 보여줍니다. draw_text_line_chart 함수는 y축을 여러 레벨로 나누고, 각 월별 데이터(val)가 현재 y축 레벨(label)보다 높은 위치에 있으면 *를 찍습니다. 이 과정을 통해 점들이 선으로 연결된 것과 같은 효과를 내어, 시간에 따른 데이터의 오르내림을 시각적으로 표현합니다.</p>
+                </div>
+                 <div class="sub-section">
+                    <h4>Stage 3: 관계 파악하기 - 산점도 (7분)</h4>
+                    <p><strong>상황:</strong> "병원의 환자 밀도가 높을수록 사망률도 높아지는가?" 라는 가설을 검증하고 싶습니다.</p>
+                    <p><strong>시각화 선택:</strong> 두 개의 수치형 변수(환자 수, 사망률) 간의 '상관관계'를 파악하는 데는 '산점도'가 적합함을 설명합니다.</p>
+                    <p><strong>실생활 예시 코드:</strong> 여러 병원의 (환자 수, 사망률) 데이터를 2차원 텍스트 그리드에 점으로 찍어, 양의 상관관계가 있는지 시각적으로 확인합니다.</p>
+                    <pre><code>def draw_text_scatter_plot(points, width=40, height=15):
+    print("\n3. [관계] 산점도로 환자 밀도와 사망률의 관계를 분석합니다.")
+    # (구현이 복잡하여 시뮬레이션 결과만 텍스트로 표현)
+    print(" 사망률(%)")
+    print("    ^")
+    print(" 15 +       * ")
+    print("    |      *  ")
+    print(" 10 +    *    ")
+    print("    |   *     ")
+    print("  5 + *       ")
+    print("    |*        ")
+    print("  0 +-------------> 환자 수")
+    print(" -> 점들이 우상향하는 경향을 보여, 환자 수가 많을수록 사망률이 높아지는 양의 관계를 암시합니다.")
+
+draw_text_scatter_plot([])</code></pre>
+                    <p><strong>상세 설명:</strong> (구현이 복잡하므로 결과 중심 설명) 이 코드는 두 변수 간의 '관계'를 시각화하는 산점도의 개념을 설명합니다. 각 병원의 데이터가 x축(환자 수)과 y축(사망률) 좌표를 갖는 하나의 점으로 표현됩니다. 만약 점들이 전반적으로 우상향하는 패턴을 보인다면, 두 변수 사이에 '양의 상관관계'(하나가 증가하면 다른 하나도 증가하는 경향)가 있음을 시사합니다. 이는 수치 데이터만으로는 파악하기 힘든 두 변수 간의 관계를 직관적으로 보여줍니다.</p>
+                </div>
+                 <div class="sub-section">
+                    <h4>Stage 4: 구조 이해하기 - 히스토그램 (7분)</h4>
+                    <p><strong>상황:</strong> 사망한 병사들은 주로 어떤 연령대에 분포해 있는가? 젊은 층인가, 노년층인가?</p>
+                    <p><strong>시각화 선택:</strong> 하나의 수치형 데이터(나이)의 '분포'를 파악하기 위해서는 '히스토그램'이 적합함을 설명합니다.</p>
+                    <p><strong>실생활 예시 코드:</strong> 사망한 병사들의 나이 데이터를 여러 구간(bin)으로 나누고, 각 구간에 속한 병사의 수를 막대로 표현하여 나이 분포를 시각화합니다.</p>
+                    <pre><code>from collections import Counter
+def draw_text_histogram(data, bin_size=10, max_bar_width=40):
+    print("\n4. [분포] 히스토그램으로 사망자들의 연령대 분포를 파악합니다.")
+    # 데이터를 구간(bin)으로 나눔
+    bins = [ (age // bin_size) * bin_size for age in data]
+    # 각 구간의 빈도수 계산
+    counts = Counter(bins)
+    if not counts: return
+    max_count = max(counts.values())
+    for bin_start in sorted(counts.keys()):
+        count = counts[bin_start]
+        bar_length = int((count / max_count) * max_bar_width)
+        bar = '#' * bar_length
+        print(f" {bin_start:3}대 | {bar} ({count})")
+
+# 사망 병사들의 나이 데이터 (가상)
+ages = [22, 25, 21, 31, 28, 24, 23, 35, 26, 22, 29, 41, 25, 24]
+draw_text_histogram(ages)
+print(" -> 20대 병사들의 사망자가 가장 많다는 사실을 알 수 있습니다.")</code></pre>
+                    <p><strong>상세 설명:</strong> 이 코드는 데이터의 '분포'를 보여주는 히스토그램의 원리를 구현합니다. `bins = [ (age // bin_size) * bin_size ... ]` 코드가 핵심적인 '구간 나누기' 과정입니다. `age // 10`은 10의 자리수를 구하고, 다시 `* 10`을 하여 22는 20, 31은 30으로 변환합니다. Counter는 각 구간(20, 30, 40...)에 몇 명의 병사가 속하는지 빈도를 계산합니다. 최종 결과는 막대그래프와 유사하지만, 각 막대가 특정 '값'이 아닌 특정 '구간'을 나타낸다는 점에서 근본적인 차이가 있습니다.</p>
+                </div>
+            </div>
+            <div class="flow-section">
+                <h3>(마무리) 수업을 마치며 (5분)</h3>
+                <p>데이터의 목적(비교, 시계열, 관계, 분포)에 따라 적합한 시각화 방법이 다르며, 시각화는 데이터에 숨겨진 이야기를 발견하고 전달하는 강력한 도구임을 요약합니다.</p>
+                <blockquote>"그래프를 그리는 가장 큰 가치는, 그것이 우리에게 예상치 못했던 질문을 던지게 한다는 데 있다." - 존 튜키 (탐색적 데이터 분석의 개척자)</blockquote>
+                <p>"여러분, 오늘 우리는 나이팅게일의 데이터를 통해 비교, 추세, 관계, 분포를 보는 네 가지 강력한 렌즈를 얻었습니다. 통계학자 존 튜키의 말처럼, 데이터 시각화의 진정한 목적은 단순히 아는 것을 확인하는 데 있지 않습니다. 그래프 속에서 예상치 못했던 점, 이상하게 튀는 값, 새로운 패턴을 발견하고 '왜 그럴까?'라는 새로운 질문을 던지는 데 있습니다. 여러분도 앞으로 마주할 수많은 데이터 앞에서, 정답을 찾으려 하기보다 새로운 질문을 발견해내는 창의적인 데이터 탐험가가 되기를 바랍니다. 수고 많으셨습니다."</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>4. 진단평가 (OX 퀴즈)</h2>
+            <div class="quiz-section">
+                <div class="quiz-question"><p>1. 데이터 시각화는 숫자 데이터를 표로 보기 좋게 정리하는 것을 의미한다. (X)</p><div class="explanation">상세 풀이: 데이터 시각화는 표를 넘어, 데이터를 그래프, 차트, 맵 등 '시각적 이미지'로 변환하여 패턴과 인사이트를 직관적으로 파악할 수 있도록 하는 과정입니다.</div></div>
+                <div class="quiz-question"><p>2. 여러 국가의 GDP를 비교하고자 할 때, 선 그래프가 가장 적합한 시각화 방법이다. (X)</p><div class="explanation">상세 풀이: 여러 항목(국가) 간의 값을 '비교'하는 데에는 '막대그래프'가 가장 적합합니다. 선 그래프는 시간의 흐름에 따른 '변화 추세'를 보여주는 데 사용됩니다.</div></div>
+                <div class="quiz-question"><p>3. 산점도(Scatter Plot)는 두 수치형 변수 간의 상관관계를 파악하는 데 유용하다. (O)</p><div class="explanation">상세 풀이: 산점도는 각 데이터를 x축과 y축에 해당하는 두 변수의 값으로 좌표 평면에 점을 찍어, 점들의 분포 패턴을 통해 두 변수 간의 관계(양의 상관, 음의 상관, 무상관)를 시각적으로 보여줍니다.</div></div>
+                <div class="quiz-question"><p>4. 좋은 시각화는 보는 사람이 정보를 왜곡하여 받아들이지 않도록 정확하게 데이터를 표현해야 한다. (O)</p><div class="explanation">상세 풀이: 시각화의 중요한 원칙 중 하나는 '정확성'입니다. y축의 시작점을 조작하거나 축의 비율을 왜곡하여 변화를 과장하는 것은 데이터를 오도하는 나쁜 시각화의 예입니다.</div></div>
+                <div class="quiz-question"><p>5. 히스토그램에서 각 막대의 높이는 특정 값의 크기를 나타낸다. (X)</p><div class="explanation">상세 풀이: 히스토그램에서 각 막대의 높이는 특정 '구간(bin)'에 속하는 데이터의 '개수(빈도)'를 나타냅니다. 특정 값의 크기를 나타내는 것은 막대그래프입니다.</div></div>
+                <div class="quiz-question"><p>6. 탐색적 데이터 분석(EDA) 과정에서 시각화는 데이터의 분포나 이상치를 파악하는 데 효과적으로 사용된다. (O)</p><div class="explanation">상세 풀이: EDA의 핵심 활동 중 하나는 데이터를 다양한 그래프로 그려보며, 데이터가 어떤 특성을 가지고 있는지, 분석 시 주의해야 할 점은 없는지 등을 탐색하는 것입니다.</div></div>
+                <div class="quiz-question"><p>7. 데이터 시각화의 주된 목적은 데이터의 크기를 줄여 저장 공간을 확보하는 것이다. (X)</p><div class="explanation">상세 풀이: 데이터의 크기를 줄이는 것은 '데이터 압축'의 주된 목적입니다. 데이터 시각화의 주된 목적은 데이터에 대한 '이해'와 분석 결과의 '전달'입니다.</div></div>
+                <div class="quiz-question"><p>8. 3D 파이 차트는 여러 항목의 비율을 비교하는 데 가장 효과적이고 명확한 방법이다. (X)</p><div class="explanation">상세 풀이: 3D 효과가 들어간 파이 차트는 원근감 때문에 각 조각의 크기가 왜곡되어 보일 수 있어, 정확한 비율 비교를 어렵게 만듭니다. 많은 데이터 시각화 전문가들은 비율 비교 시, 3D 파이 차트보다 막대그래프를 사용할 것을 권장합니다.</div></div>
+                <div class="quiz-question"><p>9. 시간에 따른 주가의 변화를 보여주고 싶을 때는 선 그래프를 사용하는 것이 적절하다. (O)</p><div class="explanation">상세 풀이: 선 그래프는 시간의 흐름(x축)에 따른 값(y축)의 연속적인 변화 추세를 보여주는 데 가장 최적화된 차트입니다.</div></div>
+                <div class="quiz-question"><p>10. 데이터 시각화는 항상 최종 결과물을 보고할 때만 사용하는 설명적인 도구이다. (X)</p><div class="explanation">상세 풀이: 시각화는 최종 결과를 다른 사람에게 '설명'하기 위해서도 사용되지만, 분석가 자신이 데이터의 특성을 파악하기 위한 '탐색' 과정에서도 매우 중요한 역할을 합니다.</div></div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>5. 형성평가 (5지선다형)</h2>
+            <div class="quiz-section">
+                <div class="quiz-question"><p class="question-text">1. 반 학생들의 '키'와 '몸무게' 사이의 관계를 시각적으로 확인하고 싶을 때, 가장 적합한 차트는?</p><ol><li>파이 차트</li><li>선 그래프</li><li>막대그래프</li><li>산점도</li><li>히스토그램</li></ol><p class="answer">정답: ④</p><div class="explanation">상세 풀이: '키'와 '몸무게'라는 두 개의 수치형 변수 간의 관계(상관관계)를 파악하는 것이 목적이므로, 각 학생을 (키, 몸무게) 좌표를 갖는 점으로 표현하는 산점도가 가장 적합합니다.</div></div>
+                <div class="quiz-question"><p class="question-text">2. 다음 중 데이터 시각화의 주된 목적으로 가장 적절한 것은?</p><ol><li>데이터 속에 숨겨진 패턴과 인사이트를 쉽게 발견하기 위해</li><li>데이터를 암호화하여 보안을 강화하기 위해</li><li>데이터의 파일 형식을 변환하기 위해</li><li>데이터의 크기를 압축하여 전송 속도를 높이기 위해</li><li>데이터의 오류를 자동으로 수정하기 위해</li></ol><p class="answer">정답: ①</p><div class="explanation">상세 풀이: 데이터 시각화의 가장 근본적인 목적은 복잡하고 방대한 숫자 데이터의 나열을 인간이 직관적으로 이해할 수 있는 시각적 형태로 변환하여, 그 안에 숨겨진 의미 있는 정보(패턴, 추세, 관계, 이상치 등)를 쉽게 찾아낼 수 있도록 돕는 것입니다.</div></div>
+                <div class="quiz-question"><p class="question-text">3. 한 학급의 학생들의 '혈액형(A, B, O, AB)' 분포를 시각화하려고 한다. 어떤 차트가 가장 적합한가?</p><ol><li>선 그래프</li><li>막대그래프</li><li>산점도</li><li>히스토그램</li><li>버블 차트</li></ol><p class="answer">정답: ②</p><div class="explanation">상세 풀이: '혈액형'은 범주형 데이터입니다. 각 범주(A, B, O, AB)에 해당하는 학생 수를 '비교'하는 것이 목적이므로, 막대그래프가 가장 적합합니다. 각 혈액형을 x축에 놓고, 학생 수를 y축 막대의 높이로 표현할 수 있습니다.</div></div>
+                <div class="quiz-question"><p class="question-text">4. 데이터 시각화에서 '차트정크(Chartjunk)'라는 용어가 비판하는 대상은?</p><ol><li>데이터의 내용을 이해하는 데 도움이 되지 않는 불필요한 시각적 장식</li><li>데이터의 출처를 명확하게 밝히지 않는 행위</li><li>데이터의 일부를 의도적으로 누락하여 결과를 왜곡하는 것</li><li>그래프의 축 범위를 조작하여 변화를 과장하는 것</li><li>너무 작은 글씨를 사용하여 내용을 알아보기 힘들게 만드는 것</li></ol><p class="answer">정답: ①</p><div class="explanation">상세 풀이: '차트정크'는 데이터 시각화의 대가인 에드워드 터프티가 만든 용어로, 3D 효과, 그라데이션, 그림자, 불필요한 그림 등 데이터 자체의 정보를 전달하는 데 방해가 되는 모든 시각적 '쓰레기'를 의미합니다. 좋은 시각화는 간결하고 데이터에 집중해야 함을 강조합니다.</div></div>
+                <div class="quiz-question"><p class="question-text">5. 시험 점수 데이터의 분포를 확인하기 위해 '히스토그램'을 그리려고 한다. 가장 먼저 해야 할 작업은?</p><ol><li>학생들의 평균 점수를 계산한다.</li><li>점수 범위를 여러 개의 동일한 구간(bin)으로 나눈다.</li><li>각 학생의 등수를 매긴다.</li><li>최고점과 최저점을 찾아낸다.</li><li>모든 점수를 더한다.</li></ol><p class="answer">정답: ②</p><div class="explanation">상세 풀이: 히스토그램은 특정 '구간'에 데이터가 얼마나 많이 속해 있는지를 보여주는 그래프입니다. 따라서 시각화를 시작하기 전에, 전체 데이터의 범위를 몇 개의 구간으로 나눌지(예: 0~10점, 10~20점, ...)를 결정하는 것이 가장 첫 번째 단계입니다.</div></div>
+                <div class="quiz-question"><p class="question-text">6. 플로렌스 나이팅게일이 '로즈 다이어그램'을 통해 전달하고자 했던 핵심 메시지는 무엇이었는가?</p><ol><li>전쟁의 참혹함</li><li>부상당한 병사들의 고통</li><li>크림 전쟁에서 영국군이 승리하고 있다는 사실</li><li>전투로 인한 사망보다 병원의 비위생적인 환경으로 인한 질병 사망이 훨씬 더 심각한 문제라는 것</li><li>간호사들의 헌신적인 노력</li></ol><p class="answer">정답: ④</p><div class="explanation">상세 풀이: 나이팅게일의 시각화는 감정에 호소하는 것이 아니라, 명확한 '데이터'에 기반하여 문제의 진짜 원인을 지적했습니다. 그녀의 다이어그램은 질병으로 인한 사망 영역이 전투 사망 영역보다 압도적으로 크게 그려져, 보는 사람이 즉시 문제의 핵심을 파악하고 위생 개선의 시급성을 깨닫게 만들었습니다.</div></div>
+                <div class="quiz-question"><p class="question-text">7. 어떤 뉴스에서 막대그래프의 y축이 0에서 시작하지 않고 중간 값에서 시작하여, 작은 차이를 매우 큰 차이처럼 보이게 만들었다. 이는 좋은 시각화의 원칙 중 무엇을 가장 크게 위배한 것인가?</p><ol><li>명확성 (Clarity)</li><li>간결성 (Simplicity)</li><li>심미성 (Aesthetics)</li><li>정확성 (Accuracy)</li><li>상호작용성 (Interactivity)</li></ol><p class="answer">정답: ④</p><div class="explanation">상세 풀이: y축을 0에서 시작하지 않으면 막대의 '길이'가 실제 값의 '비율'을 정확하게 반영하지 못하게 됩니다. 이는 독자가 값의 차이를 시각적으로 과장하여 인식하게 만들므로, 데이터를 정직하게 표현해야 한다는 '정확성'의 원칙을 심각하게 위배하는 행위입니다.</div></div>
+                <div class="quiz-question"><p class="question-text">8. 다음 중 시각화를 통해 파악하기 가장 어려운 정보는?</p><ol><li>시간에 따른 온도의 변화 추세</li><li>여러 제품 간의 판매량 비교</li><li>특정 데이터 값 하나에 대한 정확한 수치</li><li>두 변수 사이의 대략적인 상관관계</li><li>데이터 값들의 전반적인 분포 형태</li></ol><p class="answer">정답: ③</p><div class="explanation">상세 풀이: 시각화는 전체적인 패턴, 추세, 관계, 분포 등 '숲'을 보는 데 강점이 있습니다. 하지만 특정 지점의 '정확한 값'(예: 3월 15일의 정확한 온도 12.37℃)을 읽어내는 데는 표(Table)보다 비효율적이거나 부정확할 수 있습니다.</div></div>
+                <div class="quiz-question"><p class="question-text">9. 탐색적 데이터 분석(EDA) 단계에서 데이터 시각화를 수행하는 주된 이유는?</p><ol><li>최종 보고서에 넣을 아름다운 그래프를 미리 만들기 위해</li><li>데이터의 특성과 구조를 직관적으로 파악하고, 분석 방향에 대한 아이디어를 얻기 위해</li><li>데이터에 포함된 모든 오류를 자동으로 수정하기 위해</li><li>데이터의 크기를 줄여 분석 속도를 높이기 위해</li><li>데이터에 대한 나의 초기 가설이 옳았음을 증명하기 위해</li></ol><p class="answer">정답: ②</p><div class="explanation">상세 풀이: EDA에서의 시각화는 '탐험'과 같습니다. 데이터를 이리저리 그려보면서 "이 변수는 이런 분포를 가지는구나", "저 두 변수는 관계가 있어 보이는데?", "이 값은 왜 혼자 동떨어져 있지(이상치)?" 와 같은 질문을 던지고, 데이터에 대한 이해를 높여 본격적인 분석 전략을 수립하는 데 목적이 있습니다.</div></div>
+                <div class="quiz-question"><p class="question-text">10. 다음은 어떤 종류의 차트를 텍스트로 표현한 것인가?
+10대 | ###
+20대 | #######
+30대 | #####
+40대 | ##</p><ol><li>선 그래프</li><li>산점도</li><li>파이 차트</li><li>히스토그램 또는 막대그래프</li><li>간트 차트</li></ol><p class="answer">정답: ④</p><div class="explanation">상세 풀이: x축에 '10대', '20대' 등 범주나 구간이 있고, y축 값에 해당하는 빈도를 막대의 길이('#'의 개수)로 표현하고 있습니다. 이는 범주 간 비교를 위한 '막대그래프' 또는 특정 구간의 빈도를 나타내는 '히스토그램'의 전형적인 형태입니다.</div></div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>6. 코딩 실습 예제</h2>
+            <div class="code-example">
+                <h4>1. 텍스트 막대그래프 생성기</h4>
+                <p>과일 이름과 판매량을 담은 딕셔너리 {'사과': 15, '바나나': 25, '딸기': 10}를 입력받아, 각 과일의 판매량을 '#' 문자를 이용한 텍스트 막대그래프로 출력하는 draw_bar_chart(data) 함수를 작성하세요.</p>
+                <pre><code>def draw_bar_chart(data_dict, max_bar_width=40):
+    """딕셔너리 데이터를 받아 텍스트 기반 막대그래프를 출력합니다."""
+    if not data_dict: return
+    max_label_len = max([len(label) for label in data_dict.keys()])
+    max_value = max(data_dict.values())
+    print("--- 판매량 비교 ---")
+    for label, value in data_dict.items():
+        bar_length = int((value / max_value) * max_bar_width)
+        bar = '#' * bar_length
+        print(f"{label.ljust(max_label_len)} | {bar} ({value})")
+# 테스트
+fruit_sales = {'사과': 15, '바나나': 25, '딸기': 10, '오렌지': 22}
+draw_bar_chart(fruit_sales)</code></pre>
+                <p><strong>상세 풀이 및 설명:</strong> 이 함수는 범주형 데이터(과일 이름)와 수치형 데이터(판매량) 간의 관계를 시각화하는 막대그래프의 원리를 구현합니다. 핵심 로직은 `bar_length = int((value / max_value) * max_bar_width)` 입니다. 이는 데이터의 '값'을 시각적 속성인 '막대의 길이'로 비례하여 매핑(mapping)하는 과정입니다. `label.ljust(max_label_len)`은 문자열을 왼쪽 정렬하고, 부족한 길이를 공백으로 채워주어 전체적인 출력 포맷을 깔끔하게 만들어줍니다.</p>
+            </div>
+             <div class="code-example">
+                <h4>2. 데이터 정규화</h4>
+                <p>[100, 200, 500, 1000] 과 같은 데이터가 있을 때, 모든 값이 0과 1 사이의 값을 갖도록 정규화(Normalization)하는 normalize_data(data) 함수를 작성하세요. 공식: (x - min) / (max - min)</p>
+                <pre><code>def normalize_data(data):
+    """Min-Max 정규화를 사용하여 모든 데이터 값을 0과 1 사이로 변환합니다."""
+    if not data or len(data) < 2: return data
+    min_val, max_val = min(data), max(data)
+    if min_val == max_val: return [0.0] * len(data)
+    normalized_list = [(x - min_val) / (max_val - min_val) for x in data]
+    return normalized_list
+
+# 테스트
+scores = [100, 200, 500, 1000]
+normalized_scores = normalize_data(scores)
+print(f"원본 데이터: {scores}")
+print(f"정규화된 데이터: {normalized_scores}")
+assert normalized_scores[0] == 0.0
+assert normalized_scores[-1] == 1.0</code></pre>
+                <p><strong>상세 풀이 및 설명:</strong> 정규화(Normalization)는 서로 다른 범위와 단위를 가진 데이터들을 공통된 척도(일반적으로 0~1)로 변환하는 과정입니다. 이 함수는 가장 일반적인 'Min-Max 정규화' 공식을 구현합니다. `x - min_val`: 모든 데이터에서 최솟값을 빼서, 새로운 최솟값이 0이 되도록 만듭니다. `(max_val - min_val)`: 위 결과를 '원본 데이터의 범위(최대-최소)'로 나누어, 새로운 최댓값이 1이 되도록 만듭니다. 리스트 컴프리헨션을 사용하여 이 계산을 리스트의 모든 원소에 간결하게 적용했습니다.</p>
+            </div>
+             <div class="code-example">
+                <h4>3. 히스토그램 구간(Bin) 나누기</h4>
+                <p>학생들의 점수 리스트 [85, 92, 78, ...]와 구간 크기 bin_size=10을 입력받아, 각 점수가 어떤 구간에 속하는지(예: 85 -> 80, 92 -> 90)를 계산하여 리스트로 반환하는 create_bins(scores, bin_size) 함수를 작성하세요.</p>
+                <pre><code>def create_bins(data, bin_size):
+    """수치형 데이터를 주어진 구간 크기에 맞춰 구간(bin)으로 그룹화합니다."""
+    if bin_size <= 0:
+        print("오류: 구간 크기는 0보다 커야 합니다.")
+        return []
+    binned_data = [(item // bin_size) * bin_size for item in data]
+    return binned_data
+# 테스트
+scores = [85, 92, 78, 65, 100, 88, 95, 72, 90, 81, 100]
+binned_scores = create_bins(scores, 10)
+print(f"원본 점수: {scores}")
+print(f"10점 단위 구간화: {binned_scores}")
+# 결과: 85->80, 92->90, 78->70 ...</code></pre>
+                 <p><strong>상세 풀이 및 설명:</strong> 히스토그램을 그리기 위한 가장 핵심적인 전처리 과정입니다. `item // bin_size`: 파이썬의 정수 나누기 연산자 `//`가 핵심입니다. 85 // 10은 몫인 8을 반환합니다. `* bin_size`: 위에서 구한 몫에 다시 `bin_size`를 곱하면, 해당 데이터가 속한 구간의 시작 값을 얻을 수 있습니다. (8 * 10 = 80). 이 함수를 통해, 개별적인 점수 데이터가 '60점대', '70점대', '80점대' 등과 같은 그룹으로 묶이게 됩니다.</p>
+           </div>
+           <div class="code-example">
+                <h4>4. 텍스트 히스토그램 생성기</h4>
+                 <p>위 3번에서 만든 create_bins 함수와, 1번의 막대그래프 아이디어를 조합하여, 점수 리스트를 받아 구간별 빈도를 계산하고 텍스트 히스토그램을 출력하는 draw_histogram(scores, bin_size) 함수를 작성하세요.</p>
+                <pre><code>from collections import Counter
+def draw_histogram(data, bin_size=10, max_bar_width=50):
+    """데이터의 분포를 텍스트 히스토그램으로 시각화합니다."""
+    if not data: return
+    bins = [(item // bin_size) * bin_size for item in data]
+    counts = Counter(bins)
+    if not counts: return
+    max_count = max(counts.values())
+    print(f"--- 데이터 분포 (구간 크기: {bin_size}) ---")
+    for bin_start in sorted(counts.keys()):
+        count = counts[bin_start]
+        bar_length = int((count / max_count) * max_bar_width)
+        bar = '#' * bar_length
+        print(f"{bin_start:3}~{bin_start + bin_size-1:<3} | {bar} ({count})")
+# 테스트
+scores = [85, 92, 78, 65, 100, 88, 95, 72, 90, 81, 75, 76, 89, 83]
+draw_histogram(scores, 10)</code></pre>
+                <p><strong>상세 풀이 및 설명:</strong> `Counter(bins)`를 사용하여 {80: 5, 90: 3, 70: 4, ...} 와 같이 각 구간(80점대, 90점대...)에 몇 개의 데이터가 속하는지 빈도를 계산합니다. `sorted(counts.keys())`: 딕셔너리의 키(구간 시작 값)를 정렬하여, 히스토그램이 낮은 구간부터 높은 구간 순서로 그려지도록 합니다. 나머지 부분은 막대그래프와 동일하게, 각 구간의 `count`를 `max_count`와 비교하여 막대의 길이를 결정하고 출력합니다. 막대들이 서로 붙어있는 시각적 특징을 통해 값의 연속적인 분포를 보여줍니다.</p>
+           </div>
+            <div class="code-example">
+                <h4>5. 2차원 데이터에서 x, y 추출</h4>
+                <p>[(1, 60), (2, 75), (3, 80)] 와 같이 (x, y) 좌표 쌍으로 이루어진 리스트가 있습니다. 이 리스트에서 모든 x값들만 모은 리스트와, 모든 y값들만 모은 리스트를 각각 생성하여 반환하는 unzip_coordinates(points) 함수를 작성하세요.</p>
+                <pre><code>def unzip_coordinates(points):
+    if not points: return [], []
+    x_coords = [p[0] for p in points]
+    y_coords = [p[1] for p in points]
+    return x_coords, y_coords
+
+def unzip_pythonic(points): # 더 파이썬스러운 방법
+    if not points: return [], []
+    x_coords, y_coords = zip(*points)
+    return list(x_coords), list(y_coords)
+# 테스트
+study_data = [(1, 60), (2, 75), (3, 80), (4, 85), (5, 95)]
+study_hours, scores = unzip_coordinates(study_data)
+print(f"공부 시간 데이터: {study_hours}")
+print(f"성적 데이터: {scores}")</code></pre>
+                 <p><strong>상세 풀이 및 설명:</strong> 산점도(scatter plot)를 그리거나 상관관계를 분석하기 전, 2차원 데이터에서 각 축에 해당하는 데이터를 분리하는 것은 흔한 전처리 과정입니다. **방법 1 (리스트 컴프리헨션):** `p[0]`은 각 튜플의 첫 번째 요소(x)를, `p[1]`은 두 번째 요소(y)를 의미합니다. 이를 이용해 각각의 리스트를 생성하는 직관적인 방법입니다. **방법 2 (zip(*points)):** 파이썬의 `zip` 함수는 여러 리스트의 같은 인덱스에 있는 요소들을 묶어주는 역할을 합니다. `*`는 리스트를 '풀어주는(unpack)' 역할을 합니다. 따라서 `zip(*[(1, 60), (2, 75)])`는 `zip((1, 2, ...), (60, 75, ...))` 와 동일하게 동작하여, 첫 번째 요소들끼리, 두 번째 요소들끼리 묶어줍니다. 훨씬 간결하고 효율적인 방법입니다.</p>
+           </div>
+           <div class="code-example">
+                <h4>6. 상관계수 계산</h4>
+                <p>두 개의 숫자 리스트(x, y)를 받아, 두 변수 간의 피어슨 상관계수를 계산하는 calculate_correlation(x_list, y_list) 함수를 작성하세요. (단, 복잡한 공식 대신, x가 증가할 때 y도 대체로 증가하면 +1, 대체로 감소하면 -1, 관계없으면 0을 반환하는 간단한 로직으로 구현)</p>
+                <pre><code>def simple_correlation(x_list, y_list):
+    if len(x_list) != len(y_list) or len(x_list) < 2: return 0
+    positive_moves, negative_moves = 0, 0
+    for i in range(len(x_list) - 1):
+        x_change = x_list[i+1] - x_list[i]
+        y_change = y_list[i+1] - y_list[i]
+        if (x_change > 0 and y_change > 0) or (x_change < 0 and y_change < 0):
+            positive_moves += 1
+        elif (x_change > 0 and y_change < 0) or (x_change < 0 and y_change > 0):
+            negative_moves += 1
+    if positive_moves > negative_moves: return 1
+    elif negative_moves > positive_moves: return -1
+    else: return 0
+# 테스트
+study_hours = [1, 2, 3, 4, 5]
+scores = [60, 75, 80, 85, 95]
+icecream_sales = [100, 80, 70, 50, 30]
+print(f"공부 시간-성적 상관관계 경향: {simple_correlation(study_hours, scores)}")
+print(f"공부 시간-아이스크림 판매량 상관관계 경향: {simple_correlation(study_hours, icecream_sales)}")</code></pre>
+                <p><strong>상세 풀이 및 설명:</strong> `x_change`와 `y_change`는 각 변수의 변화량을 나타냅니다. 두 변화량의 부호가 같으면(둘다 양수 또는 둘다 음수), 두 변수가 같은 방향으로 움직였다고 판단하여 `positive_moves`를 증가시킵니다. 부호가 다르면, 반대 방향으로 움직였다고 판단하여 `negative_moves`를 증가시킵니다. 최종적으로 `positive_moves`와 `negative_moves` 중 어느 쪽이 더 우세했는지를 보고, 전체적인 관계의 방향성을 +1(양), -1(음), 0(무상관)으로 판단합니다.</p>
+            </div>
+            <div class="code-example">
+                <h4>7. 누적 데이터 계산</h4>
+                <p>월별 판매량 [10, 20, 15, 25] 데이터가 있을 때, 월별 누적 판매량 [10, 30, 45, 70]을 계산하여 리스트로 반환하는 calculate_cumulative_sum(data) 함수를 작성하세요.</p>
+                <pre><code>def calculate_cumulative_sum(data):
+    cumulative_list = []
+    current_sum = 0
+    for value in data:
+        current_sum += value
+        cumulative_list.append(current_sum)
+    return cumulative_list
+# 테스트
+monthly_sales = [100, 120, 150, 130, 180, 200]
+cumulative_sales = calculate_cumulative_sum(monthly_sales)
+print(f"월별 판매량: {monthly_sales}")
+print(f"누적 판매량: {cumulative_sales}")</code></pre>
+                 <p><strong>상세 풀이 및 설명:</strong> 누적 합계 그래프는 시간에 따른 총량의 증가 추세를 보여주는 데 효과적인 시각화입니다. `current_sum` 변수가 핵심적인 역할을 합니다. 이 변수는 루프를 돌면서 이전까지의 합계를 계속 기억하고 있습니다. for 루프의 각 단계에서, 현재 값(value)을 `current_sum`에 더하여 업데이트하고, 그 업데이트된 `current_sum` 값을 `cumulative_list`에 추가합니다. 이 과정을 반복하면, 각 인덱스 위치에는 처음부터 해당 인덱스까지의 모든 값의 합이 저장된 리스트가 만들어집니다.</p>
+           </div>
+            <div class="code-example">
+                <h4>8. 이동 평균 계산</h4>
+                <p>일별 주가 데이터 [100, 110, 120, 105, 115, 125, 130] 와 윈도우 크기(예: 3)를 입력받아, 3일 이동 평균 리스트를 계산하는 calculate_moving_average(data, window_size) 함수를 작성하세요.</p>
+                <pre><code>def calculate_moving_average(data, window_size):
+    if window_size > len(data): return []
+    moving_averages = []
+    for i in range(len(data) - window_size + 1):
+        current_window = data[i : i + window_size]
+        window_average = sum(current_window) / window_size
+        moving_averages.append(window_average)
+    return moving_averages
+# 테스트
+daily_traffic = [100, 110, 120, 90, 105, 130, 150, 140, 135]
+moving_avg_3_days = calculate_moving_average(daily_traffic, 3)
+print(f"원본 데이터: {daily_traffic}")
+print(f"3일 이동 평균: {[round(x, 2) for x in moving_avg_3_days]}")</code></pre>
+                <p><strong>상세 풀이 및 설명:</strong> '이동 평균'은 시계열 데이터에서 단기적인 변동(노이즈)을 제거하고 장기적인 추세를 파악하기 위해 널리 사용되는 기법입니다. `window_size`는 평균을 계산할 기간을 의미합니다. `for i in range(len(data) - window_size + 1)`: 이 루프의 범위 설정이 중요합니다. `data[i : i + window_size]`: 슬라이싱을 이용해 i부터 `window_size` 개수만큼의 데이터 조각을 쉽게 추출합니다. 이 조각의 평균을 계산하여 `moving_averages` 리스트에 추가하는 과정을 반복합니다.</p>
+            </div>
+            <div class="code-example">
+                <h4>9. 텍스트 산점도 그리기</h4>
+                <p>(x, y) 좌표 리스트를 받아, 10x10 크기의 2차원 텍스트 그리드에 '*' 문자로 점을 찍어 출력하는 draw_text_scatter(points) 함수를 작성하세요.</p>
+                <pre><code>def draw_text_scatter(points, width=20, height=10):
+    grid = [[' ' for _ in range(width)] for _ in range(height)]
+    for x, y in points:
+        if 0 <= x < width and 0 <= y < height:
+            grid[height - 1 - y][x] = '*'
+    print("--- 텍스트 산점도 ---")
+    for i in range(height):
+        print(f"{height - 1 - i:2}|{''.join(grid[i])}")
+    print("  +" + "-" * width)
+    print("   " + "".join([f"{i%10}" for i in range(width)]))
+# 테스트
+scatter_points = [(0, 0), (1, 1), (2, 2), (4, 3), (5, 5), (7, 6), (8, 9)]
+draw_text_scatter(scatter_points)</code></pre>
+                <p><strong>상세 풀이 및 설명:</strong> 이 코드는 산점도의 원리를 2차원 리스트(행렬)를 이용해 구현한 것입니다. `grid = [[' ' ...]]`: 먼저 원하는 크기의 2차원 공간을 빈 문자로 채워서 만듭니다. `grid[height - 1 - y][x] = '*'`: 이 부분이 핵심입니다. 2차원 리스트에서 `[행][열]` 인덱스는 각각 y, x 좌표에 해당합니다. 그런데 그래픽 좌표계의 y축은 위로 갈수록 증가하지만, 리스트 인덱스는 아래로 갈수록 증가하므로, `height - 1 - y`와 같이 좌표 변환을 해주어야 올바른 위치에 점이 찍힙니다. 마지막 for 루프는 완성된 grid를 한 줄씩 문자열로 합쳐서 화면에 출력하여 그래프 형태를 완성합니다.</p>
+            </div>
+            <div class="code-example">
+                <h4>10. 데이터 시각화 보고서 생성기</h4>
+                <p>숫자 데이터 리스트를 입력받아, 5번의 기초 통계량과 4번의 텍스트 히스토그램을 순서대로 모두 출력하여 간단한 데이터 분석 보고서를 생성하는 generate_data_report(data) 함수를 작성하세요.</p>
+                <pre><code># 4번의 draw_histogram과 5번의 calculate_basic_stats 함수가 필요
+def generate_data_report(data, data_name="데이터"):
+    print(f"=========================================")
+    print(f" {data_name} 분석 보고서")
+    print(f"=========================================")
+    print("\n[1. 데이터 요약]")
+    stats = calculate_basic_stats(data)
+    if "error" in stats:
+        print(f" - {stats['error']}")
+        return
+    print(f" - 전체 개수: {stats['count']}")
+    print(f" - 평균 값: {stats['mean']:.2f}")
+    print(f" - 최솟값: {stats['min']}")
+    print(f" - 최댓값: {stats['max']}")
+
+    print("\n[2. 데이터 분포]")
+    draw_histogram(data, bin_size=10)
+    print("\n--- 보고서 종료 ---")
+# 테스트
+final_scores = [68, 72, 77, 81, 83, 85, 88, 89, 90, 91, 93, 95, 100]
+generate_data_report(final_scores, "기말고사 성적")</code></pre>
+                <p><strong>상세 풀이 및 설명:</strong> 이 코드는 여러 분석 및 시각화 함수를 조합하여 하나의 '보고서'를 만드는 과정을 보여줍니다. 이는 데이터 분석 프로젝트의 최종 결과물을 정리하는 것과 유사합니다. `generate_data_report` 함수는 분석할 데이터와 데이터의 이름을 인자로 받습니다. 함수 내부에서는 이전에 만들었던 `calculate_basic_stats` 함수와 `draw_histogram` 함수를 순서대로 호출합니다. 각 분석 결과 앞에 [1. 데이터 요약], [2. 데이터 분포]와 같은 제목을 붙여주어, 보고서를 읽는 사람이 각 부분의 의미를 쉽게 파악할 수 있도록 구조화했습니다.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
