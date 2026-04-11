@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>과학고 정보 수업 지도안: 변수와 연산자</title>
+    <style>
+        body {
+            font-family: 'Malgun Gothic', '맑은 고딕', sans-serif;
+            line-height: 1.7;
+            margin: 0 auto;
+            padding: 20px;
+            max-width: 900px;
+            color: #333;
+        }
+        h1, h2, h3, h4 {
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+            margin-top: 40px;
+        }
+        h1 {
+            font-size: 2.5em;
+            text-align: center;
+            border-bottom: 3px solid #f0ad4e;
+            color: #f0ad4e;
+        }
+        h2 {
+            font-size: 2em;
+            border-bottom-color: #f0ad4e;
+        }
+        h3 {
+            font-size: 1.5em;
+            border-bottom-style: dashed;
+        }
+        h4 {
+            font-size: 1.2em;
+            border-bottom: none;
+            color: #333;
+        }
+        ul, ol {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        code {
+            background-color: #f5f5f5;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'D2Coding', 'Consolas', monospace;
+            font-size: 0.95em;
+            color: #c7254e;
+        }
+        pre {
+            background-color: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        pre code {
+            background-color: transparent;
+            padding: 0;
+            color: inherit;
+        }
+        blockquote {
+            border-left: 4px solid #ccc;
+            padding-left: 15px;
+            margin: 20px 0;
+            font-style: italic;
+            color: #555;
+        }
+        .section {
+            margin-bottom: 40px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #fff;
+        }
+        .explanation {
+            background-color: #fffaf0;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+            border-left: 4px solid #f0ad4e;
+        }
+        .quiz-item {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>과학고 정보 수업: 목표지향적 개념기반 수업지도안</h1>
+    <h2>수업 주제: III. 알고리즘과 프로그래밍 - 332. 변수와 연산자: 데이터에 생명을 불어넣는 언어</h2>
+
+    <div class="section">
+        <h2>수업 시작 멘트</h2>
+        <blockquote>
+            위대한 물리학자 아르키메데스는 이렇게 말했습니다. "나에게 충분히 긴 지렛대와 받침점을 달라. 그러면 지구라도 들어 보이겠다." 프로그래밍에서 '변수'는 우리가 다룰 데이터라는 지구이며, '연산자'는 바로 그 지구를 들어 올리고, 쪼개고, 비교하고, 연결하는 강력한 지렛대와 받침점입니다. 오늘 우리는 이 강력한 도구들을 사용하여, 정적인 데이터에 생명을 불어넣고 우리가 원하는 결과로 가공하는 방법을 배우겠습니다.
+        </blockquote>
+    </div>
+
+    <div class="section">
+        <h2>1. 학습 목표</h2>
+        <h3>개념적 목표</h3>
+        <ul>
+            <li>변수가 데이터(객체)를 가리키는 '이름'이며, 할당 연산자(=)가 연결의 의미임을 설명할 수 있다.</li>
+            <li>산술, 비교, 논리 연산자가 각각 어떤 종류의 연산을 수행하고 어떤 타입의 결과를 반환하는지 명확히 구분할 수 있다.</li>
+            <li>연산자 우선순위(Operator Precedence)의 개념을 이해하고, 괄호 <code>()</code>를 사용하여 연산 순서를 명시적으로 제어하는 것의 중요성을 인지한다.</li>
+        </ul>
+
+        <h3>절차적 목표</h3>
+        <ul>
+            <li>의미 있는 이름의 변수를 선언하고, 다양한 타입의 값을 할당 및 재할당할 수 있다.</li>
+            <li>산술 연산자(<code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, <code>//</code>, <code>%</code>, <code>**</code>)를 사용하여 수학적 계산을 수행할 수 있다.</li>
+            <li>비교 연산자(<code>==</code>, <code>!=</code>, <code>></code>, <code>&lt;</code> 등)와 논리 연산자(<code>and</code>, <code>or</code>, <code>not</code>)를 조합하여 복잡한 조건식을 만들 수 있다.</li>
+            <li>복합 할당 연산자(<code>+=</code>, <code>-=</code> 등)를 사용하여 코드를 간결하게 작성할 수 있다.</li>
+        </ul>
+
+        <h3>태도적 목표</h3>
+        <ul>
+            <li>변수 이름을 통해 코드의 의도를 명확하게 전달하려는 가독성 중심의 코딩 습관을 기른다.</li>
+            <li>복잡한 수식을 코드로 옮길 때, 연산자 우선순위를 맹신하기보다 괄호를 사용하여 논리의 모호함을 제거하려는 신중한 태도를 갖는다.</li>
+        </ul>
+    </div>
+    
+    <div class="section">
+        <h2>2. 핵심 개념 상세 설명</h2>
+        <h3>변수 (Variable)와 할당 (Assignment)</h3>
+        <ul>
+            <li><b>변수:</b> 특정 데이터(객체)에 붙여진 '이름표'. 이 이름을 통해 프로그램은 메모리상의 데이터에 접근할 수 있습니다.</li>
+            <li><b>할당 연산자 (<code>=</code>):</b> "오른쪽의 값을 왼쪽의 변수 이름이 가리키게 하라"는 명령입니다. 수학의 '같다'가 아니라, '연결' 또는 '지정'의 의미입니다.</li>
+        </ul>
+        
+        <h3>연산자 (Operator)</h3>
+        <p>값에 대해 특정 연산(계산, 비교, 논리 조합 등)을 수행하도록 지시하는 기호입니다.</p>
+        <ul>
+            <li><b>산술 연산자 (Arithmetic Operators):</b> 숫자 계산을 수행합니다.
+                <ul>
+                    <li><code>+</code>, <code>-</code>, <code>*</code></li>
+                    <li><code>/</code>: 나눗셈 (결과는 항상 float)</li>
+                    <li><code>//</code>: 정수 나눗셈 (몫)</li>
+                    <li><code>%</code>: 나머지</li>
+                    <li><code>**</code>: 거듭제곱</li>
+                </ul>
+            </li>
+            <li><b>비교 연산자 (Comparison Operators):</b> 두 값을 비교하여 <code>True</code> 또는 <code>False</code>를 결과로 냅니다.
+                <ul>
+                    <li><code>==</code> (같다), <code>!=</code> (같지 않다), <code>></code>, <code>&lt;</code>, <code>>=</code>, <code>&lt;=</code></li>
+                </ul>
+            </li>
+            <li><b>논리 연산자 (Logical Operators):</b> <code>bool</code> 값들을 조합하여 더 복잡한 논리를 만듭니다.
+                <ul>
+                    <li><code>and</code> (그리고), <code>or</code> (또는), <code>not</code> (부정)</li>
+                </ul>
+            </li>
+            <li><b>복합 할당 연산자 (Compound Assignment Operators):</b> 연산과 할당을 한 번에 수행하여 코드를 간결하게 만듭니다. (예: <code>x += 1</code>은 <code>x = x + 1</code>과 동일)</li>
+        </ul>
+
+        <h3>연산자 우선순위 (Operator Precedence)</h3>
+        <p>하나의 수식에 여러 연산자가 있을 때, 어떤 연산이 먼저 실행될지를 정해놓은 규칙입니다. 수학에서 곱셈/나눗셈이 덧셈/뺄셈보다 먼저 계산되는 것과 같습니다.</p>
+        <ul>
+            <li><b>일반적인 순서:</b> <code>**</code> (거듭제곱) → <code>*</code>, <code>/</code>, <code>//</code>, <code>%</code> → <code>+</code>, <code>-</code> → 비교 연산자 → 논리 연산자 (<code>not</code> → <code>and</code> → <code>or</code>)</li>
+            <li><b>괄호 <code>()</code>:</b> 우선순위 규칙을 무시하고, 괄호 안의 연산을 가장 먼저 수행하도록 강제합니다. 복잡한 수식에서는 우선순위를 외우기보다 괄호를 사용하여 의도를 명확히 하는 것이 훨씬 좋은 습관입니다.</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>3. 수업의 흐름 상세 기술</h2>
+        <h3>1단계: 도입 (5분) - 뉴턴의 만유인력 법칙</h3>
+        <blockquote>
+            "뉴턴은 두 물체 사이의 만유인력이 F = G * (m1 * m2) / r^{2} 라는 위대한 법칙으로 표현될 수 있음을 발견했습니다. 이 공식 안에는 '곱셈', '나눗셈', '거듭제곱'과 같은 다양한 연산들이 정해진 순서에 따라 조화롭게 계산되어야만 올바른 힘의 크기를 구할 수 있습니다. 오늘 우리는 이처럼 데이터(질량, 거리)라는 재료를 연산자라는 도구로 요리하여, 새로운 정보(힘)를 만들어내는 과정을 배울 것입니다. 변수는 재료를 담는 그릇이며, 연산자는 요리 도구입니다."
+        </blockquote>
+        
+        <h3>2단계: 전개 (35분) - 데이터 요리하기</h3>
+        
+        <h4>활동 1: 그릇과 도구 - 변수와 산술 연산자</h4>
+        <p><b>변수 할당:</b> <code>mass1 = 5.972e24</code> (지구 질량), <code>radius = 6371e3</code> (지구 반지름) 처럼, 변수가 어떻게 거대한 과학적 데이터를 담는 '그릇'이 되는지 보여줍니다.</p>
+        <p><b>산술 연산자:</b> 지구 표면에서의 중력 가속도 g를 구하는 공식을 함께 코드로 작성합니다.</p>
+        <pre><code>
+# 물리 상수 정의
+G = 6.674e-11  # 만유인력 상수
+M = 5.972e24   # 지구 질량 (kg)
+R = 6371e3     # 지구 반지름 (m)
+
+# 중력 가속도 계산: g = G * M / R^2
+g_surface = G * M / (R ** 2)
+
+print(f"지구 표면 중력 가속도 계산 결과: {g_surface:.2f} m/s^2")
+        </code></pre>
+        <blockquote>"이 코드에서 <code>**</code>가 <code>/</code>나 <code>*</code>보다 먼저 계산되고, 괄호 <code>()</code>가 연산 순서를 어떻게 명확하게 하는지 주목하세요. 괄호가 없다면 의도와 다른 계산이 될 수 있습니다."</blockquote>
+
+        <h4>활동 2: 진실 혹은 거짓 - 비교와 논리 연산자</h4>
+        <p><b>비교 연산:</b> "어떤 물체의 속도가 지구의 탈출 속도(약 11.2 km/s)보다 큰가?"</p>
+        <pre><code>
+object_speed = 15.0 # km/s
+ESCAPE_VELOCITY = 11.2
+
+can_escape = object_speed >= ESCAPE_VELOCITY
+print(f"이 물체는 탈출 가능한가? {can_escape}")
+print(f"can_escape 변수의 타입: {type(can_escape)}") # bool 타입임을 확인
+        </code></pre>
+        
+        <p><b>논리 연산:</b> "이 행성이 '생명체 거주 가능 영역(Habitable Zone)'에 있으려면, 행성의 온도가 0도에서 100도 '사이여야 하고', 물이 '존재해야 한다'."</p>
+        <pre><code>
+planet_temp = 15.0
+water_exists = True
+
+# and 연산자를 사용하여 두 조건을 모두 만족하는지 확인
+is_habitable = (0 < planet_temp < 100) and water_exists
+print(f"이 행성은 거주 가능한가? {is_habitable}")
+        </code></pre>
+        <blockquote>"파이썬의 <code>0 < planet_temp < 100</code> 와 같은 연쇄 비교와, <code>and</code> 논리 연산자를 조합하여 복잡한 과학적 조건을 어떻게 간결한 코드로 표현하는지 확인해봅시다."</blockquote>
+
+        <h4>활동 3: 간결함의 미학 - 복합 할당 연산자</h4>
+        <p>for 루프를 이용한 누적 합계 예제를 다시 보여줍니다.</p>
+        <pre><code>
+total = 0
+for i in range(1, 101):
+    # total = total + i 와 동일
+    total += i
+print("1부터 100까지의 합:", total)
+        </code></pre>
+        <blockquote>"<code>total = total + i</code> 보다 <code>total += i</code> 가 더 짧고, 'total에 i를 더해 누적시킨다'는 의도를 더 명확하게 보여줍니다. 코드를 간결하게 만드는 좋은 습관입니다."</blockquote>
+
+        <h3>3단계: 정리 (5분) - 표현식의 구성</h3>
+        <blockquote>"모든 복잡한 계산과 조건은 결국, '변수(데이터)'와 '연산자(기능)'가 결합된 '표현식(Expression)'으로 이루어집니다."</blockquote>
+        <p>산술, 비교, 논리 연산자가 각각 숫자, <code>bool</code> 값을 어떻게 만들어내고, 이들이 다시 <code>if</code>문이나 다른 변수 할당에 어떻게 사용되는지 그 흐름을 요약합니다. "변수와 연산자는 여러분의 논리를 표현하는 가장 기본적인 언어입니다."</p>
+
+        <h3>수업 마무리 멘트</h3>
+        <blockquote>수학자이자 철학자였던 버트런드 러셀은 말했습니다. "수학은 올바르게 바라보면, 지고의 아름다움을 지니고 있다. 조각품처럼 차갑고 엄격한 아름다움을." 여러분이 오늘 배운 연산자와 변수는 바로 이 수학적 논리의 아름다움을 코드의 세계에 구현하는 도구입니다. 이 도구들을 사용하여, 여러분의 생각을 차갑고 엄격한 논리로, 동시에 명료하고 아름다운 코드로 빚어내시길 바랍니다.</blockquote>
+    </div>
+
+    <div class="section">
+        <h2>4. 진단 및 형성평가</h2>
+        <h3>진단평가 (OX 퀴즈 10개)</h3>
+        <div class="quiz-item">
+            <p>1. <code>x = 10</code> 코드에서 <code>=</code>는 'x와 10이 같다'는 수학적 의미이다. (X)</p>
+            <div class="explanation"><b>풀이:</b> 프로그래밍에서 <code>=</code>는 '할당(assignment)' 연산자입니다. 오른쪽의 값(10)을 왼쪽의 변수(x)가 가리키도록 연결하는 '명령'입니다. 수학적 동등 비교는 <code>==</code> 연산자를 사용합니다.</div>
+        </div>
+        <div class="quiz-item">
+            <p>2. <code>10 / 3</code>의 결과와 <code>10 // 3</code>의 결과는 같다. (X)</p>
+            <div class="explanation"><b>풀이:</b> <code>/</code>는 일반 나눗셈으로, 결과는 실수 3.333... (float) 입니다. <code>//</code>는 정수 나눗셈(몫)으로, 소수점 이하를 버린 정수 3 (int) 입니다. 두 연산자는 목적과 결과 타입이 다릅니다.</div>
+        </div>
+        <div class="quiz-item">
+            <p>3. <code>x = 10</code>일 때, <code>x == 10</code>의 결과는 <code>True</code>이다. (O)</p>
+            <div class="explanation"><b>풀이:</b> <code>==</code>는 비교 연산자로, 양쪽의 값이 같은지 확인합니다. 변수 x는 10을 가리키고 있으므로, 10과 비교하면 <code>True</code>를 반환합니다.</div>
+        </div>
+        <div class="quiz-item">
+            <p>4. <code>True and False</code>의 결과는 <code>True</code>이다. (X)</p>
+            <div class="explanation"><b>풀이:</b> <code>and</code> 연산자는 양쪽 모두가 <code>True</code>일 때만 <code>True</code>를 반환합니다. 하나라도 <code>False</code>가 있으면 결과는 <code>False</code>가 됩니다.</div>
+        </div>
+        <div class="quiz-item">
+            <p>5. <code>2 ** 3</code>은 2의 3제곱, 즉 8을 의미한다. (O)</p>
+            <div class="explanation"><b>풀이:</b> <code>**</code>는 거듭제곱 연산자입니다. <code>2 ** 3</code>은 2를 3번 곱한 2 * 2 * 2와 같으며, 결과는 8입니다.</div>
+        </div>
+        <div class="quiz-item">
+            <p>6. <code>count = count + 1</code>은 <code>count += 1</code>과 완전히 동일한 의미이다. (O)</p>
+            <div class="explanation"><b>풀이:</b> <code>+=</code>는 복합 할당 연산자로, <code>변수 = 변수 + 값</code>의 축약형입니다. 기능적으로 완전히 동일하며, 코드를 더 간결하게 만들어줍니다.</div>
+        </div>
+        <div class="quiz-item">
+            <p>7. <code>2 + 3 * 4</code>의 결과는 20이다. (X)</p>
+            <div class="explanation"><b>풀이:</b> 연산자 우선순위에 따라 곱셈(<code>*</code>)이 덧셈(<code>+</code>)보다 먼저 실행됩니다. 따라서 3 * 4가 먼저 계산되어 12가 되고, 그 다음 2 + 12가 계산되어 최종 결과는 14가 됩니다. 20이 되려면 <code>(2 + 3) * 4</code>와 같이 괄호를 사용해야 합니다.</div>
+        </div>
+        <div class="quiz-item">
+            <p>8. <code>not True</code>의 결과는 <code>False</code>이다. (O)</p>
+            <div class="explanation"><b>풀이:</b> <code>not</code> 연산자는 불리언 값을 반대로 뒤집는 역할을 합니다. 따라서 <code>not True</code>는 <code>False</code>가 되고, <code>not False</code>는 <code>True</code>가 됩니다.</div>
+        </div>
+        <div class="quiz-item">
+            <p>9. 변수 이름은 숫자로 시작할 수 있다. (예: <code>1st_variable = 1</code>) (X)</p>
+            <div class="explanation"><b>풀이:</b> 파이썬의 변수 명명 규칙에 따라, 변수 이름은 영문자나 언더스코어(<code>_</code>)로 시작해야 합니다. 숫자는 이름의 두 번째 글자부터 사용할 수 있습니다.</div>
+        </div>
+        <div class="quiz-item">
+            <p>10. <code>x = 10</code>일 때, <code>5 < x < 15</code>는 올바른 파이썬 문법이다. (O)</p>
+            <div class="explanation"><b>풀이:</b> 파이썬은 다른 언어와 달리 수학에서처럼 비교 연산자를 연결하여 범위를 표현하는 것을 허용합니다. 이 코드는 내부적으로 <code>5 < x and x < 15</code>와 동일하게 동작합니다.</div>
+        </div>
+
+        <h3>형성평가 (5지선다형 10개)</h3>
+        <div class="quiz-item">
+            <p>1. 다음 코드의 실행 결과로 올바른 것은?
+<code>print(17 // 5, 17 % 5)</code></p>
+            <ol>
+                <li>3.4 2</li>
+                <li>3 2</li>
+                <li>3.0 2.0</li>
+                <li>4 2</li>
+                <li>3 2.0</li>
+            </ol>
+            <div class="explanation"><b>정답 및 해설: ②</b> (<code>17 // 5</code>는 17을 5로 나눈 몫의 정수 부분인 3입니다. <code>17 % 5</code>는 17을 5로 나눈 나머지인 2입니다. <code>print</code> 함수는 이 두 값을 공백으로 구분하여 출력하므로 <code>3 2</code>가 됩니다.)</div>
+        </div>
+        <div class="quiz-item">
+            <p>2. <code>year = 2024</code>일 때, 'year가 4의 배수이고 100의 배수는 아니다'를 올바르게 표현한 코드는?</p>
+            <ol>
+                <li><code>year % 4 == 0 or year % 100 != 0</code></li>
+                <li><code>year // 4 == 0 and year // 100 != 0</code></li>
+                <li><code>year % 4 == 0 and year % 100 != 0</code></li>
+                <li><code>year % 4 == 0 and not year % 100 == 0</code></li>
+                <li><code>year / 4 == 0 && year / 100 != 0</code></li>
+            </ol>
+            <div class="explanation"><b>정답 및 해설: ③</b> ('A이고 B이다'는 <code>A and B</code>로 표현합니다. '4의 배수'는 4로 나눈 나머지가 0이라는 의미이므로 <code>year % 4 == 0</code>입니다. '100의 배수가 아니다'는 100으로 나눈 나머지가 0이 아니라는 의미이므로 <code>year % 100 != 0</code>입니다. 이 둘을 <code>and</code>로 연결한 ③이 가장 직접적인 표현입니다. ④도 논리적으로는 같습니다.)</div>
+        </div>
+        <div class="quiz-item">
+            <p>3. <code>x = 5</code>일 때, 다음 중 결과가 <code>False</code>인 것은?</p>
+            <ol>
+                <li><code>x > 3 and x < 10</code></li>
+                <li><code>x == 5 or x == 10</code></li>
+                <li><code>not x == 10</code></li>
+                <li><code>x % 2 == 0</code></li>
+                <li><code>x ** 2 == 25</code></li>
+            </ol>
+            <div class="explanation"><b>정답 및 해설: ④</b> (① True and True -> True. ② True or False -> True. ③ not False -> True. ④ 5 % 2는 1이므로 1 == 0은 False. ⑤ 5 ** 2는 25이므로 25 == 25는 True입니다.)</div>
+        </div>
+        <div class="quiz-item">
+            <p>4. 다음 코드의 실행 결과는 무엇인가?
+<code>print(2 + 3 * 4 ** 2)</code></p>
+            <ol>
+                <li>14</li>
+                <li>20</li>
+                <li>50</li>
+                <li>100</li>
+                <li>400</li>
+            </ol>
+            <div class="explanation"><b>정답 및 해설: ③</b> (연산자 우선순위에 따라 거듭제곱(<code>**</code>)이 가장 먼저, 그 다음 곱셈(<code>*</code>), 마지막으로 덧셈(<code>+</code>)이 실행됩니다. 1. <code>4 ** 2 = 16</code>, 2. <code>3 * 16 = 48</code>, 3. <code>2 + 48 = 50</code>)</div>
+        </div>
+        <div class="quiz-item">
+            <p>5. 다음 중 <code>=</code>와 <code>==</code>의 사용법이 모두 올바르게 사용된 코드는?</p>
+            <ol>
+                <li><code>if (x = 10): print("x는 10")</code></li>
+                <li><code>x == 10</code></li>
+                <li><code>if x == 10: x = x + 1</code></li>
+                <li><code>if x = y: print("같음")</code></li>
+                <li><code>print(x = 10)</code></li>
+            </ol>
+            <div class="explanation"><b>정답 및 해설: ③</b> (<code>if</code>문의 조건 부분에는 비교 연산자 <code>==</code>를 사용하여 x가 10과 같은지 물어야 합니다. <code>if</code> 블록 안에서는 할당 연산자 <code>=</code>를 사용하여 x의 값을 변경할 수 있습니다. ③은 이 두 가지를 올바르게 사용하고 있습니다.)</div>
+        </div>
+        <div class="quiz-item">
+            <p>6. "온도가 0도 미만이거나 100도 이상이면 '비정상'" 이라는 조건을 나타내는 코드로 올바른 것은? (<code>temp = 120</code>)</p>
+            <ol>
+                <li><code>if temp < 0 and temp >= 100:</code></li>
+                <li><code>if temp < 0 or temp >= 100:</code></li>
+                <li><code>if not (temp >= 0 or temp < 100):</code></li>
+                <li><code>if 0 < temp < 100:</code></li>
+                <li><code>if temp != 0 and temp != 100:</code></li>
+            </ol>
+            <div class="explanation"><b>정답 및 해설: ②</b> ('~이거나'는 논리합을 의미하는 <code>or</code> 연산자로 표현해야 합니다. 따라서 '온도가 0 미만'(<code>temp < 0</code>) <code>or</code> '온도가 100 이상'(<code>temp >= 100</code>)을 연결한 ②가 정확한 표현입니다.)</div>
+        </div>
+        <div class="quiz-item">
+            <p>7. 변수 <code>score</code>에 85가 저장되어 있다. <code>score /= 10</code> 연산을 수행한 후 <code>score</code>의 값은?</p>
+            <ol>
+                <li>8</li>
+                <li>8.5</li>
+                <li>9</li>
+                <li>850</li>
+                <li>75</li>
+            </ol>
+            <div class="explanation"><b>정답 및 해설: ②</b> (<code>score /= 10</code>은 <code>score = score / 10</code>과 같습니다. 파이썬의 <code>/</code> 연산자는 항상 float 결과를 반환하므로, 85 / 10의 결과인 8.5가 됩니다.)</div>
+        </div>
+        <div class="quiz-item">
+            <p>8. <code>x = True</code>, <code>y = False</code> 일 때, <code>not x or y</code>의 최종 결과는?</p>
+            <ol>
+                <li>True</li>
+                <li>False</li>
+                <li>1</li>
+                <li>0</li>
+                <li>SyntaxError</li>
+            </ol>
+            <div class="explanation"><b>정답 및 해설: ②</b> (<code>not</code> 연산자는 <code>or</code>보다 우선순위가 높습니다. 따라서 <code>not x</code>가 먼저 계산되어 <code>False</code>가 됩니다. 그 다음 <code>False or y</code>(즉, <code>False or False</code>)가 계산되어 최종 결과는 <code>False</code>가 됩니다.)</div>
+        </div>
+        <div class="quiz-item">
+            <p>9. 다음 중 연산자 우선순위를 무시하고 <code>a + b</code>를 먼저 계산하도록 강제하는 코드는?</p>
+            <ol>
+                <li><code>a + b * c</code></li>
+                <li><code>{a + b} * c</code></li>
+                <li><code>[a + b] * c</code></li>
+                <li><code>(a + b) * c</code></li>
+                <li><code>'a + b' * c</code></li>
+            </ol>
+            <div class="explanation"><b>정답 및 해설: ④</b> (프로그래밍에서 연산자 우선순위를 제어하고 연산의 단위를 명확하게 묶는 데 사용되는 기호는 소괄호 <code>()</code> 입니다. 괄호 안의 표현식은 항상 먼저 평가됩니다.)</div>
+        </div>
+        <div class="quiz-item">
+            <p>10. 변수 x의 값을 1 감소시키는 코드가 아닌 것은?</p>
+            <ol>
+                <li><code>x = x - 1</code></li>
+                <li><code>x -= 1</code></li>
+                <li><code>x--</code></li>
+                <li><code>x = x + (-1)</code></li>
+                <li><code>x += -1</code></li>
+            </ol>
+            <div class="explanation"><b>정답 및 해설: ③</b> (C++이나 Java에서는 <code>x--</code>나 <code>--x</code> 같은 증감 연산자를 사용하지만, 파이썬에는 이 문법이 없습니다. 파이썬에서는 <code>x -= 1</code>을 사용하는 것이 가장 일반적입니다.)</div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>5. 코딩 실습 예제 (10개)</h2>
+        <div class="quiz-item">
+            <h4>문제 1: (산술 연산자) 사용자로부터 두 개의 정수를 입력받아, 두 수의 덧셈, 뺄셈, 곱셈, 나눗셈, 몫, 나머지, 거듭제곱 결과를 모두 출력하는 프로그램을 작성하세요.</h4>
+            <pre><code>a = int(input("첫 번째 정수: "))
+b = int(input("두 번째 정수: "))
+
+print(f"{a} + {b} = {a + b}")
+print(f"{a} - {b} = {a - b}")
+print(f"{a} * {b} = {a * b}")
+
+# 0으로 나누는 것을 방지
+if b != 0:
+    print(f"{a} / {b} = {a / b}")
+    print(f"{a} // {b} = {a // b}")
+    print(f"{a} % {b} = {a % b}")
+
+print(f"{a} ** {b} = {a ** b}")</code></pre>
+            <div class="explanation"><b>상세한 풀이와 설명:</b> 파이썬이 제공하는 모든 기본 산술 연산자를 연습하는 문제입니다. 특히 b가 0일 때 나눗셈을 하면 <code>ZeroDivisionError</code>가 발생하므로, <code>if b != 0:</code> 조건문으로 예외 상황을 처리하는 것이 중요합니다.</div>
+        </div>
+        <div class="quiz-item">
+            <h4>문제 2: (비교 연산자) 사용자로부터 나이를 입력받아, 투표 가능 연령(18세 이상)인지, 청소년 관람불가 영화 관람 가능 연령(19세 이상)인지 각각 True/False로 출력하세요.</h4>
+            <pre><code>age = int(input("나이를 입력하세요: "))
+
+can_vote = (age >= 18)
+can_watch_r_rated = (age >= 19)
+
+print(f"투표 가능 여부: {can_vote}")
+print(f"청소년 관람불가 영화 관람 가능 여부: {can_watch_r_rated}")</code></pre>
+            <div class="explanation"><b>상세한 풀이와 설명:</b> 비교 연산의 결과 자체가 <code>bool</code> 값(True 또는 False)이므로, 그 결과를 변수에 직접 할당할 수 있습니다. <code>if-else</code>문을 사용하여 "가능", "불가능" 문자열을 만드는 것보다 더 간결하게 논리를 표현할 수 있습니다.</div>
+        </div>
+        <div class="quiz-item">
+            <h4>문제 3: (논리 연산자) 학생의 '수학 점수'와 '과학 점수'를 입력받아, 두 과목 모두 80점을 넘었을 때만 "과학고 특별반 대상입니다."를 출력하는 프로그램을 작성하세요.</h4>
+            <pre><code>math_score = int(input("수학 점수: "))
+science_score = int(input("과학 점수: "))
+
+# and 연산자로 두 조건을 모두 만족하는지 확인
+if math_score >= 80 and science_score >= 80:
+    print("과학고 특별반 대상입니다.")
+else:
+    print("특별반 대상이 아닙니다.")</code></pre>
+            <div class="explanation"><b>상세한 풀이와 설명:</b> '두 조건 모두 만족'이라는 논리는 <code>and</code> 연산자를 사용하여 표현합니다. <code>if</code>문의 조건식이 <code>True</code>가 되려면 <code>and</code>의 양쪽에 있는 두 비교식이 모두 <code>True</code>여야 합니다.</div>
+        </div>
+        <div class="quiz-item">
+            <h4>문제 4: (복합 할당 연산자) for 루프와 복합 할당 연산자를 사용하여, 1부터 100까지의 숫자 중 3의 배수들의 합계를 구하세요.</h4>
+            <pre><code>total = 0
+for i in range(1, 101):
+    if i % 3 == 0:
+        total += i  # total = total + i 와 동일
+
+print("1부터 100까지 3의 배수의 합:", total)</code></pre>
+            <div class="explanation"><b>상세한 풀이와 설명:</b> 누적 합계를 구할 때, <code>total = total + i</code>보다 더 간결한 <code>total += i</code>를 사용하는 연습입니다. 코드의 길이를 줄이고, '누적한다'는 의도를 더 명확히 보여줍니다.</div>
+        </div>
+        <div class="quiz-item">
+            <h4>문제 5: (연산자 우선순위) 섭씨온도 C를 화씨온도 F로 변환하는 공식은 F = C * 9/5 + 32 입니다. 섭씨 30도를 화씨로 변환하여 출력하세요. 괄호가 없어도 올바른 결과가 나오는 이유를 주석으로 설명하세요.</h4>
+            <pre><code>celsius = 30
+
+# 곱셈/나눗셈이 덧셈보다 우선순위가 높으므로,
+# (celsius * 9 / 5) + 32 와 같이 계산됨.
+fahrenheit = celsius * 9 / 5 + 32
+
+print(f"섭씨 {celsius}도는 화씨 {fahrenheit:.1f}도 입니다.")</code></pre>
+            <div class="explanation"><b>상세한 풀이와 설명:</b> 파이썬의 연산자 우선순위 규칙에 따라, <code>*</code>와 <code>/</code>가 <code>+</code>보다 먼저 실행됩니다. 따라서 <code>celsius * 9 / 5</code>가 먼저 계산되고, 그 결과에 32가 더해지므로 괄호가 없어도 올바른 결과를 냅니다. 하지만 복잡한 수식에서는 가독성을 위해 괄호를 사용하는 것이 좋습니다.</div>
+        </div>
+        <div class="quiz-item">
+            <h4>문제 6: (변수 교환) 두 변수 a와 b의 값을 서로 바꾸는 코드를, 임시 변수를 사용하는 방법과 파이썬의 동시 할당을 사용하는 방법 두 가지로 모두 작성하세요.</h4>
+            <pre><code>a, b = 10, 20
+print(f"바꾸기 전: a={a}, b={b}")
+
+# 방법 1: 임시 변수 사용
+temp = a
+a = b
+b = temp
+print(f"방법 1 후: a={a}, b={b}")
+
+# 다시 초기화 후 방법 2 실행
+a, b = 10, 20
+# 방법 2: 파이썬 동시 할당 (튜플 언패킹)
+a, b = b, a
+print(f"방법 2 후: a={a}, b={b}")</code></pre>
+            <div class="explanation"><b>상세한 풀이와 설명:</b> 값 교환(swap)은 매우 흔한 알고리즘 패턴입니다. 전통적인 방법은 <code>temp</code>라는 임시 그릇을 사용하여 한쪽 값을 잠시 보관하는 것입니다. 파이썬에서는 <code>a, b = b, a</code> 와 같이 한 줄로 더 간결하게 표현할 수 있는데, 이는 내부적으로 <code>(b, a)</code>라는 튜플을 만들어 각 변수에 다시 할당하는 방식으로 동작합니다.</div>
+        </div>
+        <div class="quiz-item">
+            <h4>문제 7: (몫과 나머지 활용) 총 130개의 사과를 12개씩 들어가는 상자에 담으려고 합니다. 필요한 상자의 수와, 포장하고 남는 사과의 개수를 계산하여 출력하세요.</h4>
+            <pre><code>total_apples = 130
+box_capacity = 12
+
+# 몫: 필요한 상자의 수
+num_boxes = total_apples // box_capacity
+# 나머지: 남는 사과의 수
+remaining_apples = total_apples % box_capacity
+
+print(f"총 {total_apples}개의 사과를 {box_capacity}개씩 포장하려면,")
+print(f"상자 {num_boxes}개와, {remaining_apples}개의 남는 사과가 필요합니다.")</code></pre>
+            <div class="explanation"><b>상세한 풀이와 설명:</b> 정수 나눗셈 <code>//</code> (몫)과 나머지 연산 <code>%</code>가 실생활 문제에 어떻게 유용하게 사용되는지 보여주는 예제입니다. 주기, 단위 변환, 분배 등 다양한 문제에 활용할 수 있습니다.</div>
+        </div>
+        <div class="quiz-item">
+            <h4>문제 8: (연쇄 비교) 사용자로부터 점수를 입력받아, 80점 초과 90점 이하인 경우에만 "B+ 학점 대상입니다."를 출력하는 코드를 파이썬의 연쇄 비교를 사용하여 작성하세요.</h4>
+            <pre><code>score = int(input("점수를 입력하세요: "))
+if 80 < score <= 90:
+    print("B+ 학점 대상입니다.")</code></pre>
+            <div class="explanation"><b>상세한 풀이와 설명:</b> <code>if score > 80 and score <= 90:</code> 과 동일한 의미이지만, 파이썬에서는 수학에서처럼 <code>80 < score <= 90</code> 와 같이 더 직관적이고 간결하게 범위를 표현할 수 있습니다.</div>
+        </div>
+        <div class="quiz-item">
+            <h4>문제 9: (변수의 동적 타이핑) <code>my_var</code>라는 변수에 처음에는 숫자 100을, 다음에는 문자열 "Python"을, 마지막에는 <code>True</code>를 할당하며 각 단계마다 변수의 값과 <code>type()</code>을 출력하여 동적 타이핑을 확인하세요.</h4>
+            <pre><code>my_var = 100
+print(f"값: {my_var}, 타입: {type(my_var)}")
+
+my_var = "Python"
+print(f"값: {my_var}, 타입: {type(my_var)}")
+
+my_var = True
+print(f"값: {my_var}, 타입: {type(my_var)}")</code></pre>
+            <div class="explanation"><b>상세한 풀이와 설명:</b> 파이썬의 핵심 특징인 동적 타이핑을 보여줍니다. 변수 <code>my_var</code>는 특정 타입에 묶여있는 것이 아니라, 그저 이름표일 뿐입니다. 정수 객체를 가리켰다가, 문자열 객체를, 다시 불리언 객체를 가리키도록 할당할 때마다, 변수의 '타입처럼 보이는 것'이 바뀌게 됩니다.</div>
+        </div>
+        <div class="quiz-item">
+            <h4>문제 10: (f-string과 연산) 반지름이 5인 구의 겉넓이(4 * \pi * r^{2})와 부피(4/3 * \pi * r^{3})를 계산하고, f-string을 사용하여 소수점 셋째 자리까지 결과를 출력하세요. (<code>math.pi</code> 사용)</h4>
+            <pre><code>import math
+
+radius = 5
+
+# f-string의 중괄호 안에서 직접 계산 수행
+print(f"반지름 {radius}인 구의 겉넓이: {4 * math.pi * radius**2 :.3f}")
+print(f"반지름 {radius}인 구의 부피: {(4/3) * math.pi * radius**3 :.3f}")</code></pre>
+            <div class="explanation"><b>상세한 풀이와 설명:</b> f-string의 강력한 기능입니다. 중괄호 <code>{}</code> 안에는 변수뿐만 아니라, 복잡한 산술 표현식도 넣을 수 있습니다. 파이썬은 이 표현식을 먼저 계산한 뒤, 그 결과를 문자열에 삽입합니다. <code>:.3f</code>는 결과를 소수점 셋째 자리까지 형식화하여 출력하라는 의미입니다.</div>
+        </div>
+    </div>
+
+</body>
+</html>
